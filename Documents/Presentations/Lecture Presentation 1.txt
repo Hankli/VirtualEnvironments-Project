@@ -1,0 +1,5 @@
+1. summary of the project: team, client, supervisor, 3 worlds, devices
+2. project purpose, background & goals
+3. basic problems that need solving & how we expect to solve them
+4. expected difficulties (worthwhile adding as much here as we can)
+5. methodology (time), scope, quality, communication, version control
