@@ -1,0 +1,9 @@
+The projects purpose is to explore the possibilities of using the Virtual reality hardware such as the Oculus VR in coherence with other devices such as the leap motion, kinect, razer hydra and keyboard & mouse to find the best combination to try and rehabilitate stroke patients.
+
+The system to be created is a virtual simulation which uses a combination of devices to achieve a virtual reality goal.
+
+The problem is making a simulation to try a rehabilitate stroke patients by getting them to re-wire parts of their brain to regain functionality of limbs and other motor control functions. Our goal is to find the best tools in the hardware and software aspects to solve that problem.
+
+By solving the problem we can then conduct tests to see how the patients respond to the different environments to futher expand the project and maybe put it into some form of practice to actually try and rehabilitate patients.
+
+SCRUM

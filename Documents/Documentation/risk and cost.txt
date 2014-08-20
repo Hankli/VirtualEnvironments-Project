@@ -1,0 +1,26 @@
+Risk management
+A risk is the exposing of someone or something to danger.
+
+One of the main risks in this project is the merging of project files on the git version control. The several different devices do not always communicate with one another can can cause driver collisions. This means that they cannot all be installed and used on the same computer device without comprimising the system.
+
+The driver risk of the hardware's software drivers that we install. By installing the device drivers we open up risk possibilities of compirmising our own computer devices to errors and unresponsive situations. As the devices being used are still in development they are not perfect and are prone to bugs and errors. This is a risk with the hardware which correlates to software issues.
+
+Every computer is also different so every computer must be configured slightly differently to get the devices in functioning order.
+
+The use of the devices can cause motion sickness. The aspect of what we are doing requires some movement of the user which could cause them to fall over and injure themselves.
+
+Cost management //////////////////////////
+The resources required to do this project include two category's, the devices and the software.
+
+The Devices:
+Oculus VR or Oculus Rift
+Leap Motion
+Razer Hydra
+Kinect
+
+The software:
+Unity PRO
+
+The unity pro software is required to be bought by the university for this project so that the requirements can be met. The main reason is that the device Oculus VR does not work without being intergrated into Unity PRO. Standard Unity does not support the Oculus VR.
+
+All of the devices have been supplied by the university, supervisor and client for use in this project.
