@@ -1,0 +1,14 @@
+Functional requirements are the requirements for the projects system to be completed. These requirements are the key stone in the development of our system.
+
+Functional requirements: ----------------------------------
+-Device compatibility-
+This is one of the most important fucntion requirements as it define the entire project. If the devices have compatibility issues with each other then the project can be halted in its objectives.
+The technical issues: Computers and device do not work togehter through device and driver issues
+Risks: We take a risk in developemnt by not specifing some form of minimum system requirements and the device driver install have random error occurences when all operations seem to be working according to specification
+Dependencies: Device compatibility is also dependent on device cohesion as we will be working with multiple devices together.
+
+-Device Cohesion-
+
+-Easy use (pickup and play)-
+
+Add what ever more you want to functional requirements because I can not think today....
