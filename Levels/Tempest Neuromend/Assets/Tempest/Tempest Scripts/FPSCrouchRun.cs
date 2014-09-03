@@ -12,6 +12,8 @@ public class FPSCrouchRun : MonoBehaviour
 	 
 	public float crouchSpeed;
 	public float runSpeed;
+	public bool b_CanRun=true;
+	public bool b_CanCrouch=true;
 	 
 	void Start()
 	{
@@ -33,7 +35,7 @@ public class FPSCrouchRun : MonoBehaviour
 		float strafeSpeed = initialStrafeSpeed;
 		
 		//RUN
-		if (control.isGrounded && Input.GetKey("left shift"))
+		if (control.isGrounded && Input.GetKey("left shift") && b_CanRun)
 		{
 			forwardSpeed = runSpeed;
 			backwardSpeed = runSpeed;
@@ -41,7 +43,7 @@ public class FPSCrouchRun : MonoBehaviour
 		}
 		
 		//CROUCH
-		if (Input.GetKey("left ctrl"))
+		if (Input.GetKey("left ctrl") && b_CanCrouch)
 		{
 			finalHeight = 0.5f*initialHeight;
 			forwardSpeed = crouchSpeed;

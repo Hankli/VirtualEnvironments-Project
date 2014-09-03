@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HoverPad : MonoBehaviour 
 {
-    public float hoverForce = 1.0f;
+    public float hoverForce = 0.5f;
     public float gravity = 20.0f;
 
 	void Start()
@@ -21,7 +21,8 @@ public class HoverPad : MonoBehaviour
 		{
 			CharacterController controller = other.GetComponent<CharacterController>();
 			Vector3 hoverForceV = new Vector3(Input.GetAxis("Horizontal"),hoverForce,Input.GetAxis("Vertical"));
-			hoverForceV.y -= gravity * Time.deltaTime;
+			hoverForceV=transform.TransformDirection(hoverForceV);
+			hoverForceV.y -= gravity * Time.deltaTime / 2.0f;
 			controller.Move(hoverForceV * Time.deltaTime);
 			//Debug.Log(hoverForceV);
 		}

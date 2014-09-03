@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//has issues if player uses character motor with moving platform enabled...
+
 public class Push : MonoBehaviour 
 {
 	
