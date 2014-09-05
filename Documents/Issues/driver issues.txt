@@ -1,0 +1,6 @@
+The driver issues that I have been having were when I was running all of the devices on a windows 8 environment.
+I installed every single device drivers on my computer which caused collision errors with all the drivers. The synaptics pointing device which is the default laptop touch pad device had some small errors with the occulus rift which were resolved by turning off the touch pad.
+The devices such as the leap motion and razer hydra and kinect would have similar drivers which on the occasion would cause some errors.
+My computer would blue screen due to driver boot issues and would eventually resolve it self after about 5ish blue screens on startup. In the end I reformatted my computer and did a clean windows 7 install.
+Everything works wonderful with windows 7 and I have no errors.
+The Occulus does not work in unity all the time but will work with the executable version of the build
