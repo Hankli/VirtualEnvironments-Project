@@ -21,8 +21,11 @@ public class PlayerClick : MonoBehaviour
 				{
 					if(hit.transform.tag=="Button")
 					{
-						TouchPanelButton buttonScript = hit.transform.GetComponent<TouchPanelButton>();
-						buttonScript.onClick();
+						if(hit.transform.GetComponent<TouchPanelButton>())
+						{
+							TouchPanelButton buttonScript = hit.transform.GetComponent<TouchPanelButton>();
+							buttonScript.onClick();
+						}
 					}
 				}
 			}
