@@ -60,9 +60,15 @@ public class TouchPanelButton : MonoBehaviour
 	public void setbuttonID(int number)
 	{
 		buttonID=number;
-		//set new material as well?
-		//Texture2D mainTexture1 = Resources.Load("Textures/bleh.jpg") as Texture2D;
-		//if (mainTexture1 != null)
-			//renderer.material.SetTexture("_MainTex", mainTexture1);
+	}	
+	
+	public void SetTexture(Texture2D theTexture)
+	{
+		renderer.material.SetTexture("_MainTex", theTexture);
+	}
+	
+	public int GetID()
+	{
+		return buttonID;
 	}
 }
