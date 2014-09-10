@@ -39,22 +39,28 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameTemplate\Scripts\Frame.cs" />
+     <Compile Include="Assets\Tempest\GameTemplate\Scripts\Frame.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\FPSCrouchRun.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\HoverPad.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\LevelControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Push.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Throwable.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableSpawner.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
