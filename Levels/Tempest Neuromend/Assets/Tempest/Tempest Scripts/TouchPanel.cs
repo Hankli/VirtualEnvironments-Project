@@ -68,7 +68,11 @@ public class TouchPanel : MonoBehaviour
 					}	
 				}
 			}
+			
 		}
+		
+		
+
 	}	
 	
 	//generate integer sequnce for number of buttons in panel... optional randomness
