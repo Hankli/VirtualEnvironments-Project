@@ -31,7 +31,7 @@ public class PlayerClick : MonoBehaviour
 						TouchPanelButton buttonScript = hit.transform.GetComponent<TouchPanelButton>();
 						buttonScript.onClick();
 					}
-					else if(hit.transform.GetComponent<Throwable>())
+					else if(hit.transform.tag=="Throwable")
 					{
 						heldObject=hit.transform;
 						b_isHolding=true;
@@ -46,7 +46,7 @@ public class PlayerClick : MonoBehaviour
 			if(heldObject!=null)
 			{
 				Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
-				heldObject.position = ray2.GetPoint(holdDistance);//still need to account for object x object x environment collisions while being held...
+				heldObject.position = ray2.GetPoint(holdDistance);//still need to account for object x object x environment collisions while being held... ie. object needs to not go through other objects while being held
 				b_isHolding=true;
 			}
 		}
