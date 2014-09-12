@@ -2,7 +2,7 @@
 using System.Collections;
 using Leap;
 
-public class LeapMove : MonoBehaviour 
+public class LeapOculusMove : MonoBehaviour 
 {
 	Controller m_leapController;
 	float move;
