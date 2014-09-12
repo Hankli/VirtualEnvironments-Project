@@ -1,14 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\LeapMotion\Scripts\Hands\RigidHand.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\LeapOculusMove.cs">
     <Files>
-      <File FileName="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" Line="6" Column="28" />
+      <File FileName="Assets\LeapMove.cs" Line="131" Column="1" />
+      <File FileName="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" Line="1" Column="1" />
       <File FileName="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" Line="1" Column="1" />
       <File FileName="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" Line="1" Column="1" />
       <File FileName="Assets\Tempest\Tempest Scripts\TouchPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets\LeapMotion\Scripts\Utils\MagneticPinch.cs" Line="52" Column="8" />
-      <File FileName="Assets\LeapMotion\Scripts\HandController.cs" Line="121" Column="23" />
-      <File FileName="Assets\LeapMotion\Scripts\Hands\RigidHand.cs" Line="17" Column="1" />
+      <File FileName="Assets\LeapMotion\Scripts\Utils\MagneticPinch.cs" Line="1" Column="1" />
+      <File FileName="Assets\LeapMotion\Scripts\HandController.cs" Line="1" Column="1" />
+      <File FileName="Assets\LeapMotion\Scripts\Hands\RigidHand.cs" Line="1" Column="1" />
+      <File FileName="Assets\LeapOculusMove.cs" Line="77" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
