@@ -5,10 +5,11 @@ using Leap;
 public class LeapOculusMove : MonoBehaviour 
 {
 	Controller m_leapController;
-	float move;
-	float forceMult;
-	//float maxVelocity;
-	Vector3 translationAll;
+	float speed;
+	float rotSpeed;
+	float stopping;
+	Vector3 newPos;
+	Vector3 newRot;
 	
 	private CharacterController control;
 	
@@ -16,16 +17,17 @@ public class LeapOculusMove : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		if (Application.HasProLicense())
-			Debug.Log ("I have pro!");
+		speed = 2.0f;
+		rotSpeed = 0.5f;
 		control = transform.parent.GetComponent<CharacterController>();
 		
 		m_leapController = new Controller();
-		move = 0.0f;
+		stopping = 0.0f;
 		if (transform.parent == null)
 		{
 			Debug.LogError("LeapMove must have a parent object to control (eg camera)");
 		}
+		
 	}
 	
 	Hand GetLeftMostHand(Frame f)
@@ -73,56 +75,62 @@ public class LeapOculusMove : MonoBehaviour
 	void FixedUpdate () 
 	{
 		Frame frame = m_leapController.Frame();
+		Frame lastFrame = m_leapController.Frame(1);
+
+		HandList hands = frame.Hands;
+		Hand firstHand = hands[0];
+
+		float pitch = firstHand.Direction.Pitch;
+		float yaw = firstHand.Direction.Yaw;
+		//float roll = firstHand.PalmNormal.Roll;
+		Vector position = firstHand.PalmPosition;
+		Vector velocity = firstHand.PalmVelocity;
+		Vector direction = firstHand.Direction;
+		Vector normal = firstHand.PalmNormal;
 		
-		if (frame.Hands.Count >= 2)
+		//The change of position of this hand between the current frame and the specified frame.
+		Vector handMovement = (firstHand.Translation(lastFrame));
+
+		newRot = transform.parent.localRotation.eulerAngles;
+
+		if (frame.Hands.Count == 1) 
 		{
-			move = 5.0f;//change for time it takesto stop after hands leave
+			//Vector handXBasis =  firstHand.PalmNormal.Cross(firstHand.Direction).Normalized;
+			float roll = firstHand.PalmNormal.Roll;
+			if((roll <= 2.9f) && (roll >= -2.9f))
+				newRot.y -= roll; // * distance from center.
+			transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
+		}
+		else if (frame.Hands.Count >= 2)
+		{
+			stopping = 5.0f;//change for time it takes to stop after hands leave
 			Hand leftHand = GetLeftMostHand(frame);
 			Hand rightHand = GetRightMostHand(frame);
-			
-			// takes the average vector of the forward vector of the hands, used for the
-			// pitch of the camera.
-			Vector3 avgPalmForward = (frame.Hands[0].Direction.ToUnity() + frame.Hands[1].Direction.ToUnity()) * 0.1f;
-			
-			Vector3 handDiff = leftHand.PalmPosition.ToUnityScaled() - rightHand.PalmPosition.ToUnityScaled();
-			
-			Vector3 newRot = transform.parent.localRotation.eulerAngles;
-			newRot.z = -handDiff.y * 100.0f; //alter for angle
-			
-			// adding the rot.z as a way to use banking (rolling) to turn.
-			//newRot.y += handDiff.z * 3.0f - newRot.z * 0.03f * transform.parent.rigidbody.velocity.magnitude;
-			newRot.y = (avgPalmForward.x) * 2500.0f;
-			newRot.x = -(avgPalmForward.y - 0.1f) * 100.0f;
-			
+
+			float rollLeft = leftHand.PalmNormal.Roll;
+			if((rollLeft <= 2.9f) && (rollLeft >= -2.9f))
+				newRot.y -= rollLeft; // * distance from center.
+
+			transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
+
 			if ((isExtended (leftHand) > 3)&&(isExtended (rightHand) > 3))//if open hands
 			{
-				if(newRot.x >= 0.0f) //if hands are angled further in the game
-					forceMult = 2.0f; //go forwards, increase for speed
-				else  //if hands closer to the body
-					forceMult = -2.0f; //go backwards, decrease for speed
+				speed = 2.0f;
 			}
 			else if ((isExtended (leftHand) < 3)&&(isExtended (rightHand) < 3))//if closed fist
 			{
-				forceMult = 0.0f; //stop movement
+				speed = -2.0f; //stop movement
 			}
-			
-			transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), 0.1f);
-			//transform.parent.rigidbody.velocity = transform.parent.forward * forceMult;
-			//transform.parent.rigidbody.AddForce (transform.parent.forward * (forceMult / Time.fixedDeltaTime), ForceMode.Impulse);
-			//transform.parent.rigidbody.velocity = new Vector3(transform.parent.forward.x * forceMult, 0.0f, transform.parent.forward.z * forceMult);
-			
-			//if(transform.parent.rigidbody.velocity.magnitude<=maxVelocity)
-			//transform.parent.rigidbody.AddForce (transform.parent.forward * (forceMult / Time.fixedDeltaTime), ForceMode.Acceleration);
-			translationAll = new Vector3(transform.parent.forward.x * forceMult, transform.parent.forward.y * forceMult, transform.parent.forward.z * forceMult);
-			control.SimpleMove(translationAll);
+
+			newPos = new Vector3((transform.parent.forward.x * speed), (transform.parent.forward.y * speed), (transform.parent.forward.z * speed));
+			control.SimpleMove (newPos);
 		}
 		else if(frame.Hands.Count == 0)
 		{
-			move--;
-			if(move==0.0f)
+			stopping--;
+			if(stopping==0.0f)
 			{
-				//transform.parent.rigidbody.velocity = transform.parent.forward * 0;
-				control.SimpleMove(translationAll*0.0f);
+				control.SimpleMove(newPos*0.0f);
 			}
 		}
 		
