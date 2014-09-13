@@ -47,6 +47,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\Constants.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\DummyPhys.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\ExternalDeviceManager.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\Hand.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandInput.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandInputController.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandsCameraController.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandsMotionController.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandsObjectPicker.cs" />
+     <Compile Include="Assets\Standard Assets\Hydra\Scripts\Plugin.cs" />
      <Compile Include="Assets\Standard Assets\Water (Pro Only)\Sources\Scripts\Water.cs" />
      <Compile Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Scripts\Displace.cs" />
      <Compile Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Scripts\GerstnerDisplace.cs" />

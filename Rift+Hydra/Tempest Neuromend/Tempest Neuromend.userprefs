@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ExternalDeviceManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Hydra\Scripts\HandsCameraController.cs">
     <Files>
-      <File FileName="Assets\Scripts\ExternalDeviceManager.cs" Line="19" Column="31" />
+      <File FileName="Assets\Standard Assets\Hydra\Scripts\HandsObjectPicker.cs" Line="159" Column="1" />
+      <File FileName="Assets\Standard Assets\Hydra\Scripts\HandsCameraController.cs" Line="67" Column="47" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

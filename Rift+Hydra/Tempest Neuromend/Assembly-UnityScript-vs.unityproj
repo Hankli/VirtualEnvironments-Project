@@ -46,7 +46,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameTemplate\Scripts\ShowFps.js" />
+     <Compile Include="Assets\Tempest\GameTemplate\Scripts\ShowFps.js" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\CharacterMotorObjectAvoidance.js" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
