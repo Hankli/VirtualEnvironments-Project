@@ -11,6 +11,7 @@ public class TouchPanel : MonoBehaviour
 	private int maxSequence = 3;//maybe should be higher? need to test
 	public int[] theSequence;//the sequence (public for debug)
 	public Texture2D[] numberTextures;
+	public Texture2D[] numberTexturesInactive;
 	
 	void Start() 
 	{
@@ -117,15 +118,30 @@ public class TouchPanel : MonoBehaviour
 	public void LoadTextures()
 	{
 		numberTextures = new Texture2D[numButtons];
+		numberTexturesInactive = new Texture2D[numButtons];
 		for(int i=0; i<numButtons; i++)
 		{
 			numberTextures[i]=Resources.Load<Texture2D>("TouchPanelButton0"+(i+1));
+		}
+		for(int i=0; i<numButtons; i++)
+		{
+			numberTexturesInactive[i]=Resources.Load<Texture2D>("TouchPanelButtonInactive0"+(i+1));
 		}
 	}
 	
 	public Texture2D GetNumberTexture(int sequenceNum)
 	{
 		return numberTextures[sequenceNum];
+	}
+	
+	public Texture2D GetNumberTextureInactive(int sequenceNum)
+	{
+		return numberTexturesInactive[sequenceNum];
+	}
+	
+	public void SetInactivetexture(TouchPanelButton buttonScript)
+	{
+		buttonScript.SetTexture(GetNumberTextureInactive(currentSequenceIndex));
 	}
 }
 

@@ -4,71 +4,83 @@ using System.Collections;
 public class LevelControl : MonoBehaviour 
 {
 
-	public string nextLevelName="";
+	public enum LevelType
+	{	
+		None,
+		Video,
+		ObjectInteraction,
+		ObjectAvoidance,
+		WayFinding
+	};
+
 	
+	public LevelType levelType;//PUBLIC Set in editor... not used yet
+	public string nextLevelName="";//PUBLIC Set in editor
 	
-	//all variables here on to be public for debug only(Ary)
-	public int totalTimePassed=0;
-	public int timePassedSec=0;
-	public int timePassedMin=0;
-	public int timePassedHr=0;
-	public string timePassedString="";
+	private int totalTimePassed=0;
+	private int timePassedSec=0;
+	private int timePassedMin=0;
+	private int timePassedHr=0;
+	private string timePassedString="";
 	public float levelCompletion=0.0f;
 	
 	public bool b_isLevelComplete = false;
 	public bool b_showTimer = true;
 	
-	public GameObject gameControl;
-	public GameControl gameControlScript;
+	private GameObject gameControl;
+	private GameControl gameControlScript;
 	
-	public float screenWidth=0.0f;
-	public float screenHeight=0.0f;
+	private float screenWidth=0.0f;
+	private float screenHeight=0.0f;
 
 	//'up' timer
-	public Rect labelPosition;
-	public string labelText;
-	public GUIStyle labelStyle;
+	Rect timerPosition;
+	string timerText;
+	public GUIStyle timer;
 
-	public Rect labelShadowPosition;
-	public GUIStyle labelStyleShadow;
+	Rect timerShadowPosition;
+	public GUIStyle timerShadow;
 
-	public float timerHeight;
+	float timerHeight;
 
 
 	//next level load timer...
-	public Rect countdownPosition;
-	public string countdownText="";
-	public GUIStyle countdownStyle;
+	Rect countdownPosition;
+	string countdownText="";
+	public GUIStyle countdown;
 
-	public Rect countdownShadowPosition;
-	public GUIStyle countdownStyleShadow;
+	Rect countdownShadowPosition;
+	public GUIStyle countdownShadow;
 
-	public float countdownHeight;
+	float countdownHeight;
 
-	float countdown = 5.0f;//for next level load
+	float loadCountdown = 5.0f;//for next level load
+	
+	
+	//Current objective...
 	
 		
 	void Start()
 	{
-		labelStyle.normal.textColor=Color.white;
-		labelStyle.fontSize=20;
-		labelStyle.alignment=TextAnchor.MiddleCenter;
-		labelStyle.fontStyle=FontStyle.Bold;
+		timer.normal.textColor=Color.white;
+		timer.fontSize=20;
+		timer.alignment=TextAnchor.MiddleCenter;
+		timer.fontStyle=FontStyle.Bold;
 		
-		labelStyleShadow.normal.textColor=Color.black;
-		labelStyleShadow.fontSize=20;
-		labelStyleShadow.alignment=TextAnchor.MiddleCenter;
-		labelStyleShadow.fontStyle=FontStyle.Bold;
+		timerShadow.normal.textColor=Color.black;
+		timerShadow.fontSize=20;
+		timerShadow.alignment=TextAnchor.MiddleCenter;
+		timerShadow.fontStyle=FontStyle.Bold;
 		
-		countdownStyle.normal.textColor=Color.red;
-		countdownStyle.fontSize=30;
-		countdownStyle.alignment=TextAnchor.MiddleCenter;
-		countdownStyle.fontStyle=FontStyle.Bold;
+		countdown.normal.textColor=Color.red;
+		countdown.fontSize=30;
+		countdown.alignment=TextAnchor.MiddleCenter;
+		countdown.fontStyle=FontStyle.Bold;
 
-		countdownStyleShadow.normal.textColor=Color.black;
-		countdownStyleShadow.fontSize=30;
-		countdownStyleShadow.alignment=TextAnchor.MiddleCenter;
-		countdownStyleShadow.fontStyle=FontStyle.Bold;
+		countdownShadow.normal.textColor=Color.black;
+		countdownShadow.fontSize=30;
+		countdownShadow.alignment=TextAnchor.MiddleCenter;
+		countdownShadow.fontStyle=FontStyle.Bold;
 
 	}
 	
@@ -98,11 +110,11 @@ public class LevelControl : MonoBehaviour
 				
 			timePassedString+=timePassedSec;
 
-			labelText=timePassedString;
+			timerText=timePassedString;
 		}
 		else
 		{
-			labelText="";
+			timerText="";
 		}
 
 		//if the level tasks are not done, keep counting time...
@@ -133,10 +145,10 @@ public class LevelControl : MonoBehaviour
 	//display GUI (timer)
 	void OnGUI()
 	{
-		GUI.Label(labelShadowPosition, labelText, labelStyleShadow);
-		GUI.Label(labelPosition, labelText, labelStyle);
-		GUI.Label(countdownShadowPosition, countdownText, countdownStyleShadow);
-		GUI.Label(countdownPosition, countdownText, countdownStyle);
+		GUI.Label(timerShadowPosition, timerText, timerShadow);
+		GUI.Label(timerPosition, timerText, timer);
+		GUI.Label(countdownShadowPosition, countdownText, countdownShadow);
+		GUI.Label(countdownPosition, countdownText, countdown);
 	}
 	
 	void EndLevel()
@@ -157,17 +169,17 @@ public class LevelControl : MonoBehaviour
 					gameControlScript.setWFScore(totalTimePassed);				
 					break;
 			}
-			//need to have countdown timer to signal going to next stage...		
+			//need to have loadCountdown timer to signal going to next stage...		
 			if(nextLevelName!="")
 			{
-				countdown-=Time.deltaTime;
+				loadCountdown-=Time.deltaTime;
 				
 				AdjustGUI();
 
 				countdownText="";
-				countdownText="Loading next level in: "+countdown.ToString("F2")+"...";
+				countdownText="Loading next level in: "+loadCountdown.ToString("F2")+"...";
 				
-				if(countdown<=0.0f)
+				if(loadCountdown<=0.0f)
 				{
 					gameControlScript.loadNextLevel(nextLevelName);
 				}
@@ -195,8 +207,8 @@ public class LevelControl : MonoBehaviour
 			timerHeight=screenHeight-(screenHeight*0.95f);
 			countdownHeight=screenHeight-(screenHeight*0.15f);
 			
-			labelPosition.Set(screenWidth/2.0f,timerHeight,0,0);
-			labelShadowPosition.Set(screenWidth/2.0f+2,timerHeight+2,0,0);
+			timerPosition.Set(screenWidth/2.0f,timerHeight,0,0);
+			timerShadowPosition.Set(screenWidth/2.0f+2,timerHeight+2,0,0);
 			
 			countdownPosition.Set(screenWidth/2.0f,countdownHeight,0,0);
 			countdownShadowPosition.Set(screenWidth/2.0f+2,countdownHeight+2,0,0);

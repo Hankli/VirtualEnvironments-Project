@@ -47,6 +47,7 @@ public class TouchPanelButton : MonoBehaviour
 		//check if correct ID...			
 		if(buttonID==panelScript.GetCurrentSequenceNumber())
 		{	
+			panelScript.SetInactivetexture(this);
 			panelScript.NextIndex();
 			b_correct=true;
 		}
