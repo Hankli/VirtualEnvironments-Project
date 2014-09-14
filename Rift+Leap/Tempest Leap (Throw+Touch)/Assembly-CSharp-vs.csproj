@@ -103,6 +103,7 @@
      <Compile Include="Assets\OVR\Scripts\OVRPlayerController.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
+     <Compile Include="Assets\Pincher.cs" />
      <Compile Include="Assets\Tempest\GameTemplate\Scripts\FrameRate.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />

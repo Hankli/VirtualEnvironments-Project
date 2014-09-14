@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\LeapOculusMove.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\LeapMotion\Scripts\Utils\MagneticPinch.cs">
     <Files>
-      <File FileName="Assets\LeapMove.cs" Line="242" Column="7" />
-      <File FileName="Assets\LeapMove.cs" Line="212" Column="4" />
-      <File FileName="Assets\LeapOculusMove.cs" Line="118" Column="13" />
-      <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" Line="1" Column="1" />
-      <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\CharacterMotor.js" Line="1" Column="1" />
+      <File FileName="Assets\LeapMotion\Scripts\Utils\MagneticPinch.cs" Line="3" Column="6" />
+      <File FileName="..\Examples\RagdollThrower-master\Assets\Resources\Scripts\Pincher.cs" Line="1" Column="1" />
+      <File FileName="..\Examples\RagdollThrower-master\Assets\LeapMotion\Scripts\Utils\MagneticPinch.cs" Line="1" Column="1" />
+      <File FileName="Assets\LeapMotion\Scripts\Utils\MagneticPinch.cs" Line="1" Column="1" />
+      <File FileName="Assets\Pincher.cs" Line="1" Column="1" />
+      <File FileName="Assets\LeapMotion\Scripts\Hands\RigidHand.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

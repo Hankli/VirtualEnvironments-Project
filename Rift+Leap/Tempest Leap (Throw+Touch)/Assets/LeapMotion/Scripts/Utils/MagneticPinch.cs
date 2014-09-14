@@ -1,4 +1,5 @@
 ﻿/******************************************************************************\
+/******************************************************************************\
 * Copyright (C) Leap Motion, Inc. 2011-2014.                                   *
 * Leap Motion proprietary. Licensed under Apache 2.0                           *
 * Available at http://www.apache.org/licenses/LICENSE-2.0.html                 *
@@ -11,8 +12,8 @@ using Leap;
 // Leap Motion hand script that detects pinches and grabs the
 // closest rigidbody with a spring force if it's within a given range.
 public class MagneticPinch : MonoBehaviour {
-	Hand hand = new Hand ();
-	const float TRIGGER_DISTANCE_RATIO = 0.7f;
+	
+	private const float TRIGGER_DISTANCE_RATIO = 0.7f;
 	
 	public float forceSpringConstant = 100.0f;
 	public float magnetDistance = 2.0f;
@@ -21,11 +22,13 @@ public class MagneticPinch : MonoBehaviour {
 	private Collider grabbed_;
 	
 	void Start() {
+		Debug.Log ("start");
 		pinching_ = false;
 		grabbed_ = null;
 	}
-	
+
 	void OnPinch(Vector3 pinch_position) {
+		Debug.Log ("OnPinch");
 		pinching_ = true;
 		
 		// Check if we pinched a movable object and grab the closest one that's not part of the hand.
@@ -49,27 +52,21 @@ public class MagneticPinch : MonoBehaviour {
 	
 	void Update() {
 		bool trigger_pinch = false;
-
-		hand = GetComponent<HandModel>().GetLeapHand();
-
-		if (hand == null) 
-		{
-
-			return;
-		}
-
+		HandModel hand_model = GetComponent<HandModel>();
+		Hand leap_hand = hand_model.GetLeapHand();
 		
-		// Thumb tip is the pinch position.
-		Vector leap_thumb_tip = hand.Fingers[0].TipPosition;
+		if (leap_hand == null)
+			return;
 		
 		// Scale trigger distance by thumb proximal bone length.
-		float proximal_length = hand.Fingers[0].Bone(Bone.BoneType.TYPE_PROXIMAL).Length;
+		Vector leap_thumb_tip = leap_hand.Fingers[0].TipPosition;
+		float proximal_length = leap_hand.Fingers[0].Bone(Bone.BoneType.TYPE_PROXIMAL).Length;
 		float trigger_distance = proximal_length * TRIGGER_DISTANCE_RATIO;
 		
 		// Check thumb tip distance to joints on all other fingers.
 		// If it's close enough, start pinching.
 		for (int i = 1; i < HandModel.NUM_FINGERS && !trigger_pinch; ++i) {
-			Finger finger = hand.Fingers[i];
+			Finger finger = leap_hand.Fingers[i];
 			
 			for (int j = 0; j < FingerModel.NUM_BONES && !trigger_pinch; ++j) {
 				Vector leap_joint_position = finger.Bone((Bone.BoneType)j).NextJoint;
@@ -78,7 +75,7 @@ public class MagneticPinch : MonoBehaviour {
 			}
 		}
 		
-		Vector3 pinch_position = transform.TransformPoint(leap_thumb_tip.ToUnityScaled());
+		Vector3 pinch_position = hand_model.fingers[0].GetTipPosition();
 		
 		// Only change state if it's different.
 		if (trigger_pinch && !pinching_)
