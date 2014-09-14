@@ -4,12 +4,12 @@ using System.Collections;
 public class ThrowableSpawner : MonoBehaviour 
 {
 
-	public bool b_objectOnTop=false;//is there an object sitting on top of this spawner?
-	public bool b_canSpawn=true;
-	public GameObject[] someObject;
+	private bool b_objectOnTop=false;//is there an object sitting on top of this spawner?
+	private bool b_canSpawn=true;
+	private GameObject[] someObject;
 	public float spawnWaitTime=2.0f;
-	public float lastExitTime=0.0f;
-	public float timeCheck=0.0f;
+	private float lastExitTime=0.0f;
+	private float timeCheck=0.0f;
 	private Vector3 pos;//used for spawn position
 	
 	private float awakeHeight=1.4f;//active y position
@@ -24,11 +24,11 @@ public class ThrowableSpawner : MonoBehaviour
 	void Update() 
 	{
 		AwakenSpawner();
-			
+
 		timeCheck=Time.time-lastExitTime;
 		if(b_isAwake)
 		{
-			if(!b_objectOnTop&&timeCheck>2.0f)
+			if(!b_objectOnTop&&timeCheck>spawnWaitTime)
 			{
 				b_canSpawn=true;
 			}

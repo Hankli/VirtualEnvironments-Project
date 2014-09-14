@@ -23,6 +23,12 @@ public class TouchPanel : MonoBehaviour
 	private bool b_destructionImminent=false;
 	public GameObject nextObjective;
 	
+	void Start()
+	{
+		objectiveTextUpdated=objectiveText;
+		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
+	}
+	
 	void Awake() 
 	{
 		a=0;
@@ -39,9 +45,6 @@ public class TouchPanel : MonoBehaviour
 		numButtons=a;	
 		LoadTextures();
 		resetSequence();
-		
-		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
 		
 		if(levelControl=GameObject.FindWithTag("Level"))
 		{
@@ -60,15 +63,28 @@ public class TouchPanel : MonoBehaviour
 			}
 			else
 			{
+			
+			
 				//need to remove this from this script and find a less cohesive way to trigger next objective...
 				if(nextObjective!=null)
 				{
-					if(nextObjective.GetComponent<ThrowableSpawner>())
+					if(nextObjective.GetComponent<ThrowingObjective>())
 					{
-						ThrowableSpawner bleh = nextObjective.GetComponent<ThrowableSpawner>();
-						bleh.SetActive();
+						ThrowingObjective blah= nextObjective.GetComponent<ThrowingObjective>();
+						blah.SetActive();
+					}
+					if(nextObjective.transform.GetChild(0))
+					{
+						Transform spawner=nextObjective.transform.GetChild(0);
+						if(spawner.GetComponent<ThrowableSpawner>())
+						{
+							ThrowableSpawner bleh = spawner.GetComponent<ThrowableSpawner>();
+							bleh.SetActive();
+						}
 					}
 				}
+				//yea.. this ^ bleh...
+				
 				
 				//kill this thing
 				Destroy(this.gameObject);

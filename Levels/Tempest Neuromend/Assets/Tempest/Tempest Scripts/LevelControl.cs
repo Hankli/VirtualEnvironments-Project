@@ -142,6 +142,10 @@ public class LevelControl : MonoBehaviour
 		}				
 
 
+		if(levelCompletion>=1.0f)
+		{
+			LevelComplete();
+		}
 		//if the level tasks are not done, keep counting time...
 		if(!b_isLevelComplete)
 		{
@@ -164,7 +168,6 @@ public class LevelControl : MonoBehaviour
 			timePassedSec=totalTimePassed%60;
 		}
 		else EndLevel();
-
 	}
 	
 	//called during Start() to check the level for any gameObjects tagged as objectives
@@ -235,7 +238,7 @@ public class LevelControl : MonoBehaviour
 		}
 	}
 	
-	public void LevelComplete(bool complete)
+	public void LevelComplete(bool complete=true)
 	{
 		b_isLevelComplete=complete;
 	}
