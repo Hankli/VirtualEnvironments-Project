@@ -44,7 +44,14 @@ public class LevelControl : MonoBehaviour
 	Rect objectiveShadowPosition;
 	public GUIStyle objectiveShadow;
 	float objectiveHeight;
-
+	
+	//hints...
+	private string hintOverride="";//fallback for objective text
+	bool b_showHint=false;
+	private string hintMessage="";
+	private float hintTimerA=0.0f;
+	private float hintTimerB=0.0f;
+	
 	//'up' timer
 	Rect timerPosition;
 	string timerText;
@@ -105,7 +112,7 @@ public class LevelControl : MonoBehaviour
 	void Update() 
 	{
 	
-		if(b_showTimer||b_showObjective)
+		if(b_showTimer||b_showObjective||b_showHint)
 		{
 			//get screen dimensions if changed, adjust text positions
 			AdjustGUI();
@@ -139,7 +146,13 @@ public class LevelControl : MonoBehaviour
 		else
 		{
 			currentObjective="";
-		}				
+		}		
+		if(b_showHint)
+		{
+			
+			
+		}
+				
 
 
 		if(levelCompletion>=1.0f)
@@ -269,12 +282,43 @@ public class LevelControl : MonoBehaviour
 		}
 	}
 	
-	public void SetCurrentObjective(string objectiveText, bool choice=true)
+	public void SetCurrentObjective(string objectiveText, bool choice=true ,bool hint=false)
 	{
 		//should fade between previous objective to current objective first
 		
-		previousObjective=currentObjective;
-		currentObjective=objectiveText;
+		//if already showing hint
+		if(b_showHint)
+		{
+			if(hint)//if new hint, keep previous objective with new hint...
+			{
+				hintMessage=objectiveText;
+				b_showHint=hint;
+				currentObjective=hintOverride;
+				currentObjective+="\n"+hintMessage;
+			}
+			else//keep previous hint with new objective...
+			{
+				currentObjective=objectiveText;
+				hintOverride=objectiveText;
+				currentObjective+="\n"+hintMessage;
+			}
+		}
+		else //if not showing hint already
+		{
+			if(hint)
+			{
+				hintMessage=objectiveText;
+				b_showHint=hint;
+				hintOverride=currentObjective;
+				currentObjective+="\n"+hintMessage;
+			}
+			else
+			{
+				previousObjective=currentObjective;
+				currentObjective=objectiveText;
+				hintOverride=objectiveText;
+			}
+		}
 		DisplayCurrentObjective(choice);
 	}
 	

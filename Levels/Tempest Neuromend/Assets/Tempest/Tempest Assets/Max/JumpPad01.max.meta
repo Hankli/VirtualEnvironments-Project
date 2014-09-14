@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d9c1f29c41f2a64438bad1183da95cd4
+guid: 13850890611f1f640b7f5bde386bcc52
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
@@ -7,8 +7,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Box001
-    4300002: Hedge02b
+    4300000: JumpPad01
     9500000: //RootNode
   materials:
     importMaterials: 1

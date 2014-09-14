@@ -49,7 +49,7 @@ public class TouchPanel : MonoBehaviour
 		if(levelControl=GameObject.FindWithTag("Level"))
 		{
 			levelControlScript=levelControl.GetComponent<LevelControl>();
-			levelControlScript.SetCurrentObjective(objectiveTextUpdated,true);
+			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
 		}	
 	}
 	
@@ -100,7 +100,7 @@ public class TouchPanel : MonoBehaviour
 		objectiveTextUpdated=objectiveText;
 		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
 		if(levelControlScript!=null)
-			levelControlScript.SetCurrentObjective(objectiveTextUpdated,true);
+			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
 			
 		//if sequenceCount >= maxSequence... end task...
 		if(sequenceCount<maxSequence)
@@ -136,9 +136,10 @@ public class TouchPanel : MonoBehaviour
 		else
 		{
 			if(levelControlScript!=null)
+			{
+				levelControlScript.SetCurrentObjective("");
 				levelControlScript.ObjectiveCompleted();
-			if(levelControlScript!=null)
-				levelControlScript.SetCurrentObjective("",false);
+			}
 				
 			b_destructionImminent=true;
 		}
