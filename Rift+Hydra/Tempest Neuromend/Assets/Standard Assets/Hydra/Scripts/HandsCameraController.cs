@@ -5,47 +5,6 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-		[CustomEditor(typeof(HandsCameraController))]
-		[CanEditMultipleObjects]
-		public class HandsCameraEditor : Editor
-		{
-			SerializedProperty m_YLimitToggle, m_leftYLimit, m_rightYLimit, m_xLimit, 
-							   m_moveForce, m_rotateForce, m_constantMoveForce;
-
-			public void OnEnable()
-			{
-				m_YLimitToggle = serializedObject.FindProperty ("m_toggleYLimit");
-				m_leftYLimit = serializedObject.FindProperty ("m_leftYLimit");
-				m_rightYLimit = serializedObject.FindProperty ("m_rightYLimit");
-				m_xLimit = serializedObject.FindProperty ("m_xLimit");
-				m_moveForce = serializedObject.FindProperty ("m_moveForce");
-				m_constantMoveForce = serializedObject.FindProperty ("m_constantMoveForce");
-				m_rotateForce = serializedObject.FindProperty ("m_rotateForce");
-			}
-
-			public override void OnInspectorGUI()
-			{
-				serializedObject.Update ();
-
-				HandsCameraController hc = target as HandsCameraController;
-
-				m_YLimitToggle.boolValue = EditorGUILayout.Toggle ("Apply Yaw Limit", m_YLimitToggle.boolValue);
-				if(m_YLimitToggle.boolValue)
-				{
-					hc.ApplyYawLimit();
-				}
-
-				m_leftYLimit.floatValue = EditorGUILayout.FloatField ("Left Yaw Limit", m_leftYLimit.floatValue);
-				m_rightYLimit.floatValue = EditorGUILayout.FloatField ("Right Yaw Limit", m_rightYLimit.floatValue);
-				m_xLimit.floatValue = EditorGUILayout.FloatField ("Pitch Limit", m_xLimit.floatValue);
-				m_moveForce.vector3Value = EditorGUILayout.Vector3Field ("Move Force", m_moveForce.vector3Value);
-				m_constantMoveForce.vector3Value = EditorGUILayout.Vector3Field ("Constant Move Force", m_constantMoveForce.vector3Value);
-				m_rotateForce.vector3Value = EditorGUILayout.Vector3Field ("Rotation Speed", m_rotateForce.vector3Value);
-
-				serializedObject.ApplyModifiedProperties ();
-			}
-		}
-
 		public class HandsCameraController : MonoBehaviour
 		{		
 			//movement and rotation related variables
@@ -58,19 +17,22 @@ namespace Tempest
 			private Quaternion m_rightYRotation;
 			public float m_leftYLimit;
 			public float m_rightYLimit;
-			public bool m_toggleYLimit;
+			public bool m_yLimitFlag;
 
 			//x axis related variables
-			private float m_xAccumulator;
-			public float m_xLimit;
+			private float m_xAccumulator = 0.0f;
+			private const float m_xLimit = 89.0f;
 
-			protected void Start()
-			{		
-				m_xAccumulator = 0.0f;
-				m_toggleYLimit = false;
+
+			private void Start()
+			{
+				if(m_yLimitFlag)
+				{
+					SetYawLimitation();
+				}
 			}
 
-			public void ApplyYawLimit()
+			private void SetYawLimitation()
 			{
 				Quaternion initialRotation = transform.rotation;
 				m_leftYRotation = initialRotation * Quaternion.AngleAxis (m_leftYLimit, Vector3.up);
@@ -83,15 +45,15 @@ namespace Tempest
 				{
 					float jx = inp.JoystickX;
 					Quaternion rot = Quaternion.AngleAxis(m_rotateForce.y * jx, Vector3.up) * cc.transform.rotation;
-
-				    if(m_toggleYLimit)
-					{
+			
+					if(m_yLimitFlag)
+					{	
 						if(rot.eulerAngles.y < m_leftYRotation.eulerAngles.y &&
 						   rot.eulerAngles.y > m_rightYRotation.eulerAngles.y)
 						{
 							float angleLeft = Quaternion.Angle (rot, m_leftYRotation);
 							float angleRight = Quaternion.Angle(rot, m_rightYRotation);
-					
+			
 							if(angleLeft > angleRight)
 							{
 								rot.eulerAngles = new Vector3(rot.eulerAngles.x, m_rightYRotation.eulerAngles.y, rot.eulerAngles.z);
@@ -117,6 +79,7 @@ namespace Tempest
 					float xPitch = -m_rotateForce.x * jy;
 					m_xAccumulator += xPitch;
 
+
 					if(m_xAccumulator > m_xLimit)
 					{
 						m_xAccumulator = m_xLimit;
@@ -140,10 +103,10 @@ namespace Tempest
 					float jx = inp.JoystickX;
 					float jy = inp.JoystickY;
 					
-					Vector3 move = (cc.transform.forward * jy) + (cc.transform.right * jx);
-
-					cc.Move(Vector3.Scale(move, m_moveForce) * Time.fixedDeltaTime + 
-					        cc.transform.InverseTransformDirection(m_constantMoveForce));
+					Vector3 move = Vector3.Scale(cc.transform.forward * jy + cc.transform.right * jx, m_moveForce + m_constantMoveForce);
+					move.x *= Time.fixedDeltaTime;
+					move.z *= Time.fixedDeltaTime;
+					cc.Move(move);
 				}
 			}
 

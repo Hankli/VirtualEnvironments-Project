@@ -49,7 +49,6 @@
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <Compile Include="Assets\Standard Assets\Hydra\Scripts\Constants.cs" />
      <Compile Include="Assets\Standard Assets\Hydra\Scripts\DummyPhys.cs" />
-     <Compile Include="Assets\Standard Assets\Hydra\Scripts\ExternalDeviceManager.cs" />
      <Compile Include="Assets\Standard Assets\Hydra\Scripts\Hand.cs" />
      <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandInput.cs" />
      <Compile Include="Assets\Standard Assets\Hydra\Scripts\HandInputController.cs" />
