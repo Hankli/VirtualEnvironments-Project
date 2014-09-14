@@ -21,7 +21,10 @@ public class LevelControl : MonoBehaviour
 	private int timePassedMin=0;
 	private int timePassedHr=0;
 	private string timePassedString="";
-	public float levelCompletion=0.0f;
+	
+	public int levelObjectives=0;
+	public float levelCompletion=0.0f;//0-1 percentage
+	private int objectivesCompleted=0;
 	
 	public bool b_isLevelComplete = false;
 	public bool b_showTimer = true;
@@ -36,6 +39,7 @@ public class LevelControl : MonoBehaviour
 	//current objective text...
 	Rect objectivePosition;
 	public string currentObjective="";
+	public string previousObjective="";
 	public GUIStyle objective;
 	Rect objectiveShadowPosition;
 	public GUIStyle objectiveShadow;
@@ -58,7 +62,7 @@ public class LevelControl : MonoBehaviour
 	float countdownHeight;
 
 	float loadCountdown = 5.0f;//for next level load
-		
+	
 	void Start()
 	{
 		timer.normal.textColor=Color.white;
@@ -91,7 +95,11 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontSize=30;
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
-
+	}
+	
+	void Awake()
+	{
+		CountObjectives();
 	}
 	
 	void Update() 
@@ -127,7 +135,6 @@ public class LevelControl : MonoBehaviour
 		//display current objective...
 		if(b_showObjective)
 		{
-			//currentObjective="HerpDerp";
 		}
 		else
 		{
@@ -159,6 +166,27 @@ public class LevelControl : MonoBehaviour
 		else EndLevel();
 
 	}
+	
+	//called during Start() to check the level for any gameObjects tagged as objectives
+	void CountObjectives()
+	{
+		levelObjectives=GameObject.FindGameObjectsWithTag("Objective").Length;
+	}
+	
+	//Objectives call this to say when they have been completed
+	public void ObjectiveCompleted()
+	{
+		objectivesCompleted++;
+		levelCompletion=objectivesCompleted/(float)levelObjectives;
+	}
+	
+	//Manually add to objective count (e.g. if objective added after the level beginning...)
+	public void AddObjective()
+	{
+		levelObjectives++;
+		levelCompletion=objectivesCompleted/(float)levelObjectives;
+	}
+	
 	
 	//display GUI (timer)
 	void OnGUI()
@@ -240,6 +268,9 @@ public class LevelControl : MonoBehaviour
 	
 	public void SetCurrentObjective(string objectiveText, bool choice=true)
 	{
+		//should fade between previous objective to current objective first
+		
+		previousObjective=currentObjective;
 		currentObjective=objectiveText;
 		DisplayCurrentObjective(choice);
 	}
@@ -247,6 +278,11 @@ public class LevelControl : MonoBehaviour
 	public void DisplayCurrentObjective(bool choice=true)
 	{	
 		b_showObjective=choice;
+	}
+	
+	//need to fade text in and out for objectivces, scores, flashing timers?...
+	public void FadeText()
+	{
 	}
 
 }

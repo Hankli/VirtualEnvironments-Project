@@ -8,17 +8,22 @@ public class TouchPanel : MonoBehaviour
 	private int errorCount = 0;//number of errors made (may not be used for score)
 	public int sequenceCount = 0;//current sequences
 	private int currentSequenceIndex = 0;//current index of current sequence
-	private int maxSequence = 4;//maybe should be higher? need to test
-	public int[] theSequence;//the sequence (public for debug)
-	public Texture2D[] numberTextures;
-	public Texture2D[] numberTexturesInactive;
+	private int maxSequence = 2;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
+	private int[] theSequence;//the sequence (public for debug)
+	private Texture2D[] numberTextures;
+	private Texture2D[] numberTexturesInactive;
+	
 	private GameObject levelControl;
 	private LevelControl levelControlScript;
 	
-	public string objectiveText="Objective: Touch the numbers in the correct sequence";
-	public string objectiveTextUpdated="";
+	private string objectiveText="Objective: Touch the numbers in the correct sequence";
+	private string objectiveTextUpdated="";
 	
-	void Start() 
+	private float vanishingHeight=-1.6f;
+	private bool b_destructionImminent=false;
+	public GameObject nextObjective;
+	
+	void Awake() 
 	{
 		a=0;
 		//set button IDs		
@@ -47,7 +52,28 @@ public class TouchPanel : MonoBehaviour
 	
 	void Update() 
 	{
-		
+		if(b_destructionImminent)
+		{
+			if(this.gameObject.transform.position.y>vanishingHeight)
+			{
+				this.gameObject.transform.Translate(Vector3.up*-0.4f*Time.deltaTime,Space.World);
+			}
+			else
+			{
+				//need to remove this from this script and find a less cohesive way to trigger next objective...
+				if(nextObjective!=null)
+				{
+					if(nextObjective.GetComponent<ThrowableSpawner>())
+					{
+						ThrowableSpawner bleh = nextObjective.GetComponent<ThrowableSpawner>();
+						bleh.SetActive();
+					}
+				}
+				
+				//kill this thing
+				Destroy(this.gameObject);
+			}
+		}
 	}
 	
 	//increase sequence count, generate new button sequence
@@ -93,8 +119,14 @@ public class TouchPanel : MonoBehaviour
 		}
 		else
 		{
-			
+			if(levelControlScript!=null)
+				levelControlScript.ObjectiveCompleted();
+			if(levelControlScript!=null)
+				levelControlScript.SetCurrentObjective("",false);
+				
+			b_destructionImminent=true;
 		}
+		
 	}	
 	
 	//generate integer sequnce for number of buttons in panel... optional randomness

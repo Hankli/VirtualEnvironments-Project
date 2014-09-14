@@ -13,9 +13,13 @@ public class TouchPanelButton : MonoBehaviour
 	private bool b_correct=true;
 	private bool b_canTouch=true;
 	
-	void Start() 
+	void Start()
 	{
 		buttonColour=colour1;
+	}
+	
+	void Awake() 
+	{
 		panelScript = transform.parent.GetComponent<TouchPanel>();
 	}
 	
@@ -25,7 +29,7 @@ public class TouchPanelButton : MonoBehaviour
 		if(fade>=1.1f)	fade=1.1f;
 		
 		//
-		if(fade<=1.0f)
+		if(fade<=1.1f)
 		{
 			//check if correct ID...			
 			if(b_correct)

@@ -18,7 +18,9 @@ public class GameControl : MonoBehaviour
 	float objectAvoidanceHighScore = 0.0f;
 	float wayFindingHighScore = 0.0f;
     */
-    
+    void Start()
+    {
+    }
     
     void Awake() 
     {
