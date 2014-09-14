@@ -10,7 +10,7 @@ public class ThrowingObjective : MonoBehaviour
 	private bool b_isActive=false;
 	
 	private Transform spawner;
-	private ThrowableSpawner spawnerScript;
+	//private ThrowableSpawner spawnerScript;
 
 	private GameObject levelControl;
 	private LevelControl levelControlScript;
@@ -29,7 +29,7 @@ public class ThrowingObjective : MonoBehaviour
 	void Awake() 
 	{
 		spawner =gameObject.transform.GetChild(0);//may need to change to... get child with name 'ObjectSpawner'
-		spawnerScript = spawner.GetComponent<ThrowableSpawner>();
+		//spawnerScript = spawner.GetComponent<ThrowableSpawner>();
 		
 		if(levelControl=GameObject.FindWithTag("Level"))
 		{

@@ -6,6 +6,8 @@ public class HintTrigger : MonoBehaviour
 	private GameObject levelControl;
 	private LevelControl levelControlScript;
 	public string hintMessage="";
+	public bool b_allowedMultipleTriggers=false;
+	private bool b_hasTriggered=false;
 
 	void Start() 
 	{
@@ -26,8 +28,12 @@ public class HintTrigger : MonoBehaviour
 	void OnTriggerEnter(Collider other)
 	{
 		//if the player entered...
-		if(other.gameObject.tag=="Player")
+		if(!b_hasTriggered&&other.gameObject.tag=="Player")
 		{
+			if(!b_allowedMultipleTriggers)
+			{
+				b_hasTriggered=true;
+			}
 			//send message to be displayed to level control
 			if(levelControl!=null)
 			{

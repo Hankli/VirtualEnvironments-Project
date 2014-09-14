@@ -33,6 +33,8 @@ public class LevelControl : MonoBehaviour
 	private GameObject gameControl;
 	private GameControl gameControlScript;
 	
+	public float hintDuration=5.0f;
+	
 	private float screenWidth=0.0f;
 	private float screenHeight=0.0f;
 	
@@ -147,10 +149,16 @@ public class LevelControl : MonoBehaviour
 		{
 			currentObjective="";
 		}		
+		//show hint...
 		if(b_showHint)
 		{
+			hintTimerB=Time.time;
 			
-			
+			if((hintTimerB-hintTimerA)>hintDuration)
+			{
+				b_showHint=false;
+				SetCurrentObjective(hintOverride);
+			}
 		}
 				
 
@@ -291,6 +299,8 @@ public class LevelControl : MonoBehaviour
 		{
 			if(hint)//if new hint, keep previous objective with new hint...
 			{
+				hintTimerA=Time.time;
+
 				hintMessage=objectiveText;
 				b_showHint=hint;
 				currentObjective=hintOverride;
@@ -307,6 +317,8 @@ public class LevelControl : MonoBehaviour
 		{
 			if(hint)
 			{
+				hintTimerA=Time.time;
+				
 				hintMessage=objectiveText;
 				b_showHint=hint;
 				hintOverride=currentObjective;
