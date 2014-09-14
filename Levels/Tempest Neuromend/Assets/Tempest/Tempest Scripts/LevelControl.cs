@@ -228,18 +228,22 @@ public class LevelControl : MonoBehaviour
 		if(gameControl=GameObject.FindWithTag("Game"))
 		{
 			gameControlScript=gameControl.GetComponent<GameControl>();
-			string levelTag = gameObject.tag.ToString();
-			switch(levelTag)
+			switch(levelType)
 			{
-				case "ObjectInteraction":
+				case LevelType.ObjectInteraction:
 					gameControlScript.setOIScore(totalTimePassed);
 					break;				
-				case "ObjectAvoidance":
+				case LevelType.ObjectAvoidance:
 					gameControlScript.setOAScore(totalTimePassed);				
 					break;
-				case "WayFinding":
+				case LevelType.WayFinding:
 					gameControlScript.setWFScore(totalTimePassed);				
 					break;
+				/*
+				case LevelType.video:
+					
+					break;
+				*/
 			}
 			//need to have loadCountdown timer to signal going to next stage...		
 			if(nextLevelName!="")

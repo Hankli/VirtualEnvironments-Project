@@ -8,7 +8,7 @@ public class TouchPanel : MonoBehaviour
 	private int errorCount = 0;//number of errors made (may not be used for score)
 	public int sequenceCount = 0;//current sequences
 	private int currentSequenceIndex = 0;//current index of current sequence
-	private int maxSequence = 2;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
+	private int maxSequence = 6;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
 	private int[] theSequence;//the sequence (public for debug)
 	private Texture2D[] numberTextures;
 	private Texture2D[] numberTexturesInactive;
