@@ -3,6 +3,16 @@ using System.Collections;
 
 public class GameControl : MonoBehaviour 
 {
+	public enum ControllerType
+	{
+		MouseKeyboard,
+		OculusLeap,
+		OculusHydra,
+		OculusKinect
+	};
+	
+	public ControllerType controllerType;
+
 	//all variables here on to be public for debug only(Ary)
 	public float objectInteractionScore = 0.0f;
 	public float objectInteractionCheckpoint = 0.0f;
@@ -18,7 +28,9 @@ public class GameControl : MonoBehaviour
 	float objectAvoidanceHighScore = 0.0f;
 	float wayFindingHighScore = 0.0f;
     */
-    
+    void Start()
+    {
+    }
     
     void Awake() 
     {

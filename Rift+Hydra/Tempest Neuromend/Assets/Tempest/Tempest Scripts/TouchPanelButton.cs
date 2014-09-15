@@ -11,10 +11,15 @@ public class TouchPanelButton : MonoBehaviour
 	private float fade = 1.0f;
 	private TouchPanel panelScript;
 	private bool b_correct=true;
+	private bool b_canTouch=true;
 	
-	void Start() 
+	void Start()
 	{
 		buttonColour=colour1;
+	}
+	
+	void Awake() 
+	{
 		panelScript = transform.parent.GetComponent<TouchPanel>();
 	}
 	
@@ -24,7 +29,7 @@ public class TouchPanelButton : MonoBehaviour
 		if(fade>=1.1f)	fade=1.1f;
 		
 		//
-		if(fade<=1.0f)
+		if(fade<=1.1f)
 		{
 			//check if correct ID...			
 			if(b_correct)
@@ -42,18 +47,23 @@ public class TouchPanelButton : MonoBehaviour
 	
 	public void onClick()
 	{
-		fade=0.0f;
-
-		//check if correct ID...			
-		if(buttonID==panelScript.GetCurrentSequenceNumber())
-		{	
-			panelScript.NextIndex();
-			b_correct=true;
-		}
-		else
+		if(b_canTouch)
 		{
-			panelScript.ErrorCount();
-			b_correct=false;
+			fade=0.0f;
+
+			//check if correct ID...			
+			if(buttonID==panelScript.GetCurrentSequenceNumber())
+			{	
+				b_canTouch=false;
+				panelScript.SetInactivetexture(this);
+				panelScript.NextIndex();
+				b_correct=true;
+			}
+			else
+			{
+				panelScript.ErrorCount();
+				b_correct=false;
+			}
 		}
 	}
 	
@@ -70,5 +80,10 @@ public class TouchPanelButton : MonoBehaviour
 	public int GetID()
 	{
 		return buttonID;
+	}
+	
+	public void SetTouchable(bool choice=true)
+	{
+		b_canTouch=choice;
 	}
 }
