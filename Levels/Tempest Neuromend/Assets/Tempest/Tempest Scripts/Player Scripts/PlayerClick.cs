@@ -29,7 +29,7 @@ public class PlayerClick : MonoBehaviour
 					if(hit.transform.GetComponent<TouchPanelButton>())
 					{
 						TouchPanelButton buttonScript = hit.transform.GetComponent<TouchPanelButton>();
-						buttonScript.onClick();
+						buttonScript.OnClick();
 					}
 					else if(hit.transform.tag=="Throwable")
 					{

@@ -119,7 +119,7 @@ public class LevelControl : MonoBehaviour
 			//get screen dimensions if changed, adjust text positions
 			AdjustGUI();
 		}
-		
+
 		//display the timer if needed
 		if(b_showTimer)
 		{
