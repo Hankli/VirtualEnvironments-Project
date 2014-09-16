@@ -46,7 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GestureMovement.cs" />
+     <Compile Include="Assets\LeapButton.cs" />
      <Compile Include="Assets\LeapGestures.cs" />
+     <Compile Include="Assets\LeapListener.cs" />
      <Compile Include="Assets\LeapMotion\DemoResources\Scripts\CubeWave.cs" />
      <Compile Include="Assets\LeapMotion\DemoResources\Scripts\GrabHand.cs" />
      <Compile Include="Assets\LeapMotion\DemoResources\Scripts\Grabbable.cs" />
@@ -105,25 +108,26 @@
      <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\Tempest\GameTemplate\Scripts\FrameRate.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\HintTrigger.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\HoverPad.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\LevelControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Menu.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Obstacle.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableObject.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableSpawner.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\CheckpointTrigger.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\ExitControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\GameControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\HintTrigger.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\HoverPad.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\LevelControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\Menu.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\NeuromendOnceOnly.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\Obstacle.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\PauseMenu.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\Player Scripts\PlayerClick.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\Player Scripts\Push.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\ThrowableObject.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\ThrowableSpawner.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\ThrowingObjective.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\TouchPanel.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\TouchPanelButton.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scenes\Tempest Scripts\WindowTrigger.cs" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\LeapMotion\InteractionUtils (alpha)\readme.txt" />
      <None Include="Assets\LeapMotion\readme.txt" />

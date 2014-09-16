@@ -10,7 +10,8 @@ public class LeapOculusMove : MonoBehaviour
 	float stopping;
 	Vector3 newPos;
 	Vector3 newRot;
-	
+	OVRDevice oculus;
+
 	private CharacterController control;
 	
 	
@@ -20,6 +21,7 @@ public class LeapOculusMove : MonoBehaviour
 		speed = 2.0f;
 		rotSpeed = 0.5f;
 		control = transform.parent.GetComponent<CharacterController>();
+		oculus = GetComponent<OVRDevice> ();
 		
 		m_leapController = new Controller();
 		stopping = 0.0f;
@@ -133,6 +135,8 @@ public class LeapOculusMove : MonoBehaviour
 				control.SimpleMove(newPos*0.0f);
 			}
 		}
+		//OVRDevice.ResetOrientation (0);
+
 		
 	}
 }
