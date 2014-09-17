@@ -71,7 +71,9 @@ public class LevelControl : MonoBehaviour
 	float countdownHeight;
 
 	float loadCountdown = 5.0f;//for next level load
+	bool b_endingLevel=false;
 	
+
 	void Start()
 	{
 		timer.normal.textColor=Color.white;
@@ -114,81 +116,108 @@ public class LevelControl : MonoBehaviour
 	void Update() 
 	{
 	
-		if(b_showTimer||b_showObjective||b_showHint)
+		if(levelType==LevelType.Video)
 		{
-			//get screen dimensions if changed, adjust text positions
+			//run video...
+			//load next level when done...
+			
+			
+			
 			AdjustGUI();
-		}
-
-		//display the timer if needed
-		if(b_showTimer)
-		{
-			//reset time string
-			timePassedString="";			
-			if(timePassedHr<=9)
-				timePassedString="0";				
-			timePassedString+=timePassedHr+":";			
-			if(timePassedMin<=9)
-				timePassedString+="0";				
-			timePassedString+=timePassedMin+":";			
-			if(timePassedSec<=9)
-				timePassedString+="0";				
-			timePassedString+=timePassedSec;
-			timerText=timePassedString;
-		}
-		else
-		{
 			timerText="";
-		}
-		
-		//display current objective...
-		if(b_showObjective)
-		{
+			timerText=nextLevelName+" Video Tutorial Screen";
+			EndLevel();
+			b_endingLevel=true;
 		}
 		else
 		{
-			currentObjective="";
-		}		
-		//show hint...
-		if(b_showHint)
-		{
-			hintTimerB=Time.time;
-			
-			if((hintTimerB-hintTimerA)>hintDuration)
+			if(b_showTimer||b_showObjective||b_showHint)
 			{
-				b_showHint=false;
-				SetCurrentObjective(hintOverride);
+				//get screen dimensions if changed, adjust text positions
+				AdjustGUI();
 			}
-		}
-				
 
-
-		if(levelCompletion>=1.0f)
-		{
-			LevelComplete();
-		}
-		//if the level tasks are not done, keep counting time...
-		if(!b_isLevelComplete)
-		{
-			//get amount of time passed since level began
-			//may need to offset if there is a pause before start or anywhere in between
-			totalTimePassed=(int)Time.timeSinceLevelLoad;
-			
-			//format seconds into common time format...
-			//if it's been more than a minute...
-			if(totalTimePassed>=60)
+			//display the timer if needed
+			if(b_showTimer)
 			{
-				timePassedMin=totalTimePassed/60;
-				//if it's been more than an hour...
-				if(timePassedMin>=60)
+				//reset time string
+				timePassedString="";			
+				if(timePassedHr<=9)
+					timePassedString="0";				
+				timePassedString+=timePassedHr+":";			
+				if(timePassedMin<=9)
+					timePassedString+="0";				
+				timePassedString+=timePassedMin+":";			
+				if(timePassedSec<=9)
+					timePassedString+="0";				
+				timePassedString+=timePassedSec;
+				timerText=timePassedString;
+			}
+			else
+			{
+				timerText="";
+			}
+			
+			//display current objective...
+			if(b_showObjective)
+			{
+			}
+			else
+			{
+				currentObjective="";
+			}		
+			//show hint...
+			if(b_showHint)
+			{
+				hintTimerB=Time.time;
+				
+				if((hintTimerB-hintTimerA)>hintDuration)
 				{
-					timePassedHr=totalTimePassed/3600;
-					timePassedMin=timePassedMin%60;
+					b_showHint=false;
+					SetCurrentObjective(hintOverride);
 				}
 			}
-			timePassedSec=totalTimePassed%60;
+					
+
+
+			if(levelCompletion>=1.0f)
+			{
+				LevelComplete();
+			}
+			//if the level tasks are not done, keep counting time...
+			if(!b_isLevelComplete)
+			{
+				//get amount of time passed since level began
+				//may need to offset if there is a pause before start or anywhere in between
+				totalTimePassed=(int)Time.timeSinceLevelLoad;
+				
+				//format seconds into common time format...
+				//if it's been more than a minute...
+				if(totalTimePassed>=60)
+				{
+					timePassedMin=totalTimePassed/60;
+					//if it's been more than an hour...
+					if(timePassedMin>=60)
+					{
+						timePassedHr=totalTimePassed/3600;
+						timePassedMin=timePassedMin%60;
+					}
+				}
+				timePassedSec=totalTimePassed%60;
+			}
+			else
+			{
+				EndLevel();
+				b_endingLevel=true;
+
+			} 
 		}
-		else EndLevel();
+		
+		if(levelType==LevelType.None)
+		{
+			EndLevel(true);
+			b_endingLevel=true;
+		}
 	}
 	
 	//called during Start() to check the level for any gameObjects tagged as objectives
@@ -223,7 +252,7 @@ public class LevelControl : MonoBehaviour
 		GUI.Label(countdownPosition, countdownText, countdown);
 	}
 	
-	void EndLevel()
+	void EndLevel(bool loadMenu=false)
 	{
 		if(gameControl=GameObject.FindWithTag("Game"))
 		{
@@ -239,25 +268,41 @@ public class LevelControl : MonoBehaviour
 				case LevelType.WayFinding:
 					gameControlScript.setWFScore(totalTimePassed);				
 					break;
-				/*
-				case LevelType.video:
+					/*
+				case LevelType.Video:
 					
 					break;
-				*/
+					*/
 			}
-			//need to have loadCountdown timer to signal going to next stage...		
-			if(nextLevelName!="")
-			{
-				loadCountdown-=Time.deltaTime;
-				
-				AdjustGUI();
+			
+			loadCountdown-=Time.deltaTime;
+			
+			AdjustGUI();
 
-				countdownText="";
+			if(loadCountdown<=0.0f)
+			{
+				loadCountdown=0.0f;
+			}
+			
+			countdownText="";
+			if(!loadMenu&&nextLevelName!="")
+			{
 				countdownText="Loading next level in: "+loadCountdown.ToString("F2")+"...";
-				
-				if(loadCountdown<=0.0f)
+			}
+			else
+			{
+				countdownText="Loading main menu in: "+loadCountdown.ToString("F2")+"...";
+			}
+			
+			if(loadCountdown<=0.0f)
+			{
+				if(nextLevelName!="")
 				{
 					gameControlScript.loadNextLevel(nextLevelName);
+				}
+				else
+				{
+					gameControlScript.loadNextLevel("Main Menu");
 				}
 			}
 		}

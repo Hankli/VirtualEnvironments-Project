@@ -18,7 +18,7 @@ Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Object Avoidanc
 Loading D:\University\2014\ICT313\Unity\Tempest Leap (Object Avoidance)\Oculus Wayfinding_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
 Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Object Avoidance)\Oculus Wayfinding_Data\Managed\LeapCSharp.NET3.5.dll (this message is harmless)
 Loading D:\University\2014\ICT313\Unity\Tempest Leap (Object Avoidance)\Oculus Wayfinding_Data\Managed\LeapCSharp.NET3.5.dll into Unity Child Domain
-- Completed reload, in  0.053 seconds
+- Completed reload, in  0.047 seconds
 desktop: 1280x800 60Hz; virtual: 1280x800 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
