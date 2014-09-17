@@ -4,7 +4,8 @@ using System.Collections;
 public class ThrowingObjective : MonoBehaviour 
 {
 
-	private int maxNumberOfGoals=8;
+	[Tooltip("The number of 'goals' the player must score to complete this objective")]
+	public int maxNumberOfGoals=5;
 	private int currentScore=0;
 	private int currentErrors=0;//not really used
 	private bool b_isActive=false;

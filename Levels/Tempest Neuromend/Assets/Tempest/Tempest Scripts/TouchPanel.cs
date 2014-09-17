@@ -6,9 +6,11 @@ public class TouchPanel : MonoBehaviour
 	private int a=0;//misc counter
 	private int numButtons=0;//number of buttons... auto updated in start
 	private int errorCount = 0;//number of errors made (may not be used for score)
-	public int sequenceCount = 0;//current sequences
+	private int sequenceCount = 0;//current sequences
 	private int currentSequenceIndex = 0;//current index of current sequence
-	private int maxSequence = 6;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
+	private int maxSequence = 4;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
+	[Tooltip("The number of sequences the player must complete to continue")]
+	public int numberOfSequences = 3;
 	private int[] theSequence;//the sequence (public for debug)
 	private Texture2D[] numberTextures;
 	private Texture2D[] numberTexturesInactive;
@@ -25,6 +27,7 @@ public class TouchPanel : MonoBehaviour
 	
 	void Start()
 	{
+		maxSequence=numberOfSequences+1;
 		objectiveTextUpdated=objectiveText;
 		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
 	}
@@ -44,7 +47,7 @@ public class TouchPanel : MonoBehaviour
 		}
 		numButtons=a;	
 		LoadTextures();
-		resetSequence();
+		ResetSequence();
 		
 		if(levelControl=GameObject.FindWithTag("Level"))
 		{
@@ -93,7 +96,7 @@ public class TouchPanel : MonoBehaviour
 	}
 	
 	//increase sequence count, generate new button sequence
-	public void resetSequence()
+	public void ResetSequence()
 	{
 		sequenceCount++;
 		
@@ -180,7 +183,7 @@ public class TouchPanel : MonoBehaviour
 		if(currentSequenceIndex>=theSequence.Length)
 		{
 			currentSequenceIndex=0;
-			resetSequence();
+			ResetSequence();
 		}
 	}
 	
@@ -218,7 +221,3 @@ public class TouchPanel : MonoBehaviour
 		buttonScript.SetTexture(GetNumberTextureInactive(currentSequenceIndex));
 	}
 }
-
-/*
-Tempest/Tempest Assets/Max/Materials/
-*/

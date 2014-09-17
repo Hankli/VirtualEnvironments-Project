@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿// NOTE: File I/O has been added in this class. 17/09/2014 Anopan
+//       All data will be saved in the Root Directory.
+using UnityEngine;
 using System.Collections;
 
 public class LevelControl : MonoBehaviour 
@@ -13,8 +15,10 @@ public class LevelControl : MonoBehaviour
 		WayFinding
 	};
 	
-	public LevelType levelType;//PUBLIC Set in editor... not used yet
-	public string nextLevelName="";//PUBLIC Set in editor
+	[Tooltip("Type of level...")]
+	public LevelType levelType;
+	[Tooltip("Name of the next scene to load after this level is complete (if any)")]
+	public string nextLevelName="";
 	
 	private int totalTimePassed=0;
 	private int timePassedSec=0;
@@ -22,17 +26,18 @@ public class LevelControl : MonoBehaviour
 	private int timePassedHr=0;
 	private string timePassedString="";
 	
-	public int levelObjectives=0;
-	public float levelCompletion=0.0f;//0-1 percentage
+	private int levelObjectives=0;
+	private float levelCompletion=0.0f;//0-1 percentage
 	private int objectivesCompleted=0;
 	
-	public bool b_isLevelComplete = false;
-	public bool b_showTimer = true;
-	public bool b_showObjective = true;
+	private bool b_isLevelComplete = false;
+	private bool b_showTimer = true;
+	private bool b_showObjective = true;
 	
 	private GameObject gameControl;
 	private GameControl gameControlScript;
 	
+	[Tooltip("The duration a hint will be displayed once triggered")]
 	public float hintDuration=5.0f;
 	
 	private float screenWidth=0.0f;
@@ -40,8 +45,8 @@ public class LevelControl : MonoBehaviour
 	
 	//current objective text...
 	Rect objectivePosition;
-	public string currentObjective="";
-	public string previousObjective="";
+	private string currentObjective="";
+	//private string previousObjective="";
 	public GUIStyle objective;
 	Rect objectiveShadowPosition;
 	public GUIStyle objectiveShadow;
@@ -70,9 +75,10 @@ public class LevelControl : MonoBehaviour
 	public GUIStyle countdownShadow;
 	float countdownHeight;
 
-	float loadCountdown = 5.0f;//for next level load
-	bool b_endingLevel=false;
+	private float loadCountdown = 5.0f;//for next level load
+	//bool b_endingLevel=false;
 	
+	private bool b_saved=false;
 
 	void Start()
 	{
@@ -127,7 +133,7 @@ public class LevelControl : MonoBehaviour
 			timerText="";
 			timerText=nextLevelName+" Video Tutorial Screen";
 			EndLevel();
-			b_endingLevel=true;
+			//b_endingLevel=true;
 		}
 		else
 		{
@@ -208,7 +214,7 @@ public class LevelControl : MonoBehaviour
 			else
 			{
 				EndLevel();
-				b_endingLevel=true;
+				//b_endingLevel=true;
 
 			} 
 		}
@@ -216,7 +222,7 @@ public class LevelControl : MonoBehaviour
 		if(levelType==LevelType.None)
 		{
 			EndLevel(true);
-			b_endingLevel=true;
+			//b_endingLevel=true;
 		}
 	}
 	
@@ -257,22 +263,29 @@ public class LevelControl : MonoBehaviour
 		if(gameControl=GameObject.FindWithTag("Game"))
 		{
 			gameControlScript=gameControl.GetComponent<GameControl>();
-			switch(levelType)
+			if(!b_saved)
 			{
-				case LevelType.ObjectInteraction:
-					gameControlScript.setOIScore(totalTimePassed);
-					break;				
-				case LevelType.ObjectAvoidance:
-					gameControlScript.setOAScore(totalTimePassed);				
-					break;
-				case LevelType.WayFinding:
-					gameControlScript.setWFScore(totalTimePassed);				
-					break;
-					/*
-				case LevelType.Video:
-					
-					break;
-					*/
+				b_saved=true;
+				switch(levelType)
+				{
+					case LevelType.ObjectInteraction:
+						gameControlScript.SetOIScore(totalTimePassed);
+						gameControlScript.SaveScore(1);//Save score to "OIScore.txt" file.
+						break;				
+					case LevelType.ObjectAvoidance:
+						gameControlScript.SetOAScore(totalTimePassed);				
+						gameControlScript.SaveScore(2);//Save score to "OAScore.txt" file.
+						break;
+					case LevelType.WayFinding:
+						gameControlScript.SetWFScore(totalTimePassed);				
+						gameControlScript.SaveScore(3);//Save score to "WFScore.txt" file.
+						break;
+						/*
+					case LevelType.Video:
+						
+						break;
+						*/
+				}
 			}
 			
 			loadCountdown-=Time.deltaTime;
@@ -298,11 +311,11 @@ public class LevelControl : MonoBehaviour
 			{
 				if(nextLevelName!="")
 				{
-					gameControlScript.loadNextLevel(nextLevelName);
+					gameControlScript.LoadNextLevel(nextLevelName);
 				}
 				else
 				{
-					gameControlScript.loadNextLevel("Main Menu");
+					gameControlScript.LoadNextLevel("Main Menu");
 				}
 			}
 		}
@@ -313,7 +326,7 @@ public class LevelControl : MonoBehaviour
 		b_isLevelComplete=complete;
 	}
 	
-	public void toggleTimer()
+	public void ToggleTimer()
 	{
 		b_showTimer=!b_showTimer;
 	}
@@ -375,7 +388,7 @@ public class LevelControl : MonoBehaviour
 			}
 			else
 			{
-				previousObjective=currentObjective;
+				//previousObjective=currentObjective;
 				currentObjective=objectiveText;
 				hintOverride=objectiveText;
 			}
