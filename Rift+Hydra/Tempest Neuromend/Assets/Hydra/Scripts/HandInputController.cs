@@ -59,12 +59,23 @@ namespace Tempest
 				return null;
 			}
 
+			public static ControllerManagerState CalibrationState
+			{
+				get { return m_controllerManagerState; }
+			}
+
+
 			/// <summary>
 			/// Returns true if the base for zero-based index i is connected.
 			/// </summary>
 			public static bool IsBaseConnected( int i )
 			{
 				return ( Plugin.sixenseIsBaseConnected( i ) != 0 );
+			}
+
+			public static void Calibrate()
+			{				
+				m_controllerManagerState = ControllerManagerState.BIND_CONTROLLER_ONE;
 			}
 			
 			/// <summary>
@@ -78,7 +89,6 @@ namespace Tempest
 					m_controllers[i] = new HandInput();
 				}
 			}
-
 			
 			/// <summary>
 			/// Update the static controller data once per frame.

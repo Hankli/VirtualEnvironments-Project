@@ -25,12 +25,14 @@ namespace Tempest
 				foreach ( Hand hand in m_hands )
 				{
 					//active controller and start button is pushed
-					if ( IsControllerActive( hand.Controller ) && hand.Controller.GetButtonDown( Buttons.START ) )
+					if ( IsControllerActive( hand.Controller ) &&
+					     HandInputController.CalibrationState == ControllerManagerState.NONE &&
+					     hand.Controller.GetButtonDown( Buttons.START ) )
 					{
 						bResetHandPosition = true;
 					}
 					
-					if ( m_bInitialized)
+					if ( m_bInitialized )
 					{
 						UpdateHandMotion( hand );
 					}
