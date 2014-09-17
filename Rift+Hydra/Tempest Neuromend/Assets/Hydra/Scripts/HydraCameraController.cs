@@ -109,8 +109,7 @@ namespace Tempest
 					float jx = inp.JoystickX;
 					float jy = inp.JoystickY;
 					
-					Vector3 move = Vector3.Scale(cc.transform.forward * jy + cc.transform.right * jx, m_moveForce);
-					move += transform.TransformDirection(m_constantMoveForce);
+					Vector3 move = Vector3.Scale(cc.transform.forward * jy + cc.transform.right * jx, m_moveForce) + m_constantMoveForce;
 
 					move.x *= Time.fixedDeltaTime;
 					move.z *= Time.fixedDeltaTime;

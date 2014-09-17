@@ -16,7 +16,7 @@ Platform assembly: C:\Users\user\Desktop\2013 Uni Work\313\Tempest Neuromend\Raz
 Loading C:\Users\user\Desktop\2013 Uni Work\313\Tempest Neuromend\RazorLevel_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\user\Desktop\2013 Uni Work\313\Tempest Neuromend\RazorLevel_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
 Loading C:\Users\user\Desktop\2013 Uni Work\313\Tempest Neuromend\RazorLevel_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
-- Completed reload, in  0.089 seconds
+- Completed reload, in  0.087 seconds
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1280x768 59Hz; virtual: 1280x768 at 0,0
@@ -25,10 +25,10 @@ The referenced script on this Behaviour is missing!
  
 (Filename:  Line: 1783)
 
-UnloadTime: 0.331837 ms
+UnloadTime: 0.360489 ms
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
 
 Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 823.
-Total: 2.444733 ms (FindLiveObjects: 0.308317 ms CreateObjectMapping: 0.035920 ms MarkObjects: 0.493051 ms  DeleteObjects: 0.040624 ms)
+Total: 0.818050 ms (FindLiveObjects: 0.050459 ms CreateObjectMapping: 0.014539 ms MarkObjects: 0.163353 ms  DeleteObjects: 0.015822 ms)
 
 Platform assembly: C:\Users\user\Desktop\2013 Uni Work\313\Tempest Neuromend\RazorLevel_Data\Managed\Boo.Lang.dll (this message is harmless)
