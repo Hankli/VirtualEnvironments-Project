@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Menu : MonoBehaviour 
 {
-	Color backgroundColour = new Color (0.2f, 0.2f, 0.2f);
+	Color backgroundColour = new Color (1.0f, 1.0f, 1.0f);
 	Color buttonColour = new Color (0.22f, 1.0f, 0.97f);
 	Color textColour = new Color (1.0f, 1.0f, 1.0f);
 
@@ -21,11 +21,10 @@ public class Menu : MonoBehaviour
 		screenHeight = Screen.height;
 		screenWidth = Screen.width;
 
-		buttonHeight = Screen.height * 0.1f;
+		buttonHeight = Screen.height * 0.05f;
 		buttonWidth = Screen.width * 0.2f;
 
 		Camera.main.backgroundColor = backgroundColour;
-
 		menuFunction = anyKey;
 	}
 
@@ -41,8 +40,9 @@ public class Menu : MonoBehaviour
 			menuFunction = mainMenu; //change the menu to main menu
 		}
 
+		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.45f, screenWidth * 0.1f, screenHeight * 0.1f), "Press any key to continue");
+		GUI.Label(new Rect(screenWidth * 0.35f, screenHeight * 0.3f, screenWidth * 0.3f, screenHeight * 0.1f), "Press any key to continue");
 
 	}
 
@@ -53,44 +53,38 @@ public class Menu : MonoBehaviour
 		{
 			Application.LoadLevel ("Way Finding");
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "CONTROLS"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
 		{
-			menuFunction = controls;
+			menuFunction = profile;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.5f, buttonWidth, buttonHeight), "SETTINGS"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS"))
 		{
 			menuFunction = settings;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.7f, buttonWidth, buttonHeight), "SCORES"))
-		{
-			menuFunction = scores;
-		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.7f, buttonWidth, buttonHeight), "ABOUT"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), "ABOUT"))
 		{
 			menuFunction = about;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.1f, buttonWidth, buttonHeight), "QUIT"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "QUIT"))
 		{
 			Application.Quit ();
 		}
 	}
 
-	void scores()
+	void profile()
 	{
+		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.45f, screenWidth * 0.1f, screenHeight * 0.1f), "*display scores here*");
-		
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
-		{
-			menuFunction = mainMenu;
-		}
-	}
-	void controls()
-	{
-		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.45f, screenWidth * 0.1f, screenHeight * 0.1f), "*insert controls here*");
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "LOAD"))
+		{
+			menuFunction = loadProfile;
+		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "SCORES"))
+		{
+			menuFunction = scores;
+		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = mainMenu;
 		}
@@ -98,25 +92,83 @@ public class Menu : MonoBehaviour
 
 	void settings()
 	{
+		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.45f, screenWidth * 0.1f, screenHeight * 0.1f), "*insert settings here*");
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "CONTROLS"))
+		{
+			menuFunction = controls;
+		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "AUDIO"))
+		{
+			menuFunction = audio;
+		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = mainMenu;
 		}
 	}
 
+	void audio()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display audio options here*");
+		
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		{
+			menuFunction = settings;
+		}
+	}
+	
 	void about()
 	{
+		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.45f, screenWidth * 0.1f, screenHeight * 0.1f), "*insert about here*");
-
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		GUI.Label(new Rect(screenWidth * 0.4f, screenHeight * 0.3f, screenWidth * 0.2f, screenHeight * 0.1f), "NEUROMEND\n\nBrought to you by TEMPEST");
+		
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = mainMenu;
 		}
 	}
+
+	void scores()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display scores here*");
+		
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		{
+			menuFunction = profile;
+		}
+	}
+
+	void controls()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*insert controls here*");
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		{
+			menuFunction = settings;
+		}
+	}
+	void loadProfile()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*List profiles to load*");
+		
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		{
+			menuFunction = profile;
+		}
+	}
+
+
 
 	// Update is called once per frame
 	void Update () 

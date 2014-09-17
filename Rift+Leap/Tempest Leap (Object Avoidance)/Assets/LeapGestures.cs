@@ -7,13 +7,13 @@ using Leap;
 public class LeapGestures : MonoBehaviour 
 {
 	float initialHeight;
-	float move = 20.0f;
+	float move = 100.0f;
 	float jump = 2.0f;
-
+	
 	bool b_swipeable=true;
 	float swipeStart=0.0f;
 	float timeCheck=0.0f;
-	float swipeDelay=1.0f;//time allowed between swipes
+	float swipeDelay=0.5f;//time allowed between swipes
 
 	Vector3 newPos;
 	private CharacterController control;
@@ -58,7 +58,7 @@ public class LeapGestures : MonoBehaviour
 	void FixedUpdate () 
 	{
 		timeCheck = Time.time;
-		if(timeCheck-swipeStart>=swipeDelay&&b_swipeable==false)
+		if(((timeCheck-swipeStart) >= swipeDelay) && (b_swipeable==false))
 		{
 			b_swipeable=true;
 		}
@@ -68,7 +68,7 @@ public class LeapGestures : MonoBehaviour
 
 		if (!hands.IsEmpty)
 		{
-			Debug.Log ("hands");
+			//Debug.Log ("hands");
 			Hand firstHand = currentFrame.Hands[0];
 			FingerList fingers = firstHand.Fingers;
 			
@@ -82,6 +82,7 @@ public class LeapGestures : MonoBehaviour
 					if(b_swipeable)
 					{
 						b_swipeable=false;
+
 						SwipeGesture swipe = new SwipeGesture(gst);
 						if (Math.Abs(swipe.Direction.x) > Math.Abs(swipe.Direction.z)) // Horizontal swipe
 						{
@@ -120,7 +121,7 @@ public class LeapGestures : MonoBehaviour
 		fingersCount = fingers.Count;
 		newPos = new Vector3(control.transform.position.x, control.transform.position.y, control.transform.position.z);
 		//newPos = new Vector3((control.transform.right.x), (control.transform.up.y), (control.transform.forward.z));
-		if (fingersCount == 5)
+		//if (fingersCount == 5)
 		{
 			switch (sd)
 			{
@@ -136,15 +137,17 @@ public class LeapGestures : MonoBehaviour
 				break;
 			case SwipeDirection.Up:
 				Debug.Log ("newPos.y = " + newPos.y);
-				newPos.y += initialHeight;
-				//newPos.y * jump; // * Time.deltaTime;
+				newPos.y += 1.1f;
 				Debug.Log ("newnewPos.y = " + newPos.y);
 				control.Move (newPos);
 				Debug.Log ("UP");
 				break;
 			case SwipeDirection.Down:
-				newPos.y += initialHeight;
-				control.Move (newPos);
+				//newPos.y += initialHeight * 0.5f;
+				//control.Move (newPos);
+				FPSCrouchRun crouchScript;
+				crouchScript=GetComponentInParent<FPSCrouchRun>();
+				crouchScript.LeapCrouch();
 				Debug.Log ("DOWN");
 				break;
 			}
