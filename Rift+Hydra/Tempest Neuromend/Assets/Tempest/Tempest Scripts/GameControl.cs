@@ -49,7 +49,7 @@ public class GameControl : MonoBehaviour
     }
     
     //returns object interaction score float value
-    public float getOIScore()
+    public float GetOIScore()
     {
 		return objectInteractionScore;
     }
@@ -66,7 +66,7 @@ public class GameControl : MonoBehaviour
     
     
     //returns object avoidance score float value
-    public float getOAScore()
+    public float GetOAScore()
     {
 		return objectAvoidanceScore;
     }
@@ -82,7 +82,7 @@ public class GameControl : MonoBehaviour
     }
     
     //returns way finding score float value
-    public float getWFScore()
+    public float GetWFScore()
     {
 		return wayFindingScore;
     }

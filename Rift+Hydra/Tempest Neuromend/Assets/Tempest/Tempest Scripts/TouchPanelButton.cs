@@ -45,7 +45,13 @@ public class TouchPanelButton : MonoBehaviour
 		renderer.material.color = buttonColour;
 	}
 	
-	public void onClick()
+	public void OnTriggerEnter()
+	{
+		OnClick();
+	}
+	
+	
+	public void OnClick()
 	{
 		if(b_canTouch)
 		{
@@ -67,7 +73,7 @@ public class TouchPanelButton : MonoBehaviour
 		}
 	}
 	
-	public void setbuttonID(int number)
+	public void SetbuttonID(int number)
 	{
 		buttonID=number;
 	}	

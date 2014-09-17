@@ -46,6 +46,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Hydra\Scripts\Constants.cs" />
+     <Compile Include="Assets\Hydra\Scripts\Hand.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HandInput.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HandInputController.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HandsMotionController.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HandsObjectPicker.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
+     <Compile Include="Assets\Hydra\Scripts\OptionsMenu.cs" />
+     <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
@@ -66,17 +76,6 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\HintTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\HoverPad.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\Constants.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\Hand.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandColliderSetup.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandInput.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandInputController.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandInteractor.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandsButtonController.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandsCameraController.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandsMotionController.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\HandsObjectPicker.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hydra\Scripts\Plugin.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\LevelControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Obstacle.cs" />
@@ -84,7 +83,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Throwable.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\ScoreScreen.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableObject.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableSpawner.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />

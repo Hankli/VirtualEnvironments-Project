@@ -38,7 +38,7 @@ public class TouchPanel : MonoBehaviour
 			if(child.GetComponent<TouchPanelButton>())
 			{
 				TouchPanelButton buttonScript = child.GetComponent<TouchPanelButton>();		
-				buttonScript.setbuttonID(a+1);
+				buttonScript.SetbuttonID(a+1);
 				a++;
 			}
 		}
