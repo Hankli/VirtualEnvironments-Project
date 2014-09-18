@@ -25,13 +25,13 @@ public class GameControl : MonoBehaviour
 	private PlaythroughType playthroughType;//type of playthrough
 	
 
-	private float objectInteractionScore = 0.0f;
+	public float objectInteractionScore = 0.0f;
 	private float objectInteractionCheckpoint = 0.0f;
 	
-	private float objectAvoidanceScore = 0.0f;
+	public float objectAvoidanceScore = 0.0f;
 	private float objectAvoidanceCheckpoint = 0.0f;
 	
-	private float wayFindingScore = 0.0f;
+	public float wayFindingScore = 0.0f;
 	private float wayFindingCheckpoint = 0.0f;
 
 
@@ -52,13 +52,6 @@ public class GameControl : MonoBehaviour
     private System.IO.StreamWriter fileWriter;
 
 
-    void Start()
-    {
-		OIPath = userID+"_OIScore.txt";
-		OAPath = userID+"_OAScore.txt";
-		WFPath = userID+"_WFScore.txt";
-    }
-    
     void Awake() 
     {
         DontDestroyOnLoad(transform.gameObject);
@@ -71,9 +64,17 @@ public class GameControl : MonoBehaviour
         */
     }
     
-    void Update()
+    void Start()
     {
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
     }
+    
+	void Update()
+	{
+		Screen.lockCursor=true;
+	}
     
     public void SetUserID(int number)
     {

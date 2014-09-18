@@ -34,8 +34,8 @@ public class LevelControl : MonoBehaviour
 	private bool b_showTimer = true;
 	private bool b_showObjective = true;
 	
-	private GameObject gameControl;
-	private GameControl gameControlScript;
+	private GameObject gameControl = null;
+	private GameControl gameControlScript = null;
 	
 	[Tooltip("The duration a hint will be displayed once triggered")]
 	public float hintDuration=5.0f;
@@ -80,6 +80,11 @@ public class LevelControl : MonoBehaviour
 	
 	private bool b_saved=false;
 
+	void Awake()
+	{
+		CountObjectives();
+	}
+	
 	void Start()
 	{
 		timer.normal.textColor=Color.white;
@@ -112,11 +117,6 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontSize=30;
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
-	}
-	
-	void Awake()
-	{
-		CountObjectives();
 	}
 	
 	void Update() 
@@ -250,6 +250,8 @@ public class LevelControl : MonoBehaviour
 	//display GUI (timer)
 	void OnGUI()
 	{
+	
+		//need to check whether player has oculus active...
 		GUI.Label(timerShadowPosition, timerText, timerShadow);
 		GUI.Label(timerPosition, timerText, timer);
 		GUI.Label(objectiveShadowPosition, currentObjective, objectiveShadow);
@@ -406,4 +408,18 @@ public class LevelControl : MonoBehaviour
 	{
 	}
 
+	public string GetTimerText()
+	{
+		return timerText;
+	}
+	
+	public string GetCountDownText()
+	{
+		return countdownText;
+	}
+	
+	public string GetObjectiveText()
+	{
+		return currentObjective;
+	}
 }

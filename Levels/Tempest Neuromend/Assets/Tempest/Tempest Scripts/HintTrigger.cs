@@ -3,22 +3,22 @@ using System.Collections;
 
 public class HintTrigger : MonoBehaviour 
 {
-	private GameObject levelControl;
-	private LevelControl levelControlScript;
+	private GameObject levelControl = null;
+	private LevelControl levelControlScript = null;
 	public string hintMessage="";
 	public bool b_allowedMultipleTriggers=false;
 	private bool b_hasTriggered=false;
 
-	void Start() 
-	{
-	}
-	
 	void Awake()
 	{
 		if(levelControl=GameObject.FindWithTag("Level"))
 		{
 			levelControlScript=levelControl.GetComponent<LevelControl>();
 		}	
+	}
+	
+	void Start() 
+	{
 	}
 	
 	void Update() 

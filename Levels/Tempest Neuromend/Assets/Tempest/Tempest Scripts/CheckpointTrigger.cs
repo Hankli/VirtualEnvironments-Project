@@ -9,9 +9,9 @@ public class CheckpointTrigger : MonoBehaviour
 	[Tooltip("The overall level completion percentage this checkpoint represents (may change to precentage value rather than overall percentage...)")]
 	public float checkpointValue = 0.0f;//level complete percentage set in unity editor
 	
-	private GameObject levelControl;
-	private GameObject gameControl;
-	private GameControl gameControlScript;
+	private GameObject levelControl = null;
+	private GameObject gameControl = null;
+	private GameControl gameControlScript = null;
 	private bool b_hasBeenTriggered=false;
 	
 		

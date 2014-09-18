@@ -15,24 +15,25 @@ public class TouchPanel : MonoBehaviour
 	private Texture2D[] numberTextures;
 	private Texture2D[] numberTexturesInactive;
 	
-	private GameObject levelControl;
-	private LevelControl levelControlScript;
+	private GameObject levelControl=null;
+	private LevelControl levelControlScript=null;
 	
-	private string objectiveText="Objective: Touch the numbers in the correct sequence";
+	private string objectiveText="Objective:\nTouch the numbers in the correct sequence";
 	private string objectiveTextUpdated="";
 	
 	private float vanishingHeight=-1.6f;
 	private bool b_destructionImminent=false;
-	public GameObject nextObjective;
-	
-	void Start()
-	{
-		maxSequence=numberOfSequences+1;
-		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
-	}
+	public GameObject nextObjective=null;
 	
 	void Awake() 
+	{
+		if(levelControl=GameObject.FindWithTag("Level"))
+		{
+			levelControlScript=levelControl.GetComponent<LevelControl>();
+		}	
+	}
+	
+	void Start()
 	{
 		a=0;
 		//set button IDs		
@@ -49,11 +50,14 @@ public class TouchPanel : MonoBehaviour
 		LoadTextures();
 		ResetSequence();
 		
-		if(levelControl=GameObject.FindWithTag("Level"))
+		if(levelControlScript!=null)
 		{
-			levelControlScript=levelControl.GetComponent<LevelControl>();
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
-		}	
+		}
+		
+		maxSequence=numberOfSequences+1;
+		objectiveTextUpdated=objectiveText;
+		objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
 	}
 	
 	void Update() 
@@ -101,7 +105,7 @@ public class TouchPanel : MonoBehaviour
 		sequenceCount++;
 		
 		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
+		objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
 		if(levelControlScript!=null)
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
 			
