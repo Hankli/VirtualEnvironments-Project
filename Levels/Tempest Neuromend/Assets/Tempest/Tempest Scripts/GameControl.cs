@@ -43,53 +43,20 @@ public class GameControl : MonoBehaviour
 	float wayFindingHighScore = 0.0f;
     */
 
-        //Paths to files for saving of scores.
-    private string OIpath = "";
-    private string OApath = "";
-    private string WFpath = "";
+		//Paths to files for saving of scores.
+	private string OIPath = "";
+	private string OAPath = "";
+	private string WFPath = "";
 
-        //Used for writing to files.
-    private System.IO.StreamWriter OIWriter;
-    private System.IO.StreamWriter OAWriter;
-    private System.IO.StreamWriter WFWriter;
+		//Used for writing to files.
+    private System.IO.StreamWriter fileWriter;
+
 
     void Start()
     {
-    
-		OIpath = userID+"_OIScore.txt";
-		OApath = userID+"_OAScore.txt";
-		WFpath = userID+"_WFScore.txt";
-    
-        //File initialisation.
-        if (System.IO.File.Exists(OIpath))
-        {
-            OIWriter = System.IO.File.AppendText(OIpath);
-        }//end of if.
-        else
-        {
-            OIWriter = System.IO.File.AppendText(OIpath);
-            OIWriter.WriteLine("UserID\tScore\tDate");
-        }//end of else.
-
-        if (System.IO.File.Exists(OApath))
-        {
-            OAWriter = System.IO.File.AppendText(OApath);
-        }//end of if.
-        else
-        {
-            OAWriter = System.IO.File.AppendText(OApath);
-            OAWriter.WriteLine("UserID\tScore\tDate");
-        }//end of else.
-
-        if (System.IO.File.Exists(WFpath))
-        {
-            WFWriter = System.IO.File.AppendText(WFpath);
-        }//end of if.
-        else
-        {
-            WFWriter = System.IO.File.AppendText(WFpath);
-            WFWriter.WriteLine("UserID\tScore\tDate");
-        }//end of else.
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
     }
     
     void Awake() 
@@ -111,9 +78,9 @@ public class GameControl : MonoBehaviour
     public void SetUserID(int number)
     {
 		userID=number;
-		OIpath = userID+"_OIScore.txt";
-		OApath = userID+"_OAScore.txt";
-		WFpath = userID+"_WFScore.txt";
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
     }
     
     //returns object interaction score float value
@@ -218,46 +185,57 @@ public class GameControl : MonoBehaviour
     {
 		return playthroughType;
     }
-    
-		//File IO...
-    public void SaveScore(int level)
-    {
+
+	public void SaveScore(int level)
+	{
         switch (level)
         {
             //Object Interaction.
             case 1:
-                OIWriter.WriteLine("{0}\t{1}\t{2} {3}",
+				ReadyFile(OIPath);
+                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
                                    userID,
                                    objectInteractionScore,
                                    System.DateTime.Now.ToShortDateString(),
                                    System.DateTime.Now.ToLongTimeString());
+				fileWriter.Close();
                 break;
 
             //Object Avoidance.
             case 2:
-                OAWriter.WriteLine("{0}\t{1}\t{2} {3}",
+				ReadyFile(OAPath);
+                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
                                    userID,
                                    objectAvoidanceScore,
                                    System.DateTime.Now.ToShortDateString(),
                                    System.DateTime.Now.ToLongTimeString());
+				fileWriter.Close();
                 break;
 
             //Way Finding.
             case 3:
-                WFWriter.WriteLine("{0}\t{1}\t{2} {3}",
+				ReadyFile(WFPath);
+                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
                                    userID,
                                    wayFindingScore,
                                    System.DateTime.Now.ToShortDateString(),
                                    System.DateTime.Now.ToLongTimeString());
+				fileWriter.Close();
                 break;
-        }//end of switch.
-    }//end of saveScore.
+        }
+	}
+	
+	private void ReadyFile(string pathName)
+	{
+        if (System.IO.File.Exists(pathName))
+        {
+            fileWriter = System.IO.File.AppendText(pathName);
+        }
+        else
+        {
+            fileWriter = System.IO.File.AppendText(pathName);
+            fileWriter.WriteLine("UserID\tScore\tDate");
+        }
+	}
 
-        //Close the file writers.
-    public void OnApplicationQuit()
-    {
-        OIWriter.Close();
-        OAWriter.Close();
-        WFWriter.Close();
-    }
 }
