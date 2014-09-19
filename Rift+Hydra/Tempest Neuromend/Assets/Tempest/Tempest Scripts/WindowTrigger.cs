@@ -12,11 +12,7 @@ public class WindowTrigger : MonoBehaviour
 	};
 
 	public WindowType windowType;
-	private ThrowingObjective objectiveScript;
-	
-	void Start() 
-	{
-	}
+	private ThrowingObjective objectiveScript=null;
 	
 	void Awake() 
 	{
@@ -24,6 +20,10 @@ public class WindowTrigger : MonoBehaviour
 		{
 			objectiveScript = transform.parent.GetComponent<ThrowingObjective>();
 		}
+	}
+	
+	void Start() 
+	{
 	}
 	
 	void Update() 

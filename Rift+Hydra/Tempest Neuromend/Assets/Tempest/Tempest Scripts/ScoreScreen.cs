@@ -18,8 +18,19 @@ public class ScoreScreen : MonoBehaviour
 	float scoresHeight;
 
 
-	GameObject gameControl;
-	GameControl gameControlScript;
+	GameObject gameControl=null;
+	GameControl gameControlScript=null;
+	
+	void Awake() 
+	{
+		if(gameControl=GameObject.FindWithTag("Game"))
+		{
+			gameControlScript=gameControl.GetComponent<GameControl>();
+			objectInteractionScore = gameControlScript.GetOIScore();
+			objectAvoidanceScore = gameControlScript.GetOAScore();
+			wayFindingScore = gameControlScript.GetWFScore();
+		}
+	}
 	
 	void Start() 
 	{
@@ -32,17 +43,6 @@ public class ScoreScreen : MonoBehaviour
 		scoresShadow.fontSize=20;
 		scoresShadow.alignment=TextAnchor.MiddleCenter;
 		scoresShadow.fontStyle=FontStyle.Bold;
-	}
-	
-	void Awake() 
-	{
-		if(gameControl=GameObject.FindWithTag("Game"))
-		{
-			gameControlScript=gameControl.GetComponent<GameControl>();
-			objectInteractionScore = gameControlScript.GetOIScore();
-			objectAvoidanceScore = gameControlScript.GetOAScore();
-			wayFindingScore = gameControlScript.GetWFScore();
-		}
 	}
 
 	void Update() 
@@ -69,5 +69,10 @@ public class ScoreScreen : MonoBehaviour
 			scoresPosition.Set(screenWidth/2.0f,scoresHeight,0,0);
 			scoresShadowPosition.Set(screenWidth/2.0f+2,scoresHeight+2,0,0);
 		}
+	}
+	
+	public string GetScoreText()
+	{
+		return scoresText;
 	}
 }

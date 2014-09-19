@@ -10,6 +10,6 @@ public class NeuromendOnceOnly : MonoBehaviour
 	
 	void Update() 
 	{
-		Application.LoadLevel("Object Interaction");
+		Application.LoadLevel("Main Menu");
 	}
 }

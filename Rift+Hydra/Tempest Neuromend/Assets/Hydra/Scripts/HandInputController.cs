@@ -72,11 +72,6 @@ namespace Tempest
 			{
 				return ( Plugin.sixenseIsBaseConnected( i ) != 0 );
 			}
-
-			public static void Calibrate()
-			{				
-				m_controllerManagerState = ControllerManagerState.BIND_CONTROLLER_ONE;
-			}
 			
 			/// <summary>
 			/// Initialize the sixense driver and allocate the controllers.

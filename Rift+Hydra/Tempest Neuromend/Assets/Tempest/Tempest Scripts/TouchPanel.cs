@@ -6,30 +6,34 @@ public class TouchPanel : MonoBehaviour
 	private int a=0;//misc counter
 	private int numButtons=0;//number of buttons... auto updated in start
 	private int errorCount = 0;//number of errors made (may not be used for score)
-	public int sequenceCount = 0;//current sequences
+	private int sequenceCount = 0;//current sequences
 	private int currentSequenceIndex = 0;//current index of current sequence
-	private int maxSequence = 6;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
+	private int maxSequence = 4;//(1 higher than actual maximum sequences) maybe should be higher? need to test...
+	[Tooltip("The number of sequences the player must complete to continue")]
+	public int numberOfSequences = 3;
 	private int[] theSequence;//the sequence (public for debug)
 	private Texture2D[] numberTextures;
 	private Texture2D[] numberTexturesInactive;
 	
-	private GameObject levelControl;
-	private LevelControl levelControlScript;
+	private GameObject levelControl=null;
+	private LevelControl levelControlScript=null;
 	
-	private string objectiveText="Objective: Touch the numbers in the correct sequence";
+	private string objectiveText="Objective:\nTouch the numbers in the correct sequence";
 	private string objectiveTextUpdated="";
 	
 	private float vanishingHeight=-1.6f;
 	private bool b_destructionImminent=false;
-	public GameObject nextObjective;
-	
-	void Start()
-	{
-		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
-	}
+	public GameObject nextObjective=null;
 	
 	void Awake() 
+	{
+		if(levelControl=GameObject.FindWithTag("Level"))
+		{
+			levelControlScript=levelControl.GetComponent<LevelControl>();
+		}	
+	}
+	
+	void Start()
 	{
 		a=0;
 		//set button IDs		
@@ -44,13 +48,16 @@ public class TouchPanel : MonoBehaviour
 		}
 		numButtons=a;	
 		LoadTextures();
-		resetSequence();
+		ResetSequence();
 		
-		if(levelControl=GameObject.FindWithTag("Level"))
+		if(levelControlScript!=null)
 		{
-			levelControlScript=levelControl.GetComponent<LevelControl>();
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
-		}	
+		}
+		
+		maxSequence=numberOfSequences+1;
+		objectiveTextUpdated=objectiveText;
+		objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
 	}
 	
 	void Update() 
@@ -93,12 +100,12 @@ public class TouchPanel : MonoBehaviour
 	}
 	
 	//increase sequence count, generate new button sequence
-	public void resetSequence()
+	public void ResetSequence()
 	{
 		sequenceCount++;
 		
 		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+=" (x"+(maxSequence-sequenceCount)+")";
+		objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
 		if(levelControlScript!=null)
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
 			
@@ -180,7 +187,7 @@ public class TouchPanel : MonoBehaviour
 		if(currentSequenceIndex>=theSequence.Length)
 		{
 			currentSequenceIndex=0;
-			resetSequence();
+			ResetSequence();
 		}
 	}
 	
@@ -218,7 +225,3 @@ public class TouchPanel : MonoBehaviour
 		buttonScript.SetTexture(GetNumberTextureInactive(currentSequenceIndex));
 	}
 }
-
-/*
-Tempest/Tempest Assets/Max/Materials/
-*/

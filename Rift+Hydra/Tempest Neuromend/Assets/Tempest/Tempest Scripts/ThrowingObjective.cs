@@ -4,7 +4,8 @@ using System.Collections;
 public class ThrowingObjective : MonoBehaviour 
 {
 
-	private int maxNumberOfGoals=8;
+	[Tooltip("The number of 'goals' the player must score to complete this objective")]
+	public int maxNumberOfGoals=5;
 	private int currentScore=0;
 	private int currentErrors=0;//not really used
 	private bool b_isActive=false;
@@ -12,20 +13,12 @@ public class ThrowingObjective : MonoBehaviour
 	//private Transform spawner;
 	//private ThrowableSpawner spawnerScript;
 
-	private GameObject levelControl;
-	private LevelControl levelControlScript;
+	private GameObject levelControl=null;
+	private LevelControl levelControlScript=null;
 
-
-	private string objectiveText="Objective: Pick up and throw the objects into thier corresponding windows";
+	private string objectiveText="Objective:\nPick up and throw the objects into thier corresponding windows";
 	private string objectiveTextUpdated="";
 
-
-	void Start() 
-	{
-		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+=" (x"+(maxNumberOfGoals-currentScore)+")";
-	}
-	
 	void Awake() 
 	{
 		//spawner =gameObject.transform.GetChild(0);//may need to change to... get child with name 'ObjectSpawner'
@@ -35,6 +28,12 @@ public class ThrowingObjective : MonoBehaviour
 		{
 			levelControlScript=levelControl.GetComponent<LevelControl>();
 		}	
+	}
+	
+	void Start() 
+	{
+		objectiveTextUpdated=objectiveText;
+		objectiveTextUpdated+="\n(x"+(maxNumberOfGoals-currentScore)+")";
 	}
 	
 	void Update() 
@@ -79,7 +78,7 @@ public class ThrowingObjective : MonoBehaviour
 		if(levelControlScript!=null)
 		{
 			objectiveTextUpdated=objectiveText;
-			objectiveTextUpdated+=" (x"+(maxNumberOfGoals-currentScore)+")";
+			objectiveTextUpdated+="\n(x"+(maxNumberOfGoals-currentScore)+")";
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated,true);
 		}
 	}

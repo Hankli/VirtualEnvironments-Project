@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿// NOTE: File I/O has been added in this class. 17/09/2014 Anopan
+//       All data will be saved in the Root Directory.
+using UnityEngine;
 using System.Collections;
 
 public class LevelControl : MonoBehaviour 
@@ -13,8 +15,10 @@ public class LevelControl : MonoBehaviour
 		WayFinding
 	};
 	
-	public LevelType levelType;//PUBLIC Set in editor... not used yet
-	public string nextLevelName="";//PUBLIC Set in editor
+	[Tooltip("Type of level...")]
+	public LevelType levelType;
+	[Tooltip("Name of the next scene to load after this level is complete (if any)")]
+	public string nextLevelName="";
 	
 	private int totalTimePassed=0;
 	private int timePassedSec=0;
@@ -22,17 +26,18 @@ public class LevelControl : MonoBehaviour
 	private int timePassedHr=0;
 	private string timePassedString="";
 	
-	public int levelObjectives=0;
-	public float levelCompletion=0.0f;//0-1 percentage
+	private int levelObjectives=0;
+	private float levelCompletion=0.0f;//0-1 percentage
 	private int objectivesCompleted=0;
 	
-	public bool b_isLevelComplete = false;
-	public bool b_showTimer = true;
-	public bool b_showObjective = true;
+	private bool b_isLevelComplete = false;
+	private bool b_showTimer = true;
+	private bool b_showObjective = true;
 	
-	private GameObject gameControl;
-	private GameControl gameControlScript;
+	private GameObject gameControl = null;
+	private GameControl gameControlScript = null;
 	
+	[Tooltip("The duration a hint will be displayed once triggered")]
 	public float hintDuration=5.0f;
 	
 	private float screenWidth=0.0f;
@@ -40,8 +45,8 @@ public class LevelControl : MonoBehaviour
 	
 	//current objective text...
 	Rect objectivePosition;
-	public string currentObjective="";
-	public string previousObjective="";
+	private string currentObjective="";
+	//private string previousObjective="";
 	public GUIStyle objective;
 	Rect objectiveShadowPosition;
 	public GUIStyle objectiveShadow;
@@ -70,7 +75,15 @@ public class LevelControl : MonoBehaviour
 	public GUIStyle countdownShadow;
 	float countdownHeight;
 
-	float loadCountdown = 5.0f;//for next level load
+	private float loadCountdown = 5.0f;//for next level load
+	//bool b_endingLevel=false;
+	
+	private bool b_saved=false;
+
+	void Awake()
+	{
+		CountObjectives();
+	}
 	
 	void Start()
 	{
@@ -106,89 +119,111 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontStyle=FontStyle.Bold;
 	}
 	
-	void Awake()
-	{
-		CountObjectives();
-	}
-	
 	void Update() 
 	{
 	
-		if(b_showTimer||b_showObjective||b_showHint)
+		if(levelType==LevelType.Video)
 		{
-			//get screen dimensions if changed, adjust text positions
+			//run video...
+			//load next level when done...
+			
+			
+			
 			AdjustGUI();
-		}
-
-		//display the timer if needed
-		if(b_showTimer)
-		{
-			//reset time string
-			timePassedString="";			
-			if(timePassedHr<=9)
-				timePassedString="0";				
-			timePassedString+=timePassedHr+":";			
-			if(timePassedMin<=9)
-				timePassedString+="0";				
-			timePassedString+=timePassedMin+":";			
-			if(timePassedSec<=9)
-				timePassedString+="0";				
-			timePassedString+=timePassedSec;
-			timerText=timePassedString;
-		}
-		else
-		{
 			timerText="";
-		}
-		
-		//display current objective...
-		if(b_showObjective)
-		{
+			timerText=nextLevelName+" Video Tutorial Screen";
+			EndLevel();
+			//b_endingLevel=true;
 		}
 		else
 		{
-			currentObjective="";
-		}		
-		//show hint...
-		if(b_showHint)
-		{
-			hintTimerB=Time.time;
-			
-			if((hintTimerB-hintTimerA)>hintDuration)
+			if(b_showTimer||b_showObjective||b_showHint)
 			{
-				b_showHint=false;
-				SetCurrentObjective(hintOverride);
+				//get screen dimensions if changed, adjust text positions
+				AdjustGUI();
 			}
-		}
-				
 
-
-		if(levelCompletion>=1.0f)
-		{
-			LevelComplete();
-		}
-		//if the level tasks are not done, keep counting time...
-		if(!b_isLevelComplete)
-		{
-			//get amount of time passed since level began
-			//may need to offset if there is a pause before start or anywhere in between
-			totalTimePassed=(int)Time.timeSinceLevelLoad;
-			
-			//format seconds into common time format...
-			//if it's been more than a minute...
-			if(totalTimePassed>=60)
+			//display the timer if needed
+			if(b_showTimer)
 			{
-				timePassedMin=totalTimePassed/60;
-				//if it's been more than an hour...
-				if(timePassedMin>=60)
+				//reset time string
+				timePassedString="";			
+				if(timePassedHr<=9)
+					timePassedString="0";				
+				timePassedString+=timePassedHr+":";			
+				if(timePassedMin<=9)
+					timePassedString+="0";				
+				timePassedString+=timePassedMin+":";			
+				if(timePassedSec<=9)
+					timePassedString+="0";				
+				timePassedString+=timePassedSec;
+				timerText=timePassedString;
+			}
+			else
+			{
+				timerText="";
+			}
+			
+			//display current objective...
+			if(b_showObjective)
+			{
+			}
+			else
+			{
+				currentObjective="";
+			}		
+			//show hint...
+			if(b_showHint)
+			{
+				hintTimerB=Time.time;
+				
+				if((hintTimerB-hintTimerA)>hintDuration)
 				{
-					timePassedHr=totalTimePassed/3600;
-					timePassedMin=timePassedMin%60;
+					b_showHint=false;
+					SetCurrentObjective(hintOverride);
 				}
 			}
-			timePassedSec=totalTimePassed%60;
+					
+
+
+			if(levelCompletion>=1.0f)
+			{
+				LevelComplete();
+			}
+			//if the level tasks are not done, keep counting time...
+			if(!b_isLevelComplete)
+			{
+				//get amount of time passed since level began
+				//may need to offset if there is a pause before start or anywhere in between
+				totalTimePassed=(int)Time.timeSinceLevelLoad;
+				
+				//format seconds into common time format...
+				//if it's been more than a minute...
+				if(totalTimePassed>=60)
+				{
+					timePassedMin=totalTimePassed/60;
+					//if it's been more than an hour...
+					if(timePassedMin>=60)
+					{
+						timePassedHr=totalTimePassed/3600;
+						timePassedMin=timePassedMin%60;
+					}
+				}
+				timePassedSec=totalTimePassed%60;
+			}
+			else
+			{
+				EndLevel();
+				//b_endingLevel=true;
+
+			} 
 		}
-		else EndLevel();
+		
+		if(levelType==LevelType.None)
+		{
+			EndLevel(true);
+			//b_endingLevel=true;
+		}
 	}
 	
 	//called during Start() to check the level for any gameObjects tagged as objectives
@@ -215,6 +250,8 @@ public class LevelControl : MonoBehaviour
 	//display GUI (timer)
 	void OnGUI()
 	{
+	
+		//need to check whether player has oculus active...
 		GUI.Label(timerShadowPosition, timerText, timerShadow);
 		GUI.Label(timerPosition, timerText, timer);
 		GUI.Label(objectiveShadowPosition, currentObjective, objectiveShadow);
@@ -223,41 +260,64 @@ public class LevelControl : MonoBehaviour
 		GUI.Label(countdownPosition, countdownText, countdown);
 	}
 	
-	void EndLevel()
+	void EndLevel(bool loadMenu=false)
 	{
 		if(gameControl=GameObject.FindWithTag("Game"))
 		{
 			gameControlScript=gameControl.GetComponent<GameControl>();
-			switch(levelType)
+			if(!b_saved)
 			{
-				case LevelType.ObjectInteraction:
-					gameControlScript.setOIScore(totalTimePassed);
-					break;				
-				case LevelType.ObjectAvoidance:
-					gameControlScript.setOAScore(totalTimePassed);				
-					break;
-				case LevelType.WayFinding:
-					gameControlScript.setWFScore(totalTimePassed);				
-					break;
-				/*
-				case LevelType.video:
-					
-					break;
-				*/
-			}
-			//need to have loadCountdown timer to signal going to next stage...		
-			if(nextLevelName!="")
-			{
-				loadCountdown-=Time.deltaTime;
-				
-				AdjustGUI();
-
-				countdownText="";
-				countdownText="Loading next level in: "+loadCountdown.ToString("F2")+"...";
-				
-				if(loadCountdown<=0.0f)
+				b_saved=true;
+				switch(levelType)
 				{
-					gameControlScript.loadNextLevel(nextLevelName);
+					case LevelType.ObjectInteraction:
+						gameControlScript.SetOIScore(totalTimePassed);
+						gameControlScript.SaveScore(1);//Save score to "OIScore.txt" file.
+						break;				
+					case LevelType.ObjectAvoidance:
+						gameControlScript.SetOAScore(totalTimePassed);				
+						gameControlScript.SaveScore(2);//Save score to "OAScore.txt" file.
+						break;
+					case LevelType.WayFinding:
+						gameControlScript.SetWFScore(totalTimePassed);				
+						gameControlScript.SaveScore(3);//Save score to "WFScore.txt" file.
+						break;
+						/*
+					case LevelType.Video:
+						
+						break;
+						*/
+				}
+			}
+			
+			loadCountdown-=Time.deltaTime;
+			
+			AdjustGUI();
+
+			if(loadCountdown<=0.0f)
+			{
+				loadCountdown=0.0f;
+			}
+			
+			countdownText="";
+			if(!loadMenu&&nextLevelName!="")
+			{
+				countdownText="Loading next level in: "+loadCountdown.ToString("F2")+"...";
+			}
+			else
+			{
+				countdownText="Loading main menu in: "+loadCountdown.ToString("F2")+"...";
+			}
+			
+			if(loadCountdown<=0.0f)
+			{
+				if(nextLevelName!="")
+				{
+					gameControlScript.LoadNextLevel(nextLevelName);
+				}
+				else
+				{
+					gameControlScript.LoadNextLevel("Main Menu");
 				}
 			}
 		}
@@ -268,7 +328,7 @@ public class LevelControl : MonoBehaviour
 		b_isLevelComplete=complete;
 	}
 	
-	public void toggleTimer()
+	public void ToggleTimer()
 	{
 		b_showTimer=!b_showTimer;
 	}
@@ -330,7 +390,7 @@ public class LevelControl : MonoBehaviour
 			}
 			else
 			{
-				previousObjective=currentObjective;
+				//previousObjective=currentObjective;
 				currentObjective=objectiveText;
 				hintOverride=objectiveText;
 			}
@@ -348,4 +408,18 @@ public class LevelControl : MonoBehaviour
 	{
 	}
 
+	public string GetTimerText()
+	{
+		return timerText;
+	}
+	
+	public string GetCountDownText()
+	{
+		return countdownText;
+	}
+	
+	public string GetObjectiveText()
+	{
+		return currentObjective;
+	}
 }

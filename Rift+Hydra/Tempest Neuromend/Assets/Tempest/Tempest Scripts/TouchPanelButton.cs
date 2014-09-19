@@ -9,18 +9,18 @@ public class TouchPanelButton : MonoBehaviour
 	private Color colour3=Color.red;
 	private Color buttonColour;
 	private float fade = 1.0f;
-	private TouchPanel panelScript;
+	private TouchPanel panelScript=null;
 	private bool b_correct=true;
 	private bool b_canTouch=true;
-	
-	void Start()
-	{
-		buttonColour=colour1;
-	}
-	
+		
 	void Awake() 
 	{
 		panelScript = transform.parent.GetComponent<TouchPanel>();
+	}
+
+	void Start()
+	{
+		buttonColour=colour1;
 	}
 	
 	void Update() 

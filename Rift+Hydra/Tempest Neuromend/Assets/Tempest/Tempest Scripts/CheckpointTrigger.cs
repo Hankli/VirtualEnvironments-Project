@@ -9,10 +9,10 @@ public class CheckpointTrigger : MonoBehaviour
 	[Tooltip("The overall level completion percentage this checkpoint represents (may change to precentage value rather than overall percentage...)")]
 	public float checkpointValue = 0.0f;//level complete percentage set in unity editor
 	
-	GameObject levelControl;
-	GameObject gameControl;
-	GameControl gameControlScript;
-	bool b_hasBeenTriggered=false;
+	private GameObject levelControl = null;
+	private GameObject gameControl = null;
+	private GameControl gameControlScript = null;
+	private bool b_hasBeenTriggered=false;
 	
 		
 	void Start() 
@@ -45,13 +45,13 @@ public class CheckpointTrigger : MonoBehaviour
 						switch(levelTag)
 						{
 							case "ObjectInteraction":
-								gameControlScript.setOICheckpoint(checkpointValue);
+								gameControlScript.SetOICheckpoint(checkpointValue);
 								break;				
 							case "ObjectAvoidance":
-								gameControlScript.setOACheckpoint(checkpointValue);				
+								gameControlScript.SetOACheckpoint(checkpointValue);				
 								break;
 							case "WayFinding":
-								gameControlScript.setWFCheckpoint(checkpointValue);				
+								gameControlScript.SetWFCheckpoint(checkpointValue);				
 								break;
 						}
 					}

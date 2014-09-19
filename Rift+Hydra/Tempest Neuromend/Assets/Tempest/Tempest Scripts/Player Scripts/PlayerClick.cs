@@ -6,7 +6,7 @@ public class PlayerClick : MonoBehaviour
 	private bool b_isHolding=false;
 	private Transform heldObject;
 	private float holdDistance=1.0f;
-
+	
 	void Start()
 	{
 	}
