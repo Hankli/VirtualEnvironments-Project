@@ -5,7 +5,7 @@ public class TempestVRMainMenu : VRGUI
 {
 	Color backgroundColour = new Color (1.0f, 1.0f, 1.0f);
 	Color buttonColour = new Color (0.22f, 1.0f, 0.97f);
-	Color textColour = new Color (1.0f, 1.0f, 1.0f);
+	//Color textColour = new Color (1.0f, 1.0f, 1.0f);
 
 	private delegate void MenuDelegate();
 	private MenuDelegate menuFunction;
@@ -111,7 +111,7 @@ public class TempestVRMainMenu : VRGUI
 		}
 	}
 
-	void audio()
+	new void audio()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;

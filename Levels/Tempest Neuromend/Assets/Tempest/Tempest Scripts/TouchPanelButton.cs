@@ -13,9 +13,16 @@ public class TouchPanelButton : MonoBehaviour
 	private bool b_correct=true;
 	private bool b_canTouch=true;
 		
+
+	private Shader shaderIllum = null;
+	private Shader shaderDiff = null;
+	
+		
 	void Awake() 
 	{
 		panelScript = transform.parent.GetComponent<TouchPanel>();
+		shaderIllum = Shader.Find("Self-Illumin/Diffuse");
+		shaderDiff = Shader.Find("Diffuse");
 	}
 
 	void Start()
@@ -78,11 +85,23 @@ public class TouchPanelButton : MonoBehaviour
 		buttonID=number;
 	}	
 	
-	public void SetTexture(Texture2D theTexture)
+	public void SetTexture(Texture2D theTexture, bool b_illuminated=true)
 	{
 		renderer.material.SetTexture("_MainTex", theTexture);
+		if(b_illuminated)
+		{
+			renderer.material.shader = shaderIllum;
+		}
+		else
+		{
+			renderer.material.shader = shaderDiff;
+		}
 	}
-	
+	/*
+	public void SetMaterial()
+	{
+	}
+	*/
 	public int GetID()
 	{
 		return buttonID;
