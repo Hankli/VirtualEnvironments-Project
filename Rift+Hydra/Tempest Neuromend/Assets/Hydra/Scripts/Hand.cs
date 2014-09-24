@@ -93,7 +93,7 @@ namespace Tempest
 				if( (isRight && m_controller.GetButtonDown(Buttons.ONE)) ||
 				   (isLeft && m_controller.GetButtonDown(Buttons.TWO)) )
 				{
-					m_animationFSM.SwitchLocal (new HandPointAnimationState());
+					//m_animationFSM.SwitchLocal (new HandPointAnimationState());
 				}
 
 				else if( (isRight && m_controller.GetButtonDown (Buttons.TWO)) ||

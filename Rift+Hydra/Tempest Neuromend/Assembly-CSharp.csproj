@@ -56,6 +56,7 @@
      <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
      <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
      <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
+     <Compile Include="Assets\Hydra\Scripts\SimpleController.cs" />
      <Compile Include="Assets\Hydra\Scripts\State.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
