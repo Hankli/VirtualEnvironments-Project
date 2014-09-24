@@ -1,0 +1,102 @@
+Initialize engine version: 4.5.2f1 (9abb1b59b47c)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
+    Vendor:   Intel
+    VRAM:     64 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\LeapCSharp.NET3.5.dll (this message is harmless)
+Loading D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\LeapCSharp.NET3.5.dll into Unity Child Domain
+- Completed reload, in  0.046 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1280x800 60Hz; virtual: 1280x800 at 0,0
+WARNING: Shader Unsupported: 'Hidden/Nature/Tree Creator Leaves Optimized' - Pass '' shader state not supported
+height = 2
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Platform assembly: D:\University\2014\ICT313\Unity\Tempest Leap (Prototype)\OA_Data\Managed\Boo.Lang.dll (this message is harmless)
+Right swipe
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+RIGHT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Left swpie
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+LEFT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Right swipe
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+RIGHT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Left swpie
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+LEFT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Left swpie
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+LEFT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Right swipe
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+RIGHT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Left swpie
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+LEFT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Left swpie
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+LEFT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Right swipe
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+RIGHT
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
