@@ -40,7 +40,7 @@ public class HoverPad : MonoBehaviour
 				}
 				else
 				{
-					motor.movement.gravity = 10.0f;//so, reset gravity on ground
+					motor.movement.gravity = 20.0f;//so, reset gravity on ground
 					motor.canControl = true;
 				}
 				//Debug.Log(motor.movement.gravity);
@@ -53,7 +53,7 @@ public class HoverPad : MonoBehaviour
 		CharacterMotor motor = other.GetComponent<CharacterMotor>();
 		if(motor)
 		{
-			motor.movement.gravity = 10.0f;
+			motor.movement.gravity = 20.0f;
 			motor.canControl = true;
 		}
     }

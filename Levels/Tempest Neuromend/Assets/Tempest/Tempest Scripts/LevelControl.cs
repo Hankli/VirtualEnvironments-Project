@@ -354,8 +354,10 @@ public class LevelControl : MonoBehaviour
 		}
 	}
 	
-	public void SetCurrentObjective(string objectiveText, bool choice=true ,bool hint=false)
+	public void SetCurrentObjective(string objectiveText, bool choice=true ,bool hint=false, float hintTime=5.0f)
 	{
+		hintDuration=hintTime;
+		
 		//should fade between previous objective to current objective first
 		
 		//if already showing hint

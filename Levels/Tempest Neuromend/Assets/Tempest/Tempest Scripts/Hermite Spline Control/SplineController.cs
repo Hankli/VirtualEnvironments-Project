@@ -39,7 +39,7 @@ public class SplineController : MonoBehaviour
 	// --------------------------------------------------------------------------------------------
 	// UNITY CALLBACKS
 	// --------------------------------------------------------------------------------------------
-
+	
 	void OnDrawGizmos()
 	{
 		//Debug.Log("drawing gizmos SplineController");
@@ -90,6 +90,14 @@ public class SplineController : MonoBehaviour
 	// --------------------------------------------------------------------------------------------
 	// PUBLIC METHODS
 	// --------------------------------------------------------------------------------------------
+
+	//Ary...
+	public void SetSplineInfo(GameObject splineRoot)
+	{
+		SplineRoot = splineRoot;
+		mSplineNodeInfo = GetSplineNodes();
+		//FollowSpline();
+	}
 	
 	/// <summary>
 	/// Disables the spline objects, we don't need them outside design-time.

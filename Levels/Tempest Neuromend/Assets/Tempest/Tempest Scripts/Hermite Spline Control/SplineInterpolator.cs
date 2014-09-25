@@ -315,7 +315,7 @@ public class SplineInterpolator : MonoBehaviour
 	
 	Vector3 GetHermiteInternal(int idxFirstPoint, float t)
 	{
-        //DebugUtils.Assert(idxFirstPoint > 0 && idxFirstPoint < mNodes.Count - 2);
+        DebugUtils.Assert(idxFirstPoint > 0 && idxFirstPoint < mNodes.Count - 2);
 			// the spline can be computed only from the second node up to the penultimate node!
 		if (idxFirstPoint == 0)
 			return mNodes[0].Point;
