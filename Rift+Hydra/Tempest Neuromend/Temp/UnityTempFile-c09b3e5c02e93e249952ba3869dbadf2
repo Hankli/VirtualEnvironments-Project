@@ -1,0 +1,116 @@
+-debug
+-target:library
+-nowarn:0169
+-out:Temp/Assembly-CSharp.dll
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll"
+-r:Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll
+-r:Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll"
+-define:UNITY_4_5_2
+-define:UNITY_4_5
+-define:UNITY_STANDALONE_WIN
+-define:ENABLE_MICROPHONE
+-define:ENABLE_TEXTUREID_MAP
+-define:ENABLE_UNITYEVENTS
+-define:ENABLE_NEW_HIERARCHY 
+-define:ENABLE_AUDIO_FMOD
+-define:UNITY_STANDALONE
+-define:ENABLE_MONO
+-define:ENABLE_TERRAIN
+-define:ENABLE_SUBSTANCE
+-define:ENABLE_GENERICS
+-define:INCLUDE_WP8SUPPORT
+-define:ENABLE_MOVIES
+-define:ENABLE_WWW
+-define:ENABLE_IMAGEEFFECTS
+-define:ENABLE_WEBCAM
+-define:INCLUDE_METROSUPPORT
+-define:RENDER_SOFTWARE_CURSOR
+-define:ENABLE_NETWORK
+-define:ENABLE_PHYSICS
+-define:ENABLE_CACHING
+-define:ENABLE_CLOTH
+-define:ENABLE_2D_PHYSICS
+-define:ENABLE_SHADOWS
+-define:ENABLE_AUDIO
+-define:ENABLE_NAVMESH_CARVING
+-define:ENABLE_DUCK_TYPING
+-define:ENABLE_SINGLE_INSTANCE_BUILD_SETTING
+-define:ENABLE_PROFILER
+-define:UNITY_EDITOR
+-define:UNITY_EDITOR_WIN
+-define:UNITY_TEAM_LICENSE
+-define:UNITY_PRO_LICENSE
+Assets/GameTemplate/Scripts/Frame.cs
+Assets/Hydra/Scripts/Constants.cs
+Assets/Hydra/Scripts/Hand.cs
+Assets/Hydra/Scripts/HandAnimationStates.cs
+Assets/Hydra/Scripts/HandInput.cs
+Assets/Hydra/Scripts/HandInputController.cs
+Assets/Hydra/Scripts/HandsMotionController.cs
+Assets/Hydra/Scripts/HandsObjectPicker.cs
+Assets/Hydra/Scripts/HydraCameraController.cs
+Assets/Hydra/Scripts/HydraCharacterController.cs
+Assets/Hydra/Scripts/OptionsMenu.cs
+Assets/Hydra/Scripts/Plugin.cs
+Assets/Hydra/Scripts/SimpleController.cs
+Assets/Hydra/Scripts/State.cs
+Assets/OVR/Scripts/OVRCamera.cs
+Assets/OVR/Scripts/OVRCameraController.cs
+Assets/OVR/Scripts/OVRCrosshair.cs
+Assets/OVR/Scripts/OVRDevice.cs
+Assets/OVR/Scripts/OVRGUI.cs
+Assets/OVR/Scripts/OVRGamepadController.cs
+Assets/OVR/Scripts/OVRGridCube.cs
+Assets/OVR/Scripts/OVRHmd.cs
+Assets/OVR/Scripts/OVRMainMenu.cs
+Assets/OVR/Scripts/OVRPlayerController.cs
+Assets/OVR/Scripts/OVRPresetManager.cs
+Assets/OVR/Scripts/OVRUGUI.cs
+Assets/OVR/Scripts/OVRUtils.cs
+Assets/OVR/Scripts/OVRVisionGuide.cs
+Assets/Scripts/Constants.cs
+Assets/Scripts/DummyPhys.cs
+Assets/Scripts/ExternalDeviceManager.cs
+Assets/Scripts/Hand.cs
+Assets/Scripts/HandInput.cs
+Assets/Scripts/HandInputController.cs
+Assets/Scripts/HandsCameraController.cs
+Assets/Scripts/HandsMotionController.cs
+Assets/Scripts/HandsObjectPicker.cs
+Assets/Scripts/Plugin.cs
+Assets/Tempest/GameTemplate/Scripts/Frame.cs
+"Assets/Tempest/Tempest Scripts/CheckpointTrigger.cs"
+"Assets/Tempest/Tempest Scripts/ExitControl.cs"
+"Assets/Tempest/Tempest Scripts/FPSCrouchRun.cs"
+"Assets/Tempest/Tempest Scripts/GameControl.cs"
+"Assets/Tempest/Tempest Scripts/Hermite Spline Control/DebugUtils.cs"
+"Assets/Tempest/Tempest Scripts/Hermite Spline Control/MathUtils.cs"
+"Assets/Tempest/Tempest Scripts/Hermite Spline Control/SplineController.cs"
+"Assets/Tempest/Tempest Scripts/Hermite Spline Control/SplineInterpolator.cs"
+"Assets/Tempest/Tempest Scripts/Hermite Spline Control/SplineNodeProperties.cs"
+"Assets/Tempest/Tempest Scripts/HintTrigger.cs"
+"Assets/Tempest/Tempest Scripts/HoverPad.cs"
+"Assets/Tempest/Tempest Scripts/LevelControl.cs"
+"Assets/Tempest/Tempest Scripts/Menu.cs"
+"Assets/Tempest/Tempest Scripts/NeuromendOnceOnly.cs"
+"Assets/Tempest/Tempest Scripts/Obstacle.cs"
+"Assets/Tempest/Tempest Scripts/Player Scripts/FPSCrouchRun.cs"
+"Assets/Tempest/Tempest Scripts/Player Scripts/PlayerClick.cs"
+"Assets/Tempest/Tempest Scripts/Player Scripts/PlayerOAControl.cs"
+"Assets/Tempest/Tempest Scripts/Player Scripts/Push.cs"
+"Assets/Tempest/Tempest Scripts/PlayerOAControl.cs"
+"Assets/Tempest/Tempest Scripts/Push.cs"
+"Assets/Tempest/Tempest Scripts/ScoreScreen.cs"
+"Assets/Tempest/Tempest Scripts/TempestVRGUI.cs"
+"Assets/Tempest/Tempest Scripts/TempestVRMainMenu.cs"
+"Assets/Tempest/Tempest Scripts/Throwable.cs"
+"Assets/Tempest/Tempest Scripts/ThrowableObject.cs"
+"Assets/Tempest/Tempest Scripts/ThrowableSpawner.cs"
+"Assets/Tempest/Tempest Scripts/ThrowingObjective.cs"
+"Assets/Tempest/Tempest Scripts/TouchPanel.cs"
+"Assets/Tempest/Tempest Scripts/TouchPanelButton.cs"
+"Assets/Tempest/Tempest Scripts/WindowTrigger.cs"
+Assets/VRGUI/Scripts/VRGUI.cs
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Mono\lib/mono/unity\System.Runtime.Serialization.dll"
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Mono\lib/mono/unity\System.Xml.Linq.dll"
