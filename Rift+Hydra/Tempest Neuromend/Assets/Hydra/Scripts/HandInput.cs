@@ -155,7 +155,7 @@ namespace Tempest
 
 				m_position.Set( cd.pos[0], cd.pos[1], cd.pos[2] );
 				m_rotation.Set( cd.rot_quat[0], cd.rot_quat[1], cd.rot_quat[2], cd.rot_quat[3] );
-
+		
 				if ( m_trigger > TriggerButtonThreshold )
 				{
 					m_buttons |= Buttons.TRIGGER;

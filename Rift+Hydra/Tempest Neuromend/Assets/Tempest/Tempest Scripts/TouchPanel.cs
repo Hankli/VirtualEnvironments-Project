@@ -202,11 +202,11 @@ public class TouchPanel : MonoBehaviour
 		numberTexturesInactive = new Texture2D[numButtons];
 		for(int i=0; i<numButtons; i++)
 		{
-			numberTextures[i]=Resources.Load<Texture2D>("TouchPanelButton0"+(i+1));
+			numberTextures[i]=Resources.Load<Texture2D>("TouchPanel/TouchPanelButton0"+(i+1));
 		}
 		for(int i=0; i<numButtons; i++)
 		{
-			numberTexturesInactive[i]=Resources.Load<Texture2D>("TouchPanelButtonInactive0"+(i+1));
+			numberTexturesInactive[i]=Resources.Load<Texture2D>("TouchPanel/TouchPanelButtonInactive0"+(i+1));
 		}
 	}
 	
@@ -222,6 +222,6 @@ public class TouchPanel : MonoBehaviour
 	
 	public void SetInactivetexture(TouchPanelButton buttonScript)
 	{
-		buttonScript.SetTexture(GetNumberTextureInactive(currentSequenceIndex));
+		buttonScript.SetTexture(GetNumberTextureInactive(currentSequenceIndex),false);
 	}
 }

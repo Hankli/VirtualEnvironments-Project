@@ -56,7 +56,6 @@
      <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
      <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
      <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
-     <Compile Include="Assets\Hydra\Scripts\SimpleController.cs" />
      <Compile Include="Assets\Hydra\Scripts\State.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
@@ -76,6 +75,11 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\DebugUtils.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\MathUtils.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineController.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineInterpolator.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineNodeProperties.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\HintTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\HoverPad.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\LevelControl.cs" />
@@ -96,7 +100,6 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
-     <None Include="Assets\Plugins\donotdelete.txt" />
      <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />

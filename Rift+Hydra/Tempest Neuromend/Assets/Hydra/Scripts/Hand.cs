@@ -87,21 +87,6 @@ namespace Tempest
 			// Updates the animated object from controller input.
 			private void UpdateHandAnimation()
 			{
-				bool isRight = (m_hands == Hands.RIGHT);
-				bool isLeft = (m_hands == Hands.LEFT);
-
-				if( (isRight && m_controller.GetButtonDown(Buttons.ONE)) ||
-				   (isLeft && m_controller.GetButtonDown(Buttons.TWO)) )
-				{
-					//m_animationFSM.SwitchLocal (new HandPointAnimationState());
-				}
-
-				else if( (isRight && m_controller.GetButtonDown (Buttons.TWO)) ||
-				         (isLeft && m_controller.GetButtonDown(Buttons.ONE)) )
-			    {
-					m_animationFSM.SwitchLocal (new HandClenchAnimationState());
-				}
-
 				m_animationFSM.Update (this);
 			}
 

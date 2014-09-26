@@ -2,8 +2,6 @@
 //       All data will be saved in the Root Directory.
 using UnityEngine;
 using System.Collections;
-using System.Xml;
-using System.Xml.Linq;
 
 public class GameControl : MonoBehaviour 
 {
@@ -46,9 +44,9 @@ public class GameControl : MonoBehaviour
     */
 
 		//Paths to files for saving of scores.
-	private string OIPath = null;
-	private string OAPath = null;
-	private string WFPath = null;
+	private string OIPath = "";
+	private string OAPath = "";
+	private string WFPath = "";
 
 		//Used for writing to files.
     private System.IO.StreamWriter fileWriter;
@@ -68,10 +66,10 @@ public class GameControl : MonoBehaviour
     
     void Start()
     {
-		OIPath = userID + "_OIScore.xml";
-		OAPath = userID + "_OAScore.xml";
-		WFPath = userID + "_WFScore.xml";
-	}
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
+    }
     
 	void Update()
 	{
@@ -80,13 +78,12 @@ public class GameControl : MonoBehaviour
     
     public void SetUserID(int number)
     {
-		userID = number;
-
-		OIPath = userID + "_OIScore.xml";
-		OAPath = userID + "_OAScore.xml";
-		WFPath = userID + "_WFScore.xml";
-	}
-	
+		userID=number;
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
+    }
+    
     //returns object interaction score float value
     public float GetOIScore()
     {
@@ -192,105 +189,6 @@ public class GameControl : MonoBehaviour
 
 	public void SaveScore(int level)
 	{
-		XmlWriterSettings setting = new XmlWriterSettings ();
-		setting.Indent = true;
-		XmlWriter writer;
-
-		//ready variables that relate to the level completion report
-		string path = null;
-		string activity = null;
-		string score = null;
-		string profileID = null;
-		string device = controllerType.ToString ();
-		string date = System.DateTime.Now.ToLongDateString ();
-
-		//all level specific data values are set below
-		switch(level)
-		{
-			case 1:
-			{
-				path = @OIPath;
-				activity = "Object Interaction";
-				score = objectInteractionScore.ToString();
-			}	
-			break;
-
-			case 2:
-			{
-				path = @OAPath;
-				activity = "Object Avoidance";
-				score = objectAvoidanceScore.ToString();
-			}
-			break;
-
-			case 3:
-			{
-				path = @WFPath;
-				activity = "Way Finding";
-				score = wayFindingScore.ToString();
-			}
-			break;
-		}
-
-		//get last position of separator between client ID and activity type
-		int idSection = path.LastIndexOf("_");
-	    profileID = path.Substring(0, idSection);
-	
-		//write all data to file
-		writer = XmlWriter.Create(path, setting);
-		writer.WriteStartDocument ();
-		writer.WriteStartElement ("Level Report");
-
-		writer.WriteElementString ("Profile ID", profileID);
-		writer.WriteElementString ("Device Type", device);
-		writer.WriteElementString ("Activity Type", activity);
-		writer.WriteElementString ("Completion Date", date);
-		writer.WriteElementString ("Completion Score", score.ToString());
-
-		writer.WriteEndElement();
-		writer.WriteEndDocument();
-
-		writer.Flush();
-		writer.Close();
-	}
-
-	public void WriteLevelReports()
-	{
-		const int TOTAL = 3;
-		XElement[] xelems = new XElement[TOTAL];
-
-		//try load all latest level data
-		xelems[0] = XElement.Load (@OAPath);
-		xelems[1] = XElement.Load (@OIPath);
-		xelems[2] = XElement.Load (@WFPath);
-
-		for(int i=0; i<TOTAL; i++)
-		{
-			if(xelems[i] != null)
-			{
-				foreach(XElement x in xelems[i].Elements("Level Report"))
-				{
-					string activityType = x.Element("Activity Type").Value;
-					string profileID = x.Element("Profile ID").Value;
-					string deviceType = x.Element ("Device Type").Value;
-					string score = x.Element("Completion Score").Value;
-
-					System.IFormatProvider format = new System.Globalization.CultureInfo("fr-FR", true);
-					System.DateTime date = System.DateTime.Parse(x.Element ("Completion Date").Value, format);
-					string sqlDate = date.Date.ToString("yyyy-MM-dd HH:mm:ss");
-
-
-					//write to db
-				}
-			}
-		}
-
-
-	}
-
-	/*
-	public void SaveScore(int level)
-	{
         switch (level)
         {
             //Object Interaction.
@@ -340,6 +238,5 @@ public class GameControl : MonoBehaviour
             fileWriter.WriteLine("UserID\tScore\tDate");
         }
 	}
-	*/
 
 }
