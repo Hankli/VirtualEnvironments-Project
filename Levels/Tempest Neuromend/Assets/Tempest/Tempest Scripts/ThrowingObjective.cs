@@ -6,20 +6,20 @@ public class ThrowingObjective : MonoBehaviour
 
 	[Tooltip("The number of 'goals' the player must score to complete this objective")]
 	public int maxNumberOfGoals=5;
-	private int currentScore=0;
-	private int currentErrors=0;//not really used
-	private bool b_isActive=false;
+	protected int currentScore=0;
+	protected int currentErrors=0;//not really used
+	protected bool b_isActive=false;
 	
 	//private Transform spawner;
 	//private ThrowableSpawner spawnerScript;
 
-	private GameObject levelControl=null;
-	private LevelControl levelControlScript=null;
+	protected GameObject levelControl=null;
+	protected LevelControl levelControlScript=null;
 
-	private string objectiveText="Objective:\nPick up and throw the objects into thier corresponding windows";
-	private string objectiveTextUpdated="";
+	protected string objectiveText="Objective:\nPick up and throw the objects into thier corresponding windows";
+	protected string objectiveTextUpdated="";
 
-	void Awake() 
+	public virtual void Awake() 
 	{
 		//spawner =gameObject.transform.GetChild(0);//may need to change to... get child with name 'ObjectSpawner'
 		//spawnerScript = spawner.GetComponent<ThrowableSpawner>();
@@ -30,13 +30,14 @@ public class ThrowingObjective : MonoBehaviour
 		}	
 	}
 	
-	void Start() 
+	public virtual void Start() 
 	{
 		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+="\n(x"+(maxNumberOfGoals-currentScore)+")";
+		//objectiveTextUpdated+="\n(x"+(maxNumberOfGoals-currentScore)+")";
+		objectiveTextUpdated+="\n("+currentScore+"/"+maxNumberOfGoals+")";
 	}
 	
-	void Update() 
+	public virtual void Update() 
 	{
 	}
 	
@@ -78,7 +79,8 @@ public class ThrowingObjective : MonoBehaviour
 		if(levelControlScript!=null)
 		{
 			objectiveTextUpdated=objectiveText;
-			objectiveTextUpdated+="\n(x"+(maxNumberOfGoals-currentScore)+")";
+			//objectiveTextUpdated+="\n(x"+(maxNumberOfGoals-currentScore)+")";
+			objectiveTextUpdated+="\n("+currentScore+"/"+maxNumberOfGoals+")";
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated,true);
 		}
 	}
