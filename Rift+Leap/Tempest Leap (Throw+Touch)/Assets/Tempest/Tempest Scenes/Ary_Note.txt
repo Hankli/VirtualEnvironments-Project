@@ -1,4 +1,0 @@
-Needs to be initial level loaded with 'Game Control object'... not to be loaded again or Game Control instance deleted if needed.
-
-
-0.77 unit sensitivity observed between trigger and player controller. May be different for devices + models
