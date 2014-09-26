@@ -23,7 +23,6 @@ public class GameControl : MonoBehaviour
 	
 	private ControllerType controllerType;
 	private PlaythroughType playthroughType;//type of playthrough
-	
 
 	public float objectInteractionScore = 0.0f;
 	private float objectInteractionCheckpoint = 0.0f;
@@ -51,6 +50,9 @@ public class GameControl : MonoBehaviour
 		//Used for writing to files.
     private System.IO.StreamWriter fileWriter;
 
+	
+	public bool b_paused=false;
+
 
     void Awake() 
     {
@@ -74,6 +76,12 @@ public class GameControl : MonoBehaviour
 	void Update()
 	{
 		Screen.lockCursor=true;
+		/*//test
+		if(Input.GetMouseButtonDown(1))
+		{
+			PauseGame();
+		}
+		*/
 	}
     
     public void SetUserID(int number)
@@ -239,4 +247,20 @@ public class GameControl : MonoBehaviour
         }
 	}
 
+	//still need to implement this properly...
+	//need to pause most player interaction
+	public void PauseGame()
+	{
+		if(!b_paused)
+		{
+			Time.timeScale = 0.0f;
+			b_paused = true;
+		}
+		else
+		{
+			Time.timeScale = 1.0f;
+			b_paused = false;
+		}
+ 	}
+	
 }
