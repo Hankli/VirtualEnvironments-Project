@@ -73,7 +73,7 @@ public class GameControl : MonoBehaviour
     
 	void Update()
 	{
-		Screen.lockCursor=true;
+		//Screen.lockCursor=true;
 	}
     
     public void SetUserID(int number)

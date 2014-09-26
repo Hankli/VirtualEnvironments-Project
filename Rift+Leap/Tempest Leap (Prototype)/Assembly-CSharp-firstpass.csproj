@@ -66,6 +66,7 @@
      <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\LeapMotion\OVR\OVRImageEffects\OVRLensCorrection_CA.shader" />
+     <None Include="Assets\313_DatabaseFiles\link.txt" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\LeapMotion\OVR\Shaders\OVRGUIShader.shader" />
@@ -76,6 +77,15 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\LeapMotion\Shaders\LeapUndistorted.shader" />
+ <Reference Include="MySql.Data">
+ <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/313_DatabaseFiles/MySql.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/313_DatabaseFiles/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/313_DatabaseFiles/System.Drawing.dll</HintPath>
+ </Reference>
  <Reference Include="LeapCSharp.NET3.5">
  <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
  </Reference>

@@ -6,18 +6,50 @@ public class LeapOculusMove : MonoBehaviour
 {
 	Controller m_leapController;
 	float speed;
+	float forwardSpeed;
+	float backwardSpeed;
+	float sensitivity;
 	float rotSpeed;
 	float stopping;
 	Vector3 newPos;
 	Vector3 newRot;
 	OVRDevice oculus;
+	bool twoHands;
 
 	private CharacterController control;
 	
+	private LeapControl variables = null;
+	private GameObject gameControlObject = null;
 	
+	void Awake()
+	{
+		if(gameControlObject = GameObject.FindGameObjectWithTag("Game"))
+		{
+			if(variables=gameControlObject.GetComponent<LeapControl>())
+			{
+				//bleh
+			}
+		}
+		
+	}
+
 	// Use this for initialization
 	void Start () 
 	{
+		forwardSpeed = 3.0f;
+		backwardSpeed = -2.0f;
+
+		//********variables changed in menu********//
+		twoHands = variables.GetTwoHands();//if two or 1 hands selected
+		sensitivity = variables.GetSensitivity();
+		Debug.Log ("sensitivity = " + sensitivity);
+		float OldRange = (10.0f - 0.0f);  
+		float NewRange = (3.5f - 2.5f);  
+		sensitivity = (((sensitivity - 0.0f) * NewRange) / OldRange) + 2.5f;
+		Debug.Log ("sensitivity = " + sensitivity);
+		//sensitivity = 2.9f; //sensitivity of the hand rotation. decrease for harder (2.5), increase for easier (3.1), ave 2.9.
+		//********variables changed in menu********//
+
 		speed = 2.0f;
 		rotSpeed = 0.5f;
 		control = transform.parent.GetComponent<CharacterController>();
@@ -95,48 +127,70 @@ public class LeapOculusMove : MonoBehaviour
 
 		newRot = transform.parent.localRotation.eulerAngles;
 
-		if (frame.Hands.Count == 1) 
+		if(twoHands)
 		{
-			//Vector handXBasis =  firstHand.PalmNormal.Cross(firstHand.Direction).Normalized;
-			float roll = firstHand.PalmNormal.Roll;
-			if((roll <= 2.9f) && (roll >= -2.9f))
-				newRot.y -= roll; // * distance from center.
-			transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
+			if (frame.Hands.Count == 1) 
+			{
+				//Vector handXBasis =  firstHand.PalmNormal.Cross(firstHand.Direction).Normalized;
+				float roll = firstHand.PalmNormal.Roll;
+				if((roll <= sensitivity) && (roll >= -sensitivity))
+					newRot.y -= roll; // * distance from center.
+				transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
+			}
+			else if (frame.Hands.Count >= 2)
+			{
+				stopping = 5.0f;//change for time it takes to stop after hands leave
+				Hand leftHand = GetLeftMostHand(frame);
+				Hand rightHand = GetRightMostHand(frame);
+
+				float rollLeft = leftHand.PalmNormal.Roll;
+				if((rollLeft <= sensitivity) && (rollLeft >= -sensitivity))
+					newRot.y -= rollLeft; // * distance from center.
+
+				transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
+
+				if ((isExtended (leftHand) > 3)&&(isExtended (rightHand) > 3))//if open hands
+				{
+					speed = forwardSpeed;
+				}
+				else if ((isExtended (leftHand) < 3)&&(isExtended (rightHand) < 3))//if closed fist
+				{
+					speed = backwardSpeed;
+				}
+
+				newPos = new Vector3((transform.parent.forward.x * speed), (transform.parent.forward.y * speed), (transform.parent.forward.z * speed));
+				control.SimpleMove (newPos);
+			}
+			else if(frame.Hands.Count == 0)
+			{
+				stopping--;
+				if(stopping==0.0f)
+				{
+					control.SimpleMove(newPos*0.0f);
+				}
+			}
 		}
-		else if (frame.Hands.Count >= 2)
+		else if(!twoHands)
 		{
-			stopping = 5.0f;//change for time it takes to stop after hands leave
-			Hand leftHand = GetLeftMostHand(frame);
-			Hand rightHand = GetRightMostHand(frame);
-
-			float rollLeft = leftHand.PalmNormal.Roll;
-			if((rollLeft <= 2.9f) && (rollLeft >= -2.9f))
-				newRot.y -= rollLeft; // * distance from center.
-
-			transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
-
-			if ((isExtended (leftHand) > 3)&&(isExtended (rightHand) > 3))//if open hands
+			if (frame.Hands.Count == 1) 
 			{
-				speed = 2.0f;
-			}
-			else if ((isExtended (leftHand) < 3)&&(isExtended (rightHand) < 3))//if closed fist
-			{
-				speed = -2.0f; //stop movement
-			}
+				float roll = firstHand.PalmNormal.Roll;
+				if((roll <= sensitivity) && (roll >= -sensitivity))
+					newRot.y -= roll;
+				transform.parent.localRotation = Quaternion.Slerp(transform.parent.localRotation, Quaternion.Euler(newRot), rotSpeed);
 
-			newPos = new Vector3((transform.parent.forward.x * speed), (transform.parent.forward.y * speed), (transform.parent.forward.z * speed));
-			control.SimpleMove (newPos);
-		}
-		else if(frame.Hands.Count == 0)
-		{
-			stopping--;
-			if(stopping==0.0f)
-			{
-				control.SimpleMove(newPos*0.0f);
+				if (isExtended (firstHand) > 3)//if open hands
+				{
+					speed = forwardSpeed;
+				}
+				else if (isExtended (firstHand) < 3)//if closed fist
+				{
+					speed = backwardSpeed;
+				}
+				
+				newPos = new Vector3((transform.parent.forward.x * speed), (transform.parent.forward.y * speed), (transform.parent.forward.z * speed));
+				control.SimpleMove (newPos);
 			}
 		}
-		//OVRDevice.ResetOrientation (0);
-
-		
 	}
 }
