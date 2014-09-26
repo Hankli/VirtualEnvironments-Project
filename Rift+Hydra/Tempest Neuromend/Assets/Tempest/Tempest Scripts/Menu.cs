@@ -5,7 +5,7 @@ public class Menu : MonoBehaviour
 {
 	Color backgroundColour = new Color (1.0f, 1.0f, 1.0f);
 	Color buttonColour = new Color (0.22f, 1.0f, 0.97f);
-	Color textColour = new Color (1.0f, 1.0f, 1.0f);
+	//Color textColour = new Color (1.0f, 1.0f, 1.0f);
 
 	private delegate void MenuDelegate();
 	private MenuDelegate menuFunction;
@@ -111,12 +111,12 @@ public class Menu : MonoBehaviour
 		}
 	}
 
-	void audio()
+	new void audio()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display audio options here*");
-		
+
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = settings;

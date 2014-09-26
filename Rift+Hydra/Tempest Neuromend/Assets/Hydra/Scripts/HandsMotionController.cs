@@ -9,8 +9,9 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			private float m_sensitivity = 0.001f; // Sixense units are in mm
-			
+			public float m_linearSensitivity = 0.001f; // Sixense units are in mm
+			public float m_angularSensitivity = 1.0f;
+
 			// Use this for initialization
 			protected void Start () 
 			{
@@ -64,7 +65,7 @@ namespace Tempest
 					Transform tr = hand.transform;
 					
 					//localPosition
-					Vector3 relPosToPar = (hand.Controller.Position - m_referencePoint) * m_sensitivity; 
+					Vector3 relPosToPar = (hand.Controller.Position - m_referencePoint) * m_linearSensitivity; 
 					
 					//localPosition to worldPosition
 					Vector3 desiredPos = tr.parent.TransformPoint(relPosToPar) ; 
@@ -78,12 +79,21 @@ namespace Tempest
 					//apply force in place of previous value
 					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
 
-
-
 					//handle rotational movement with torque
 					Quaternion relRotToPar = hand.Controller.Rotation * hand.ModelRotation; //localRotation
+
+					//amplify rotation 
+					float angle;
+					Vector3 axis;
+					relRotToPar.ToAngleAxis(out angle, out axis);
+					angle *= m_angularSensitivity;
+					relRotToPar = Quaternion.AngleAxis(angle, axis);
+
+					//get desired rotation
 					Quaternion desiredRot = tr.parent.rotation * relRotToPar;  //localRotation to worldRotation
-					
+
+
+
 					//calc axis of rotation between desired rotation's (xyz) axis and current rotation's (xyz) axis
 					Vector3 sCrossE_Z = Vector3.Cross (tr.forward, desiredRot * Vector3.forward);
 					Vector3 sCrossE_X = Vector3.Cross (tr.right, desiredRot * Vector3.right);

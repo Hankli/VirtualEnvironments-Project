@@ -187,6 +187,7 @@ namespace Tempest
 								    	m_controllers[i].GetButtonDown( Buttons.TRIGGER ) &&
 								    ( 	m_controllers[i].BoundedHand == Hands.UNKNOWN ) )
 									{
+							
 										m_controllers[i].HandBind = Hands.RIGHT;
 										Plugin.sixenseAutoEnableHemisphereTracking( i );
 										m_controllerManagerState = ControllerManagerState.NONE;
@@ -208,6 +209,7 @@ namespace Tempest
 			/// </summary>
 			private void OnGUI()
 			{
+			
 				if ( m_controllerManagerEnabled && ( m_controllerManagerState != ControllerManagerState.NONE ) )
 				{
 					GUIStyle style = new GUIStyle();

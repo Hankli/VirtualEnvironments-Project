@@ -28,7 +28,7 @@ namespace Tempest
 					SetYawLimitation();
 				}
 				
-				OVRDevice.ResetOrientation ();
+				//OVRDevice.ResetOrientation ();
 			}
 			
 			private void SetYawLimitation()

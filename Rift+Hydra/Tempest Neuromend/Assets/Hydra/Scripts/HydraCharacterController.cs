@@ -8,12 +8,12 @@ namespace Tempest
 		public class HydraCharacterController : MonoBehaviour
 		{
 			private CharacterController m_controller;
+			private CharacterMotor m_motor;
 
 			public Vector3 m_constantVelocity;
-			private Vector3 m_acceleration;
-			private Vector3 m_velocity;
 
-			public Vector3 m_walkForce;
+			public float m_walkSpeed;
+			public float m_strafeSpeed;
 			public float m_inputSensitivity = 1.0f;
 			
 			public Hands m_crouchHand;
@@ -24,29 +24,17 @@ namespace Tempest
 
 			public Hands m_jumpHand;
 			public Buttons m_jumpButton;
-			public float m_jumpForce;
+			public float m_jumpImpulse;
 			public float m_airDrag = 0.0f;
 
 			RaycastHit m_ceilingHit;
-			RaycastHit m_groundHit;
-			private bool m_grounded;
 			private bool m_ceiling;
-
-			public float m_gravity = 9.8f;
-
+			
 			private void Start()
 			{
+				m_motor = GetComponentInParent<CharacterMotor>();
 				m_controller = GetComponentInParent<CharacterController> ();
 				m_preCrouchHeight = m_controller.height;
-				m_acceleration = Vector3.zero;
-			}
-
-			private void CheckGrounded()
-			{
-				//check if ground below
-				m_grounded = Physics.Raycast(m_controller.transform.position, 
-				                               Vector3.down, out m_groundHit, m_controller.collider.bounds.extents.y + 0.1f,
-				                               ~(Physics.DefaultRaycastLayers << m_controller.gameObject.layer));
 			}
 		
 			private void CheckCeiling()
@@ -62,28 +50,28 @@ namespace Tempest
 
 			}
 
-			private void WalkBehaviour(HandInput inp)
+			private void MoveBehaviour(HandInput inp)
 			{
 				//get scale factor for movement
 				float jx = inp.JoystickX * m_inputSensitivity;
 				float jy = inp.JoystickY * m_inputSensitivity;
-				float dt = Time.deltaTime;
 				
 				//calculate velocity
-				Vector3 right = transform.right * jx * m_walkForce.x * dt;
-				Vector3 front = transform.forward * jy * m_walkForce.z * dt;		
+				Vector3 right = transform.right * jx * m_strafeSpeed;
+				Vector3 front = transform.forward * jy * m_walkSpeed;		
 				Vector3 force = right + front;
 
-				if(!m_grounded)
+				if(!m_motor.grounded)
 				{
 					force.x *= m_airDrag;
 					force.z *= m_airDrag;
 				}
 
 				//set velocity(except along y axis)
-				m_velocity.x = force.x;
-				m_velocity.z = force.z;
+				m_motor.movement.velocity.x = force.x + m_constantVelocity.x;
+				m_motor.movement.velocity.z = force.z + m_constantVelocity.z;
 			}
+
 
 			private void JumpBehaviour()
 			{
@@ -91,9 +79,14 @@ namespace Tempest
 			
 				if(input != null)
 				{
-					if(input.GetButtonDown(m_jumpButton) && m_grounded)
+					if(input.GetButtonDown(m_jumpButton) && m_motor.grounded)
 					{
-						m_acceleration.y = m_jumpForce;
+						m_motor.inputMoveDirection = new Vector3(0.0f, m_jumpImpulse, 0.0f);
+						m_motor.inputJump = true;
+					}
+					else
+					{
+						m_motor.inputJump = false;
 					}
 				}
 			}
@@ -104,7 +97,7 @@ namespace Tempest
 
 				if(input != null)
 				{
-					if(input.GetButton(m_crouchButton) && m_grounded)
+					if(input.GetButton(m_crouchButton) && m_motor.grounded)
 					{
 						//get to lowest crouch position while crouch button is down
 						float targetHeight = m_preCrouchHeight - m_crouchHeightChange;
@@ -124,42 +117,18 @@ namespace Tempest
 					}
 				}
 			}
-
-			private void Integrate()
-			{
-				float dt = Time.deltaTime;
-				m_velocity += m_acceleration * dt;
-				m_controller.Move (m_velocity + m_constantVelocity * dt);
-			}
-			
-			private void ApplyGravity()
-			{
-				if(!m_grounded)
-				{
-					m_acceleration.y -= m_gravity * Time.deltaTime;
-				}
-
-				else if(m_acceleration.y < 0.0f) //if grounded, acceleration that goes down gets clamped to zero
-				{
-					m_acceleration.y = 0.0f;
-				}
-			}
 			
 			private void FixedUpdate()
 			{
 				HandInput movementHI = HandInputController.GetController (Hands.LEFT);
 
-				CheckGrounded ();
 				CheckCeiling ();
 
 				if(movementHI != null)
 				{
 					CrouchBehaviour ();
 					JumpBehaviour ();
-					WalkBehaviour (movementHI);
-
-					ApplyGravity ();
-					Integrate();
+					MoveBehaviour (movementHI);
 				}
 			}
 
