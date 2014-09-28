@@ -8,7 +8,7 @@ namespace Tempest
 		{		
 			//movement and rotation related variables
 			public Vector3 m_rotateForce;
-			public float m_inputSensitivity = 1.0f;
+			public float m_cameraSensitivity = 1.0f;
 
 			//y axis related variables
 			private Quaternion m_leftYRotation;
@@ -42,7 +42,7 @@ namespace Tempest
 			{
 				if(inp != null)
 				{
-					float jx = inp.JoystickX * m_inputSensitivity;
+					float jx = inp.JoystickX * m_cameraSensitivity;
 					Quaternion rot = Quaternion.AngleAxis(m_rotateForce.y * jx, Vector3.up) * cc.transform.rotation;
 					
 					//if yaw limit is applied, then clamp rotation
@@ -73,7 +73,7 @@ namespace Tempest
 				//update pitch of camera and always restrict to 89-90 degree pitch
 				if(inp != null)
 				{
-					float jy = inp.JoystickY * m_inputSensitivity;
+					float jy = inp.JoystickY * m_cameraSensitivity;
 					
 					Quaternion xQuat;
 					Camera cam = transform.parent.GetComponentInChildren<Camera>();

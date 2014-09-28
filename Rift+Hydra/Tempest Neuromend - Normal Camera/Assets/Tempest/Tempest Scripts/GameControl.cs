@@ -2,6 +2,7 @@
 //       All data will be saved in the Root Directory.
 using UnityEngine;
 using System.Collections;
+using System.Xml;
 
 public class GameControl : MonoBehaviour 
 {
@@ -12,7 +13,8 @@ public class GameControl : MonoBehaviour
 		OculusHydra,
 		OculusKinect
 	};
-	
+
+
 	public enum PlaythroughType
 	{	
 		NewGame,//full playthrough from beginning
@@ -20,7 +22,7 @@ public class GameControl : MonoBehaviour
 		SingleLevel,//select single level to play
 		LoadSingle//continue previously saved single level
 	};
-	
+
 	private ControllerType controllerType;
 	private PlaythroughType playthroughType;//type of playthrough
 	
@@ -48,9 +50,6 @@ public class GameControl : MonoBehaviour
 	private string OAPath = "";
 	private string WFPath = "";
 
-		//Used for writing to files.
-    private System.IO.StreamWriter fileWriter;
-
 
     void Awake() 
     {
@@ -66,22 +65,22 @@ public class GameControl : MonoBehaviour
     
     void Start()
     {
-		OIPath = userID+"_OIScore.txt";
-		OAPath = userID+"_OAScore.txt";
-		WFPath = userID+"_WFScore.txt";
+		OIPath = userID+"_OIScore.xml";
+		OAPath = userID+"_OAScore.xml";
+		WFPath = userID+"_WFScore.xml";
     }
     
 	void Update()
 	{
-		Screen.lockCursor=true;
+		//Screen.lockCursor=true;
 	}
     
     public void SetUserID(int number)
     {
 		userID=number;
-		OIPath = userID+"_OIScore.txt";
-		OAPath = userID+"_OAScore.txt";
-		WFPath = userID+"_WFScore.txt";
+		OIPath = userID+"_OIScore.xml";
+		OAPath = userID+"_OAScore.xml";
+		WFPath = userID+"_WFScore.xml";
     }
     
     //returns object interaction score float value
@@ -176,7 +175,7 @@ public class GameControl : MonoBehaviour
     {
 		return controllerType;
     }
-    
+
     public void SetPlaythroughType(PlaythroughType type)
     {
 		playthroughType=type;
@@ -185,58 +184,33 @@ public class GameControl : MonoBehaviour
     public PlaythroughType GetPlaythroughType()
     {
 		return playthroughType;
-    }
-
-	public void SaveScore(int level)
-	{
-        switch (level)
-        {
-            //Object Interaction.
-            case 1:
-				ReadyFile(OIPath);
-                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
-                                   userID,
-                                   objectInteractionScore,
-                                   System.DateTime.Now.ToShortDateString(),
-                                   System.DateTime.Now.ToLongTimeString());
-				fileWriter.Close();
-                break;
-
-            //Object Avoidance.
-            case 2:
-				ReadyFile(OAPath);
-                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
-                                   userID,
-                                   objectAvoidanceScore,
-                                   System.DateTime.Now.ToShortDateString(),
-                                   System.DateTime.Now.ToLongTimeString());
-				fileWriter.Close();
-                break;
-
-            //Way Finding.
-            case 3:
-				ReadyFile(WFPath);
-                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
-                                   userID,
-                                   wayFindingScore,
-                                   System.DateTime.Now.ToShortDateString(),
-                                   System.DateTime.Now.ToLongTimeString());
-				fileWriter.Close();
-                break;
-        }
 	}
-	
-	private void ReadyFile(string pathName)
+
+	public void SaveScore(LevelControl.LevelType levelType)
 	{
-        if (System.IO.File.Exists(pathName))
-        {
-            fileWriter = System.IO.File.AppendText(pathName);
-        }
-        else
-        {
-            fileWriter = System.IO.File.AppendText(pathName);
-            fileWriter.WriteLine("UserID\tScore\tDate");
-        }
+		XmlWriterSettings settings = new XmlWriterSettings();
+		settings.Indent = true;
+		XmlWriter writer = null;
+
+		switch(levelType)
+		{
+			case LevelControl.LevelType.ObjectAvoidance: writer = XmlWriter.Create(@OAPath, settings); break;
+			case LevelControl.LevelType.ObjectInteraction: writer = XmlWriter.Create(@OIPath, settings); break;
+			case LevelControl.LevelType.WayFinding: writer = XmlWriter.Create(@WFPath, settings); break;
+		}
+
+		writer.WriteStartDocument ();
+		writer.WriteStartElement("Level Summary");
+		writer.WriteElementString("Username", userID.ToString());
+		writer.WriteElementString("Level", levelType.ToString());
+		writer.WriteElementString("Controller", controllerType.ToString());
+		writer.WriteElementString("Score", objectInteractionScore.ToString());
+		writer.WriteElementString("Timestamp", System.DateTime.Now.ToLongDateString());
+		writer.WriteEndElement();
+		writer.WriteEndDocument();
+	
+		writer.Flush ();
+		writer.Close ();
 	}
 
 }

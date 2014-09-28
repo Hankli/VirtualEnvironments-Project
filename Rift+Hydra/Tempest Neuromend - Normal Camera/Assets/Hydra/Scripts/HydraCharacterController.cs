@@ -14,7 +14,7 @@ namespace Tempest
 
 			public float m_walkSpeed;
 			public float m_strafeSpeed;
-			public float m_inputSensitivity = 1.0f;
+			public float m_moveSensitivity = 1.0f;
 			
 			public Hands m_crouchHand;
 			public Buttons m_crouchButton;
@@ -53,9 +53,9 @@ namespace Tempest
 			private void MoveBehaviour(HandInput inp)
 			{
 				//get scale factor for movement
-				float jx = inp.JoystickX * m_inputSensitivity;
-				float jy = inp.JoystickY * m_inputSensitivity;
-				
+				float jx = inp.JoystickX * m_moveSensitivity;
+				float jy = inp.JoystickY * m_moveSensitivity;
+			
 				//calculate velocity
 				Vector3 right = transform.right * jx * m_strafeSpeed;
 				Vector3 front = transform.forward * jy * m_walkSpeed;		

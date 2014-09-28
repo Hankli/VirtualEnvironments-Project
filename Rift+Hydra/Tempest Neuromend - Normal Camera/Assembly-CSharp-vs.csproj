@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{36840712-C6E0-28C5-B256-18E0C38EFA28}</ProjectGuid>
+	<ProjectGuid>{14877E15-1806-19A1-9B28-FEF6C3D7A42D}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -55,6 +55,7 @@
      <Compile Include="Assets\Hydra\Scripts\HandsObjectPicker.cs" />
      <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
      <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
+     <Compile Include="Assets\Hydra\Scripts\HydraControl.cs" />
      <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
      <Compile Include="Assets\Hydra\Scripts\State.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
@@ -110,12 +111,12 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
-      <Project>{482C229A-5BBF-CDA6-9EEC-355EE6F98174}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
+      <Project>{5B46F153-8B01-F552-3F29-8F54EBB508CD}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -272,15 +272,17 @@ public class LevelControl : MonoBehaviour
 				{
 					case LevelType.ObjectInteraction:
 						gameControlScript.SetOIScore(totalTimePassed);
-						gameControlScript.SaveScore(1);//Save score to "OIScore.txt" file.
-						break;				
+						gameControlScript.SaveScore(levelType);//Save score to "OIScore.xml" file.
+						break;		
+
 					case LevelType.ObjectAvoidance:
 						gameControlScript.SetOAScore(totalTimePassed);				
-						gameControlScript.SaveScore(2);//Save score to "OAScore.txt" file.
+						gameControlScript.SaveScore(levelType);//Save score to "OAScore.xml" file.
 						break;
+
 					case LevelType.WayFinding:
 						gameControlScript.SetWFScore(totalTimePassed);				
-						gameControlScript.SaveScore(3);//Save score to "WFScore.txt" file.
+						gameControlScript.SaveScore(levelType);//Save score to "WFScore.xml" file.
 						break;
 						/*
 					case LevelType.Video:
