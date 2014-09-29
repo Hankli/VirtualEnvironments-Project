@@ -7,6 +7,7 @@ public class PlayerOAControl : MonoBehaviour
 	CharacterController control;
 	CharacterMotor motor;
 	public float speed = 3.0f;
+	private bool b_notOver=true;
 	
 	void Start() 
 	{
@@ -21,9 +22,16 @@ public class PlayerOAControl : MonoBehaviour
 		
 		translationAll = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 1.0f);//1.0f is constant 'forward' movement
 		translationAll = transform.TransformDirection(translationAll);//direction from world to local
-		control.SimpleMove(translationAll*speed);
+		if(b_notOver)
+		{
+			control.SimpleMove(translationAll*speed);
+		}
 		
 	}
 	
+	public void ReachedEndZone()
+	{	
+		b_notOver=false;
+	}
 	
 }

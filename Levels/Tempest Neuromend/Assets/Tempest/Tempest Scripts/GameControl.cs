@@ -2,6 +2,7 @@
 //       All data will be saved in the Root Directory.
 using UnityEngine;
 using System.Collections;
+using System.Xml;
 
 public class GameControl : MonoBehaviour 
 {
@@ -68,14 +69,20 @@ public class GameControl : MonoBehaviour
     
     void Start()
     {
+    
+		/*
 		OIPath = userID+"_OIScore.txt";
 		OAPath = userID+"_OAScore.txt";
 		WFPath = userID+"_WFScore.txt";
+		*/
+		OIPath = userID+"_OIScore.xml";
+		OAPath = userID+"_OAScore.xml";
+		WFPath = userID+"_WFScore.xml";
     }
     
 	void Update()
 	{
-		Screen.lockCursor=true;
+		//Screen.lockCursor=true;
 		/*//test
 		if(Input.GetMouseButtonDown(1))
 		{
@@ -87,9 +94,15 @@ public class GameControl : MonoBehaviour
     public void SetUserID(int number)
     {
 		userID=number;
+		OIPath = userID+"_OIScore.xml";
+		OAPath = userID+"_OAScore.xml";
+		WFPath = userID+"_WFScore.xml";
+		/*
+		userID=number;
 		OIPath = userID+"_OIScore.txt";
 		OAPath = userID+"_OAScore.txt";
 		WFPath = userID+"_WFScore.txt";
+		*/
     }
     
     //returns object interaction score float value
@@ -195,6 +208,36 @@ public class GameControl : MonoBehaviour
 		return playthroughType;
     }
 
+
+
+	public void SaveScore(LevelControl.LevelType levelType)
+	{
+		XmlWriterSettings settings = new XmlWriterSettings();
+		settings.Indent = true;
+		XmlWriter writer = null;
+
+		switch(levelType)
+		{
+			case LevelControl.LevelType.ObjectAvoidance: writer = XmlWriter.Create(@OAPath, settings); break;
+			case LevelControl.LevelType.ObjectInteraction: writer = XmlWriter.Create(@OIPath, settings); break;
+			case LevelControl.LevelType.WayFinding: writer = XmlWriter.Create(@WFPath, settings); break;
+		}
+
+		writer.WriteStartDocument ();
+		writer.WriteStartElement("Level Summary");
+		writer.WriteElementString("Username", userID.ToString());
+		writer.WriteElementString("Level", levelType.ToString());
+		writer.WriteElementString("Controller", controllerType.ToString());
+		writer.WriteElementString("Score", objectInteractionScore.ToString());
+		writer.WriteElementString("Timestamp", System.DateTime.Now.ToLongDateString());
+		writer.WriteEndElement();
+		writer.WriteEndDocument();
+	
+		writer.Flush ();
+		writer.Close ();
+	}
+
+/*
 	public void SaveScore(int level)
 	{
         switch (level)
@@ -233,7 +276,7 @@ public class GameControl : MonoBehaviour
                 break;
         }
 	}
-	
+	*/
 	private void ReadyFile(string pathName)
 	{
         if (System.IO.File.Exists(pathName))
