@@ -6,7 +6,6 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-
 		public class HandsObjectPicker : MonoBehaviour
 		{
 			class JointBreakEventPasser : MonoBehaviour
@@ -25,9 +24,8 @@ namespace Tempest
 
 			private float m_pullReach = 0.5f;
 			private float m_pullRadius = 0.08f;
-
-			public float m_gripSensitivity = 1.0f;
-			public float m_throwSensitivity = 1.0f;
+		
+			private float m_throwSensitivity = 1.0f;
 
 			private float m_gripTriggerValue = 0.2f;
 			private float m_gripMaxTriggerValue = 0.8f;
@@ -39,6 +37,12 @@ namespace Tempest
 
 			private int m_connectedLayerMask;
 	
+			public float ThrowSensitivity
+			{
+				get { return m_throwSensitivity; }
+				set { m_throwSensitivity = value; }
+			}
+
 			private void Start()
 			{
 				m_hand = GetComponentInParent<Hand> ();
@@ -79,8 +83,8 @@ namespace Tempest
 
 			private void UpdateConnections()
 			{
-				m_gripConstraint.breakForce = (m_hand.TriggerValue * m_gripSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime;
-				m_gripConstraint.breakTorque = (m_hand.TriggerValue * m_gripSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime; 
+				m_gripConstraint.breakForce = (m_hand.TriggerValue * m_hand.TriggerSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime;
+				m_gripConstraint.breakTorque = (m_hand.TriggerValue * m_hand.TriggerSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime; 
 			}
 
 			private void PickupScan()

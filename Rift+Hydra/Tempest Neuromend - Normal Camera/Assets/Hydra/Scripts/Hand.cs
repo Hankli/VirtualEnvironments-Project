@@ -57,6 +57,7 @@ namespace Tempest
 
 			public float TriggerSensitivity
 			{
+				set { m_triggerSensitivity = value; }
 				get { return m_triggerSensitivity; }
 			}
 

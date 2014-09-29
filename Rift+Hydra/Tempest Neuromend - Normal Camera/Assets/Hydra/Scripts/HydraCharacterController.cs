@@ -4,7 +4,6 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-		[RequireComponent(typeof(CharacterController))]
 		public class HydraCharacterController : MonoBehaviour
 		{
 			private CharacterController m_controller;
@@ -14,7 +13,7 @@ namespace Tempest
 
 			public float m_walkSpeed;
 			public float m_strafeSpeed;
-			public float m_moveSensitivity = 1.0f;
+			private float m_moveSensitivity = 1.0f;
 			
 			public Hands m_crouchHand;
 			public Buttons m_crouchButton;
@@ -29,6 +28,12 @@ namespace Tempest
 
 			RaycastHit m_ceilingHit;
 			private bool m_ceiling;
+
+			public float MoveSensitivity
+			{
+				get { return m_moveSensitivity; }
+				set { m_moveSensitivity = value; }
+			}
 			
 			private void Start()
 			{

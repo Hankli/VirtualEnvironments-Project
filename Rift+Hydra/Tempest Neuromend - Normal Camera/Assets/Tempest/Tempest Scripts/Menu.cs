@@ -17,17 +17,12 @@ public class Menu : MonoBehaviour
 
 	private GameObject gameControlObject = null;
 
-	private Tempest.RazorHydra.HydraControl m_control = new Tempest.RazorHydra.HydraControl();
-	
 	bool sound;
 	float volume;
 
 	void Awake()
 	{
-		if(gameControlObject = GameObject.FindGameObjectWithTag("Game"))
-		{
-		
-		}
+		gameControlObject = GameObject.FindGameObjectWithTag ("Game");
 	}
 	// Use this for initialization
 	void Start () 
@@ -89,23 +84,27 @@ public class Menu : MonoBehaviour
 		GUILayout.EndArea ();
 		GUI.color = colorState;
 
+
+		GameObject hydraControlObject = GameObject.Find ("Hydra Control");
+		Tempest.RazorHydra.HydraControl hydraControl = hydraControlObject.GetComponent<Tempest.RazorHydra.HydraControl> ();
+
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight * 2.0f),
-		                  "Character Move Sensitivity", 1, 5, ref m_control.m_characterMoveSensitivity);
+		                  "Character Move Sensitivity", 1, 5, ref hydraControl.m_characterMoveSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight * 2.0f),
-		                  "Camera Rotate Sensitivity", 1, 5, ref m_control.m_cameraRotateSensitivity);
+		                  "Camera Rotate Sensitivity", 1, 5, ref hydraControl.m_cameraRotateSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Grip Sensitivity", 1, 5, ref m_control.m_grippingSensitivity);
+		                  "Trigger Sensitivity", 1, 5, ref hydraControl.m_triggerSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Throw Sensitivity", 1, 5, ref m_control.m_throwingSensitivity);
+		                  "Throw Sensitivity", 1, 5, ref hydraControl.m_throwingSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.5f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Hand Move Sensitivity", 1, 5, ref m_control.m_handMoveSensitivity);
+		                  "Hand Move Sensitivity", 1, 5, ref hydraControl.m_handMoveSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.6f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Hand Rotate Sensitivity", 1, 5, ref m_control.m_handRotateSensitivity);
+		                  "Hand Rotate Sensitivity", 1, 5, ref hydraControl.m_handRotateSensitivity);
 		
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{

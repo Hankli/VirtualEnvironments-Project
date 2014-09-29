@@ -25,7 +25,6 @@ public class GameControl : MonoBehaviour
 
 	private ControllerType controllerType;
 	private PlaythroughType playthroughType;//type of playthrough
-	
 
 	public float objectInteractionScore = 0.0f;
 	private float objectInteractionCheckpoint = 0.0f;
@@ -49,7 +48,6 @@ public class GameControl : MonoBehaviour
 	private string OIPath = "";
 	private string OAPath = "";
 	private string WFPath = "";
-
 
     void Awake() 
     {

@@ -33,10 +33,7 @@ public class LevelControl : MonoBehaviour
 	private bool b_isLevelComplete = false;
 	private bool b_showTimer = true;
 	private bool b_showObjective = true;
-	
-	private GameObject gameControl = null;
-	private GameControl gameControlScript = null;
-	
+
 	[Tooltip("The duration a hint will be displayed once triggered")]
 	public float hintDuration=5.0f;
 	
@@ -83,6 +80,7 @@ public class LevelControl : MonoBehaviour
 	void Awake()
 	{
 		CountObjectives();
+
 	}
 	
 	void Start()
@@ -107,7 +105,6 @@ public class LevelControl : MonoBehaviour
 		objectiveShadow.alignment=TextAnchor.MiddleCenter;
 		objectiveShadow.fontStyle=FontStyle.Bold;
 		
-		
 		countdown.normal.textColor=Color.red;
 		countdown.fontSize=30;
 		countdown.alignment=TextAnchor.MiddleCenter;
@@ -117,6 +114,16 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontSize=30;
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
+	}
+
+	private GameControl FindGameControl()
+	{
+		GameObject gameControl = GameObject.FindWithTag ("Game");
+		if(gameControl != null)
+		{
+			return gameControl.GetComponent<GameControl>();
+		}
+		return null;
 	}
 	
 	void Update() 
@@ -147,15 +154,21 @@ public class LevelControl : MonoBehaviour
 			if(b_showTimer)
 			{
 				//reset time string
-				timePassedString="";			
+				timePassedString="";	
+
 				if(timePassedHr<=9)
-					timePassedString="0";				
-				timePassedString+=timePassedHr+":";			
+					timePassedString="0";
+
+				timePassedString+=timePassedHr+":";	
+
 				if(timePassedMin<=9)
-					timePassedString+="0";				
-				timePassedString+=timePassedMin+":";			
+					timePassedString+="0";		
+
+				timePassedString+=timePassedMin+":";
+
 				if(timePassedSec<=9)
-					timePassedString+="0";				
+					timePassedString+="0";	
+
 				timePassedString+=timePassedSec;
 				timerText=timePassedString;
 			}
@@ -262,9 +275,9 @@ public class LevelControl : MonoBehaviour
 	
 	void EndLevel(bool loadMenu=false)
 	{
-		if(gameControl=GameObject.FindWithTag("Game"))
+		GameControl gameControlScript = FindGameControl();
+		if(gameControlScript != null)
 		{
-			gameControlScript=gameControl.GetComponent<GameControl>();
 			if(!b_saved)
 			{
 				b_saved=true;

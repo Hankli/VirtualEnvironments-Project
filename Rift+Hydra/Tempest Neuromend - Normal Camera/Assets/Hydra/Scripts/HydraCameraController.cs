@@ -8,7 +8,7 @@ namespace Tempest
 		{		
 			//movement and rotation related variables
 			public Vector3 m_rotateForce;
-			public float m_cameraSensitivity = 1.0f;
+			private float m_cameraSensitivity = 1.0f;
 
 			//y axis related variables
 			private Quaternion m_leftYRotation;
@@ -20,7 +20,13 @@ namespace Tempest
 			//x axis related variables
 			private float m_xAccumulator = 0.0f;
 			private const float m_xLimit = 89.0f;
-			
+
+			public float CameraSensitivity
+			{
+				get { return m_cameraSensitivity; }
+				set { m_cameraSensitivity = value; }
+			}
+
 			private void Start()
 			{
 				if(m_yLimitFlag)

@@ -9,8 +9,20 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			public float m_linearSensitivity = 1.0f; // Sixense units are in mm
-			public float m_rotationSensitivity = 1.0f;
+			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
+			private float m_rotationSensitivity = 1.0f;
+
+			public float MoveSensitivity
+			{
+				get { return m_linearSensitivity; }
+				set { m_linearSensitivity = value; }
+			}
+
+			public float RotateSensitivity
+			{
+				get { return m_rotationSensitivity; }
+				set { m_rotationSensitivity = value; }
+			}
 
 			// Use this for initialization
 			private void Start () 
