@@ -1,8 +1,9 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 
+using UnityEngine;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -21,6 +22,15 @@ namespace Tempest
 				public string m_activityName;
 				public System.DateTime m_timestamp; //some other format?
 				public int m_score;
+
+				public override string ToString ()
+				{
+					return "Report ID: " + m_reportID + '\n' +
+						   "Device: " + m_deviceName + '\n' +
+						   "Activity: " + m_activityName + '\n' +
+						   "Timestamp: " + m_timestamp + '\n' +
+						   "Score: " + m_score;
+				}
 			}
 
 			public ReportDB(SQLView view)
@@ -36,7 +46,7 @@ namespace Tempest
 				                     "Username VARCHAR(20) NOT NULL," +
 				                     "DeviceName VARCHAR(30) NOT NULL," +
 				                     "ActivityName VARCHAR(30) NOT NULL," +
-				                     "Timestamp DATE NOT NULL," +
+				                     "FinishDate DATETIME NOT NULL," +
 				                     "Score INT NOT NULL," +
 				                     "CONSTRAINT PRIMARY KEY(ReportID), " +
 				                     "CONSTRAINT FOREIGN KEY(DeviceName) REFERENCES device(DeviceName) ON UPDATE CASCADE ON DELETE CASCADE, " +
@@ -62,39 +72,33 @@ namespace Tempest
 
 			public void AddReport(string username, string device, string activity, DateTime timestamp, int score)
 			{
-				m_sqlView.BeginQuery("INSERT IGNORE INTO(Username, DeviceName, ActivityName, Timestamp, Score) " +
-				                     "VALUES(?USER, ?DEVICE, ?ACTIVITY, STR_TO_DATE(?TIME, '%d/%m/%Y %k:%i'), ?SCORE)");
+				m_sqlView.BeginQuery("INSERT IGNORE INTO report(Username, DeviceName, ActivityName, FinishDate, Score) " +
+				                     "VALUES(?USER, ?DEVICE, ?ACTIVITY, STR_TO_DATE(?FINISH, '%d/%m/%Y %k:%i'), ?SCORE)");
 
 				m_sqlView.Write ("?USER", username);
 				m_sqlView.Write ("?DEVICE", device);
 				m_sqlView.Write ("?ACTIVITY", activity);
-				m_sqlView.Write ("?TIME", timestamp.ToString("%d/%m/%Y %k:%i")); //???
+				m_sqlView.Write ("?FINISH", timestamp.ToString("d/M/yyyy HH:mm")); //???
 				m_sqlView.Write ("?SCORE", score);
 
 				m_sqlView.CommitQuery ();
 				m_sqlView.EndQuery ();
 			}
 
-
 			public void AddReport(string levelXML)
 			{
-				m_sqlView.BeginQuery ("INSERT IGNORE INTO report(Username, DeviceName, ActivityName, Timestamp, Score) " +
-										"VALUES(?USER, ?DEVICE, ?ACTIVITY, STR_TO_DATE(?TIME, '%d/%m/%Y %k:%i'), ?SCORE)");
-
 				XElement root = XElement.Load (@levelXML);
 
 				foreach(XElement xe in root.Elements("Level Summary"))
 				{
-					m_sqlView.Write("USER", xe.Element("Username").Value);
-					m_sqlView.Write("DEVICE", xe.Element("Controller").Value);
-					m_sqlView.Write("ACTIVITY", xe.Element("Level").Value);
-					m_sqlView.Write("TIME", xe.Element("Timestamp").Value);
-					m_sqlView.Write("SCORE", xe.Element("Score").Value);
-
-					m_sqlView.CommitQuery();
+					string username = xe.Element("Username").Value;
+					string device = xe.Element("Controller").Value;
+					string activity = xe.Element("Level").Value;
+					string time = xe.Element("FinishDate").Value;
+					string score = xe.Element("Score").Value;
+				
+					AddReport(username, device, activity, Convert.ToDateTime(time), Int32.Parse(score));
 				}
-
-				m_sqlView.EndQuery();
 			}
 
 			public void DeleteReport(int reportID)
@@ -117,9 +121,13 @@ namespace Tempest
 				return Convert.ToInt32 (obj) > 0;
 			}
 
-			public void ExtractReport(string username, IList list)
+			public void ExtractReport(string username, List<Report> list)
 			{
-				m_sqlView.BeginQuery ("SELECT * FROM report WHERE Username = @USER ORDER BY Timestamp");
+				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT(FinishDate, '%d/%m/%Y %k:%i') " +
+									  "FROM report " +
+						              "WHERE Username = @USER " +
+						              "ORDER BY FinishDate");
+
 				m_sqlView.Write ("USER", username);
 				m_sqlView.CommitQuery ();
 
@@ -130,12 +138,12 @@ namespace Tempest
 				{
 					Report rep = new Report();
 
+					rep.m_reportID = rdr.GetInt32("ReportID");
 					rep.m_activityName = rdr.GetString("ActivityName");
 					rep.m_deviceName = rdr.GetString("DeviceName");
 					rep.m_score = rdr.GetInt32("Score");
-					rep.m_timestamp = rdr.GetDateTime("Timestamp");
-					rep.m_reportID = rdr.GetInt32("ReportID");
-				
+					rep.m_timestamp = rdr.GetDateTime("FinishDate");
+
 					list.Add(rep);
 				}
 

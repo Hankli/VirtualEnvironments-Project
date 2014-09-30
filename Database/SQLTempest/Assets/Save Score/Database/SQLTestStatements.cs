@@ -1,15 +1,32 @@
 /*
+     			m_patientDB.AddPatient ("tpv", "password", "12/5/1209", "Male", "Bad");
+				m_deviceDB.AddDevice ("xbox controller", "n X-BOX controller");
+				m_activityDB.AddActivity ("swimming", "Swim N Drown");
+
+				List<ReportDB.Report> list = new List<ReportDB.Report> ();
+				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 120);
+				m_reportDB.ExtractReport ("tpv", list);
+
+				foreach(ReportDB.Report rep in list)
+				{
+					Debug.Log (rep.ToString() + '\n');
+				}
+*/
+
+
+/*
 				PatientDB.Patient pat = new PatientDB.Patient ();
 				m_patientDB.AddPatient ("Jack012", "557632", "10/8/1995", "Male", "Bad Real Bad");
 				Debug.Log(m_patientDB.FindPatient("Jack012") ? "Add Patient Success" : "Add Patient Failed");
-
-				m_patientDB.UpdatePatient ("Jack012", "6/2/1960", "Female", "Average");
+				
+				m_patientDB.UpdatePatient ("Jack012", "30/3/1975", "Female", "Average");
 				m_patientDB.ReadPatient ("Jack012", ref pat);
 				Debug.Log (pat.m_username + " -- " + pat.m_gender + " -- " + pat.m_medicalCondition + " -- " + pat.m_birthDate);
-
+				
 				m_patientDB.DeletePatient ("Jack012");
 				Debug.Log (m_patientDB.FindPatient ("Jack012") ? "Delete Failed" : "Delete Success");
-				*/
+*/
+
 
 /*
 				DeviceDB.Device dev = new DeviceDB.Device();
@@ -24,7 +41,8 @@
 
 				m_deviceDB.DeleteDevice ("Leap");
 				Debug.Log (m_deviceDB.FindDevice ("Leap") ? "Delete Failed" : "Delete Success");
-				*/
+*/
+
 
 /*
 				ActivityDBManager.Activity act = new ActivityDBManager.Activity();
@@ -40,4 +58,4 @@
 
 				m_activityDBMgr.DeleteActivity (act.m_activityName);
 				Debug.Log (m_activityDBMgr.FindActivity (act.m_activityName) ? "Delete Failed" : "Delete Success");
-				*/
+*/

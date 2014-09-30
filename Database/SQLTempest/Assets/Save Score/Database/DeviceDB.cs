@@ -14,6 +14,12 @@ namespace Tempest
 			{
 				public string m_deviceName;
 				public string m_description;
+
+				public override string ToString ()
+				{
+					return "Device Type: " + m_deviceName + '\n' +
+						   "Description: " + m_description;
+				}
 			}
 			
 			public DeviceDB(SQLView view)

@@ -16,6 +16,12 @@ namespace Tempest
 			{
 				public string m_activityName;
 				public string m_description;
+
+				public override string ToString ()
+				{
+					return "Activity Type: " + m_activityName + '\n' +
+						   "Description: " + m_description;
+				}
 			}
 			
 			public ActivityDB(SQLView view)
@@ -25,6 +31,16 @@ namespace Tempest
 				                   "ActivityName VARCHAR(30)," +
 				                   "Description VARCHAR(200), " +
 				                   "CONSTRAINT PRIMARY KEY(ActivityName))");
+				m_sqlView.CommitQuery ();
+				m_sqlView.EndQuery ();
+			}
+
+			public void CreateRelation()
+			{
+				m_sqlView.BeginQuery("CREATE TABLE IF NOT EXISTS activity(" +
+				                     "ActivityName VARCHAR(30)," +
+				                     "Description VARCHAR(200), " +
+				                     "CONSTRAINT PRIMARY KEY(ActivityName))");
 				m_sqlView.CommitQuery ();
 				m_sqlView.EndQuery ();
 			}

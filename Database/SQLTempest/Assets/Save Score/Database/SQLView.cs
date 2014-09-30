@@ -10,34 +10,56 @@ namespace Tempest
 	{
 		public class SQLView
 		{
-			private string m_currentConfig = null;
-
 			private MySqlConnection m_connection = null;
 			private MySqlCommand m_command = null;
 			private MySqlDataReader m_reader = null;
 
 			public void OpenConnection(string config)
 			{
-				m_currentConfig = config;
-				m_connection = new MySqlConnection (m_currentConfig);
-				m_connection.Open ();
+				if(m_connection == null)
+				{
+					m_connection = new MySqlConnection (config);
+					m_connection.Open ();
+				}
 			}
 			
 			public void CloseConnection()
 			{
 				//MySqlConnection.ClearPool (m_connection);
-				m_connection.Dispose();
-				m_connection.Close ();					 
+
+				if(m_connection != null)
+				{
+					m_connection.Dispose();
+					m_connection.Close ();
+					m_connection = null;
+				}
+			}
+
+			public string DescribeRelation(string tablename)
+			{
+				BeginQuery ("describe " + tablename);
+				CommitQuery ();
+
+				string query = GetQueryResult ();
+				EndQuery ();
+
+				return query;
 			}
 
 			public bool OpenConnectionState
 			{
-				get { return m_connection.State == System.Data.ConnectionState.Open; }
+				get 
+				{ 
+					return m_connection != null ? m_connection.State == System.Data.ConnectionState.Open : false;
+				}
 			}
 
 			public bool ClosedConnectionState
 			{
-				get { return m_connection.State == System.Data.ConnectionState.Closed; }
+				get 
+				{
+					return m_connection != null ? m_connection.State == System.Data.ConnectionState.Closed : true;
+				}
 			}
 			
 			public int CommitQuery()
@@ -53,7 +75,7 @@ namespace Tempest
 				}
 			}
 
-			public string ConnectionServer
+			public string ConnectionSettings
 			{
 				get { return m_connection != null ? m_connection.ConnectionString : null; }
 			}

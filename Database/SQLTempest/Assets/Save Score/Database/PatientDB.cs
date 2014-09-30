@@ -18,6 +18,14 @@ namespace Tempest
 				public string m_medicalCondition;
 				public string m_username;
 				private string m_password;
+
+				public override string ToString ()
+				{
+					return "Username: " + m_username + '\n' +
+						   "Gender: " + m_gender + '\n' +
+						   "Date of Birth: " + m_birthDate + '\n' +
+						   "Medical Condition" + m_medicalCondition;
+				}
 			}
 			
 			public PatientDB(SQLView view)
@@ -56,7 +64,7 @@ namespace Tempest
 
 			public void AddPatient(string username, string password, string birthDate, string gender, string medicalCondition)
 			{
-				m_sqlView.BeginQuery("INSERT INTO patient(Username, Password, Gender, MedicalCondition, BirthDate) " +
+				m_sqlView.BeginQuery("INSERT IGNORE INTO patient(Username, Password, Gender, MedicalCondition, BirthDate) " +
 					"VALUES (?USER, ?PASS, ?GND, ?COND, STR_TO_DATE(?BIRTH,'%d/%m/%Y'))");
 
 				m_sqlView.Write ("?USER", username);
@@ -80,7 +88,10 @@ namespace Tempest
 			
 			public void ReadPatient(string username, ref Patient patient)
 			{
-				m_sqlView.BeginQuery ("SELECT * FROM patient WHERE Username = @username");
+				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') " +
+									  "FROM patient " +
+									  "WHERE Username = @username");
+
 				m_sqlView.Write ("username", username);
 				m_sqlView.CommitQuery ();
 

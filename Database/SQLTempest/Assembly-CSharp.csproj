@@ -46,13 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ProfileMenu.cs" />
      <Compile Include="Assets\Save Score\Database\ActivityDB.cs" />
      <Compile Include="Assets\Save Score\Database\DeviceDB.cs" />
      <Compile Include="Assets\Save Score\Database\PatientDB.cs" />
      <Compile Include="Assets\Save Score\Database\ReportDB.cs" />
      <Compile Include="Assets\Save Score\Database\SQLTestStatements.cs" />
      <Compile Include="Assets\Save Score\Database\SQLView.cs" />
-     <Compile Include="Assets\Save Score\Database\TempestDBHUB.cs" />
+     <Compile Include="Assets\Save Score\Database\TempestCoreDB.cs" />
      <Compile Include="Assets\Save Score\GameControl.cs" />
      <Compile Include="Assets\Save Score\LevelControl.cs" />
      <None Include="Assets\Save Score\OAScore.txt" />
