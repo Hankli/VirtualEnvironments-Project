@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ProfileMenu.cs" />
      <Compile Include="Assets\Save Score\CalendarMenu.cs" />
      <Compile Include="Assets\Save Score\Database\ActivityDB.cs" />
      <Compile Include="Assets\Save Score\Database\DeviceDB.cs" />
@@ -57,6 +56,8 @@
      <Compile Include="Assets\Save Score\Database\TempestCoreDB.cs" />
      <Compile Include="Assets\Save Score\GameControl.cs" />
      <Compile Include="Assets\Save Score\LevelControl.cs" />
+     <Compile Include="Assets\Save Score\ProfileMenu.cs" />
+     <Compile Include="Assets\Save Score\TimedMessage.cs" />
      <None Include="Assets\Save Score\OAScore.txt" />
      <None Include="Assets\Save Score\OIScore.txt" />
      <None Include="Assets\Save Score\WFScore.txt" />

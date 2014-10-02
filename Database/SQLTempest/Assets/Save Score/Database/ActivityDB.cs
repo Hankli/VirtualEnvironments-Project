@@ -27,12 +27,6 @@ namespace Tempest
 			public ActivityDB(SQLView view)
 			{
 				m_sqlView = view;
-				m_sqlView.BeginQuery("CREATE TABLE IF NOT EXISTS activity(" +
-				                   "ActivityName VARCHAR(30)," +
-				                   "Description VARCHAR(200), " +
-				                   "CONSTRAINT PRIMARY KEY(ActivityName))");
-				m_sqlView.CommitQuery ();
-				m_sqlView.EndQuery ();
 			}
 
 			public void CreateRelation()
@@ -64,7 +58,7 @@ namespace Tempest
 				m_sqlView.BeginQuery("INSERT IGNORE INTO activity(ActivityName, Description) VALUES(?NAME, ?DESCR)");
 				m_sqlView.Write ("?NAME", activityName);
 				m_sqlView.Write ("?DESCR", description);
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;
@@ -112,7 +106,7 @@ namespace Tempest
 				m_sqlView.Write ("descr", descr);
 				m_sqlView.Write ("activityName", activityName);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;
@@ -123,7 +117,7 @@ namespace Tempest
 				m_sqlView.BeginQuery("DELETE FROM activity WHERE ActivityName = @activityName");
 				m_sqlView.Write ("activityName", activityName);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;

@@ -46,7 +46,7 @@ namespace Tempest
 			}
 
 			
-			public void Render()
+			public void Display()
 			{
 				GUIStyle style = new GUIStyle (GUI.skin.button);
 				style.fontSize = 15;

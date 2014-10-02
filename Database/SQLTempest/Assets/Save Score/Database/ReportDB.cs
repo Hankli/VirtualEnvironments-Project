@@ -36,7 +36,6 @@ namespace Tempest
 			public ReportDB(SQLView view)
 			{
 				m_sqlView = view;
-				CreateRelation ();
 			}
 
 			public void CreateRelation()
@@ -81,7 +80,7 @@ namespace Tempest
 				m_sqlView.Write ("?FINISH", timestamp.ToString("d/M/yyyy HH:mm")); //???
 				m_sqlView.Write ("?SCORE", score);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;
@@ -108,7 +107,7 @@ namespace Tempest
 				m_sqlView.BeginQuery ("DELETE FROM report WHERE ReportID = @ID");
 				m_sqlView.Write ("ID", reportID);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;

@@ -68,11 +68,19 @@ namespace Tempest
 				
 				if(m_sqlSource.OpenConnectionState)
 				{
+					//create each database relation manager
 					m_patientDB = new PatientDB (m_sqlSource);
 					m_deviceDB = new DeviceDB (m_sqlSource);
 					m_activityDB = new ActivityDB (m_sqlSource);
 					m_reportDB = new ReportDB (m_sqlSource);
 
+					//create tables if does not exist
+					m_patientDB.CreateRelation();
+					m_deviceDB.CreateRelation();
+					m_activityDB.CreateRelation();
+					m_reportDB.CreateRelation();
+
+					//initialise all known data if not already there
 				    InitialiseDeviceData ();
 				    InitialiseActivityData ();
 				
@@ -99,17 +107,18 @@ namespace Tempest
 				DontDestroyOnLoad (gameObject);
 				Reconnect (DefaultConfigIni);
 
-				/*
+
+				m_reportDB.DropRelation ();
 				m_deviceDB.DropRelation ();
 				m_activityDB.DropRelation ();
 				m_patientDB.DropRelation ();
-				m_reportDB.DropRelation ();
 
 				m_deviceDB.CreateRelation ();
 				m_patientDB.CreateRelation ();
 				m_activityDB.CreateRelation ();
 				m_reportDB.CreateRelation ();
 
+				/*
 				m_patientDB.AddPatient ("tpv", "password", "12/5/1209", "Male", "Bad");
 				m_deviceDB.AddDevice ("xbox controller", "n X-BOX controller");
 				m_activityDB.AddActivity ("swimming", "Swim N Drown");

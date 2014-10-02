@@ -31,7 +31,6 @@ namespace Tempest
 			public PatientDB(SQLView view)
 			{
 				m_sqlView = view;
-				CreateRelation ();
 			}
 
 			public void CreateRelation()
@@ -57,7 +56,7 @@ namespace Tempest
 
 			public void DropRows()
 			{
-				m_sqlView.BeginQuery ("DELETE FROM patient");
+				m_sqlView.BeginQuery ("TRUNCATE TABLE patient");
 				m_sqlView.CommitQuery ();
 				m_sqlView.EndQuery ();
 			}
@@ -73,7 +72,7 @@ namespace Tempest
 				m_sqlView.Write ("?GND", gender);
 				m_sqlView.Write ("?COND",  medicalCondition);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;
@@ -81,11 +80,11 @@ namespace Tempest
 			
 			public bool DeletePatient(string username, string password)
 			{
-				m_sqlView.BeginQuery ("DELETE FROM patient WHERE Username = @username AND Password = @password");
-				m_sqlView.Write ("username", username);
-				m_sqlView.Write ("password", password);
+				m_sqlView.BeginQuery ("DELETE FROM patient WHERE Username = @user AND Password = @pass");
+				m_sqlView.Write ("user", username);
+				m_sqlView.Write ("pass", password);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;
@@ -95,10 +94,10 @@ namespace Tempest
 			{
 				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') " +
 									  "FROM patient " +
-									  "WHERE Username = @username AND Password = @password");
+				                      "WHERE Username = @user AND Password = @pass");
 
-				m_sqlView.Write ("username", username);
-				m_sqlView.Write ("password", password);
+				m_sqlView.Write ("user", username);
+				m_sqlView.Write ("pass", password);
 				m_sqlView.CommitQuery ();
 
 				m_sqlView.BeginRead ();
@@ -119,9 +118,9 @@ namespace Tempest
 
 			public bool FindPatient(string username, string password)
 			{
-				m_sqlView.BeginQuery ("SELECT COUNT(1) FROM patient WHERE Username = @username AND Password = @password");
-				m_sqlView.Write ("username", username);
-				m_sqlView.Write ("password", password);
+				m_sqlView.BeginQuery ("SELECT COUNT(1) FROM patient WHERE Username = @user AND Password = @pass");
+				m_sqlView.Write ("user", username);
+				m_sqlView.Write ("pass", password);
 
 				object obj = m_sqlView.CommitScalar();
 				m_sqlView.EndQuery ();
@@ -135,15 +134,15 @@ namespace Tempest
 				                      "Gender = @gender, " +
 				                      "BirthDate = STR_TO_DATE(@birthDate, '%d/%m/%Y'), " +
 				                      "MedicalCondition = @medicalCondition " +
-				                      "WHERE Username = @username AND Password = @password");
+				                      "WHERE Username = @user AND Password = @pass");
 
 				m_sqlView.Write ("gender", gender);
 				m_sqlView.Write ("medicalCondition", condition);
 				m_sqlView.Write ("birthDate", birthDate);
-				m_sqlView.Write ("username", username);
-				m_sqlView.Write ("password", password);
+				m_sqlView.Write ("user", username);
+				m_sqlView.Write ("pass", password);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;

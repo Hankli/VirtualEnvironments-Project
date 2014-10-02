@@ -59,3 +59,20 @@
 				m_activityDBMgr.DeleteActivity (act.m_activityName);
 				Debug.Log (m_activityDBMgr.FindActivity (act.m_activityName) ? "Delete Failed" : "Delete Success");
 */
+
+
+/*
+				m_patientDB.AddPatient ("tpv", "password", "12/5/1209", "Male", "Bad");
+				m_deviceDB.AddDevice ("xbox controller", "n X-BOX controller");
+				m_activityDB.AddActivity ("swimming", "Swim N Drown");
+
+				List<ReportDB.Report> list = new List<ReportDB.Report> ();
+				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 120);
+				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 156);
+				m_reportDB.ExtractReport ("tpv", list);
+
+				foreach(ReportDB.Report rep in list)
+				{
+					Debug.Log (rep.ToString() + '\n');
+				}
+*/

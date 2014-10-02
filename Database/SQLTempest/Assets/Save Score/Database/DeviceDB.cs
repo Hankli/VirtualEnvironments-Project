@@ -25,7 +25,6 @@ namespace Tempest
 			public DeviceDB(SQLView view)
 			{
 				m_sqlView = view;
-				CreateRelation();
 			}
 
 			public void CreateRelation()
@@ -59,7 +58,7 @@ namespace Tempest
 				m_sqlView.Write ("?NAME", deviceName);
 				m_sqlView.Write ("?DESCR", description);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;
@@ -76,7 +75,7 @@ namespace Tempest
 				m_sqlView.Write ("descr", descr);
 				m_sqlView.Write ("deviceName", deviceName);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 			
 				return success;
@@ -117,7 +116,7 @@ namespace Tempest
 				m_sqlView.BeginQuery ("DELETE FROM device WHERE DeviceName = @deviceName");
 				m_sqlView.Write ("deviceName", deviceName);
 
-				bool success = (m_sqlView.CommitQuery () == 0);
+				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
 
 				return success;

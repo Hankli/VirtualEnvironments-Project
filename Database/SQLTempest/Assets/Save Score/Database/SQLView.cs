@@ -72,9 +72,9 @@ namespace Tempest
 			{
 				try
 				{
-					int stat = m_command.ExecuteNonQuery ();
+					int rowsAffected = m_command.ExecuteNonQuery ();
 					m_latestError = null; //no errors if we got here
-					return stat;
+					return rowsAffected;
 				}
 
 				catch(MySqlException ex)
