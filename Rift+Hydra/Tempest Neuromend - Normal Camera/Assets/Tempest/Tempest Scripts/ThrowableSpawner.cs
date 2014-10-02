@@ -12,9 +12,11 @@ public class ThrowableSpawner : MonoBehaviour
 	private float timeCheck=0.0f;
 	private Vector3 pos;//used for spawn position
 	
-	private float awakeHeight=1.4f;//active y position
+	private float awakeHeight=1.5f;//active y position
 	private bool b_isAwake=false;
 	private bool b_awaken=false;
+	
+	public float awakenMoveSpeedMultiplier=0.4f;//0.4f default
 	
 	void Start() 
 	{
@@ -61,9 +63,15 @@ public class ThrowableSpawner : MonoBehaviour
 				b_canSpawn=false;
 				lastExitTime=Time.time;
 				Vector3 pos=transform.position;
-				pos.y+=0.3f;
+				pos.y+=0.1f;
 				int x = Random.Range(0,someObject.Length);
-				Instantiate(someObject[x], pos, Quaternion.identity);
+				GameObject throwable;
+				throwable=Instantiate(someObject[x], pos, Quaternion.identity)as GameObject;
+				ThrowableObject throwableScript;
+				if(throwableScript=throwable.GetComponent<ThrowableObject>())
+				{
+					throwableScript.NoGravSpin();
+				}
 			}
 		}
 	}
@@ -83,7 +91,7 @@ public class ThrowableSpawner : MonoBehaviour
 		{
 			if(this.gameObject.transform.position.y<awakeHeight)
 			{
-				this.gameObject.transform.Translate(Vector3.up*0.4f*Time.deltaTime,Space.World);
+				this.gameObject.transform.Translate(Vector3.up*awakenMoveSpeedMultiplier*Time.deltaTime,Space.World);
 			}
 			else
 			{

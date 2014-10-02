@@ -22,6 +22,7 @@ public class TouchPanel : MonoBehaviour
 	private string objectiveTextUpdated="";
 	
 	private float vanishingHeight=-1.6f;
+	private float vanishingZ=0.8f;
 	private bool b_destructionImminent=false;
 	public GameObject nextObjective=null;
 	
@@ -46,6 +47,11 @@ public class TouchPanel : MonoBehaviour
 				a++;
 			}
 		}
+		maxSequence=numberOfSequences+1;
+		objectiveTextUpdated=objectiveText;
+		//objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
+		objectiveTextUpdated+="\n("+(sequenceCount-1)+"/"+numberOfSequences+")";
+
 		numButtons=a;	
 		LoadTextures();
 		ResetSequence();
@@ -55,9 +61,6 @@ public class TouchPanel : MonoBehaviour
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
 		}
 		
-		maxSequence=numberOfSequences+1;
-		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
 	}
 	
 	void Update() 
@@ -66,7 +69,15 @@ public class TouchPanel : MonoBehaviour
 		{
 			if(this.gameObject.transform.position.y>vanishingHeight)
 			{
-				this.gameObject.transform.Translate(Vector3.up*-0.4f*Time.deltaTime,Space.World);
+				if(this.gameObject.transform.position.z<vanishingZ)
+				{
+					this.gameObject.transform.Translate(Vector3.forward*0.4f*Time.deltaTime,Space.World);
+					this.gameObject.transform.Translate(Vector3.up*0.05f*Time.deltaTime,Space.World);
+				}
+				else
+				{
+					this.gameObject.transform.Translate(Vector3.up*-0.4f*Time.deltaTime,Space.World);
+				}
 			}
 			else
 			{
@@ -105,7 +116,8 @@ public class TouchPanel : MonoBehaviour
 		sequenceCount++;
 		
 		objectiveTextUpdated=objectiveText;
-		objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
+		//objectiveTextUpdated+="\n(x"+(maxSequence-sequenceCount)+")";
+		objectiveTextUpdated+="\n("+(sequenceCount-1)+"/"+numberOfSequences+")";
 		if(levelControlScript!=null)
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
 			

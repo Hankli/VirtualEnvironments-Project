@@ -85,28 +85,33 @@ public class Menu : MonoBehaviour
 		GUI.color = colorState;
 
 
-		GameObject hydraControlObject = GameObject.Find ("Hydra Control");
-		Tempest.RazorHydra.HydraControl hydraControl = hydraControlObject.GetComponent<Tempest.RazorHydra.HydraControl> ();
+		Tempest.RazorHydra.HydraControl control = gameControlObject.GetComponent<Tempest.RazorHydra.HydraControl> ();
 
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight * 2.0f),
-		                  "Character Move Sensitivity", 1, 5, ref hydraControl.m_characterMoveSensitivity);
+		                  "Movement Joystick Sensitivity", 1, 5, ref control.m_moveJoystickSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight * 2.0f),
-		                  "Camera Rotate Sensitivity", 1, 5, ref hydraControl.m_cameraRotateSensitivity);
+		                  "Rotation Joystick Sensitivity", 1, 5, ref control.m_rotateJoystickSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Trigger Sensitivity", 1, 5, ref hydraControl.m_triggerSensitivity);
+		                  "Trigger Sensitivity", 1, 5, ref control.m_triggerSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Throw Sensitivity", 1, 5, ref hydraControl.m_throwingSensitivity);
+		                  "Throw Sensitivity", 1, 5, ref control.m_throwingSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.5f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Hand Move Sensitivity", 1, 5, ref hydraControl.m_handMoveSensitivity);
+		                  "Hand Move Sensitivity", 1, 5, ref control.m_handMoveSensitivity);
 		
 		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.6f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Hand Rotate Sensitivity", 1, 5, ref hydraControl.m_handRotateSensitivity);
-		
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		                  "Hand Rotate Sensitivity", 1, 5, ref control.m_handRotateSensitivity);
+
+		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.7f, buttonWidth, buttonHeight * 2.0f), 
+		                  "Walk Speed", 1, 5, ref control.m_walkSpeed);
+
+		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.8f, buttonWidth, buttonHeight * 2.0f), 
+		                  "Strafe Speed", 1, 5, ref control.m_strafeSpeed);
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = mainMenu;
 		}

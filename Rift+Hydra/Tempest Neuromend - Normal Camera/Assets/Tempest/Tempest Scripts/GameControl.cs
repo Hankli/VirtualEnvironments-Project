@@ -13,8 +13,7 @@ public class GameControl : MonoBehaviour
 		OculusHydra,
 		OculusKinect
 	};
-
-
+	
 	public enum PlaythroughType
 	{	
 		NewGame,//full playthrough from beginning
@@ -22,7 +21,7 @@ public class GameControl : MonoBehaviour
 		SingleLevel,//select single level to play
 		LoadSingle//continue previously saved single level
 	};
-
+	
 	private ControllerType controllerType;
 	private PlaythroughType playthroughType;//type of playthrough
 
@@ -49,6 +48,13 @@ public class GameControl : MonoBehaviour
 	private string OAPath = "";
 	private string WFPath = "";
 
+		//Used for writing to files.
+    private System.IO.StreamWriter fileWriter;
+
+	
+	public bool b_paused=false;
+
+
     void Awake() 
     {
         DontDestroyOnLoad(transform.gameObject);
@@ -63,6 +69,12 @@ public class GameControl : MonoBehaviour
     
     void Start()
     {
+    
+		/*
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
+		*/
 		OIPath = userID+"_OIScore.xml";
 		OAPath = userID+"_OAScore.xml";
 		WFPath = userID+"_WFScore.xml";
@@ -71,6 +83,12 @@ public class GameControl : MonoBehaviour
 	void Update()
 	{
 		//Screen.lockCursor=true;
+		/*//test
+		if(Input.GetMouseButtonDown(1))
+		{
+			PauseGame();
+		}
+		*/
 	}
     
     public void SetUserID(int number)
@@ -79,6 +97,12 @@ public class GameControl : MonoBehaviour
 		OIPath = userID+"_OIScore.xml";
 		OAPath = userID+"_OAScore.xml";
 		WFPath = userID+"_WFScore.xml";
+		/*
+		userID=number;
+		OIPath = userID+"_OIScore.txt";
+		OAPath = userID+"_OAScore.txt";
+		WFPath = userID+"_WFScore.txt";
+		*/
     }
     
     //returns object interaction score float value
@@ -173,7 +197,7 @@ public class GameControl : MonoBehaviour
     {
 		return controllerType;
     }
-
+    
     public void SetPlaythroughType(PlaythroughType type)
     {
 		playthroughType=type;
@@ -182,7 +206,9 @@ public class GameControl : MonoBehaviour
     public PlaythroughType GetPlaythroughType()
     {
 		return playthroughType;
-	}
+    }
+
+
 
 	public void SaveScore(LevelControl.LevelType levelType)
 	{
@@ -211,4 +237,73 @@ public class GameControl : MonoBehaviour
 		writer.Close ();
 	}
 
+/*
+	public void SaveScore(int level)
+	{
+        switch (level)
+        {
+            //Object Interaction.
+            case 1:
+				ReadyFile(OIPath);
+                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
+                                   userID,
+                                   objectInteractionScore,
+                                   System.DateTime.Now.ToShortDateString(),
+                                   System.DateTime.Now.ToLongTimeString());
+				fileWriter.Close();
+                break;
+
+            //Object Avoidance.
+            case 2:
+				ReadyFile(OAPath);
+                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
+                                   userID,
+                                   objectAvoidanceScore,
+                                   System.DateTime.Now.ToShortDateString(),
+                                   System.DateTime.Now.ToLongTimeString());
+				fileWriter.Close();
+                break;
+
+            //Way Finding.
+            case 3:
+				ReadyFile(WFPath);
+                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
+                                   userID,
+                                   wayFindingScore,
+                                   System.DateTime.Now.ToShortDateString(),
+                                   System.DateTime.Now.ToLongTimeString());
+				fileWriter.Close();
+                break;
+        }
+	}
+	*/
+	private void ReadyFile(string pathName)
+	{
+        if (System.IO.File.Exists(pathName))
+        {
+            fileWriter = System.IO.File.AppendText(pathName);
+        }
+        else
+        {
+            fileWriter = System.IO.File.AppendText(pathName);
+            fileWriter.WriteLine("UserID\tScore\tDate");
+        }
+	}
+
+	//still need to implement this properly...
+	//need to pause most player interaction
+	public void PauseGame()
+	{
+		if(!b_paused)
+		{
+			Time.timeScale = 0.0f;
+			b_paused = true;
+		}
+		else
+		{
+			Time.timeScale = 1.0f;
+			b_paused = false;
+		}
+ 	}
+	
 }
