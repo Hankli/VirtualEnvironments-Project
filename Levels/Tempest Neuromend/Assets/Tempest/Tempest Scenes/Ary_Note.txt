@@ -1,5 +1,5 @@
 Needs to be initial level loaded with 'Game Control object'... not to be loaded again or Game Control instance deleted if needed.
-
+note: an object with DontDestroyOnLoad() will be destroyed if it is a child of object which is destroyed on load.
 
 0.77 unit sensitivity observed between trigger and player controller. May be different for devices + models
 

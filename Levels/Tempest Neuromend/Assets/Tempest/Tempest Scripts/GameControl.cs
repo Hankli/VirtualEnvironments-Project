@@ -53,6 +53,7 @@ public class GameControl : MonoBehaviour
 
 	
 	public bool b_paused=false;
+	public bool b_OVRCam=false;
 
 
     void Awake() 
@@ -89,8 +90,59 @@ public class GameControl : MonoBehaviour
 			PauseGame();
 		}
 		*/
+		//OVRCamera ();
 	}
-    
+	//public void OVRCamera(bool OVRCam=true)
+	public void OVRCamera()
+	{
+		//b_OVRCam = OVRCam;
+		GameObject tempPlayer=null;
+		if (tempPlayer = GameObject.FindWithTag ("Player")) 
+		{
+			Debug.Log ("PLAYER");
+			float tempOVRCamIndex = 0;
+			GameObject tempOVRCam = null;
+			GameObject tempMainCam = null;
+			int i=0;
+			foreach(Transform child in tempPlayer.transform)
+			{
+				Debug.Log (i);
+				if(child.tag=="OVRCam")
+				{
+					Debug.Log ("OVRCAM");
+					tempOVRCam=child.gameObject;
+					//tempOVRCamIndex=i;
+				}
+				if(child.tag=="MainCamera")
+				{
+					Debug.Log ("MAINCAM");
+					tempMainCam=child.gameObject;
+				}
+				i++;
+			}
+			if(tempOVRCam!=null&&tempMainCam!=null)
+			{
+				Debug.Log (b_OVRCam);
+				
+				Camera tempCameraComponent = null;
+				if(tempCameraComponent=tempMainCam.GetComponent<Camera>())
+				{
+					if(b_OVRCam)
+					{
+						tempCameraComponent.gameObject.SetActive(false);
+						tempOVRCam.gameObject.SetActive(true);
+					}
+					else
+					{
+						tempCameraComponent.gameObject.SetActive(true);
+						tempOVRCam.gameObject.SetActive(false);
+					}
+				}
+			}
+		}
+	}
+	
+
     public void SetUserID(int number)
     {
 		userID=number;

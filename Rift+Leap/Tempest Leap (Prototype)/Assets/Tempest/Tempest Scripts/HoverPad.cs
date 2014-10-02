@@ -18,6 +18,12 @@ public class HoverPad : MonoBehaviour
 	{
 	}
 	
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.gameObject.name == "hoverVolume")
+		GetComponentInParent<CharacterMotor> ().inputJump = true;
+	}
+	
 	void OnTriggerStay(Collider other)
     {
 		CharacterController controller = other.GetComponent<CharacterController>();
