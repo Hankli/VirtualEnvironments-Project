@@ -60,13 +60,13 @@
      <None Include="Assets\Save Score\OIScore.txt" />
      <None Include="Assets\Save Score\WFScore.txt" />
  <Reference Include="MySql.Data">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/MySql.Data.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/MySql.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Data.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Drawing">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Drawing.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
