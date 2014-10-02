@@ -28,6 +28,11 @@ namespace Tempest
 				m_startTime = Time.time;
 			}
 
+			public void End()
+			{
+				m_startTime = 0f;
+			}
+
 			public void Display()
 			{
 				float t = Time.time;

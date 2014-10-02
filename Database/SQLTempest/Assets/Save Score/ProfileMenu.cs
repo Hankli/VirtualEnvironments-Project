@@ -134,7 +134,7 @@ namespace Tempest
 					}
 					else msg = "*Profile Creation Failed*";
 
-					m_feedback.Begin(new Rect (Screen.width * 0.4f, Screen.height * 0.8f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f), msg, 5.0f, new GUIStyle (m_labelStyle));
+					m_feedback.Begin(new Rect (Screen.width * 0.4f, Screen.height * 0.8f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, m_labelStyle);
 				}
 			}
 
@@ -159,7 +159,7 @@ namespace Tempest
 					GUI.Label (new Rect (Screen.width * 0.4f, Screen.height * 0.44f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), medical, m_textAreaStyle); 
 				
 					//deletion of profile
-					Rect deleteButtonRect = new Rect(Screen.width * 0.3f, Screen.height * 0.52f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
+					Rect deleteButtonRect = new Rect(Screen.width * 0.3f, Screen.height * 0.65f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
 					if(GUI.Button(deleteButtonRect, "DELETE PROFILE", m_buttonStyle))
 					{
 						string msg = "";
@@ -167,13 +167,12 @@ namespace Tempest
 						if(m_tempestDB.AccountDatabase.DeletePatient (m_tempestDB.m_account.m_username, m_tempestDB.m_account.m_password))
 						{
 							m_tempestDB.m_bAccountLoaded = false;
-							Callback = OptionsMenu;//go back to main profile page
 
 							msg = "*Profile Successfully Deleted*";
 						}
 						else msg = "*Profile Deletion Failed";
 					
-						m_feedback.Begin(new Rect(Screen.width * 0.4f, Screen.height * 0.64f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, new GUIStyle(m_labelStyle));
+						m_feedback.Begin(new Rect(Screen.width * 0.4f, Screen.height * 0.64f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, m_labelStyle);
 					}
 				
 				}
@@ -204,7 +203,7 @@ namespace Tempest
 					}
 					else msg = "*Profile Loading Failed*";
 				
-					m_feedback.Begin(new Rect (Screen.width * 0.4f, Screen.height * 0.4f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, new GUIStyle (m_labelStyle));
+					m_feedback.Begin(new Rect (Screen.width * 0.4f, Screen.height * 0.4f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, m_labelStyle);
 				}
 			}
 
@@ -216,6 +215,7 @@ namespace Tempest
 
 				if(GUI.Button (goBackRect, "BACK", m_buttonStyle))
 				{
+					m_feedback.End (); //stop any feedback messages
 					Callback = OptionsMenu; //back to main menu
 				}
 			}
@@ -266,35 +266,35 @@ namespace Tempest
 
 				}
 
-				GUI.Label (new Rect(Screen.width * 0.75f, Screen.height * 0.15f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Connection Status: ");
+				GUI.Label (new Rect(Screen.width * 0.75f, Screen.height * 0.15f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.05f), "Connection Status: ");
 				
 				string status = m_tempestDB.IsConnected ? "Online" : "Offline";
 				Color color = GUI.color;
 				GUI.color = m_tempestDB.IsConnected ? Color.green : Color.red;
-				GUI.Label (new Rect(Screen.width * 0.85f, Screen.height * 0.15f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), status);
+				GUI.Label (new Rect(Screen.width * 0.85f, Screen.height * 0.15f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.05f), status, m_labelStyle);
 				GUI.color = color;
 			}
 
 			private void InitStyles()
 			{
 				m_labelStyle = new GUIStyle (GUI.skin.label);
-				m_labelStyle.fontSize = 12;
+				m_labelStyle.fontSize = 11;
 				m_labelStyle.alignment = TextAnchor.UpperLeft;
 				
 				m_buttonStyle = new GUIStyle (GUI.skin.button);
 				m_buttonStyle.alignment = TextAnchor.MiddleCenter;
 				m_buttonStyle.clipping = TextClipping.Clip;
-				m_buttonStyle.fontSize = 12;
+				m_buttonStyle.fontSize = 11;
 				
 				m_textFieldStyle = new GUIStyle (GUI.skin.textField);
-				m_textFieldStyle.alignment = TextAnchor.MiddleLeft;
-				m_textFieldStyle.fontSize = 12;
+				m_textFieldStyle.alignment = TextAnchor.UpperLeft;
+				m_textFieldStyle.fontSize = 11;
 				m_textFieldStyle.clipping = TextClipping.Clip;
 				m_textFieldStyle.wordWrap = true;
 				
 				m_textAreaStyle = new GUIStyle (GUI.skin.textArea);
 				m_textAreaStyle.alignment = TextAnchor.UpperLeft;
-				m_textAreaStyle.fontSize = 12;
+				m_textAreaStyle.fontSize = 11;
 				m_textAreaStyle.clipping = TextClipping.Clip;
 				m_textAreaStyle.wordWrap = true;
 			}

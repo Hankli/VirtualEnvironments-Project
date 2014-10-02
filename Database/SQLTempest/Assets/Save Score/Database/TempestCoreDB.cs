@@ -108,15 +108,15 @@ namespace Tempest
 				Reconnect (DefaultConfigIni);
 
 
-				m_reportDB.DropRelation ();
-				m_deviceDB.DropRelation ();
-				m_activityDB.DropRelation ();
-				m_patientDB.DropRelation ();
+			//	m_reportDB.DropRelation ();
+			//	m_deviceDB.DropRelation ();
+			//	m_activityDB.DropRelation ();
+			//	m_patientDB.DropRelation ();
 
-				m_deviceDB.CreateRelation ();
-				m_patientDB.CreateRelation ();
-				m_activityDB.CreateRelation ();
-				m_reportDB.CreateRelation ();
+			//	m_deviceDB.CreateRelation ();
+			//	m_patientDB.CreateRelation ();
+			//	m_activityDB.CreateRelation ();
+			//	m_reportDB.CreateRelation ();
 
 				/*
 				m_patientDB.AddPatient ("tpv", "password", "12/5/1209", "Male", "Bad");
