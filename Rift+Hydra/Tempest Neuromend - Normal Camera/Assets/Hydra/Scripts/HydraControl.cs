@@ -6,14 +6,17 @@ namespace Tempest
 	{
 		public class HydraControl : MonoBehaviour
 		{
-			public float m_characterMoveSensitivity = 1.0f;
-			public float m_cameraRotateSensitivity = 1.0f;
+			public float m_moveJoystickSensitivity = 1.0f;
+			public float m_rotateJoystickSensitivity = 1.0f;
 
 			public float m_handMoveSensitivity = 1.0f;
 			public float m_handRotateSensitivity = 1.0f;
 
 			public float m_throwingSensitivity = 1.0f;
 			public float m_triggerSensitivity = 1.0f;
+
+			public float m_walkSpeed = 3.0f;
+			public float m_strafeSpeed = 3.0f;
 
 			private void Awake()
 			{
@@ -37,10 +40,12 @@ namespace Tempest
 					HydraCharacterController character = o.GetComponent<HydraCharacterController> ();
 					HydraCameraController cam = o.GetComponent<HydraCameraController> ();
 
+					cam.CameraSensitivity = m_rotateJoystickSensitivity;
 					motion.MoveSensitivity = m_handMoveSensitivity;
 					motion.RotateSensitivity = m_handRotateSensitivity;
-					cam.CameraSensitivity = m_cameraRotateSensitivity;
-					character.MoveSensitivity = m_characterMoveSensitivity; 
+					character.MoveSensitivity = m_moveJoystickSensitivity; 
+					character.WalkSpeed = m_walkSpeed;  
+					character.StrafeSpeed = m_strafeSpeed; 
 
 					Component[] comp = o.GetComponents<Hand> ();
 					foreach(Component c in comp)

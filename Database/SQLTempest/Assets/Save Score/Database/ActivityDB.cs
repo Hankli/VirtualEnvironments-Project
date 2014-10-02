@@ -59,13 +59,15 @@ namespace Tempest
 				m_sqlView.EndQuery ();
 			}
 			
-			public void AddActivity(string activityName, string description)
+			public bool AddActivity(string activityName, string description)
 			{
 				m_sqlView.BeginQuery("INSERT IGNORE INTO activity(ActivityName, Description) VALUES(?NAME, ?DESCR)");
 				m_sqlView.Write ("?NAME", activityName);
 				m_sqlView.Write ("?DESCR", description);
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 
 			public bool FindActivity(string activityName)
@@ -79,7 +81,7 @@ namespace Tempest
 				return Convert.ToInt32 (obj) > 0;
 			}
 
-			public void ReadActivity(string activityName, ref Activity activity)
+			public bool ReadActivity(string activityName, ref Activity activity)
 			{
 				m_sqlView.BeginQuery ("SELECT * FROM activity WHERE ActivityName = @activityName");
 				m_sqlView.Write ("activityName", activityName);
@@ -93,12 +95,13 @@ namespace Tempest
 					activity.m_description = rdr.GetString("Description");
 				}
 				m_sqlView.EndRead ();
-
 				m_sqlView.EndQuery ();
+
+				return rdr != null;
 			}
 
 			
-			public void UpdateActivity(string activityName, string name, string descr)
+			public bool UpdateActivity(string activityName, string name, string descr)
 			{
 				m_sqlView.BeginQuery ("UPDATE activity SET " +
 				                      "ActivityName = @name, " +
@@ -109,17 +112,21 @@ namespace Tempest
 				m_sqlView.Write ("descr", descr);
 				m_sqlView.Write ("activityName", activityName);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 			
-			public void DeleteActivity(string activityName)
+			public bool DeleteActivity(string activityName)
 			{
 				m_sqlView.BeginQuery("DELETE FROM activity WHERE ActivityName = @activityName");
 				m_sqlView.Write ("activityName", activityName);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 		}
 	}

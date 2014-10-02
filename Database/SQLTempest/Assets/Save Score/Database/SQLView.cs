@@ -10,9 +10,15 @@ namespace Tempest
 	{
 		public class SQLView
 		{
+			private string m_latestError = null;
 			private MySqlConnection m_connection = null;
 			private MySqlCommand m_command = null;
 			private MySqlDataReader m_reader = null;
+
+			public string LatestError
+			{
+				get { return m_latestError; }
+			}
 
 			public void OpenConnection(string config)
 			{
@@ -66,12 +72,15 @@ namespace Tempest
 			{
 				try
 				{
-					return m_command.ExecuteNonQuery ();
+					int stat = m_command.ExecuteNonQuery ();
+					m_latestError = null; //no errors if we got here
+					return stat;
 				}
 
 				catch(MySqlException ex)
 				{
-					return ex.ErrorCode;
+					m_latestError = ex.Message;
+					return ex.Number;
 				}
 			}
 

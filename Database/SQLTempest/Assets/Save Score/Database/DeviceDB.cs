@@ -52,18 +52,20 @@ namespace Tempest
 				m_sqlView.EndQuery ();
 			}
 			
-			public void AddDevice(string deviceName, string description)
+			public bool AddDevice(string deviceName, string description)
 			{
 				m_sqlView.BeginQuery("INSERT IGNORE INTO device(DeviceName, Description) VALUES (?NAME, ?DESCR)");
 
 				m_sqlView.Write ("?NAME", deviceName);
 				m_sqlView.Write ("?DESCR", description);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 			
-			public void UpdateDevice(string deviceName, string name, string descr)
+			public bool UpdateDevice(string deviceName, string name, string descr)
 			{
 				m_sqlView.BeginQuery ("UPDATE device SET " +
 				                      "DeviceName = @name, " +
@@ -74,11 +76,13 @@ namespace Tempest
 				m_sqlView.Write ("descr", descr);
 				m_sqlView.Write ("deviceName", deviceName);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+			
+				return success;
 			}
 
-			public void ReadDevice(string deviceName, ref Device device)
+			public bool ReadDevice(string deviceName, ref Device device)
 			{
 				m_sqlView.BeginQuery ("SELECT * FROM device WHERE DeviceName = @deviceName");
 				m_sqlView.Write("deviceName", deviceName);
@@ -92,8 +96,9 @@ namespace Tempest
 					device.m_description = rdr.GetString("Description");
 				}
 				m_sqlView.EndRead ();
-
 				m_sqlView.EndQuery ();
+
+				return rdr != null;
 			}
 
 			public bool FindDevice(string deviceName)
@@ -107,13 +112,15 @@ namespace Tempest
 				return Convert.ToInt32 (obj) > 0;
 			}
 			
-			public void DeleteDevice(string deviceName)
+			public bool DeleteDevice(string deviceName)
 			{
 				m_sqlView.BeginQuery ("DELETE FROM device WHERE DeviceName = @deviceName");
 				m_sqlView.Write ("deviceName", deviceName);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 		}
 	}

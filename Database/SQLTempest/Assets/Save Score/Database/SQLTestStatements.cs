@@ -17,14 +17,14 @@
 /*
 				PatientDB.Patient pat = new PatientDB.Patient ();
 				m_patientDB.AddPatient ("Jack012", "557632", "10/8/1995", "Male", "Bad Real Bad");
-				Debug.Log(m_patientDB.FindPatient("Jack012") ? "Add Patient Success" : "Add Patient Failed");
+				Debug.Log(m_patientDB.FindPatient("Jack012", "557632") ? "Add Patient Success" : "Add Patient Failed");
 				
-				m_patientDB.UpdatePatient ("Jack012", "30/3/1975", "Female", "Average");
-				m_patientDB.ReadPatient ("Jack012", ref pat);
+				m_patientDB.UpdatePatient ("Jack012", "557632", "30/3/1975", "Female", "Average");
+				m_patientDB.ReadPatient ("Jack012", "557632" ref pat);
 				Debug.Log (pat.m_username + " -- " + pat.m_gender + " -- " + pat.m_medicalCondition + " -- " + pat.m_birthDate);
 				
-				m_patientDB.DeletePatient ("Jack012");
-				Debug.Log (m_patientDB.FindPatient ("Jack012") ? "Delete Failed" : "Delete Success");
+				m_patientDB.DeletePatient ("Jack012", "557632");
+				Debug.Log (m_patientDB.FindPatient ("Jack012", "557632") ? "Delete Failed" : "Delete Success");
 */
 
 

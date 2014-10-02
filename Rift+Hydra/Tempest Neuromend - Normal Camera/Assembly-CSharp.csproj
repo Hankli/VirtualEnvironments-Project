@@ -73,7 +73,9 @@
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
      <Compile Include="Assets\Tempest\GameTemplate\Scripts\Frame.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\BasicMovement.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\DroppingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\DebugUtils.cs" />
@@ -91,9 +93,12 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\RabbitClone.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\RabbitTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ScoreScreen.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRGUI.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\TextureSlide.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableObject.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableSpawner.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
@@ -101,6 +106,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
+     <None Include="Assets\Plugins\donotdelete.txt" />
      <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />

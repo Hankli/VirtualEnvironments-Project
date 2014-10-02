@@ -23,6 +23,31 @@ namespace Tempest
 			private PatientDB m_patientDB = null;
 			private ReportDB m_reportDB = null;
 
+			//specifically for loading and keeping track of current profiles
+			public bool m_bAccountLoaded;
+			public PatientDB.Patient m_account;
+
+
+			public ReportDB ReportDatabase
+			{
+				get { return m_reportDB; }
+			}
+
+			public PatientDB AccountDatabase
+			{
+				get { return m_patientDB; }
+			}
+
+			public DeviceDB DeviceDatabase
+			{
+				get { return m_deviceDB; }
+			}
+
+			public ActivityDB LevelDatabase
+			{
+				get { return m_activityDB; }
+			}
+
 			private void InitialiseDeviceData()
 			{
 				m_deviceDB.AddDevice ("Razor Hydra", "Motion and orientation detection game controller by Sixense Entertainment");
@@ -48,8 +73,10 @@ namespace Tempest
 					m_activityDB = new ActivityDB (m_sqlSource);
 					m_reportDB = new ReportDB (m_sqlSource);
 
-				   InitialiseDeviceData ();
-				   InitialiseActivityData ();
+				    InitialiseDeviceData ();
+				    InitialiseActivityData ();
+				
+					m_bAccountLoaded = false;
 				}
 			}
 
@@ -61,14 +88,14 @@ namespace Tempest
 
 			public void Disconnect()
 			{
-				if(m_sqlSource.OpenConnectionState)
-				{
-					m_sqlSource.CloseConnection ();
-				}
+				m_sqlSource.CloseConnection ();
 			}
 
 			private void Start()
 			{
+				m_bAccountLoaded = false;
+				m_account = new PatientDB.Patient ();
+
 				DontDestroyOnLoad (gameObject);
 				Reconnect (DefaultConfigIni);
 
@@ -89,6 +116,7 @@ namespace Tempest
 
 				List<ReportDB.Report> list = new List<ReportDB.Report> ();
 				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 120);
+				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 156);
 				m_reportDB.ExtractReport ("tpv", list);
 
 				foreach(ReportDB.Report rep in list)
@@ -96,6 +124,7 @@ namespace Tempest
 					Debug.Log (rep.ToString() + '\n');
 				}
 				*/
+
 			}
 
 			private void OnApplicationQuit()

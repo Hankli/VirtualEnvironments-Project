@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\ProfileMenu.cs" />
+     <Compile Include="Assets\Save Score\CalendarMenu.cs" />
      <Compile Include="Assets\Save Score\Database\ActivityDB.cs" />
      <Compile Include="Assets\Save Score\Database\DeviceDB.cs" />
      <Compile Include="Assets\Save Score\Database\PatientDB.cs" />
@@ -60,13 +61,13 @@
      <None Include="Assets\Save Score\OIScore.txt" />
      <None Include="Assets\Save Score\WFScore.txt" />
  <Reference Include="MySql.Data">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/MySql.Data.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/313/SQLTempest/Assets/sql_libraries/MySql.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Data.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/313/SQLTempest/Assets/sql_libraries/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Drawing">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Drawing.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/313/SQLTempest/Assets/sql_libraries/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

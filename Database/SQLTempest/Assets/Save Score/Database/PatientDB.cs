@@ -17,7 +17,7 @@ namespace Tempest
 				public string m_gender;
 				public string m_medicalCondition;
 				public string m_username;
-				private string m_password;
+				public string m_password;
 
 				public override string ToString ()
 				{
@@ -42,7 +42,7 @@ namespace Tempest
 										"Gender VARCHAR(10) DEFAULT NULL, " +
 										"MedicalCondition VARCHAR(200) DEFAULT NULL, " +
 										"BirthDate DATE DEFAULT NULL, " +
-										"CONSTRAINT PRIMARY KEY (Username))"); 
+										"CONSTRAINT PRIMARY KEY (Username, Password))"); 
 				m_sqlView.CommitQuery ();
 				m_sqlView.EndQuery ();
 			}
@@ -62,7 +62,7 @@ namespace Tempest
 				m_sqlView.EndQuery ();
 			}
 
-			public void AddPatient(string username, string password, string birthDate, string gender, string medicalCondition)
+			public bool AddPatient(string username, string password, string birthDate, string gender, string medicalCondition)
 			{
 				m_sqlView.BeginQuery("INSERT IGNORE INTO patient(Username, Password, Gender, MedicalCondition, BirthDate) " +
 					"VALUES (?USER, ?PASS, ?GND, ?COND, STR_TO_DATE(?BIRTH,'%d/%m/%Y'))");
@@ -73,26 +73,32 @@ namespace Tempest
 				m_sqlView.Write ("?GND", gender);
 				m_sqlView.Write ("?COND",  medicalCondition);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
-			}
-			
-			public void DeletePatient(string username)
-			{
-				m_sqlView.BeginQuery ("DELETE FROM patient WHERE Username = @username");
-				m_sqlView.Write ("username", username);
 
-				m_sqlView.CommitQuery ();
-				m_sqlView.EndQuery ();
+				return success;
 			}
 			
-			public void ReadPatient(string username, ref Patient patient)
+			public bool DeletePatient(string username, string password)
+			{
+				m_sqlView.BeginQuery ("DELETE FROM patient WHERE Username = @username AND Password = @password");
+				m_sqlView.Write ("username", username);
+				m_sqlView.Write ("password", password);
+
+				bool success = (m_sqlView.CommitQuery () == 0);
+				m_sqlView.EndQuery ();
+
+				return success;
+			}
+			
+			public bool ReadPatient(string username, string password, ref Patient patient)
 			{
 				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') " +
 									  "FROM patient " +
-									  "WHERE Username = @username");
+									  "WHERE Username = @username AND Password = @password");
 
 				m_sqlView.Write ("username", username);
+				m_sqlView.Write ("password", password);
 				m_sqlView.CommitQuery ();
 
 				m_sqlView.BeginRead ();
@@ -100,19 +106,22 @@ namespace Tempest
 				if(rdr != null)
 				{
 					patient.m_username = rdr.GetString("Username");
+					patient.m_password = rdr.GetString("Password");
 					patient.m_gender = rdr.GetString("Gender");
 					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
 					patient.m_medicalCondition = rdr.GetString("MedicalCondition");
 				}
 				m_sqlView.EndRead ();
-
 				m_sqlView.EndQuery ();
+
+				return rdr != null;
 			}
 
-			public bool FindPatient(string username)
+			public bool FindPatient(string username, string password)
 			{
-				m_sqlView.BeginQuery ("SELECT COUNT(1) FROM patient WHERE Username = @username");
+				m_sqlView.BeginQuery ("SELECT COUNT(1) FROM patient WHERE Username = @username AND Password = @password");
 				m_sqlView.Write ("username", username);
+				m_sqlView.Write ("password", password);
 
 				object obj = m_sqlView.CommitScalar();
 				m_sqlView.EndQuery ();
@@ -120,21 +129,24 @@ namespace Tempest
 				return Convert.ToInt32 (obj) > 0;
 			}
 			
-			public void UpdatePatient(string username, string birthDate, string condition, string gender)
+			public bool UpdatePatient(string username, string password, string birthDate, string condition, string gender)
 			{
 				m_sqlView.BeginQuery ("UPDATE patient SET " +
 				                      "Gender = @gender, " +
 				                      "BirthDate = STR_TO_DATE(@birthDate, '%d/%m/%Y'), " +
 				                      "MedicalCondition = @medicalCondition " +
-				                      "WHERE Username = @username");
+				                      "WHERE Username = @username AND Password = @password");
 
 				m_sqlView.Write ("gender", gender);
 				m_sqlView.Write ("medicalCondition", condition);
 				m_sqlView.Write ("birthDate", birthDate);
 				m_sqlView.Write ("username", username);
+				m_sqlView.Write ("password", password);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 		}
 	}

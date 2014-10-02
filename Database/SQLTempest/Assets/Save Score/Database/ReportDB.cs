@@ -70,7 +70,7 @@ namespace Tempest
 				m_sqlView.EndQuery ();
 			}
 
-			public void AddReport(string username, string device, string activity, DateTime timestamp, int score)
+			public bool AddReport(string username, string device, string activity, DateTime timestamp, int score)
 			{
 				m_sqlView.BeginQuery("INSERT IGNORE INTO report(Username, DeviceName, ActivityName, FinishDate, Score) " +
 				                     "VALUES(?USER, ?DEVICE, ?ACTIVITY, STR_TO_DATE(?FINISH, '%d/%m/%Y %k:%i'), ?SCORE)");
@@ -81,8 +81,10 @@ namespace Tempest
 				m_sqlView.Write ("?FINISH", timestamp.ToString("d/M/yyyy HH:mm")); //???
 				m_sqlView.Write ("?SCORE", score);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 
 			public void AddReport(string levelXML)
@@ -101,13 +103,15 @@ namespace Tempest
 				}
 			}
 
-			public void DeleteReport(int reportID)
+			public bool DeleteReport(int reportID)
 			{
 				m_sqlView.BeginQuery ("DELETE FROM report WHERE ReportID = @ID");
 				m_sqlView.Write ("ID", reportID);
 
-				m_sqlView.CommitQuery ();
+				bool success = (m_sqlView.CommitQuery () == 0);
 				m_sqlView.EndQuery ();
+
+				return success;
 			}
 
 			public bool FindReport(int reportID)

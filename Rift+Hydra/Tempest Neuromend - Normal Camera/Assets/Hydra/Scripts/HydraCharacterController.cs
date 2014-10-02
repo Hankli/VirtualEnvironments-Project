@@ -11,8 +11,8 @@ namespace Tempest
 
 			public Vector3 m_constantVelocity;
 
-			public float m_walkSpeed;
-			public float m_strafeSpeed;
+			public float m_walkSpeed = 2.0f;
+			public float m_strafeSpeed = 2.0f;
 			private float m_moveSensitivity = 1.0f;
 			
 			public Hands m_crouchHand;
@@ -33,6 +33,18 @@ namespace Tempest
 			{
 				get { return m_moveSensitivity; }
 				set { m_moveSensitivity = value; }
+			}
+
+			public float WalkSpeed
+			{
+				get { return m_walkSpeed; }
+				set { m_walkSpeed = value; } 
+			}
+
+			public float StrafeSpeed
+			{
+				get { return m_strafeSpeed; }
+				set { m_strafeSpeed = value; }
 			}
 			
 			private void Start()

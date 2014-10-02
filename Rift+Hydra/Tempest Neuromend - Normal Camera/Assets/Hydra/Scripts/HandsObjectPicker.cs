@@ -22,8 +22,8 @@ namespace Tempest
 			
 			public string m_gripJointName;
 
-			private float m_pullReach = 0.5f;
-			private float m_pullRadius = 0.08f;
+			private float m_pullReach = 0.8f;
+			private float m_pullRadius = 0.1f;
 		
 			private float m_throwSensitivity = 1.0f;
 

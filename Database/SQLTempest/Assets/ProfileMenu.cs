@@ -1,210 +1,339 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor;
 
-public class ProfileMenu : MonoBehaviour 
+namespace Tempest
 {
-	private Rect m_createProfileRect;
-	private Rect m_loadProfileRect;
-	private Rect m_deleteProfileRect;
-	private Rect m_goBackRect;
-	private Rect m_headingRect;
-	private Rect m_serverRect;
-	
-	private int m_buttonWidth;
-	private int m_buttonHeight;
-
-	private int m_textFieldWidth;
-	private int m_textFieldHeight;
-
-	private int m_labelWidth;
-	private int m_labelHeight;
-
-	private string m_usernameField;
-	private string m_passwordField;
-
-	private string m_dbServerField;
-	private string m_dbPasswordField;
-	private string m_dbDatabaseField;
-	private string m_dbUserIDField;
-
-	private bool m_bProfileLoaded;
-	private bool m_bProfileDeleted;
-	private bool m_bProfileCreated;
-
-	public Tempest.Database.PatientDB.Patient m_account;
-	private Tempest.Database.TempestCoreDB m_database;
-
-	private delegate void MenuFunction();
-	private MenuFunction Callback;
-
-	// Use this for initialization
-	private void Start () 
+	namespace MenuGUI
 	{
-		m_database = GameObject.Find ("Database").GetComponent<Tempest.Database.TempestCoreDB> ();
-		m_account = new Tempest.Database.PatientDB.Patient ();
-
-		m_bProfileLoaded = false;
-		m_bProfileDeleted = false;
-		m_bProfileCreated = false;
-		
-		m_usernameField = "";
-		m_passwordField = "";
-
-		m_dbServerField = "";
-		m_dbUserIDField = "";
-		m_dbDatabaseField = "";
-		m_dbPasswordField = "";
-
-		m_buttonWidth = 120;
-		m_buttonHeight = 60;
-
-		m_textFieldWidth = 150;
-		m_textFieldHeight = 40;
-
-		m_labelWidth = 60;
-		m_labelHeight = 40;
-
-		Callback = OptionsMenu;
-	}
-
-	private void ProfileCreate()
-	{
-		//enter details, submit 'form'.. if username does not exist
-
-	}
-
-	private void ProfileDelete()
-	{
-		//enter username
-		//confirmation
-		//delete.. or not
-
-	}
-
-	private void ProfileLoad()
-	{
-		//enter username
-		//load.. or not
-	}
-
-	private void GoBack()
-	{
-		m_goBackRect = new Rect (Screen.width * 0.1f, Screen.height * 0.66f,
-		                         (Screen.width - m_buttonWidth) * 0.12f,
-		                         (Screen.height - m_buttonHeight) * 0.07f);
-
-		if(GUI.Button (m_goBackRect, "BACK"))
+		public class ProfileMenu : MonoBehaviour
 		{
-			Callback = null; //back to main menu
+			private int m_buttonWidth;
+			private int m_buttonHeight;
+
+			private int m_textFieldWidth;
+			private int m_textFieldHeight;
+
+			private int m_labelWidth;
+			private int m_labelHeight;
+
+			private int m_gridWidth;
+			private int m_gridHeight;
+
+			private int m_textAreaWidth;
+			private int m_textAreaHeight;
+
+			private string m_usernameField;
+			private string m_passwordField;
+			private int m_genderSelection;
+			private string[] m_genderField;
+			private string m_medicalField;
+			private CalendarMenu m_dobCalendar;
+
+			private string m_dbServerField;
+			private string m_dbPasswordField;
+			private string m_dbDatabaseField;
+			private string m_dbUserIDField;
+
+			private GUIStyle m_buttonStyle;
+			private GUIStyle m_labelStyle;
+			private GUIStyle m_textAreaStyle;
+			private GUIStyle m_textFieldStyle;
+
+			private Tempest.Database.TempestCoreDB m_tempestDB;
+
+			private delegate void MenuFunction();
+			private MenuFunction Callback;
+
+			// Use this for initialization
+
+
+			private void Start () 
+			{
+				m_tempestDB = GameObject.Find ("Database").GetComponent<Tempest.Database.TempestCoreDB> ();
+
+				m_dobCalendar = new CalendarMenu (80);
+
+				m_usernameField = "";
+				m_passwordField = "";
+				m_genderField = new string[] {"Male", "Female"};
+				m_genderSelection = 0;
+				m_medicalField = "";
+
+				m_dbServerField = "";
+				m_dbUserIDField = "";
+				m_dbDatabaseField = "";
+				m_dbPasswordField = "";
+
+				m_buttonWidth = 120;
+				m_buttonHeight = 100;
+
+				m_textFieldWidth = 150;
+				m_textFieldHeight = 220;
+
+				m_labelWidth = 60;
+				m_labelHeight = 120;
+
+				m_gridWidth = 40;
+				m_gridHeight = 50;
+
+				m_textAreaWidth = 300;
+				m_textAreaHeight = 400;
+
+				Callback = OptionsMenu;
+			}
+
+			private void ClearNonPersistantFields()
+			{
+				m_usernameField = "";
+				m_passwordField = "";
+				m_medicalField = "";
+				m_genderSelection = 0;
+				m_dobCalendar.MakeToday ();
+			}
+
+			private void CreateProfile()
+			{
+				//enter details, submit 'form'.. if username does not exist
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.28f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.36f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Gender", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.44f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Medical Condition", m_labelStyle);
+				GUI.Label(new Rect(Screen.width * 0.3f, Screen.height * 0.68f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Date Of Birth", m_labelStyle);
+
+				//accept user details
+				m_usernameField = GUI.TextField(new Rect(Screen.width * 0.4f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_usernameField, m_textFieldStyle);
+				m_passwordField = GUI.PasswordField(new Rect(Screen.width * 0.4f, Screen.height * 0.28f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_passwordField, '*', m_textFieldStyle);
+				m_genderSelection = GUI.SelectionGrid (new Rect (Screen.width * 0.4f, Screen.height * 0.36f, (Screen.width - m_gridWidth) * 0.1f, (Screen.height - m_gridHeight) * 0.04f), m_genderSelection, m_genderField, 2, m_buttonStyle);  
+				m_medicalField = GUI.TextArea (new Rect (Screen.width * 0.4f, Screen.height * 0.44f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), m_medicalField, m_textAreaStyle); 
+
+				//render date GUI and accept user date of birth
+				m_dobCalendar.m_dayPos = new Rect (Screen.width * 0.4f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.055f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_monthPos = new Rect (Screen.width * 0.46f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.055f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_yearPos = new Rect (Screen.width * 0.52f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.055f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.Render ();
+				string dobField = m_dobCalendar.GetFormattedDate ('/');
+
+				//trim username and password fields
+				m_usernameField = m_usernameField.Trim ();
+				m_passwordField = m_passwordField.Trim ();
+				bool valid = m_usernameField.Length > 0 && m_passwordField.Length > 0;
+
+				Rect createButtonRect = new Rect(Screen.width * 0.3f, Screen.height * 0.8f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
+				if(GUI.Button(createButtonRect, "CREATE PROFILE", m_buttonStyle) && valid)
+				{
+					if(m_tempestDB.AccountDatabase.AddPatient(m_usernameField, m_passwordField, dobField, m_genderField[m_genderSelection], m_medicalField))
+					{
+						m_tempestDB.m_bAccountLoaded = true;
+					}
+				}
+			}
+
+			private void DeleteProfile()
+			{
+				if(m_tempestDB.m_bAccountLoaded)
+				{
+					Rect deleteButtonRect = new Rect(Screen.width * 0.3f, Screen.height * 0.8f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
+					if(GUI.Button(deleteButtonRect, "DELETE PROFILE", m_buttonStyle))
+					{
+						if(m_tempestDB.AccountDatabase.DeletePatient (m_tempestDB.m_account.m_username, m_tempestDB.m_account.m_password))
+						{
+							m_tempestDB.m_bAccountLoaded = false;
+						}
+					}
+					//send sad message
+				}
+			}
+
+			private void ViewProfile()
+			{
+				if(m_tempestDB.m_bAccountLoaded)
+				{
+					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.20f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username", m_labelStyle);
+					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.28f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Date Of Birth", m_labelStyle);
+					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.36f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Gender", m_labelStyle);
+					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.44f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Medical Condition", m_labelStyle);
+
+					string gender = m_tempestDB.m_account.m_gender;
+					string dob = m_tempestDB.m_account.m_birthDate;
+					string medical = m_tempestDB.m_account.m_medicalCondition;
+					string username = m_tempestDB.m_account.m_username;
+
+					GUI.Label(new Rect(Screen.width * 0.4f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), username, m_textFieldStyle);
+					GUI.Label(new Rect(Screen.width * 0.4f, Screen.height * 0.28f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), dob, m_textFieldStyle);
+					GUI.Label(new Rect (Screen.width * 0.4f, Screen.height * 0.36f, (Screen.width - m_gridWidth) * 0.1f, (Screen.height - m_gridHeight) * 0.04f), gender, m_textFieldStyle);  
+					GUI.Label (new Rect (Screen.width * 0.4f, Screen.height * 0.44f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), medical, m_textAreaStyle); 
+				}
+				else
+				{
+					GUI.Label (new Rect (Screen.width * 0.4f, Screen.height * 0.35f, (Screen.width - m_labelWidth) * 0.3f, (Screen.height - m_labelHeight) * 0.3f), "No Profile Loaded", m_labelStyle);
+				}
+			}
+
+			private void LoadProfile()
+			{
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username");
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.28f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password");
+				
+				m_usernameField = GUI.TextField(new Rect(Screen.width * 0.4f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_usernameField, m_textFieldStyle);
+				m_passwordField = GUI.PasswordField(new Rect(Screen.width * 0.4f, Screen.height * 0.28f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_passwordField, '*', m_textFieldStyle);
+
+				Rect loadButtonRect = new Rect (Screen.width * 0.3f, Screen.height * 0.4f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
+				if(GUI.Button(loadButtonRect, "LOAD PROFILE", m_buttonStyle))
+				{
+					if(m_tempestDB.AccountDatabase.ReadPatient (m_usernameField, m_passwordField, ref m_tempestDB.m_account))
+					{
+						m_tempestDB.m_bAccountLoaded = true;
+					}
+				}
+			}
+
+			private void GoBack()
+			{
+				Rect goBackRect = new Rect (Screen.width * 0.1f, Screen.height * 0.78f,
+				                         (Screen.width - m_buttonWidth) * 0.12f,
+				                         (Screen.height - m_buttonHeight) * 0.06f);
+
+				if(GUI.Button (goBackRect, "BACK", m_buttonStyle))
+				{
+					Callback = OptionsMenu; //back to main menu
+				}
+			}
+
+			private void Heading()
+			{
+				GUIStyle style = new GUIStyle(GUI.skin.label);
+				style.alignment = TextAnchor.MiddleCenter;
+				style.fontSize = 25;
+				style.normal = new GUIStyleState();
+				style.normal.textColor = Color.black;
+
+				Rect headingRect = new Rect (0.0f, 0.0f, Screen.width, Screen.height * 0.05f);
+				GUI.Label (headingRect, "Profile Menu", style);
+			}
+
+			private void ServerSettings()
+			{
+				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Server", m_labelStyle);
+				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.25f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Database", m_labelStyle);
+				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.3f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "User ID", m_labelStyle);
+				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.35f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password", m_labelStyle);
+				
+				m_dbServerField =   GUI.TextField(new Rect(Screen.width * 0.85f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbServerField, m_textFieldStyle);
+				m_dbDatabaseField = GUI.TextField(new Rect(Screen.width * 0.85f, Screen.height * 0.25f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbDatabaseField, m_textFieldStyle);
+				m_dbUserIDField =   GUI.TextField(new Rect(Screen.width * 0.85f, Screen.height * 0.3f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbUserIDField, m_textFieldStyle);
+				m_dbPasswordField = GUI.PasswordField(new Rect(Screen.width * 0.85f, Screen.height * 0.35f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbPasswordField, '*', m_textFieldStyle);
+					
+				if(GUI.Button (new Rect(Screen.width * 0.85f, Screen.height * 0.42f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Default", m_buttonStyle))
+				{
+					string[] tokens = Tempest.Database.TempestCoreDB.DefaultConfigIni.Split(new string[] {";"}, System.StringSplitOptions.RemoveEmptyEntries);
+
+					m_dbServerField = tokens[0].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
+					m_dbDatabaseField = tokens[1].Split (new string[]{"="} , System.StringSplitOptions.RemoveEmptyEntries)[1];
+					m_dbUserIDField = tokens[2].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
+					m_dbPasswordField = tokens[3].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
+				}
+
+				else if(GUI.Button (new Rect(Screen.width * 0.85f, Screen.height * 0.48f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Connect", m_buttonStyle))
+				{
+					string config = "Server=" + m_dbServerField + ";" +
+						            "Database=" + m_dbDatabaseField + ";" +
+							        "User ID=" + m_dbUserIDField + ";" +
+							        "Password=" + m_dbPasswordField + ";" + 
+							        "Pooling=false";
+
+					m_tempestDB.Reconnect(config);
+
+				}
+
+				GUI.Label (new Rect(Screen.width * 0.75f, Screen.height * 0.15f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Connection Status: ");
+				
+				string status = m_tempestDB.IsConnected ? "Online" : "Offline";
+				Color color = GUI.color;
+				GUI.color = m_tempestDB.IsConnected ? Color.green : Color.red;
+				GUI.Label (new Rect(Screen.width * 0.85f, Screen.height * 0.15f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), status);
+				GUI.color = color;
+			}
+
+			private void InitStyles()
+			{
+				m_labelStyle = new GUIStyle (GUI.skin.label);
+				m_labelStyle.fontSize = 12;
+				m_labelStyle.alignment = TextAnchor.UpperLeft;
+				
+				m_buttonStyle = new GUIStyle (GUI.skin.button);
+				m_buttonStyle.alignment = TextAnchor.MiddleCenter;
+				m_buttonStyle.clipping = TextClipping.Clip;
+				m_buttonStyle.fontSize = 12;
+				
+				m_textFieldStyle = new GUIStyle (GUI.skin.textField);
+				m_textFieldStyle.alignment = TextAnchor.MiddleLeft;
+				m_textFieldStyle.fontSize = 12;
+				m_textFieldStyle.clipping = TextClipping.Clip;
+				m_textFieldStyle.wordWrap = true;
+				
+				m_textAreaStyle = new GUIStyle (GUI.skin.textArea);
+				m_textAreaStyle.alignment = TextAnchor.UpperLeft;
+				m_textAreaStyle.fontSize = 12;
+				m_textAreaStyle.clipping = TextClipping.Clip;
+				m_textAreaStyle.wordWrap = true;
+			}
+
+			private void OptionsMenu()
+			{
+				Rect createProfileRect = new Rect(Screen.width * 0.1f, Screen.height * 0.3f, 
+				                               (Screen.width - m_buttonWidth) * 0.12f, 
+				                               (Screen.height - m_buttonHeight) * 0.06f);
+				
+				Rect loadProfileRect = new Rect (Screen.width * 0.1f, Screen.height * 0.42f,
+				                              (Screen.width - m_buttonWidth) * 0.12f,
+				                              (Screen.height - m_buttonHeight) * 0.06f);
+				
+				Rect deleteProfileRect = new Rect (Screen.width * 0.1f, Screen.height * 0.54f,
+				                                (Screen.width - m_buttonWidth) * 0.12f,
+				                                (Screen.height - m_buttonHeight) * 0.06f);
+
+				Rect viewProfileRect = new Rect (Screen.width * 0.1f, Screen.height * 0.66f,
+				                                   (Screen.width - m_buttonWidth) * 0.12f,
+				                                   (Screen.height - m_buttonHeight) * 0.06f);
+
+				if(GUI.Button (createProfileRect, "CREATE PROFILE", m_buttonStyle))
+				{
+					ClearNonPersistantFields();
+					Callback = CreateProfile;
+				}
+
+				else if(GUI.Button (loadProfileRect, "LOAD PROFILE", m_buttonStyle))
+				{
+					ClearNonPersistantFields();
+					Callback = LoadProfile;
+				}
+
+				else if(GUI.Button (deleteProfileRect, "DELETE PROFILE", m_buttonStyle))
+				{
+					ClearNonPersistantFields();
+					Callback = DeleteProfile;
+				}
+
+				else if(GUI.Button(viewProfileRect, "VIEW PROFILE", m_buttonStyle))
+				{
+					ClearNonPersistantFields();
+					Callback = ViewProfile;
+				}
+			}
+
+			private void OnGUI()
+			{
+				InitStyles ();
+				Heading();
+				ServerSettings();
+				GoBack ();
+
+				if(Callback != null)
+				{
+					Callback ();
+				}
+			}
 		}
-	}
-
-	private void Heading()
-	{
-		GUIStyle style = new GUIStyle();
-		style.alignment = TextAnchor.MiddleCenter;
-		style.fontSize = 20;
-		style.normal = new GUIStyleState();
-		style.normal.textColor = Color.red;
-		m_database = GameObject.Find ("Database").GetComponent<Tempest.Database.TempestCoreDB>();
-		m_headingRect = new Rect (0.0f, 0.0f, Screen.width, Screen.height * 0.05f);
-		GUI.Label (m_headingRect, "Profile Menu", style);
-	}
-
-	private void ServerSettings()
-	{
-		GUI.skin.textField.wordWrap = true;
-		GUI.skin.textField.clipping = TextClipping.Clip;
-
-		GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.1f), "Server");
-		GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.25f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.1f), "Database");
-		GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.3f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.1f), "User ID");
-		GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.35f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.1f), "Password");
-
-		m_dbServerField =   GUI.TextField(new Rect(Screen.width * 0.85f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbServerField);
-		m_dbDatabaseField = GUI.TextField(new Rect(Screen.width * 0.85f, Screen.height * 0.25f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbDatabaseField);
-		m_dbUserIDField =   GUI.TextField(new Rect(Screen.width * 0.85f, Screen.height * 0.3f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbUserIDField);
-
-		GUIStyle style = new GUIStyle ();
-		style = GUI.skin.textField;
-			
-		m_dbPasswordField = GUI.PasswordField(new Rect(Screen.width * 0.85f, Screen.height * 0.35f, (Screen.width - m_textFieldWidth) * 0.13f, (Screen.height - m_textFieldHeight) * 0.05f), m_dbPasswordField, '*', style);
-		
-		if(GUI.Button (new Rect(Screen.width * 0.85f, Screen.height * 0.4f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Default"))
-		{
-			string[] tokens = Tempest.Database.TempestCoreDB.DefaultConfigIni.Split(new string[] {";"}, System.StringSplitOptions.RemoveEmptyEntries);
-
-			m_dbServerField = tokens[0].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
-			m_dbDatabaseField = tokens[1].Split (new string[]{"="} , System.StringSplitOptions.RemoveEmptyEntries)[1];
-			m_dbUserIDField = tokens[2].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
-			m_dbPasswordField = tokens[3].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
-
-		}
-
-		else if(GUI.Button (new Rect(Screen.width * 0.85f, Screen.height * 0.45f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Connect"))
-		{
-			string config = "Server=" + m_dbServerField + ";" +
-				            "Database=" + m_dbDatabaseField + ";" +
-					        "User ID=" + m_dbUserIDField + ";" +
-					        "Password=" + m_dbPasswordField + ";" + 
-					        "Pooling=false";
-
-			m_database.Reconnect(config);
-
-		}
-
-		GUI.Label (new Rect(Screen.width * 0.75f, Screen.height * 0.15f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), "Connection Status: ");
-		
-		string status = m_database.IsConnected ? "Online" : "Offline";
-		Color color = GUI.color;
-		GUI.color = m_database.IsConnected ? Color.green : Color.red;
-		GUI.Label (new Rect(Screen.width * 0.85f, Screen.height * 0.15f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.05f), status);
-		GUI.color = color;
-
-	}
-
-	private void OptionsMenu()
-	{
-		m_createProfileRect = new Rect(Screen.width * 0.1f, Screen.height * 0.3f, 
-		                               (Screen.width - m_buttonWidth) * 0.12f, 
-		                               (Screen.height - m_buttonHeight) * 0.07f);
-		
-		m_loadProfileRect = new Rect (Screen.width * 0.1f, Screen.height * 0.42f,
-		                              (Screen.width - m_buttonWidth) * 0.12f,
-		                              (Screen.height - m_buttonHeight) * 0.07f);
-		
-		m_deleteProfileRect = new Rect (Screen.width * 0.1f, Screen.height * 0.54f,
-		                                (Screen.width - m_buttonWidth) * 0.12f,
-		                                (Screen.height - m_buttonHeight) * 0.07f);
-
-		if(GUI.Button (m_createProfileRect, "CREATE PROFILE"))
-		{
-			Callback = ProfileCreate;
-		}
-
-		else if(GUI.Button (m_loadProfileRect, "LOAD PROFILE"))
-		{
-			Callback = ProfileLoad;
-		}
-
-		else if(GUI.Button (m_deleteProfileRect, "DELETE PROFILE"))
-		{
-			Callback = ProfileDelete;
-		}
-	}
-
-	private void OnGUI()
-	{
-		Heading();
-		ServerSettings();
-		GoBack ();
-		Callback ();
-
-	}
-
-	// Update is called once per frame
-	private void Update ()
-	{
-	
 	}
 }
