@@ -8,7 +8,7 @@ public class LeapOculusMove : MonoBehaviour
 	float speed;
 	float forwardSpeed;
 	float backwardSpeed;
-	float sensitivity;
+	float sensitivity = 2.9f;
 	float rotSpeed;
 	float stopping;
 	Vector3 newPos;
@@ -39,19 +39,19 @@ public class LeapOculusMove : MonoBehaviour
 		forwardSpeed = 3.0f;
 		backwardSpeed = -2.0f;
 
-        if (variables)
-        {
-            //********variables changed in menu********//
-            twoHands = variables.GetTwoHands();//if two or 1 hands selected
-            sensitivity = variables.GetSensitivity();
-            Debug.Log("sensitivity = " + sensitivity);
-            float OldRange = (10.0f - 0.0f);
-            float NewRange = (3.5f - 2.5f);
-            sensitivity = (((sensitivity - 0.0f) * NewRange) / OldRange) + 2.5f;
-            Debug.Log("sensitivity = " + sensitivity);
-        }
-		//sensitivity = 2.9f; //sensitivity of the hand rotation. decrease for harder (2.5), increase for easier (3.1), ave 2.9.
-		//********variables changed in menu********//
+		if(variables)
+		{
+			//********variables changed in menu********//
+			twoHands = variables.GetTwoHands();//if two or 1 hands selected
+			sensitivity = variables.GetSensitivity();
+			Debug.Log ("sensitivity = " + sensitivity);
+			float OldRange = (10.0f - 0.0f);  
+			float NewRange = (3.5f - 2.5f);  
+			sensitivity = (((sensitivity - 0.0f) * NewRange) / OldRange) + 2.5f;
+			Debug.Log ("sensitivity = " + sensitivity);
+			//sensitivity = 2.9f; //sensitivity of the hand rotation. decrease for harder (2.5), increase for easier (3.1), ave 2.9.
+			//********variables changed in menu********//
+		}
 
 		speed = 2.0f;
 		rotSpeed = 0.5f;

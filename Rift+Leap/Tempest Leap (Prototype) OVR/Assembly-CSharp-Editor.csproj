@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{C11EEF40-01C0-5048-1DE8-9EA0C0F9B4F5}</ProjectGuid>
+	<ProjectGuid>{5D0B966A-3D32-8A4C-BD6E-8F96C1BC319C}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -71,7 +71,6 @@
      <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\LeapMotion\OVR\OVRImageEffects\OVRLensCorrection_CA.shader" />
-     <None Include="Assets\313_DatabaseFiles\link.txt" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\LeapMotion\Materials\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\LeapMotion\OVR\Shaders\OVRGUIShader.shader" />
@@ -82,17 +81,8 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
      <None Include="Assets\LeapMotion\Shaders\LeapUndistorted.shader" />
- <Reference Include="MySql.Data">
- <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/313_DatabaseFiles/MySql.Data.dll</HintPath>
- </Reference>
- <Reference Include="System.Data">
- <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/313_DatabaseFiles/System.Data.dll</HintPath>
- </Reference>
- <Reference Include="System.Drawing">
- <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/313_DatabaseFiles/System.Drawing.dll</HintPath>
- </Reference>
  <Reference Include="LeapCSharp.NET3.5">
- <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype)/Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
+ <HintPath>D:/University/2014/ICT313/Unity/Tempest Leap (Prototype) OVR/Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
@@ -100,13 +90,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{2FEC4F37-D0F8-2843-36B6-C1D4BD2A17D9}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{E44D2F5A-E669-5241-B8FB-63BA18FCAF74}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{82E33ACA-5435-5F51-1A0F-5FEB7BF315CD}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
+      <Project>{0A66CD36-ACE4-F4B2-D6C5-350FE2FC0D45}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{9622E2D6-D21B-1526-720A-F5E638B33D85}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{749B7F4F-DFA9-68A8-4FB7-5766290048AF}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-UnityScript.unityproj">
-      <Project>{FA64F2E1-3566-CA0B-5082-BFC222C5B662}</Project>      <Name>Assembly-UnityScript</Name>    </ProjectReference>
+      <Project>{A7C2FBA1-5532-3866-EC0B-4DECE8A5CF75}</Project>      <Name>Assembly-UnityScript</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
