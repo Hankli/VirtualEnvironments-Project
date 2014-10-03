@@ -41,7 +41,7 @@ namespace Tempest
 										"Gender VARCHAR(10) DEFAULT NULL, " +
 										"MedicalCondition VARCHAR(200) DEFAULT NULL, " +
 										"BirthDate DATE DEFAULT NULL, " +
-										"CONSTRAINT PRIMARY KEY (Username, Password))"); 
+										"CONSTRAINT PRIMARY KEY (Username))"); 
 				m_sqlView.CommitQuery ();
 				m_sqlView.EndQuery ();
 			}
@@ -90,7 +90,7 @@ namespace Tempest
 				return success;
 			}
 			
-			public bool ReadPatient(string username, string password, ref Patient patient)
+			public bool ExtractPatient(string username, string password, ref Patient patient)
 			{
 				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') " +
 									  "FROM patient " +

@@ -81,7 +81,7 @@ namespace Tempest
 				return success;
 			}
 
-			public bool ReadDevice(string deviceName, ref Device device)
+			public bool ExtractDevice(string deviceName, ref Device device)
 			{
 				m_sqlView.BeginQuery ("SELECT * FROM device WHERE DeviceName = @deviceName");
 				m_sqlView.Write("deviceName", deviceName);

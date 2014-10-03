@@ -8,22 +8,20 @@ namespace Tempest
 		{
 			private float m_displayTime;
 			private float m_startTime;
-			private Rect m_rect;
 			private GUIStyle m_style;
-			private string m_message;
+			private string m_log;
 
 			public TimedMessage()
 			{				
-				m_message = "";
+				m_log = "";
 				m_startTime = Time.time;
 				m_displayTime = 0f;
 			}
 
-			public void Begin(Rect rect, string msg, float lifetime, GUIStyle style)
+			public void Begin(string msg, float lifetime, GUIStyle style)
 			{
-				m_rect = rect;
 				m_style = style;
-				m_message = msg;
+				m_log = msg;
 				m_displayTime = lifetime;
 				m_startTime = Time.time;
 			}
@@ -33,12 +31,12 @@ namespace Tempest
 				m_startTime = 0f;
 			}
 
-			public void Display()
+			public void Display(Rect pos)
 			{
 				float t = Time.time;
 				if(t - m_startTime <= m_displayTime)
 				{
-					GUI.Label (m_rect, m_message, m_style);	
+					GUI.Label (pos, m_log, m_style);	
 				}
 			}
 		}

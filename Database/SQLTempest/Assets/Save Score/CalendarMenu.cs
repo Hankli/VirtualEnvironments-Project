@@ -37,7 +37,7 @@ namespace Tempest
 				m_dropMonthList = false;
 
 				m_xCount = 5;
-				m_scrollPadding = 12;
+				m_scrollPadding = 15;
 				m_dropPadding = 5;
 				
 				YearRange = yearRange;
@@ -92,6 +92,11 @@ namespace Tempest
 					m_daySelection = GUI.SelectionGrid(new Rect(0f, 0f, m_dayPos.width, m_dayPos.height * m_dayField.Length), 
 					                                   m_daySelection, m_dayField, 1, style);
 
+					if(lastSelect != m_daySelection)
+					{
+						m_dropDayList = false;
+					}
+
 					GUI.EndScrollView ();
 				}
 			}
@@ -117,6 +122,7 @@ namespace Tempest
 					if(lastSelect != m_monthSelection) //month change 'event'(any other alternatives?)
 					{
 						UpdateDayField();
+						m_dropMonthList = false;
 					}
 					
 					GUI.EndScrollView ();
@@ -144,6 +150,7 @@ namespace Tempest
 					if(lastSelect != m_yearSelection) //month change 'event'(any other alternatives?)
 					{
 						UpdateDayField();
+						m_dropYearList = false;
 					}
 					
 					GUI.EndScrollView ();

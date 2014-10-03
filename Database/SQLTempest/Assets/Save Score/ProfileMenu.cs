@@ -57,8 +57,6 @@ namespace Tempest
 			{
 				m_tempestDB = GameObject.Find ("Database").GetComponent<Tempest.Database.TempestCoreDB> ();
 
-				m_dobCalendar = new CalendarMenu (80);
-
 				m_feedback = new TimedMessage ();
 
 				m_usernameField = "";
@@ -66,13 +64,14 @@ namespace Tempest
 				m_genderField = new string[] {"Male", "Female"};
 				m_genderSelection = 0;
 				m_medicalField = "";
+				m_dobCalendar = new CalendarMenu (80);
 
 				m_dbServerField = "";
 				m_dbUserIDField = "";
 				m_dbDatabaseField = "";
 				m_dbPasswordField = "";
 
-				m_buttonWidth = 120;
+				m_buttonWidth = 140;
 				m_buttonHeight = 100;
 
 				m_textFieldWidth = 150;
@@ -115,15 +114,15 @@ namespace Tempest
 				m_medicalField = GUI.TextArea (new Rect (Screen.width * 0.4f, Screen.height * 0.44f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), m_medicalField, m_textAreaStyle); 
 
 				//render date GUI and accept user date of birth
-				m_dobCalendar.m_dayPos = new Rect (Screen.width * 0.4f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.055f, (Screen.height - 140.0f) * 0.05f);
-				m_dobCalendar.m_monthPos = new Rect (Screen.width * 0.46f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.055f, (Screen.height - 140.0f) * 0.05f);
-				m_dobCalendar.m_yearPos = new Rect (Screen.width * 0.52f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.055f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_dayPos = new Rect (Screen.width * 0.4f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.05f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_monthPos = new Rect (Screen.width * 0.45f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.07f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_yearPos = new Rect (Screen.width * 0.52f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.05f, (Screen.height - 140.0f) * 0.05f);
 				m_dobCalendar.Display ();
 
 				//trim username and password fields
 				bool fieldCheck = m_usernameField.Trim().Length > 0 && m_passwordField.Trim ().Length > 0;
 
-				Rect createButtonRect = new Rect(Screen.width * 0.3f, Screen.height * 0.8f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
+				Rect createButtonRect = new Rect(Screen.width * 0.3f, Screen.height * 0.78f, (Screen.width - m_buttonWidth) * 0.1f, (Screen.height - m_buttonHeight) * 0.06f);
 				if(GUI.Button(createButtonRect, "CREATE PROFILE", m_buttonStyle) && fieldCheck)
 				{
 					string msg = "";
@@ -132,15 +131,39 @@ namespace Tempest
 					{
 						msg = "*Profile Successfully Created*";
 					}
-					else msg = "*Profile Creation Failed*";
+					else
+					{
+						msg = "*Profile Creation Failed*";
+					}
 
-					m_feedback.Begin(new Rect (Screen.width * 0.4f, Screen.height * 0.8f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, m_labelStyle);
+					m_feedback.Begin(msg, 5.0f, m_labelStyle);
 				}
+			}
+
+			private Vector2 m_scoreViewPos = Vector2.zero;
+
+			private void DisplayProfileScores()
+			{
+				Rect pos = new Rect ();
+				Rect view = new Rect ();
+
+				m_scoreViewPos = GUI.BeginScrollView (pos, m_scoreViewPos, view);
+
+				GUI.Label(new Rect(Screen.width * 0.4f, Screen.height * 0.56f, (Screen.width - m_labelWidth) * 0.1f, (Screen.width - m_labelHeight) * 0.06f), "Date", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.5f, Screen.height * 0.56f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Score", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.6f, Screen.height * 0.56f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Device", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.7f, Screen.height * 0.56f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Level", m_labelStyle);
+
+				List<Tempest.Database.ReportDB.Report> account = new List<Tempest.Database.ReportDB.Report> ();
+				m_tempestDB.ReportDatabase.ExtractReport (m_tempestDB.ProfileData.Account.m_username, account);
+
+		
+				GUI.EndScrollView ();
 			}
 
 			private void ViewProfile()
 			{
-				if(m_tempestDB.m_bAccountLoaded)
+				if(m_tempestDB.ProfileData.bLoaded)
 				{
 					//viewing of profile
 					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.20f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username", m_labelStyle);
@@ -148,10 +171,10 @@ namespace Tempest
 					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.36f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Gender", m_labelStyle);
 					GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.44f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Medical Condition", m_labelStyle);
 
-					string gender = m_tempestDB.m_account.m_gender;
-					string dob = m_tempestDB.m_account.m_birthDate;
-					string medical = m_tempestDB.m_account.m_medicalCondition;
-					string username = m_tempestDB.m_account.m_username;
+					string gender = m_tempestDB.ProfileData.Account.m_gender;
+					string dob = m_tempestDB.ProfileData.Account.m_birthDate;
+					string medical = m_tempestDB.ProfileData.Account.m_medicalCondition;
+					string username = m_tempestDB.ProfileData.Account.m_username;
 
 					GUI.Label(new Rect(Screen.width * 0.4f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), username, m_textFieldStyle);
 					GUI.Label(new Rect(Screen.width * 0.4f, Screen.height * 0.28f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), dob, m_textFieldStyle);
@@ -164,17 +187,21 @@ namespace Tempest
 					{
 						string msg = "";
 
-						if(m_tempestDB.AccountDatabase.DeletePatient (m_tempestDB.m_account.m_username, m_tempestDB.m_account.m_password))
+						if(m_tempestDB.AccountDatabase.DeletePatient (m_tempestDB.ProfileData.Account.m_username, m_tempestDB.ProfileData.Account.m_password))
 						{
-							m_tempestDB.m_bAccountLoaded = false;
+							m_tempestDB.ProfileData.bLoaded = false;
 
 							msg = "*Profile Successfully Deleted*";
 						}
-						else msg = "*Profile Deletion Failed";
-					
-						m_feedback.Begin(new Rect(Screen.width * 0.4f, Screen.height * 0.64f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, m_labelStyle);
+						else
+						{
+							msg = "*Profile Deletion Failed";
+						}
+
+						m_feedback.Begin(msg, 5.0f, m_labelStyle);
 					}
-				
+
+					DisplayProfileScores();			
 				}
 				else
 				{
@@ -195,15 +222,18 @@ namespace Tempest
 				{
 					string msg = "";
 
-					if(m_tempestDB.AccountDatabase.ReadPatient (m_usernameField, m_passwordField, ref m_tempestDB.m_account))
+					if(m_tempestDB.AccountDatabase.ExtractPatient (m_usernameField, m_passwordField, ref m_tempestDB.ProfileData.Account))
 					{
-						m_tempestDB.m_bAccountLoaded = true;
+						m_tempestDB.ProfileData.bLoaded = true;
 
 						msg = "*Profile Successfully Loaded*";
 					}
-					else msg = "*Profile Loading Failed*";
-				
-					m_feedback.Begin(new Rect (Screen.width * 0.4f, Screen.height * 0.4f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), msg, 5.0f, m_labelStyle);
+					else 
+					{
+						msg = "*Profile Loading Failed*";
+					}
+
+					m_feedback.Begin(msg, 5.0f, m_labelStyle);
 				}
 			}
 
@@ -215,7 +245,7 @@ namespace Tempest
 
 				if(GUI.Button (goBackRect, "BACK", m_buttonStyle))
 				{
-					m_feedback.End (); //stop any feedback messages
+					m_feedback.End (); //stop any feedback messages 
 					Callback = OptionsMenu; //back to main menu
 				}
 			}
@@ -234,6 +264,14 @@ namespace Tempest
 
 			private void ServerSettings()
 			{
+				GUI.Label (new Rect(Screen.width * 0.75f, Screen.height * 0.15f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.05f), "Connection Status: ");
+				
+				string status = m_tempestDB.IsConnected ? "Online" : "Offline";
+				Color color = GUI.color;
+				GUI.color = m_tempestDB.IsConnected ? Color.green : Color.red;
+				GUI.Label (new Rect(Screen.width * 0.85f, Screen.height * 0.15f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.05f), status, m_labelStyle);
+				GUI.color = color;
+
 				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Server", m_labelStyle);
 				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.25f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Database", m_labelStyle);
 				GUI.Label(new Rect(Screen.width * 0.75f, Screen.height * 0.3f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "User ID", m_labelStyle);
@@ -264,15 +302,16 @@ namespace Tempest
 
 					m_tempestDB.Reconnect(config);
 
+					if(m_tempestDB.IsConnected)
+					{
+						m_feedback.Begin("*Connected*", 5.0f, m_labelStyle); 
+					}
+					else
+					{
+						m_feedback.Begin("*Unable To Connect*", 5.0f, m_labelStyle); 
+					}
 				}
 
-				GUI.Label (new Rect(Screen.width * 0.75f, Screen.height * 0.15f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.05f), "Connection Status: ");
-				
-				string status = m_tempestDB.IsConnected ? "Online" : "Offline";
-				Color color = GUI.color;
-				GUI.color = m_tempestDB.IsConnected ? Color.green : Color.red;
-				GUI.Label (new Rect(Screen.width * 0.85f, Screen.height * 0.15f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.05f), status, m_labelStyle);
-				GUI.color = color;
 			}
 
 			private void InitStyles()
@@ -313,6 +352,10 @@ namespace Tempest
 				                                   (Screen.width - m_buttonWidth) * 0.12f,
 				                                   (Screen.height - m_buttonHeight) * 0.06f);
 
+				Rect viewAllProfileRect = new Rect (Screen.width * 0.1f, Screen.height * 0.66f,
+				                                 (Screen.width - m_buttonWidth) * 0.12f,
+				                                 (Screen.height - m_buttonHeight) * 0.06f);
+
 				if(GUI.Button (createProfileRect, "CREATE PROFILE", m_buttonStyle))
 				{
 					ClearNonPersistantFields();
@@ -332,14 +375,19 @@ namespace Tempest
 				}
 			}
 
-			private void Feedback()
+			private void ShowFeedback()
 			{
-				m_feedback.Display ();
+				GUI.Box (new Rect(Screen.width * 0.4f, Screen.height * 0.85f, (Screen.width - 150.0f) * 0.2f, (Screen.height - 200.0f) * 0.2f), "");
+				Rect pos = new Rect (Screen.width * 0.41f, Screen.height * 0.86f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.08f);
+				GUI.Label (pos, "MESSAGE LOG:", m_labelStyle);
+
+				m_feedback.Display (new Rect(Screen.width * 0.48f, Screen.height * 0.86f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f));
 			}
 
 			private void OnGUI()
 			{
 				InitStyles ();
+				ShowFeedback ();
 				Heading();
 				ServerSettings();
 				GoBack ();
@@ -348,8 +396,6 @@ namespace Tempest
 				{
 					Callback ();
 				}
-
-				Feedback ();
 			}
 		}
 	}

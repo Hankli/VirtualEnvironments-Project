@@ -48,8 +48,8 @@ namespace Tempest
 				                     "FinishDate DATETIME NOT NULL," +
 				                     "Score INT NOT NULL," +
 				                     "CONSTRAINT PRIMARY KEY(ReportID), " +
-				                     "CONSTRAINT FOREIGN KEY(DeviceName) REFERENCES device(DeviceName) ON UPDATE CASCADE ON DELETE CASCADE, " +
-				                     "CONSTRAINT FOREIGN KEY(ActivityName) REFERENCES activity(ActivityName) ON UPDATE CASCADE ON DELETE CASCADE, " +
+				                     "CONSTRAINT FOREIGN KEY(DeviceName) REFERENCES device(DeviceName) ON UPDATE CASCADE ON DELETE CASCADE," +
+				                     "CONSTRAINT FOREIGN KEY(ActivityName) REFERENCES activity(ActivityName) ON UPDATE CASCADE ON DELETE CASCADE," +
 				                     "CONSTRAINT FOREIGN KEY(Username) REFERENCES patient(Username) ON UPDATE CASCADE ON DELETE CASCADE)" );
 				m_sqlView.CommitQuery();
 				m_sqlView.EndQuery ();
@@ -128,10 +128,10 @@ namespace Tempest
 			{
 				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT(FinishDate, '%d/%m/%Y %k:%i') " +
 									  "FROM report " +
-						              "WHERE Username = @USER " +
+						              "WHERE Username = @user " +
 						              "ORDER BY FinishDate");
 
-				m_sqlView.Write ("USER", username);
+				m_sqlView.Write ("user", username);
 				m_sqlView.CommitQuery ();
 
 				m_sqlView.BeginRead ();

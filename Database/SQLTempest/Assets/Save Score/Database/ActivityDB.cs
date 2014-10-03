@@ -75,7 +75,7 @@ namespace Tempest
 				return Convert.ToInt32 (obj) > 0;
 			}
 
-			public bool ReadActivity(string activityName, ref Activity activity)
+			public bool ExtractActivity(string activityName, ref Activity activity)
 			{
 				m_sqlView.BeginQuery ("SELECT * FROM activity WHERE ActivityName = @activityName");
 				m_sqlView.Write ("activityName", activityName);

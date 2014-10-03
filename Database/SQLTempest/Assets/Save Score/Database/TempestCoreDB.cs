@@ -9,6 +9,18 @@ namespace Tempest
 {
 	namespace Database
 	{
+		public class Profile
+		{
+			public bool bLoaded;
+			public Tempest.Database.PatientDB.Patient Account;
+
+			public Profile()
+			{
+				bLoaded = false;
+				Account = new PatientDB.Patient ();
+			}
+		}
+
 		public class TempestCoreDB : MonoBehaviour
 		{
 			public const string DefaultConfigIni = "Server=au-cdbr-azure-east-a.cloudapp.net;" +
@@ -23,10 +35,13 @@ namespace Tempest
 			private PatientDB m_patientDB = null;
 			private ReportDB m_reportDB = null;
 
-			//specifically for loading and keeping track of current profiles
-			public bool m_bAccountLoaded;
-			public PatientDB.Patient m_account;
+			private Profile m_profile;
 
+
+			public Profile ProfileData
+			{
+				get { return m_profile; }
+			}
 
 			public ReportDB ReportDatabase
 			{
@@ -84,7 +99,7 @@ namespace Tempest
 				    InitialiseDeviceData ();
 				    InitialiseActivityData ();
 				
-					m_bAccountLoaded = false;
+					m_profile = new Profile();
 				}
 			}
 
@@ -101,22 +116,22 @@ namespace Tempest
 
 			private void Start()
 			{
-				m_bAccountLoaded = false;
-				m_account = new PatientDB.Patient ();
-
+				m_profile = new Profile ();
+			
 				DontDestroyOnLoad (gameObject);
 				Reconnect (DefaultConfigIni);
 
 
-			//	m_reportDB.DropRelation ();
-			//	m_deviceDB.DropRelation ();
-			//	m_activityDB.DropRelation ();
-			//	m_patientDB.DropRelation ();
+				//keep for testing purposes ONLY
+				m_reportDB.DropRelation ();
+				m_deviceDB.DropRelation ();
+				m_activityDB.DropRelation ();
+				m_patientDB.DropRelation ();
 
-			//	m_deviceDB.CreateRelation ();
-			//	m_patientDB.CreateRelation ();
-			//	m_activityDB.CreateRelation ();
-			//	m_reportDB.CreateRelation ();
+				m_deviceDB.CreateRelation ();
+				m_patientDB.CreateRelation ();
+				m_activityDB.CreateRelation ();
+				m_reportDB.CreateRelation ();
 
 				/*
 				m_patientDB.AddPatient ("tpv", "password", "12/5/1209", "Male", "Bad");
