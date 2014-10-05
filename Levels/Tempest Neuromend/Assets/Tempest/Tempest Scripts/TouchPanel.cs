@@ -21,7 +21,7 @@ public class TouchPanel : MonoBehaviour
 	private string objectiveText="Objective:\nTouch the numbers in the correct sequence";
 	private string objectiveTextUpdated="";
 	
-	private float vanishingHeight=-1.6f;
+	private float vanishingHeight=-0.25f;
 	private float vanishingZ=0.8f;
 	private bool b_destructionImminent=false;
 	public GameObject nextObjective=null;
@@ -105,7 +105,7 @@ public class TouchPanel : MonoBehaviour
 				
 				
 				//kill this thing
-				Destroy(this.gameObject);
+				//Destroy(this.gameObject);
 			}
 		}
 	}

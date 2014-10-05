@@ -52,7 +52,7 @@ public class FPSCrouchRun : MonoBehaviour
 		}
 		
 		//CROUCH
-		if(Input.GetKey("left ctrl") && b_CanCrouch||b_leapCrouch)
+		if((Input.GetKey("left ctrl")||Input.GetKey("c")||Input.GetKey("down")) && (b_CanCrouch||b_leapCrouch))
 		{
 			finalHeight = 0.5f*initialHeight;
 			forwardSpeed = crouchSpeed;

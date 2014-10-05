@@ -1,5 +1,10 @@
 ﻿// NOTE: File I/O has been added in this class. 17/09/2014 Anopan
 //       All data will be saved in the Root Directory.
+
+/*
+This contains GUI information and functionality including timer, scores, objectives, hints, crosshairs etc..
+For VR GUI see TempestVRGUI.cs
+*/
 using UnityEngine;
 using System.Collections;
 
@@ -34,7 +39,7 @@ public class LevelControl : MonoBehaviour
 	private bool b_showTimer = true;
 	private bool b_showObjective = true;
 	
-	private GameObject gameControl = null;
+	//private GameObject gameControl = null;
 	private GameControl gameControlScript = null;
 	
 	[Tooltip("The duration a hint will be displayed once triggered")]
@@ -78,22 +83,34 @@ public class LevelControl : MonoBehaviour
 	private float loadCountdown = 5.0f;//for next level load
 	//bool b_endingLevel=false;
 	
+	//Crosshairs
+	private bool b_showCrosshairs=true;
+	private Rect crosshairsPosition;
+	private float crosshairsDimensions=64;
+	private Texture2D crosshairsTexture;
+	
 	private bool b_saved=false;
 
 	void Awake()
 	{
+		GameObject gameControl = null;
+		if(gameControl = GameObject.FindWithTag("Game"))
+		{
+			gameControlScript = gameControl.GetComponent<GameControl>();
+		}
+		
 		CountObjectives();
 	}
 	
 	void Start()
 	{
 		timer.normal.textColor=Color.white;
-		timer.fontSize=20;
+		timer.fontSize=50;
 		timer.alignment=TextAnchor.MiddleCenter;
 		timer.fontStyle=FontStyle.Bold;
 		
 		timerShadow.normal.textColor=Color.black;
-		timerShadow.fontSize=20;
+		timerShadow.fontSize=50;
 		timerShadow.alignment=TextAnchor.MiddleCenter;
 		timerShadow.fontStyle=FontStyle.Bold;
 		
@@ -117,6 +134,8 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontSize=30;
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
+		
+		crosshairsTexture=Resources.Load<Texture2D>("Crosshairs01");
 	}
 	
 	void Update() 
@@ -250,21 +269,33 @@ public class LevelControl : MonoBehaviour
 	//display GUI (timer)
 	void OnGUI()
 	{
-	
-		//need to check whether player has oculus active...
-		GUI.Label(timerShadowPosition, timerText, timerShadow);
-		GUI.Label(timerPosition, timerText, timer);
-		GUI.Label(objectiveShadowPosition, currentObjective, objectiveShadow);
-		GUI.Label(objectivePosition, currentObjective, objective);
-		GUI.Label(countdownShadowPosition, countdownText, countdownShadow);
-		GUI.Label(countdownPosition, countdownText, countdown);
+		if(gameControlScript)
+		{
+			if(!gameControlScript.OVRCam())
+			{
+				crosshairsPosition.Set(	Input.mousePosition.x-(crosshairsDimensions/2.0f), Screen.height-Input.mousePosition.y-(crosshairsDimensions/2.0f), crosshairsDimensions, crosshairsDimensions);
+			
+				//need to check whether player has oculus active...
+				GUI.Label(timerShadowPosition, timerText, timerShadow);
+				GUI.Label(timerPosition, timerText, timer);
+				GUI.Label(objectiveShadowPosition, currentObjective, objectiveShadow);
+				GUI.Label(objectivePosition, currentObjective, objective);
+				GUI.Label(countdownShadowPosition, countdownText, countdownShadow);
+				GUI.Label(countdownPosition, countdownText, countdown);
+				
+				if(b_showCrosshairs&&crosshairsTexture!=null)
+				{
+					GUI.DrawTexture(crosshairsPosition, crosshairsTexture);
+				}
+			}
+		}
 	}
 	
 	void EndLevel(bool loadMenu=false)
 	{
-		if(gameControl=GameObject.FindWithTag("Game"))
+		if(gameControlScript)
 		{
-			gameControlScript=gameControl.GetComponent<GameControl>();
+
 			if(!b_saved)
 			{
 				b_saved=true;
@@ -353,6 +384,15 @@ public class LevelControl : MonoBehaviour
 			countdownHeight=screenHeight-(screenHeight*0.15f);
 			countdownPosition.Set(screenWidth/2.0f,countdownHeight,0,0);
 			countdownShadowPosition.Set(screenWidth/2.0f+2,countdownHeight+2,0,0);
+			
+			/*
+			crosshairsPosition.Set(	Input.mousePosition.x, 
+									Input.mousePosition.y, 
+									crosshairsDimensions, crosshairsDimensions);
+			crosshairsPosition.Set(	(Screen.width-crosshairsDimensions)/2.0f, 
+									(Screen.height-crosshairsDimensions)/2.0f, 
+									crosshairsDimensions, crosshairsDimensions);
+			*/
 		}
 	}
 	
