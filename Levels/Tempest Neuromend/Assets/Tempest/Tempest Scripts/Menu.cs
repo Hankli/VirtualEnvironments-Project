@@ -5,7 +5,7 @@ public class Menu : MonoBehaviour
 {
 	Color backgroundColour = new Color (1.0f, 1.0f, 1.0f);
 	Color buttonColour = new Color (0.22f, 1.0f, 0.97f);
-	Color textColour = new Color (1.0f, 1.0f, 1.0f);
+	//Color textColour = new Color (1.0f, 1.0f, 1.0f);
 	
 	private delegate void MenuDelegate();
 	private MenuDelegate menuFunction;
@@ -16,13 +16,17 @@ public class Menu : MonoBehaviour
 	private float buttonWidth;
 
 	//private LeapControl variables = null;
-	private GameObject gameControlObject = null;
+	//private GameObject gameControlObject = null;
 
 	
 	bool sound;
 	float volume;
 	bool twoHands;
 	float sensitivity;
+
+
+	Texture2D background;
+	private Rect backgroundPosition;
 
 	void Awake()
 	{
@@ -56,6 +60,7 @@ public class Menu : MonoBehaviour
 	
 	void OnGUI()
 	{
+		DrawBackground();
 		menuFunction();
 	}
 	
@@ -71,6 +76,13 @@ public class Menu : MonoBehaviour
 		GUI.Label(new Rect(screenWidth * 0.35f, screenHeight * 0.3f, screenWidth * 0.3f, screenHeight * 0.1f), "Press any key to continue");
 		
 	}
+	
+	void DrawBackground()
+	{
+		backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
+		GUI.DrawTexture(backgroundPosition,background);
+	}
+
 	
 	void mainMenu()
 	{
@@ -168,7 +180,7 @@ public class Menu : MonoBehaviour
 		}
 	}
 	
-	void audio()
+	new void audio()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;

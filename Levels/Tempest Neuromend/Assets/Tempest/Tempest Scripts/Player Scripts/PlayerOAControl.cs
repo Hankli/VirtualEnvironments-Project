@@ -26,7 +26,6 @@ public class PlayerOAControl : MonoBehaviour
 		{
 			control.SimpleMove(translationAll*speed);
 		}
-		
 	}
 	
 	public void ReachedEndZone()

@@ -56,8 +56,11 @@ public class FPSControl : MonoBehaviour
 		}
 		
 		// Apply the direction to the CharacterMotor
-		motor.inputMoveDirection = transform.rotation * directionVector;
-		motor.inputJump = b_jump;
+		if(motor)
+		{
+			motor.inputMoveDirection = transform.rotation * directionVector;
+			motor.inputJump = b_jump;
+		}
 
 	}
 
