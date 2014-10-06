@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{482C229A-5BBF-CDA6-9EEC-355EE6F98174}</ProjectGuid>
+	<ProjectGuid>{5B46F153-8B01-F552-3F29-8F54EBB508CD}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -55,6 +55,7 @@
      <Compile Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Scripts\SpecularLighting.cs" />
      <Compile Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Scripts\WaterBase.cs" />
      <Compile Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Scripts\WaterTile.cs" />
+     <None Include="Assets\Plugins\donotdelete.txt" />
      <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />

@@ -32,18 +32,28 @@ public class WindowTrigger : MonoBehaviour
 	
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.GetComponent<ThrowableObject>())
+		ThrowableObject thrownObjectScript;
+		if(thrownObjectScript=other.gameObject.GetComponent<ThrowableObject>())
 		{
-			
-			ThrowableObject thrownObjectScript=other.gameObject.GetComponent<ThrowableObject>();
-			if(thrownObjectScript.GetWindowType()==windowType)
-			{
-				objectiveScript.AdjustScore(1);
-			}
-			else
-			{
-				objectiveScript.AdjustErrors(1);
-			}
+				//ThrowableObject thrownObjectScript=other.gameObject.GetComponent<ThrowableObject>();
+				if(thrownObjectScript.GetWindowType()==windowType)
+				{
+					if(thrownObjectScript.Scorable())
+					{
+						objectiveScript.AdjustScore(1);
+						thrownObjectScript.Scorable(false);
+						//thrownObjectScript.Scored();
+						//thrownObjectScript.SelfDestruct();
+					}	
+				}
+				else
+				{
+					if(thrownObjectScript.Mistake())
+					{
+						objectiveScript.AdjustErrors(1);
+						thrownObjectScript.Mistake(false);
+					}
+				}
 		}
 	}
 }

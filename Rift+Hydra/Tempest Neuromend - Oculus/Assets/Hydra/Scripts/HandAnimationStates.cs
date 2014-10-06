@@ -28,51 +28,21 @@ namespace Tempest
 			}
 		}
 
-		public class HandPointAnimationState : State<Hand>
-		{
-			private float m_fLastTriggerVal;
-			
-			public void Enter(Hand hand)
-			{
-				m_fLastTriggerVal = 0.0f;
-			}
-			
-			public void Execute(Hand hand)
-			{
-				// Fist with right or left
-				float fTriggerVal = Mathf.Lerp( m_fLastTriggerVal, hand.Controller.Trigger, 0.1f );
-				m_fLastTriggerVal = fTriggerVal;
-				
-				if ( fTriggerVal > 0.01f )
-				{
-					hand.AnimationInfo.SetBool( "Point", true );
-				}
-				else
-				{
-					hand.AnimationInfo.SetBool( "Point", false );
-				}
-			}
-			
-			public void Exit(Hand hand) 
-			{
-				hand.AnimationInfo.SetBool ("Point", false);
-			}
-		}
-
-		
 		public class HandClenchAnimationState : State<Hand>
 		{
 			private float m_fLastTriggerVal;
+			private float m_interpolateFist;
 			
 			public void Enter(Hand hand)
 			{
+				m_interpolateFist = 0.1f;
 				m_fLastTriggerVal = 0.0f;
 			}
 			
 			public void Execute(Hand hand)
 			{
 				// Fist with right or left
-				float fTriggerVal = Mathf.Lerp( m_fLastTriggerVal, hand.Controller.Trigger, 0.1f );
+				float fTriggerVal = Mathf.Lerp( m_fLastTriggerVal, hand.Controller.Trigger * hand.TriggerSensitivity, m_interpolateFist );
 				m_fLastTriggerVal = fTriggerVal;
 				
 				if ( fTriggerVal > 0.01f )

@@ -31,7 +31,6 @@ public class HoverPad : MonoBehaviour
 				{
 					motor.canControl = false;
 					//Transform thisTransform = 
-			
 					motor.movement.gravity = -5.0f;
 					if(controller.transform.position.y>=this.gameObject.transform.position.y-3)
 					{

@@ -9,17 +9,29 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			public float m_linearSensitivity = 0.001f; // Sixense units are in mm
-			public float m_angularSensitivity = 1.0f;
+			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
+			private float m_rotationSensitivity = 1.0f;
+
+			public float MoveSensitivity
+			{
+				get { return m_linearSensitivity; }
+				set { m_linearSensitivity = value; }
+			}
+
+			public float RotateSensitivity
+			{
+				get { return m_rotationSensitivity; }
+				set { m_rotationSensitivity = value; }
+			}
 
 			// Use this for initialization
-			protected void Start () 
+			private void Start () 
 			{
 				m_hands = GetComponentsInChildren<Hand>();
 			}
 			
 			// Update is called once per frame
-			protected void FixedUpdate () 
+			private void FixedUpdate () 
 			{
 				bool bResetHandPosition = false;
 				
@@ -55,7 +67,7 @@ namespace Tempest
 				}
 			}
 			
-			protected void UpdateHandMotion( Hand hand )
+			private void UpdateHandMotion( Hand hand )
 			{
 				bool bControllerActive = IsControllerActive( hand.Controller );
 				
@@ -65,8 +77,8 @@ namespace Tempest
 					Transform tr = hand.transform;
 					
 					//localPosition
-					Vector3 relPosToPar = (hand.Controller.Position - m_referencePoint) * m_linearSensitivity; 
-					
+					Vector3 relPosToPar = (hand.Controller.Position - m_referencePoint) * (m_linearSensitivity / 1000.0f); 
+				
 					//localPosition to worldPosition
 					Vector3 desiredPos = tr.parent.TransformPoint(relPosToPar) ; 
 					
@@ -75,7 +87,7 @@ namespace Tempest
 
 					//force
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
-
+			
 					//apply force in place of previous value
 					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
 
@@ -86,13 +98,11 @@ namespace Tempest
 					float angle;
 					Vector3 axis;
 					relRotToPar.ToAngleAxis(out angle, out axis);
-					angle *= m_angularSensitivity;
+					angle *= m_rotationSensitivity; 
 					relRotToPar = Quaternion.AngleAxis(angle, axis);
 
 					//get desired rotation
 					Quaternion desiredRot = tr.parent.rotation * relRotToPar;  //localRotation to worldRotation
-
-
 
 					//calc axis of rotation between desired rotation's (xyz) axis and current rotation's (xyz) axis
 					Vector3 sCrossE_Z = Vector3.Cross (tr.forward, desiredRot * Vector3.forward);
@@ -136,7 +146,7 @@ namespace Tempest
 				}
 			}
 			
-			protected void OnGUI()
+			private void OnGUI()
 			{
 				if ( !m_bInitialized )
 				{
@@ -146,7 +156,7 @@ namespace Tempest
 			
 			
 			/** returns true if a controller is enabled and not docked */
-			protected bool IsControllerActive( HandInput controller )
+			private bool IsControllerActive( HandInput controller )
 			{
 				return ( controller != null &&
 				        controller.Enabled &&

@@ -52,6 +52,7 @@ public class TouchPanelButton : MonoBehaviour
 		renderer.material.color = buttonColour;
 	}
 	
+	
 	public void OnTriggerEnter()
 	{
 		OnClick();

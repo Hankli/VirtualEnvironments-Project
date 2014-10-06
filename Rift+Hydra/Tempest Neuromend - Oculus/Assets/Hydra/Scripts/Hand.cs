@@ -24,6 +24,8 @@ namespace Tempest
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 
 
+			public float m_triggerSensitivity;
+
 			public Quaternion ModelRotation
 			{
 				set { m_modelRotation = value; }
@@ -50,7 +52,13 @@ namespace Tempest
 
 			public float TriggerValue
 			{
-				get { return m_controller != null ? m_controller.Trigger : 0.0f; }
+				get { return m_controller != null ? m_controller.Trigger * m_triggerSensitivity : 0.0f; }
+			}
+
+			public float TriggerSensitivity
+			{
+				set { m_triggerSensitivity = value; }
+				get { return m_triggerSensitivity; }
 			}
 
 			private void Start() 

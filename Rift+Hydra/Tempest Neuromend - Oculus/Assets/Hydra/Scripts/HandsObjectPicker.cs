@@ -6,7 +6,6 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-
 		public class HandsObjectPicker : MonoBehaviour
 		{
 			class JointBreakEventPasser : MonoBehaviour
@@ -20,17 +19,17 @@ namespace Tempest
 				}
 			}
 
-			public float m_pullReach;
-			public float m_pullRadius;
-
-			public float m_gripMaxForceResistance;
-			public float m_gripMaxTorqueResistance;
-			public float m_gripMinTriggerValue;
-			public float m_gripMaxTriggerValue;
+			
 			public string m_gripJointName;
 
-			public float m_linearThrowModifier;
-			public float m_angularThrowModifier;
+			private float m_pullReach = 0.8f;
+			private float m_pullRadius = 0.1f;
+		
+			private float m_throwSensitivity = 1.0f;
+
+			private float m_gripTriggerValue = 0.2f;
+			private float m_gripMaxTriggerValue = 0.8f;
+			private float m_gripBreakResistance = 50.0f;
 
 			private Hand m_hand;
 			private GameObject m_gripJoint;
@@ -38,6 +37,12 @@ namespace Tempest
 
 			private int m_connectedLayerMask;
 	
+			public float ThrowSensitivity
+			{
+				get { return m_throwSensitivity; }
+				set { m_throwSensitivity = value; }
+			}
+
 			private void Start()
 			{
 				m_hand = GetComponentInParent<Hand> ();
@@ -54,8 +59,8 @@ namespace Tempest
 				m_gripConstraint.connectedBody.useGravity = true;
 
 				//retrieve hand for application of extra velocity from throw
-				m_gripConstraint.connectedBody.AddForce (m_hand.rigidbody.velocity * (1.0f + m_linearThrowModifier), ForceMode.Impulse);
-				m_gripConstraint.connectedBody.AddTorque (m_hand.rigidbody.angularVelocity * (1.0f + m_angularThrowModifier), ForceMode.Impulse);
+				m_gripConstraint.connectedBody.AddForce (m_hand.rigidbody.velocity * m_throwSensitivity, ForceMode.Impulse);
+				m_gripConstraint.connectedBody.AddTorque (m_hand.rigidbody.angularVelocity * m_throwSensitivity, ForceMode.Impulse);
 
 				//destroy dummy joint object attached to the constraint
 				GameObject.Destroy (m_gripConstraint.gameObject);
@@ -78,16 +83,14 @@ namespace Tempest
 
 			private void UpdateConnections()
 			{
-				m_gripConstraint.breakForce = (m_hand.TriggerValue * m_gripMaxForceResistance) / Time.fixedDeltaTime;
-				m_gripConstraint.breakTorque = (m_hand.TriggerValue * m_gripMaxTorqueResistance) / Time.fixedDeltaTime; 
+				m_gripConstraint.breakForce = (m_hand.TriggerValue * m_hand.TriggerSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime;
+				m_gripConstraint.breakTorque = (m_hand.TriggerValue * m_hand.TriggerSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime; 
 			}
 
 			private void PickupScan()
 			{
-				//Debug.DrawLine (m_gripJoint.transform.position, m_gripJoint.transform.position - m_gripJoint.transform.up * m_pullRadius);
-
 				//check if player is trying to grab something at all an if something is already grabbed
-				if(m_hand.TriggerValue < m_gripMinTriggerValue ||
+				if(m_hand.TriggerValue < m_gripTriggerValue ||
 				   m_hand.TriggerValue > m_gripMaxTriggerValue || m_gripConstraint)
 				{
 					return;

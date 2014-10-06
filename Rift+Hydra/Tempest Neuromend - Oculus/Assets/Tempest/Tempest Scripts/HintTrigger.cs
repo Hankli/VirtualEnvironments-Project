@@ -3,18 +3,12 @@ using System.Collections;
 
 public class HintTrigger : MonoBehaviour 
 {
-	private GameObject levelControl = null;
-	private LevelControl levelControlScript = null;
 	public string hintMessage="";
 	public bool b_allowedMultipleTriggers=false;
-	private bool b_hasTriggered=false;
+	public bool b_hasTriggered=false;
 
 	void Awake()
 	{
-		if(levelControl=GameObject.FindWithTag("Level"))
-		{
-			levelControlScript=levelControl.GetComponent<LevelControl>();
-		}	
 	}
 	
 	void Start() 
@@ -35,10 +29,16 @@ public class HintTrigger : MonoBehaviour
 				b_hasTriggered=true;
 			}
 			//send message to be displayed to level control
-			if(levelControl!=null)
+			GameObject levelControl = null;
+			LevelControl levelControlScript = null;
+			if(levelControl=GameObject.FindWithTag("Level"))
 			{
-				levelControlScript.SetCurrentObjective(hintMessage,true,true);
-			}
+				
+				if(levelControlScript=levelControl.GetComponent<LevelControl>())
+				{
+					levelControlScript.SetCurrentObjective(hintMessage,true,true);
+				}
+			}	
 		}
 	}
 }
