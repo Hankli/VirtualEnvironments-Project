@@ -56,6 +56,8 @@ public class Menu : MonoBehaviour
 		
 		Camera.main.backgroundColor = backgroundColour;
 		menuFunction = anyKey;
+
+		background = Resources.Load<Texture2D>("TitleProxy01");
 	}
 	
 	void OnGUI()
