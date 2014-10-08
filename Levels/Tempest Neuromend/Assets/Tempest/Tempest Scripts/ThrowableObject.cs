@@ -14,6 +14,7 @@ public class ThrowableObject : MonoBehaviour
 	*/
 	private bool b_scorable=true;
 	private bool b_error=false;
+	private bool b_noGravSpin=false;
 	public WindowTrigger.WindowType windowType;
 	
 	void Start() 
@@ -38,6 +39,7 @@ public class ThrowableObject : MonoBehaviour
 	
 	public void NoGravSpin(bool b_spin=true)
 	{
+		b_noGravSpin=true;
 		Rigidbody rigidBodyComponent;
 		if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
 		{	
@@ -84,4 +86,18 @@ public class ThrowableObject : MonoBehaviour
 	{
 		//need to activate timer and destroy after x seconds
 	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if(b_noGravSpin)
+		{
+			Rigidbody rigidBodyComponent;
+			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
+			{	
+				rigidBodyComponent.useGravity=true;
+			}
+			b_noGravSpin=false;
+		}
+	}
+
 }
