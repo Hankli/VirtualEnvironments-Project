@@ -28,7 +28,7 @@ namespace Tempest
 			private float m_throwSensitivity = 1.0f;
 
 			private float m_gripTriggerValue = 0.2f;
-			private float m_gripMaxTriggerValue = 0.8f;
+			private float m_gripMaxTriggerValue = 1.0f;
 			private float m_gripBreakResistance = 50.0f;
 
 			private Hand m_hand;

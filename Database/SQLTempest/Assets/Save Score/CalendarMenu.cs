@@ -181,7 +181,7 @@ namespace Tempest
 				get { return m_yearRange; }
 				set { m_yearRange = value > 0 ? value : 10; }
 			}
-			
+
 			public string SelectedMonth
 			{
 				get { return System.DateTime.ParseExact (m_monthField [m_monthSelection], "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month.ToString(); }

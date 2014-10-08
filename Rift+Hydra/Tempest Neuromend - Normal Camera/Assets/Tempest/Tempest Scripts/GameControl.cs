@@ -1,5 +1,6 @@
 ﻿// NOTE: File I/O has been added in this class. 17/09/2014 Anopan
 //       All data will be saved in the Root Directory.
+// ...File I/O has been updated to Bryan's xml IO and formatting
 using UnityEngine;
 using System.Collections;
 using System.Xml;
@@ -53,23 +54,35 @@ public class GameControl : MonoBehaviour
 
 	
 	public bool b_paused=false;
+	public bool b_OVRCam=false;
+	
+	public bool b_menuActive=false;
 
 
+	//PLAYER SETTINGS==============================================
+	public float objectAvoidancePlayerSpeed=2.0f;
+	public float wayFindingPlayerSpeed=5.0f;
+	public float inputSensitivity=100;
+	//END PLAYER SETTINGS==============================================
+
+
+	public void MenuActive(bool choice=true)
+	{
+		b_menuActive=choice;
+	}
+
+	public bool OVRCam()
+	{
+		return b_OVRCam;
+	}
+	
     void Awake() 
     {
-        DontDestroyOnLoad(transform.gameObject);
-		//need this to find any extra Game Control objects on new level loads and destroy...
-		/*
-		if(GameObject.Find("Game Control DEBUG"))
-        {
-			Destroy(GameObject.Find("Game Control DEBUG"));
-        }
-        */
+        DontDestroyOnLoad(transform.gameObject);    
     }
     
     void Start()
     {
-    
 		/*
 		OIPath = userID+"_OIScore.txt";
 		OAPath = userID+"_OAScore.txt";
@@ -79,30 +92,90 @@ public class GameControl : MonoBehaviour
 		OAPath = userID+"_OAScore.xml";
 		WFPath = userID+"_WFScore.xml";
     }
-    
+        
 	void Update()
 	{
-		//Screen.lockCursor=true;
-		/*//test
-		if(Input.GetMouseButtonDown(1))
+	
+		/*//debugging...*/
+		if(Input.GetMouseButtonDown(2))
 		{
-			PauseGame();
+			OVRCamera();
 		}
-		*/
+
+		if(!b_menuActive)
+		{
+			Screen.lockCursor=true;
+		}
+		else
+		{
+			Screen.lockCursor=false;
+			Screen.showCursor=false;
+		}
+		
+		if(Input.GetKey(KeyCode.Escape))
+		{
+			PauseGame(!b_paused);
+		}
 	}
-    
+	
+	//toggles OVRCam mode... still needs testing etc.
+	public void OVRCamera()
+	{
+		b_OVRCam = !b_OVRCam;
+		
+		GameObject tempPlayer=null;
+		if (tempPlayer = GameObject.FindWithTag ("Player")) 
+		{
+			//Debug.Log ("PLAYER");
+			//float tempOVRCamIndex = 0;
+			GameObject tempOVRCam = null;
+			GameObject tempMainCam = null;
+			//int i=0;
+			foreach(Transform child in tempPlayer.transform)
+			{
+				//Debug.Log (i);
+				if(child.tag=="OVRCam")
+				{
+					//Debug.Log ("OVRCAM");
+					tempOVRCam=child.gameObject;
+					//tempOVRCamIndex=i;
+				}
+				if(child.tag=="MainCamera")
+				{
+					//Debug.Log ("MAINCAM");
+					tempMainCam=child.gameObject;
+				}
+				//i++;
+			}
+			if(tempOVRCam!=null&&tempMainCam!=null)
+			{
+				Debug.Log (b_OVRCam);
+				
+				Camera tempCameraComponent = null;
+				if(tempCameraComponent=tempMainCam.GetComponent<Camera>())
+				{
+					if(b_OVRCam)
+					{
+						tempCameraComponent.gameObject.SetActive(false);
+						tempOVRCam.gameObject.SetActive(true);
+					}
+					else
+					{
+						tempCameraComponent.gameObject.SetActive(true);
+						tempOVRCam.gameObject.SetActive(false);
+					}
+				}
+			}
+		}
+	}
+	
+
     public void SetUserID(int number)
     {
 		userID=number;
 		OIPath = userID+"_OIScore.xml";
 		OAPath = userID+"_OAScore.xml";
 		WFPath = userID+"_WFScore.xml";
-		/*
-		userID=number;
-		OIPath = userID+"_OIScore.txt";
-		OAPath = userID+"_OAScore.txt";
-		WFPath = userID+"_WFScore.txt";
-		*/
     }
     
     //returns object interaction score float value
@@ -177,16 +250,8 @@ public class GameControl : MonoBehaviour
     */
     public void LoadNextLevel(string levelName)
     {
-		//WaitAFew();
 		Application.LoadLevel(levelName);
     }
-    /*
-    IEnumerator WaitAFew()
-    {
-		yield return new WaitForSeconds(3);
-    }
-    */
-    
     
     public void SetControllerType(ControllerType type)
     {
@@ -207,8 +272,6 @@ public class GameControl : MonoBehaviour
     {
 		return playthroughType;
     }
-
-
 
 	public void SaveScore(LevelControl.LevelType levelType)
 	{
@@ -237,46 +300,6 @@ public class GameControl : MonoBehaviour
 		writer.Close ();
 	}
 
-/*
-	public void SaveScore(int level)
-	{
-        switch (level)
-        {
-            //Object Interaction.
-            case 1:
-				ReadyFile(OIPath);
-                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
-                                   userID,
-                                   objectInteractionScore,
-                                   System.DateTime.Now.ToShortDateString(),
-                                   System.DateTime.Now.ToLongTimeString());
-				fileWriter.Close();
-                break;
-
-            //Object Avoidance.
-            case 2:
-				ReadyFile(OAPath);
-                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
-                                   userID,
-                                   objectAvoidanceScore,
-                                   System.DateTime.Now.ToShortDateString(),
-                                   System.DateTime.Now.ToLongTimeString());
-				fileWriter.Close();
-                break;
-
-            //Way Finding.
-            case 3:
-				ReadyFile(WFPath);
-                fileWriter.WriteLine("{0}\t{1}\t{2} {3}",
-                                   userID,
-                                   wayFindingScore,
-                                   System.DateTime.Now.ToShortDateString(),
-                                   System.DateTime.Now.ToLongTimeString());
-				fileWriter.Close();
-                break;
-        }
-	}
-	*/
 	private void ReadyFile(string pathName)
 	{
         if (System.IO.File.Exists(pathName))
@@ -291,9 +314,20 @@ public class GameControl : MonoBehaviour
 	}
 
 	//still need to implement this properly...
-	//need to pause most player interaction
-	public void PauseGame()
+	//need to pause most player interaction etc...
+	public void PauseGame(bool pause=true)
 	{
+		b_paused=pause;
+		if(b_paused)
+		{
+			Time.timeScale = 0.0f;
+		}
+		else
+		{
+			Time.timeScale = 1.0f;
+		}
+		
+		/*
 		if(!b_paused)
 		{
 			Time.timeScale = 0.0f;
@@ -304,6 +338,12 @@ public class GameControl : MonoBehaviour
 			Time.timeScale = 1.0f;
 			b_paused = false;
 		}
+		*/
+ 	}
+ 	
+ 	public bool Paused()
+ 	{
+		return b_paused;
  	}
 	
 }

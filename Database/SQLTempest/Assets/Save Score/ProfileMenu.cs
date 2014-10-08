@@ -157,6 +157,7 @@ namespace Tempest
 				List<Tempest.Database.ReportDB.Report> account = new List<Tempest.Database.ReportDB.Report> ();
 				m_tempestDB.ReportDatabase.ExtractReport (m_tempestDB.ProfileData.Account.m_username, account);
 
+
 		
 				GUI.EndScrollView ();
 			}

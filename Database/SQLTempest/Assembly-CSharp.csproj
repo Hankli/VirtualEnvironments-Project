@@ -53,6 +53,7 @@
      <Compile Include="Assets\Save Score\Database\ReportDB.cs" />
      <Compile Include="Assets\Save Score\Database\SQLTestStatements.cs" />
      <Compile Include="Assets\Save Score\Database\SQLView.cs" />
+     <Compile Include="Assets\Save Score\Database\TableView.cs" />
      <Compile Include="Assets\Save Score\Database\TempestCoreDB.cs" />
      <Compile Include="Assets\Save Score\GameControl.cs" />
      <Compile Include="Assets\Save Score\LevelControl.cs" />
