@@ -57,9 +57,10 @@ public class CheckpointTrigger : MonoBehaviour
 				}
 				b_hasBeenTriggered=true;
 				
+				GameObject player = null;
+				
 				if(b_freezePlayerOnTrigger)
 				{
-					GameObject player = null;
 					
 					if(player=GameObject.FindWithTag("Player"))
 					{
@@ -68,6 +69,18 @@ public class CheckpointTrigger : MonoBehaviour
 						{
 							playerControl.SetControllable(false);
 						}
+					}
+				}
+				
+				//Object Avoidance specific...
+				player = null;
+				
+				if(player=GameObject.FindWithTag("Player"))
+				{
+					PlayerOAControl playerAOControl = null;
+					if(playerAOControl=player.GetComponent<PlayerOAControl>())
+					{
+						playerAOControl.ReachedEndZone();
 					}
 				}
 			}
