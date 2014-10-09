@@ -148,9 +148,26 @@ namespace Tempest
 			
 			private void OnGUI()
 			{
-				if ( !m_bInitialized )
+				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
-					GUI.Box( new Rect( Screen.width * 0.5f - 50, Screen.height - 40, 100, 30 ),  "Press Start" );
+					GUIStyle style = new GUIStyle(GUI.skin.box);
+					style.alignment = TextAnchor.MiddleCenter;
+					style.fontStyle = FontStyle.Normal;
+					style.fontSize = 20;
+					
+					uint boxWidth = 150;
+					uint boxHeight = 40;
+
+					string boxText = "Press start";
+					
+					GUILayout.BeginArea( new Rect(( ( Screen.width / 2 ) - ( boxWidth / 2 ) ), 
+					                              ( ( Screen.height / 2 ) - ( boxHeight / 2 ) ),
+					                              boxWidth, boxHeight));
+					
+					GUILayout.Label(boxText, style);
+					
+					GUILayout.EndArea();
+
 				}
 			}
 			

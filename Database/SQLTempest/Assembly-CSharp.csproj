@@ -50,26 +50,26 @@
      <Compile Include="Assets\Save Score\Database\ActivityDB.cs" />
      <Compile Include="Assets\Save Score\Database\DeviceDB.cs" />
      <Compile Include="Assets\Save Score\Database\PatientDB.cs" />
+     <Compile Include="Assets\Save Score\Database\ProfileMenu.cs" />
      <Compile Include="Assets\Save Score\Database\ReportDB.cs" />
      <Compile Include="Assets\Save Score\Database\SQLTestStatements.cs" />
      <Compile Include="Assets\Save Score\Database\SQLView.cs" />
-     <Compile Include="Assets\Save Score\Database\TableView.cs" />
      <Compile Include="Assets\Save Score\Database\TempestCoreDB.cs" />
      <Compile Include="Assets\Save Score\GameControl.cs" />
      <Compile Include="Assets\Save Score\LevelControl.cs" />
-     <Compile Include="Assets\Save Score\ProfileMenu.cs" />
+     <Compile Include="Assets\Save Score\TableView.cs" />
      <Compile Include="Assets\Save Score\TimedMessage.cs" />
      <None Include="Assets\Save Score\OAScore.txt" />
      <None Include="Assets\Save Score\OIScore.txt" />
      <None Include="Assets\Save Score\WFScore.txt" />
  <Reference Include="MySql.Data">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/313/SQLTempest/Assets/sql_libraries/MySql.Data.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/MySql.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/313/SQLTempest/Assets/sql_libraries/System.Data.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Drawing">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/313/SQLTempest/Assets/sql_libraries/System.Drawing.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Database/SQLTempest/Assets/sql_libraries/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

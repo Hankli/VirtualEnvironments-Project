@@ -9,8 +9,6 @@ namespace Tempest
 			private CharacterController m_controller;
 			private CharacterMotor m_motor;
 
-			public Vector3 m_constantVelocity;
-
 			public float m_walkSpeed = 2.0f;
 			public float m_strafeSpeed = 2.0f;
 			private float m_moveSensitivity = 1.0f;
@@ -85,8 +83,8 @@ namespace Tempest
 				}
 
 				//set velocity(except along y axis)
-				m_motor.movement.velocity.x = force.x + m_constantVelocity.x;
-				m_motor.movement.velocity.z = force.z + m_constantVelocity.z;
+				m_motor.movement.velocity.x = force.x;
+				m_motor.movement.velocity.z = force.z;
 			}
 
 

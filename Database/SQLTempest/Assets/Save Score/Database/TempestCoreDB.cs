@@ -77,8 +77,10 @@ namespace Tempest
 				m_activityDB.AddActivity ("Wayfinding", "Tasks that involve pathfinding related puzzles");
 			}
 
-			public void Reconnect(string config = DefaultConfigIni)
+			public void Reconnect(string config)
 			{
+				if(config.Length == 0) return;
+
 				m_sqlSource.OpenConnection(config);
 				
 				if(m_sqlSource.OpenConnectionState)
@@ -133,22 +135,16 @@ namespace Tempest
 				m_activityDB.CreateRelation ();
 				m_reportDB.CreateRelation ();
 
-				/*
-				m_patientDB.AddPatient ("tpv", "password", "12/5/1209", "Male", "Bad");
+
+				m_patientDB.AddPatient ("Hello", "password", "12/5/1209", "Male", "Bad");
 				m_deviceDB.AddDevice ("xbox controller", "n X-BOX controller");
 				m_activityDB.AddActivity ("swimming", "Swim N Drown");
+				m_activityDB.AddActivity ("flying", "Fly");
 
 				List<ReportDB.Report> list = new List<ReportDB.Report> ();
-				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 120);
-				m_reportDB.AddReport ("tpv", "xbox controller", "swimming", System.DateTime.Now, 156);
-				m_reportDB.ExtractReport ("tpv", list);
-
-				foreach(ReportDB.Report rep in list)
-				{
-					Debug.Log (rep.ToString() + '\n');
-				}
-				*/
-
+				m_reportDB.AddReport ("Hello", "xbox controller", "swimming", System.DateTime.Now, 120);
+				m_reportDB.AddReport ("Hello", "xbox controller", "swimming", System.DateTime.Now, 156);
+				m_reportDB.AddReport ("Hello", "xbox controller", "flying", System.DateTime.Now, 1999);
 			}
 
 			private void OnApplicationQuit()

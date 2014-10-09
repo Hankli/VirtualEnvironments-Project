@@ -32,11 +32,15 @@ namespace Tempest
 			/// <summary>
 			/// Enable or disable the controller manager.
 			/// </summary>
-			public static bool m_controllerManagerEnabled = true;
-			
+			private static bool m_controllerManagerEnabled = true;
+
+			public static bool ConfigurationEnabled { get { return m_controllerManagerEnabled; } }
+
 			private static HandInput[] m_controllers = new HandInput[MAX_CONTROLLERS];
 
 			private static ControllerManagerState m_controllerManagerState = ControllerManagerState.NONE;
+
+			public static ControllerManagerState ConfigurationState { get { return m_controllerManagerState; } }
 
 			/// <summary>
 			/// Access to Controller objects.
@@ -212,20 +216,26 @@ namespace Tempest
 			
 				if ( m_controllerManagerEnabled && ( m_controllerManagerState != ControllerManagerState.NONE ) )
 				{
-					GUIStyle style = new GUIStyle();
+					GUIStyle style = new GUIStyle(GUI.skin.box);
 					style.alignment = TextAnchor.MiddleCenter;
 					style.fontStyle = FontStyle.Normal;
-					style.fontSize = 15;
+					style.fontSize = 20;
 
-					uint boxWidth = 300;
-					uint boxHeight = 24;
+					uint boxWidth = 420;
+					uint boxHeight = 40;
+
 					string boxText = ( m_controllerManagerState == ControllerManagerState.BIND_CONTROLLER_ONE ) ?
-						"Point left controller at base and pull trigger." :
-						"Point right controller at base and pull trigger.";
+						"Point left controller at base and pull trigger" :
+						"Point right controller at base and pull trigger";
 
-					GUI.Box( new Rect(( ( Screen.width / 2 ) - ( boxWidth / 2 ) ), 
+					GUILayout.BeginArea( new Rect(( ( Screen.width / 2 ) - ( boxWidth / 2 ) ), 
 					                  ( ( Screen.height / 2 ) - ( boxHeight / 2 ) ),
-					                      boxWidth, boxHeight), boxText, style);
+					                      boxWidth, boxHeight));
+
+					GUILayout.Label(boxText, style);
+
+					GUILayout.EndArea();
+					
 				}
 			}
 			

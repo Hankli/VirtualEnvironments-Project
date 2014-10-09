@@ -19,8 +19,8 @@ namespace Tempest
 
 				public override string ToString ()
 				{
-					return "Activity Type: " + m_activityName + '\n' +
-						   "Description: " + m_description;
+					return m_activityName + '\n' +
+						   m_description;
 				}
 			}
 			

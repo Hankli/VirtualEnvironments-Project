@@ -22,10 +22,23 @@ namespace Tempest
 
 			public void OpenConnection(string config)
 			{
-				if(m_connection == null)
+				if(m_connection != null)
+				{
+					CloseConnection();
+					m_connection.ConnectionString = config;
+				}
+				else
 				{
 					m_connection = new MySqlConnection (config);
+				}
+
+				try
+				{
 					m_connection.Open ();
+				}
+				catch(MySqlException ex)
+				{
+					m_latestError = ex.Message;
 				}
 			}
 			
@@ -37,7 +50,6 @@ namespace Tempest
 				{
 					m_connection.Dispose();
 					m_connection.Close ();
-					m_connection = null;
 				}
 			}
 
@@ -80,7 +92,7 @@ namespace Tempest
 				catch(MySqlException ex)
 				{
 					m_latestError = ex.Message;
-					return ex.Number;
+					return 0; 
 				}
 			}
 

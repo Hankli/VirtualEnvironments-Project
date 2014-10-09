@@ -25,11 +25,11 @@ namespace Tempest
 
 				public override string ToString ()
 				{
-					return "Report ID: " + m_reportID + '\n' +
-						   "Device: " + m_deviceName + '\n' +
-						   "Activity: " + m_activityName + '\n' +
-						   "Timestamp: " + m_timestamp + '\n' +
-						   "Score: " + m_score;
+					return m_reportID + "\n" +
+						   m_deviceName + "\n" +
+						   m_activityName + "\n" +
+						   m_timestamp + "\n" +
+						   m_score;
 				}
 			}
 
@@ -146,10 +146,10 @@ namespace Tempest
 					rep.m_deviceName = rdr.GetString("DeviceName");
 					rep.m_score = rdr.GetInt32("Score");
 					rep.m_timestamp = rdr.GetDateTime("FinishDate");
-
+				
 					list.Add(rep);
 				}
-
+		
 				m_sqlView.EndRead ();
 				m_sqlView.EndQuery ();
 			}

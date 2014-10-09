@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\313\SQLTempest\Assets\Save Score\ProfileMenu.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\HandsObjectPicker.cs">
     <Files>
-      <File FileName="..\..\..\313\SQLTempest\Assets\Save Score\ProfileMenu.cs" Line="383" Column="50" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\HandsObjectPicker.cs" Line="1" Column="1" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\HydraControl.cs" Line="43" Column="12" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\Hand.cs" Line="100" Column="4" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\HandsMotionController.cs" Line="158" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

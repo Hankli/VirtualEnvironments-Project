@@ -17,8 +17,8 @@ namespace Tempest
 
 				public override string ToString ()
 				{
-					return "Device Type: " + m_deviceName + '\n' +
-						   "Description: " + m_description;
+					return m_deviceName + '\n' +
+						   m_description;
 				}
 			}
 			

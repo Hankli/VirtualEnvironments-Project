@@ -21,10 +21,10 @@ namespace Tempest
 
 				public override string ToString ()
 				{
-					return "Username: " + m_username + '\n' +
-						   "Gender: " + m_gender + '\n' +
-						   "Date of Birth: " + m_birthDate + '\n' +
-						   "Medical Condition" + m_medicalCondition;
+					return m_username + '\n' +
+						   m_gender + '\n' +
+						   m_birthDate + '\n' +
+						   m_medicalCondition;
 				}
 			}
 			

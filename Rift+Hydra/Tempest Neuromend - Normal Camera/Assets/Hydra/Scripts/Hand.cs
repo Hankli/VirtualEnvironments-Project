@@ -98,19 +98,6 @@ namespace Tempest
 				m_animationFSM.Update (this);
 			}
 
-			private void OnCollisionEnter(Collision cl)
-			{
-				rigidbody.velocity = Vector3.zero;
-			}
-
-			private void OnCollisionStay(Collision cl)
-			{
-				rigidbody.velocity = Vector3.zero;
-			}
-
-			private void OnCollisionExit(Collision cl)
-			{
-			}
 
 		}
 	}
