@@ -150,19 +150,24 @@ namespace Tempest
 			{
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
-					GUIStyle style = new GUIStyle(GUI.skin.box);
-					style.alignment = TextAnchor.MiddleCenter;
-					style.fontStyle = FontStyle.Normal;
-					style.fontSize = 20;
-					
+					GUIStyle style = new GUIStyle(GUI.skin.button);
+					Font myFont = (Font)Resources.Load("linowrite", typeof(Font));
+					//foreach(Font f in Resources.FindObjectsOfTypeAll<Font>()) Debug.Log(f.name);
+
 					uint boxWidth = 150;
 					uint boxHeight = 40;
 
+					style.font = myFont;
+					style.alignment = TextAnchor.MiddleCenter;
+					style.fontStyle = FontStyle.Normal;
+					style.normal.textColor = Color.Lerp(Color.red, Color.green, 0.90f);
+					style.fontSize = 20;
+		
 					string boxText = "Press start";
 					
 					GUILayout.BeginArea( new Rect(( ( Screen.width / 2 ) - ( boxWidth / 2 ) ), 
 					                              ( ( Screen.height / 2 ) - ( boxHeight / 2 ) ),
-					                              boxWidth, boxHeight));
+					                              boxWidth, boxHeight), "");
 					
 					GUILayout.Label(boxText, style);
 					
@@ -170,6 +175,20 @@ namespace Tempest
 
 				}
 			}
+
+			private Texture2D MakeTex( int width, int height, Color col )
+			{
+				Color[] pix = new Color[width * height];
+				for( int i = 0; i < pix.Length; ++i )
+				{
+					pix[ i ] = col;
+				}
+				Texture2D result = new Texture2D( width, height );
+				result.SetPixels( pix );
+				result.Apply();
+				return result;
+			}
+
 			
 			
 			/** returns true if a controller is enabled and not docked */

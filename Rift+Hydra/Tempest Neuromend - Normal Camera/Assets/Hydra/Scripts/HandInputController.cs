@@ -218,9 +218,10 @@ namespace Tempest
 				{
 					GUIStyle style = new GUIStyle(GUI.skin.box);
 					style.alignment = TextAnchor.MiddleCenter;
+					style.font = Resources.Load<Font>("linowrite");
 					style.fontStyle = FontStyle.Normal;
 					style.fontSize = 20;
-
+					style.normal.textColor = Color.Lerp(Color.red, Color.green, 0.90f);
 					uint boxWidth = 420;
 					uint boxHeight = 40;
 
