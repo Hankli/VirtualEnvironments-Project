@@ -109,28 +109,33 @@ namespace Tempest
 			private void CreateProfile()
 			{
 				//enter details, submit 'form'.. if username does not exist
-				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username", m_labelStyle);
-				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.28f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password", m_labelStyle);
-				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.36f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Gender", m_labelStyle);
-				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.44f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Medical Condition", m_labelStyle);
-				GUI.Label(new Rect(Screen.width * 0.3f, Screen.height * 0.68f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Date Of Birth", m_labelStyle);
+
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.18f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.26f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.34f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Gender", m_labelStyle);
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.42f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Medical Condition", m_labelStyle);
+				GUI.Label(new Rect(Screen.width * 0.3f, Screen.height * 0.64f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Date Of Birth", m_labelStyle);
 
 				//accept user details
-				m_usernameField = GUI.TextField(new Rect(Screen.width * 0.4f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_usernameField, m_textFieldStyle);
-				m_passwordField = GUI.PasswordField(new Rect(Screen.width * 0.4f, Screen.height * 0.28f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_passwordField, '*', m_textFieldStyle);
-				m_genderSelection = GUI.SelectionGrid (new Rect (Screen.width * 0.4f, Screen.height * 0.36f, (Screen.width - m_gridWidth) * 0.1f, (Screen.height - m_gridHeight) * 0.04f), m_genderSelection, m_genderField, 2, m_buttonStyle);  
-				m_medicalField = GUI.TextArea (new Rect (Screen.width * 0.4f, Screen.height * 0.44f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), m_medicalField, m_textAreaStyle); 
+				m_usernameField = GUI.TextField(new Rect(Screen.width * 0.4f, Screen.height * 0.18f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_usernameField, m_textFieldStyle);
+				m_passwordField = GUI.PasswordField(new Rect(Screen.width * 0.4f, Screen.height * 0.26f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_passwordField, '*', m_textFieldStyle);
+				m_genderSelection = GUI.SelectionGrid (new Rect (Screen.width * 0.4f, Screen.height * 0.34f, (Screen.width - m_gridWidth) * 0.1f, (Screen.height - m_gridHeight) * 0.04f), m_genderSelection, m_genderField, 2, m_buttonStyle);  
+				m_medicalField = GUI.TextArea (new Rect (Screen.width * 0.4f, Screen.height * 0.42f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), m_medicalField, m_textAreaStyle); 
 
 				//render date GUI and accept user date of birth
-				m_dobCalendar.m_dayPos = new Rect (Screen.width * 0.4f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.05f, (Screen.height - 140.0f) * 0.05f);
-				m_dobCalendar.m_monthPos = new Rect (Screen.width * 0.45f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.07f, (Screen.height - 140.0f) * 0.05f);
-				m_dobCalendar.m_yearPos = new Rect (Screen.width * 0.52f, Screen.height * 0.68f, (Screen.width - 130.0f) * 0.05f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_dayPos = new Rect (Screen.width * 0.4f, Screen.height * 0.64f, (Screen.width - 130.0f) * 0.05f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_monthPos = new Rect (Screen.width * 0.45f, Screen.height * 0.64f, (Screen.width - 130.0f) * 0.07f, (Screen.height - 140.0f) * 0.05f);
+				m_dobCalendar.m_yearPos = new Rect (Screen.width * 0.52f, Screen.height * 0.64f, (Screen.width - 130.0f) * 0.05f, (Screen.height - 140.0f) * 0.05f);
 				m_dobCalendar.Display ();
 
 				//trim username and password fields
 				bool fieldCheck = m_usernameField.Trim().Length > 0 && m_passwordField.Trim ().Length > 0;
 
-				Rect createButtonRect = new Rect(Screen.width * 0.05f, Screen.height * 0.54f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
+				Rect createButtonRect = new Rect(Screen.width * 0.1f, Screen.height * 0.52f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
+				Rect backRect = new Rect (Screen.width * 0.1f, Screen.height * 0.64f,
+				                          (Screen.width - m_buttonWidth) * 0.12f,
+				                          (Screen.height - m_buttonHeight) * 0.06f);
+
 				if(GUI.Button(createButtonRect, "CREATE", m_buttonStyle) && fieldCheck)
 				{
 					string msg = "";
@@ -147,7 +152,7 @@ namespace Tempest
 					m_feedback.Begin(msg, 5.0f, m_labelStyle);
 				}
 
-				GoBack (OptionsMenu);
+				GoBack (OptionsMenu, backRect);
 			}
 	
 			private void ViewScores()
@@ -166,9 +171,9 @@ namespace Tempest
 
 					viewStyle.alignment = TextAnchor.UpperCenter;
 
-					m_scoreTable.Width = Screen.width * 0.5f;
+					m_scoreTable.Width = Screen.width * 0.4f;
 					m_scoreTable.Height = Screen.height * 0.5f;
-					m_scoreTable.Position = new Vector2(Screen.width * 0.2f, Screen.height * 0.2f);
+					m_scoreTable.Position = new Vector2(Screen.width * 0.25f, Screen.height * 0.2f);
 					m_scoreTable.TupleStyle = tupleStyle;
 					m_scoreTable.ColumnStyle = columnStyle;
 					m_scoreTable.ViewStyle = viewStyle;
@@ -180,7 +185,11 @@ namespace Tempest
 					GUI.Label (new Rect (Screen.width * 0.4f, Screen.height * 0.35f, (Screen.width - m_labelWidth) * 0.3f, (Screen.height - m_labelHeight) * 0.3f), "No Profile Loaded", m_labelStyle);
 				}
 
-				GoBack (ViewProfile);
+				Rect backRect = new Rect (Screen.width * 0.1f, Screen.height * 0.66f,
+				                          (Screen.width - m_buttonWidth) * 0.12f,
+				                          (Screen.height - m_buttonHeight) * 0.06f);
+
+				GoBack (ViewProfile, backRect);
 			}
 
 
@@ -206,8 +215,8 @@ namespace Tempest
 					GUI.Label (new Rect (Screen.width * 0.4f, Screen.height * 0.44f, (Screen.width - m_textAreaWidth) * 0.35f, (Screen.height - m_textAreaHeight) * 0.5f), medical, m_textAreaStyle); 
 
 					//deletion of profile
-					Rect showScoreRect = new Rect (Screen.width * 0.05f, Screen.height * 0.42f,(Screen.width - m_buttonWidth) * 0.12f,(Screen.height - m_buttonHeight) * 0.06f);
-					Rect deleteButtonRect = new Rect(Screen.width * 0.05f, Screen.height * 0.54f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
+					Rect showScoreRect = new Rect (Screen.width * 0.1f, Screen.height * 0.42f,(Screen.width - m_buttonWidth) * 0.12f,(Screen.height - m_buttonHeight) * 0.06f);
+					Rect deleteButtonRect = new Rect(Screen.width * 0.1f, Screen.height * 0.54f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
 
 					if(GUI.Button(showScoreRect, "VIEW SCORES", m_buttonStyle))
 					{
@@ -237,20 +246,28 @@ namespace Tempest
 					GUI.Label (new Rect (Screen.width * 0.4f, Screen.height * 0.35f, (Screen.width - m_labelWidth) * 0.3f, (Screen.height - m_labelHeight) * 0.3f), "No Profile Loaded", m_labelStyle);
 				}
 
-				GoBack (OptionsMenu);
+
+				Rect backRect = new Rect (Screen.width * 0.1f, Screen.height * 0.66f,
+				                          (Screen.width - m_buttonWidth) * 0.12f,
+				                          (Screen.height - m_buttonHeight) * 0.06f);
+
+				GoBack (OptionsMenu, backRect);
 			}
 
 			private void LoadProfile()
 			{
-				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.2f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username");
-				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.28f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password");
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.3f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Username");
+				GUI.Label (new Rect (Screen.width * 0.3f, Screen.height * 0.38f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.06f), "Password");
 				
-				m_usernameField = GUI.TextField(new Rect(Screen.width * 0.4f, Screen.height * 0.2f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_usernameField, m_textFieldStyle);
-				m_passwordField = GUI.PasswordField(new Rect(Screen.width * 0.4f, Screen.height * 0.28f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_passwordField, '*', m_textFieldStyle);
+				m_usernameField = GUI.TextField(new Rect(Screen.width * 0.4f, Screen.height * 0.3f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_usernameField, m_textFieldStyle);
+				m_passwordField = GUI.PasswordField(new Rect(Screen.width * 0.4f, Screen.height * 0.38f, (Screen.width - m_textFieldWidth) * 0.1f, (Screen.height - m_textFieldHeight) * 0.06f), m_passwordField, '*', m_textFieldStyle);
 
-				Rect loadButtonRect = new Rect (Screen.width * 0.05f, Screen.height * 0.54f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
+				Rect loadButtonRect = new Rect (Screen.width * 0.1f, Screen.height * 0.54f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
 				if(GUI.Button(loadButtonRect, "LOAD", m_buttonStyle))
 				{
+					//clear whatever was left from before
+					m_scoreTable.DropItems();
+
 					//extract all reports
 					List<Tempest.Database.ReportDB.Report> list = new List<Tempest.Database.ReportDB.Report>();
 					m_tempestDB.ReportDatabase.ExtractReport(m_usernameField, list);
@@ -264,7 +281,6 @@ namespace Tempest
 					if(m_tempestDB.AccountDatabase.ExtractPatient (m_usernameField, m_passwordField, ref m_tempestDB.ProfileData.Account))
 					{
 						m_tempestDB.ProfileData.bLoaded = true;
-
 						msg = "*Profile Successfully Loaded*";
 					}
 					else 
@@ -275,17 +291,20 @@ namespace Tempest
 					m_feedback.Begin(msg, 5.0f, m_labelStyle);
 				}
 
-				GoBack (OptionsMenu);
-			}
 
-			private void GoBack(MenuFunction func)
+				//draw back rectangle
+				Rect backRect = new Rect (Screen.width * 0.1f, Screen.height * 0.66f,
+				                          (Screen.width - m_buttonWidth) * 0.12f,
+				                          (Screen.height - m_buttonHeight) * 0.06f);
+
+				GoBack (OptionsMenu, backRect);
+			}
+	
+
+			private void GoBack(MenuFunction func, Rect rect)
 			{
 				//convinient go back function 
-				Rect goBackRect = new Rect (Screen.width * 0.05f, Screen.height * 0.66f,
-				                         (Screen.width - m_buttonWidth) * 0.12f,
-				                         (Screen.height - m_buttonHeight) * 0.06f);
-
-				if(GUI.Button (goBackRect, "BACK", m_buttonStyle))
+				if(GUI.Button (rect, "BACK", m_buttonStyle))
 				{
 					m_feedback.End (); //stop any feedback messages 
 
@@ -302,7 +321,7 @@ namespace Tempest
 				style.normal = new GUIStyleState();
 				style.normal.textColor = Color.black;
 
-				Rect headingRect = new Rect (0.0f, 0.0f, Screen.width, Screen.height * 0.05f);
+				Rect headingRect = new Rect (Screen.width * 0.22f, 0.0f, Screen.width *0.5f, Screen.height * 0.05f);
 				GUI.Label (headingRect, "Profile Menu", style);
 			}
 
@@ -383,17 +402,22 @@ namespace Tempest
 
 			private void OptionsMenu()
 			{
-				Rect createProfileRect = new Rect(Screen.width * 0.05f, Screen.height * 0.3f, 
+				Rect createProfileRect = new Rect(Screen.width * 0.42f, Screen.height * 0.2f, 
 				                               (Screen.width - m_buttonWidth) * 0.12f, 
 				                               (Screen.height - m_buttonHeight) * 0.06f);
 				
-				Rect loadProfileRect = new Rect (Screen.width * 0.05f, Screen.height * 0.42f,
+				Rect loadProfileRect = new Rect (Screen.width * 0.42f, Screen.height * 0.32f,
 				                              (Screen.width - m_buttonWidth) * 0.12f,
 				                              (Screen.height - m_buttonHeight) * 0.06f);
 
-				Rect viewProfileRect = new Rect (Screen.width * 0.05f, Screen.height * 0.54f,
+				Rect viewProfileRect = new Rect (Screen.width * 0.42f, Screen.height * 0.44f,
 				                                   (Screen.width - m_buttonWidth) * 0.12f,
 				                                   (Screen.height - m_buttonHeight) * 0.06f);
+
+				Rect backRect = new Rect (Screen.width * 0.42f, Screen.height * 0.56f,
+				      				    (Screen.width - m_buttonWidth) * 0.12f,
+				        				  (Screen.height - m_buttonHeight) * 0.06f);
+
 
 				if(GUI.Button (createProfileRect, "CREATE PROFILE", m_buttonStyle))
 				{
@@ -410,7 +434,7 @@ namespace Tempest
 					Callback = ViewProfile;
 				}
 
-				GoBack (OptionsMenu);
+				GoBack (OptionsMenu, backRect);
 			}
 
 			private void ShowFeedback()
