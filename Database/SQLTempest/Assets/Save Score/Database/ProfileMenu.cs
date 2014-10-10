@@ -36,6 +36,8 @@ namespace Tempest
 			private string m_dbDatabaseField;
 			private string m_dbUserIDField;
 
+			private Vector2 m_msgLogScrollView;
+
 			private GUIStyle m_buttonStyle;
 			private GUIStyle m_labelStyle;
 			private GUIStyle m_textAreaStyle;
@@ -94,7 +96,9 @@ namespace Tempest
 				m_textAreaWidth = 300;
 				m_textAreaHeight = 400;
 
-				Callback = OptionsMenu;
+				m_msgLogScrollView = Vector2.zero;
+
+				Callback = Options;
 			}
 
 			private void ClearNonPersistantFields()
@@ -136,23 +140,30 @@ namespace Tempest
 				                          (Screen.width - m_buttonWidth) * 0.12f,
 				                          (Screen.height - m_buttonHeight) * 0.06f);
 
-				if(GUI.Button(createButtonRect, "CREATE", m_buttonStyle) && fieldCheck)
+				if(GUI.Button(createButtonRect, "CREATE", m_buttonStyle))
 				{
 					string msg = "";
 
-					if(m_tempestDB.AccountDatabase.AddPatient(m_usernameField, m_passwordField, m_dobCalendar.GetFormattedDate ('/'), m_genderField[m_genderSelection], m_medicalField))
+					if(fieldCheck)
 					{
-						msg = "*Profile Successfully Created*";
+						if(m_tempestDB.AccountDatabase.AddPatient(m_usernameField, m_passwordField, m_dobCalendar.GetFormattedNumericDate ('/'), m_genderField[m_genderSelection], m_medicalField))
+						{
+							msg = "*Profile successfully created*";
+						}
+						else
+						{
+							msg = "*Profile creation failed*";
+						}
 					}
-					else
+					else 
 					{
-						msg = "*Profile Creation Failed*";
+						msg = "*Cannot create profile with empty username or password*";
 					}
-
+					
 					m_feedback.Begin(msg, 5.0f, m_labelStyle);
 				}
 
-				GoBack (OptionsMenu, backRect);
+				GoBack (Options, backRect);
 			}
 	
 			private void ViewScores()
@@ -178,7 +189,7 @@ namespace Tempest
 					m_scoreTable.ColumnStyle = columnStyle;
 					m_scoreTable.ViewStyle = viewStyle;
 
-					m_scoreTable.Render();
+					m_scoreTable.Display();
 				}
 				else
 				{
@@ -231,11 +242,11 @@ namespace Tempest
 						{
 							m_tempestDB.ProfileData.bLoaded = false;
 
-							msg = "*Profile Successfully Deleted*";
+							msg = "*Profile successfully deleted*";
 						}
 						else
 						{
-							msg = "*Profile Deletion Failed";
+							msg = "*Profile deletion failed";
 						}
 
 						m_feedback.Begin(msg, 5.0f, m_labelStyle);
@@ -251,7 +262,7 @@ namespace Tempest
 				                          (Screen.width - m_buttonWidth) * 0.12f,
 				                          (Screen.height - m_buttonHeight) * 0.06f);
 
-				GoBack (OptionsMenu, backRect);
+				GoBack (Options, backRect);
 			}
 
 			private void LoadProfile()
@@ -281,11 +292,11 @@ namespace Tempest
 					if(m_tempestDB.AccountDatabase.ExtractPatient (m_usernameField, m_passwordField, ref m_tempestDB.ProfileData.Account))
 					{
 						m_tempestDB.ProfileData.bLoaded = true;
-						msg = "*Profile Successfully Loaded*";
+						msg = "*Profile successfully loaded*";
 					}
 					else 
 					{
-						msg = "*Profile Loading Failed*";
+						msg = "*Profile loading failed*";
 					}
 
 					m_feedback.Begin(msg, 5.0f, m_labelStyle);
@@ -297,7 +308,7 @@ namespace Tempest
 				                          (Screen.width - m_buttonWidth) * 0.12f,
 				                          (Screen.height - m_buttonHeight) * 0.06f);
 
-				GoBack (OptionsMenu, backRect);
+				GoBack (Options, backRect);
 			}
 	
 
@@ -371,7 +382,7 @@ namespace Tempest
 					}
 					else
 					{
-						m_feedback.Begin("*Connection Attempt Failed*", 5.0f, m_labelStyle); 
+						m_feedback.Begin("*Connection attempt failed*", 5.0f, m_labelStyle); 
 					}
 				}
 			}
@@ -400,7 +411,7 @@ namespace Tempest
 				m_textAreaStyle.wordWrap = true;
 			}
 
-			private void OptionsMenu()
+			private void Options()
 			{
 				Rect createProfileRect = new Rect(Screen.width * 0.42f, Screen.height * 0.2f, 
 				                               (Screen.width - m_buttonWidth) * 0.12f, 
@@ -434,16 +445,25 @@ namespace Tempest
 					Callback = ViewProfile;
 				}
 
-				GoBack (OptionsMenu, backRect);
+				GoBack (Options, backRect);
 			}
+
 
 			private void ShowFeedback()
 			{
-				GUI.Box (new Rect(Screen.width * 0.4f, Screen.height * 0.85f, (Screen.width - 150.0f) * 0.2f, (Screen.height - 200.0f) * 0.2f), "");
-				Rect pos = new Rect (Screen.width * 0.41f, Screen.height * 0.86f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.08f);
-				GUI.Label (pos, "MESSAGE LOG:", m_labelStyle);
+				GUILayout.BeginArea (new Rect(Screen.width * 0.4f, Screen.height * 0.85f, (Screen.width - 150.0f) * 0.2f, (Screen.height - 200.0f) * 0.2f), "", GUI.skin.box);
+				m_msgLogScrollView = GUILayout.BeginScrollView (m_msgLogScrollView);
 
-				m_feedback.Display (new Rect(Screen.width * 0.48f, Screen.height * 0.86f, (Screen.width - m_labelWidth) * 0.1f, (Screen.height - m_labelHeight) * 0.1f));
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("MESSAGE LOG:", m_labelStyle);
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+				m_feedback.Display ();
+				GUILayout.EndHorizontal ();
+
+				GUILayout.EndScrollView ();
+				GUILayout.EndArea ();
 			}
 
 			private void OnGUI()

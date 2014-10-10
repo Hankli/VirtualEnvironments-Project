@@ -1,6 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Database\SQLTempest\Assets\Save Score\Database\ProfileMenu.cs">
+    <Files>
+      <File FileName="..\..\Database\SQLTempest\Assets\Save Score\Database\ProfileMenu.cs" Line="160" Column="15" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

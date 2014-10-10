@@ -142,7 +142,7 @@ namespace Tempest
 				m_columns.Clear ();
 			}
 
-			public void Render()
+			public void Display()
 			{
 				Rect rect = new Rect (m_pos.x, m_pos.y, m_width, m_height); 			
 				Column[] cols = m_columns.ToArray();

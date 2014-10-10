@@ -31,12 +31,12 @@ namespace Tempest
 				m_startTime = 0f;
 			}
 
-			public void Display(Rect pos)
+			public void Display()
 			{
 				float t = Time.time;
 				if(t - m_startTime <= m_displayTime)
 				{
-					GUI.Label (pos, m_log, m_style);	
+					GUILayout.Label (m_log, m_style);	
 				}
 			}
 		}

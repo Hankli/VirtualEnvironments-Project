@@ -175,7 +175,12 @@ namespace Tempest
 				UpdateMonthField ();
 				UpdateDayField ();
 			}
-			
+
+			public string SelectedMonthNumeric
+			{
+				get { return System.DateTime.ParseExact (m_monthField [m_monthSelection], "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month.ToString(); }
+			}
+
 			public int YearRange
 			{
 				get { return m_yearRange; }
@@ -184,7 +189,7 @@ namespace Tempest
 
 			public string SelectedMonth
 			{
-				get { return System.DateTime.ParseExact (m_monthField [m_monthSelection], "MMMM", System.Globalization.CultureInfo.CurrentCulture).Month.ToString(); }
+				get { return m_monthField [m_monthSelection]; } 
 			}
 			
 			public string SelectedYear
@@ -197,15 +202,15 @@ namespace Tempest
 				get { return m_dayField [m_daySelection]; }
 			}
 
-			public string GetFormattedDate(char c, bool MDY = false)
+			public string GetFormattedNumericDate(char c, bool MDY = false)
 			{
 				if(!MDY)
 				{
-					return SelectedDay + c + SelectedMonth + c + SelectedYear;
+					return SelectedDay + c + SelectedMonthNumeric + c + SelectedYear;
 				}
-				return SelectedMonth + c + SelectedDay + SelectedYear;
+				return SelectedMonthNumeric + c + SelectedDay + SelectedYear;
 			}
-			
+
 			public void UpdateYearField()
 			{
 				m_yearSelection = 0;
@@ -221,7 +226,8 @@ namespace Tempest
 			
 			private void UpdateDayField()
 			{
-				m_dayField = new string[System.DateTime.DaysInMonth (int.Parse(SelectedYear), int.Parse(SelectedMonth))];
+
+				m_dayField = new string[System.DateTime.DaysInMonth (int.Parse(SelectedYear), int.Parse(SelectedMonthNumeric))];
 				
 				for(int i=0; i< m_dayField.Length; i++)
 				{
