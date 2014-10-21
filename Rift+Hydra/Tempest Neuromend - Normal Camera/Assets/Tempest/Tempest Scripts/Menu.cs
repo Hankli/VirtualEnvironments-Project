@@ -5,7 +5,7 @@ public class Menu : MonoBehaviour
 {
 	Color backgroundColour = new Color (1.0f, 1.0f, 1.0f);
 	Color buttonColour = new Color (0.22f, 1.0f, 0.97f);
-	Color textColour = new Color (1.0f, 1.0f, 1.0f);
+	//Color textColour = new Color (1.0f, 1.0f, 1.0f);
 	
 	private delegate void MenuDelegate();
 	private MenuDelegate menuFunction;
@@ -15,20 +15,38 @@ public class Menu : MonoBehaviour
 	private float buttonHeight;
 	private float buttonWidth;
 
-	private GameObject gameControlObject = null;
+	//private LeapControl variables = null;
+	//private GameObject gameControlObject = null;
 
+	
 	bool sound;
 	float volume;
+	bool twoHands;
+	float sensitivity;
+
+
+	Texture2D background;
+	private Rect backgroundPosition;
 
 	void Awake()
 	{
-		gameControlObject = GameObject.FindGameObjectWithTag ("Game");
+		/*
+		if(gameControlObject = GameObject.FindGameObjectWithTag("Game"))
+		{
+			if(variables=gameControlObject.GetComponent<LeapControl>())
+			{
+				//bleh
+			}
+		}
+		*/
 	}
 	// Use this for initialization
 	void Start () 
 	{
 		sound = true;
 		volume = 5.0f;
+		twoHands = false;
+		sensitivity = 5.0f;
 		
 		screenHeight = Screen.height;
 		screenWidth = Screen.width;
@@ -38,10 +56,13 @@ public class Menu : MonoBehaviour
 		
 		Camera.main.backgroundColor = backgroundColour;
 		menuFunction = anyKey;
+
+		background = Resources.Load<Texture2D>("TitleProxy01");
 	}
 	
 	void OnGUI()
 	{
+		DrawBackground();
 		menuFunction();
 	}
 	
@@ -57,71 +78,21 @@ public class Menu : MonoBehaviour
 		GUI.Label(new Rect(screenWidth * 0.35f, screenHeight * 0.3f, screenWidth * 0.3f, screenHeight * 0.1f), "Press any key to continue");
 		
 	}
-
-	void DrawCustomSlider(Rect rect, string title, int min, int max, ref float value)
+	
+	void DrawBackground()
 	{
-		GUILayout.BeginArea(rect);
-		GUILayout.Label(title);
-		value = GUILayout.HorizontalSlider(value, min, max);
-		GUILayout.BeginHorizontal();
-		var defaultAlignment = GUI.skin.label.alignment;
-		GUI.skin.label.alignment = TextAnchor.UpperLeft;
-		GUILayout.Label(min.ToString());
-		GUI.skin.label.alignment = TextAnchor.UpperRight;
-		GUILayout.Label(max.ToString());
-		GUI.skin.label.alignment = defaultAlignment;
-		GUILayout.EndHorizontal();
-		GUILayout.EndArea();
+		backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
+		GUI.DrawTexture(backgroundPosition,background);
 	}
 
-	void configuration()
-	{
-		Color colorState = GUI.color;
-		GUILayout.BeginArea (new Rect (0, 0, screenWidth, screenHeight * 0.08f));
-		GUI.color = new Color (0.2f, 0.3f, 0.8f, 1.0f);
-		GUI.skin.label.fontSize = 15; 
-		GUILayout.Label ("Hydra Configuration");
-		GUILayout.EndArea ();
-		GUI.color = colorState;
-
-
-		Tempest.RazorHydra.HydraControl control = gameControlObject.GetComponent<Tempest.RazorHydra.HydraControl> ();
-
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight * 2.0f),
-		                  "Movement Joystick Sensitivity", 1, 5, ref control.m_moveJoystickSensitivity);
-		
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight * 2.0f),
-		                  "Rotation Joystick Sensitivity", 1, 5, ref control.m_rotateJoystickSensitivity);
-		
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Trigger Sensitivity", 1, 5, ref control.m_triggerSensitivity);
-		
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Throw Sensitivity", 1, 5, ref control.m_throwingSensitivity);
-		
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.5f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Hand Move Sensitivity", 1, 5, ref control.m_handMoveSensitivity);
-		
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.6f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Hand Rotate Sensitivity", 1, 5, ref control.m_handRotateSensitivity);
-
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.7f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Walk Speed", 1, 5, ref control.m_walkSpeed);
-
-		DrawCustomSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.8f, buttonWidth, buttonHeight * 2.0f), 
-		                  "Strafe Speed", 1, 5, ref control.m_strafeSpeed);
-
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK"))
-		{
-			menuFunction = mainMenu;
-		}
-	}
-
+	
 	void mainMenu()
 	{
 		GUI.color = buttonColour;
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY"))
 		{
+			//variables.SetTwoHands(twoHands);
+			//variables.SetSensitivity(sensitivity);
 			Application.LoadLevel ("Way Finding");
 		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
@@ -183,8 +154,35 @@ public class Menu : MonoBehaviour
 			menuFunction = mainMenu;
 		}
 	}
+
+	void configuration()
+	{
+		float min = 0.0f;
+		float max = 10.0f;
+		GUI.color = buttonColour;
+
+		GUILayout.BeginArea(new Rect((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight*2.0f));
+		GUILayout.Label("Sensitivity");
+		sensitivity = GUILayout.HorizontalSlider(sensitivity, min, max);
+			GUILayout.BeginHorizontal();
+				var defaultAlignment = GUI.skin.label.alignment;
+				GUI.skin.label.alignment = TextAnchor.UpperLeft;
+				GUILayout.Label(min.ToString());
+				GUI.skin.label.alignment = TextAnchor.UpperRight;
+				GUILayout.Label(max.ToString());
+				GUI.skin.label.alignment = defaultAlignment;
+				GUILayout.EndHorizontal();
+		GUILayout.EndArea();
+
+		twoHands = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), twoHands, "Two hands");
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		{
+			menuFunction = settings;
+		}
+	}
 	
-	void audio()
+	new void audio()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;

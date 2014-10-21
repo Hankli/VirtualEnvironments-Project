@@ -89,6 +89,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\Menu.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Obstacle.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
@@ -104,6 +105,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\WFHintManager.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
      <None Include="Assets\Plugins\donotdelete.txt" />

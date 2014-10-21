@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Tasks>
+  <Task>
+    <Name>Object Avoidance</Name>
+    <Description>Avoid obstacles</Description>
+  </Task>
+  <Task>
+    <Name>Object Interaction</Name>
+    <Description>Manipulate objects</Description>
+  </Task>
+  <Task>
+    <Name>Wayfinding</Name>
+    <Description>Pathfinding around mazes</Description>
+  </Task>
+</Tasks>

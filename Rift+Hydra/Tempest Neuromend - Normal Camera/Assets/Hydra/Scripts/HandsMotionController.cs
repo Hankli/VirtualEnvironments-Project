@@ -4,7 +4,7 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-		public class HandsMotionController : MonoBehaviour 
+		public class HandsMotionController : VRGUI 
 		{
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
@@ -146,16 +146,19 @@ namespace Tempest
 				}
 			}
 			
-			private void OnGUI()
+			public override void OnVRGUI()
 			{
+				uint boxWidth = 150;
+				uint boxHeight = 40;
+	
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
 					GUIStyle style = new GUIStyle(GUI.skin.button);
 					Font myFont = (Font)Resources.Load("linowrite", typeof(Font));
 					//foreach(Font f in Resources.FindObjectsOfTypeAll<Font>()) Debug.Log(f.name);
 
-					uint boxWidth = 150;
-					uint boxHeight = 40;
+					boxWidth = 150;
+					 boxHeight = 40;
 
 					style.font = myFont;
 					style.alignment = TextAnchor.MiddleCenter;

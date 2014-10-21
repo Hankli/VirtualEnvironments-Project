@@ -17,6 +17,20 @@ public class HoverPad : MonoBehaviour
 	void Update() 
 	{
 	}
+
+	
+	void OnTriggerEnter(Collider other)
+	{
+		CharacterController controller = other.GetComponent<CharacterController>();
+		if (controller) 
+		{
+			FPSControl fpsControl = null;
+			if(fpsControl= other.GetComponent<FPSControl>())
+			{
+				fpsControl.ForceJump();
+			}
+		}
+	}
 	
 	void OnTriggerStay(Collider other)
     {

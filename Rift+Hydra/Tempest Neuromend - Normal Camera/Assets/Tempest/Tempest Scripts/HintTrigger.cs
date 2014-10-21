@@ -7,6 +7,10 @@ public class HintTrigger : MonoBehaviour
 	public bool b_allowedMultipleTriggers=false;
 	public bool b_hasTriggered=false;
 
+	public WFHintManager.HintType hintType;
+
+	public float hintDuration=7.0f;
+
 	void Awake()
 	{
 	}
@@ -29,16 +33,27 @@ public class HintTrigger : MonoBehaviour
 				b_hasTriggered=true;
 			}
 			//send message to be displayed to level control
-			GameObject levelControl = null;
-			LevelControl levelControlScript = null;
-			if(levelControl=GameObject.FindWithTag("Level"))
+			GameObject hintManager = null;
+			if(hintManager=GameObject.FindWithTag("Hint Manager"))
 			{
-				
-				if(levelControlScript=levelControl.GetComponent<LevelControl>())
+				//should make universal later and extend for specific levels...
+				WFHintManager hintManagerScript=null;
+				if(hintManagerScript=hintManager.GetComponent<WFHintManager>())
 				{
-					levelControlScript.SetCurrentObjective(hintMessage,true,true);
+					if(hintManagerScript.CanHint(hintType))
+					{
+						GameObject levelControl = null;
+						LevelControl levelControlScript = null;
+						if(levelControl=GameObject.FindWithTag("Level"))
+						{
+							if(levelControlScript=levelControl.GetComponent<LevelControl>())
+							{
+								levelControlScript.SetCurrentObjective(hintMessage,true,true, hintDuration);
+							}
+						}	
+					}
 				}
-			}	
+			}
 		}
 	}
 }

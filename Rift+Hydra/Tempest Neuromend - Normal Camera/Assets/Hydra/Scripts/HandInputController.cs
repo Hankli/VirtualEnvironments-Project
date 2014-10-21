@@ -22,7 +22,7 @@ namespace Tempest
 		/// <remarks>
 		/// This script should be bound to a GameObject in the scene so that its Start(), Update() and OnApplicationQuit() methods are called.  This can be done by adding the SixenseInput prefab to a scene.  The public static interface to the Controller objects provides a user friendly way to integrate Sixense controllers into your application.
 		/// </remarks>
-		public class HandInputController : MonoBehaviour
+		public class HandInputController : VRGUI
 		{
 			/// <summary>
 			/// Max number of controllers allowed by driver.
@@ -211,7 +211,7 @@ namespace Tempest
 			/// <summary>
 			/// Updates the controller manager GUI.
 			/// </summary>
-			private void OnGUI()
+			public override void OnVRGUI()
 			{
 			
 				if ( m_controllerManagerEnabled && ( m_controllerManagerState != ControllerManagerState.NONE ) )

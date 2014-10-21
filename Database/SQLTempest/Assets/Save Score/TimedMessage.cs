@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Tempest
 {
-	namespace MenuGUI
+	namespace Menu
 	{
 		public class TimedMessage
 		{

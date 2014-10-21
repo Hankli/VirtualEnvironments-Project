@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Devices>
+  <Device>
+    <Name>Leap Motion</Name>
+    <Description>Motion sensor device that supports hand and finger motions as input</Description>
+  </Device>
+  <Device>
+    <Name>Kinect</Name>
+    <Description>Motion sensing input device by Microsoft</Description>
+  </Device>
+  <Device>
+    <Name>Razer Hydra</Name>
+    <Description>Motion and orientation detection game controller by Sixense Entertainment</Description>
+  </Device>
+  <Device>
+    <Name>Mouse and Keyboard</Name>
+    <Description>Standard mouse and keyboard</Description>
+  </Device> 
+</Devices>

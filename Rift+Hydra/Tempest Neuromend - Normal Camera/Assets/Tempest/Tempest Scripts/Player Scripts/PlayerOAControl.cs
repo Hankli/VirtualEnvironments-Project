@@ -3,11 +3,14 @@ using System.Collections;
 
 public class PlayerOAControl : MonoBehaviour 
 {
-	Vector3 translationAll = Vector3.zero;
-	CharacterController control;
-	CharacterMotor motor;
+	private Vector3 translationAll = Vector3.zero;
+	private CharacterController control;
+	private CharacterMotor motor;
 	public float speed = 3.0f;
 	private bool b_notOver=true;
+	private bool b_knockBack=false;
+	private float knockBackDuration = 0.1f;
+	private float knockBackTime = 0.0f;
 	
 	void Start() 
 	{
@@ -20,19 +23,40 @@ public class PlayerOAControl : MonoBehaviour
 		motor.movement.maxForwardSpeed=0;
 		motor.movement.maxBackwardsSpeed=0;
 		
-		//translationAll = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 3.0f);//1.0f is constant 'forward' movement
-		//translationAll = transform.TransformDirection(translationAll);//direction from world to local
-
-		if(b_notOver)
+		translationAll = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 1.0f);//1.0f is constant 'forward' movement
+		translationAll = transform.TransformDirection(translationAll);//direction from world to local
+		if(b_notOver&&!b_knockBack)
 		{
-			//motor.movement.velocity.x = Input.GetAxis ("Horizontal") * speed;// if use keyboard
-			motor.movement.velocity.z = speed; 
+			if(control)
+				control.SimpleMove(translationAll*speed);
+		}
+		else if(b_knockBack)
+		{
+			Vector3 knockBack = new Vector3(0.0f, 0.0f, -3.0f);
+			if(control)
+				control.SimpleMove(knockBack);
+			float knockBackTimeCheck = Time.time;
+			if(knockBackTimeCheck-knockBackTime>knockBackDuration)
+			{
+				b_knockBack=false;
+			}
 		}
 	}
 	
 	public void ReachedEndZone()
 	{	
 		b_notOver=false;
+	}
+	
+	void OnControllerColliderHit(ControllerColliderHit hit) 
+	{
+		//Debug.Log(hit.gameObject.tag);
+		if(hit.gameObject.tag=="Moving Obstacle")
+		{
+			//Debug.Log("Knockback!");
+			b_knockBack=true;
+			knockBackTime = Time.time;
+		}
 	}
 	
 }
