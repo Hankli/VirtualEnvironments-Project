@@ -148,19 +148,12 @@ namespace Tempest
 			
 			public override void OnVRGUI()
 			{
-				uint boxWidth = 150;
-				uint boxHeight = 40;
-	
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
+					uint boxWidth = 150;
+					uint boxHeight = 40;
+
 					GUIStyle style = new GUIStyle(GUI.skin.button);
-					Font myFont = (Font)Resources.Load("linowrite", typeof(Font));
-					//foreach(Font f in Resources.FindObjectsOfTypeAll<Font>()) Debug.Log(f.name);
-
-					boxWidth = 150;
-					 boxHeight = 40;
-
-					style.font = myFont;
 					style.alignment = TextAnchor.MiddleCenter;
 					style.fontStyle = FontStyle.Normal;
 					style.normal.textColor = Color.Lerp(Color.red, Color.green, 0.90f);

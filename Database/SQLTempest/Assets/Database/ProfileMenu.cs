@@ -156,10 +156,7 @@ namespace Tempest
 				m_dobView.Display ();
 				
 				//trim username and password fields
-				Rect createButtonRect = new Rect(Screen.width * 0.1f, Screen.height * 0.52f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
-				Rect backRect = new Rect (Screen.width * 0.1f, Screen.height * 0.64f,
-				                          (Screen.width - m_buttonWidth) * 0.12f,
-				                          (Screen.height - m_buttonHeight) * 0.06f);
+				Rect createButtonRect = new Rect(Screen.width * 0.45f, Screen.height * 0.75f, (Screen.width - m_buttonWidth) * 0.05f, (Screen.height - m_buttonHeight) * 0.06f);
 				
 				if(GUI.Button(createButtonRect, "CREATE", m_buttonStyle))
 				{
@@ -173,7 +170,7 @@ namespace Tempest
 							}
 							else
 							{
-								m_feedback.Begin("Profile failed to create", 5.0f, m_msgLogStyle);
+								m_feedback.Begin("Profile with username already exists", 5.0f, m_msgLogStyle);
 							}
 						}
 					}
@@ -182,6 +179,10 @@ namespace Tempest
 						m_feedback.Begin("Not connected to server", 5.0f, m_msgLogStyle);
 					}
 				}
+
+				Rect backRect = new Rect (Screen.width * 0.4f, Screen.height * 0.75f,
+				                          (Screen.width - m_buttonWidth) * 0.05f,
+				                          (Screen.height - m_buttonHeight) * 0.06f);
 				
 				GoBack (Options, backRect);
 			}

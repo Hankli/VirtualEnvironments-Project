@@ -28,7 +28,11 @@ public class PlayerOAControl : MonoBehaviour
 		if(b_notOver&&!b_knockBack)
 		{
 			if(control)
-				control.SimpleMove(translationAll*speed);
+			{
+				motor.movement.velocity.x = translationAll.x * speed;
+				motor.movement.velocity.z = translationAll.z * speed;
+			}
+			//control.SimpleMove(translationAll*speed);
 		}
 		else if(b_knockBack)
 		{

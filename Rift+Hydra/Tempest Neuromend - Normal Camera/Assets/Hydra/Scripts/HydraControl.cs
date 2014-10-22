@@ -6,17 +6,14 @@ namespace Tempest
 	{
 		public class HydraControl : MonoBehaviour
 		{
-			public float m_moveJoystickSensitivity = 1.0f;
-			public float m_rotateJoystickSensitivity = 1.0f;
+			public float m_leftJoystickSens = 1.0f;
+			public float m_rightJoystickSens = 1.0f;
 
-			public float m_handMoveSensitivity = 1.0f;
-			public float m_handRotateSensitivity = 1.0f;
+			public float m_linearHandSens = 1.0f;
+			public float m_angularHandSens = 1.0f;
 
-			public float m_throwingSensitivity = 1.0f;
-			public float m_triggerSensitivity = 1.0f;
-
-			public float m_walkSpeed = 3.0f;
-			public float m_strafeSpeed = 3.0f;
+			public float m_throwSens = 1.0f;
+			public float m_triggerSens = 1.0f;
 
 			private void Awake()
 			{
@@ -40,12 +37,10 @@ namespace Tempest
 					HydraCharacterController character = o.GetComponent<HydraCharacterController> ();
 					HydraCameraController cam = o.GetComponent<HydraCameraController> ();
 
-					cam.CameraSensitivity = m_rotateJoystickSensitivity;
-					motion.MoveSensitivity = m_handMoveSensitivity;
-					motion.RotateSensitivity = m_handRotateSensitivity;
-					character.MoveSensitivity = m_moveJoystickSensitivity; 
-					character.WalkSpeed = m_walkSpeed;  
-					character.StrafeSpeed = m_strafeSpeed; 
+					character.MoveSensitivity = m_leftJoystickSens; 
+					cam.CameraSensitivity = m_rightJoystickSens;
+					motion.MoveSensitivity = m_linearHandSens;
+					motion.RotateSensitivity = m_angularHandSens;
 
 					Component[] comp = o.GetComponents<Hand> ();
 					foreach(Component c in comp)
@@ -53,10 +48,10 @@ namespace Tempest
 						if(c is Hand)
 						{
 							Hand hand = c as Hand;
-							hand.TriggerSensitivity = m_triggerSensitivity;
+							hand.TriggerSensitivity = m_triggerSens;
 
 							HandsObjectPicker picker = hand.GetComponent<HandsObjectPicker>();
-							picker.ThrowSensitivity = m_throwingSensitivity;
+							picker.ThrowSensitivity = m_throwSens;
 						}
 					}
 				}

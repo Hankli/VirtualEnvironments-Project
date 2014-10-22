@@ -9,6 +9,7 @@ public class TempestVRMainMenu : VRGUI
 	
 	private delegate void MenuDelegate();
 	private MenuDelegate menuFunction;
+	private Tempest.RazorHydra.HydraControl m_controller;
 	
 	private float screenHeight;
 	private float screenWidth;
@@ -22,7 +23,6 @@ public class TempestVRMainMenu : VRGUI
 	//private LeapControl variables = null;
 	private bool sound;
 	private float volume;
-	private float sensitivity;
 	
 	
 	private Texture2D background;
@@ -46,9 +46,10 @@ public class TempestVRMainMenu : VRGUI
 	// Use this for initialization
 	void Start () 
 	{
+		m_controller = new Tempest.RazorHydra.HydraControl ();
+
 		sound = true;
 		volume = 5.0f;
-		sensitivity = 5.0f;
 		
 		screenHeight = Screen.height;
 		screenWidth = Screen.width;
@@ -72,8 +73,6 @@ public class TempestVRMainMenu : VRGUI
 			screenWidth = Screen.width;
 			buttonHeight = Screen.height * 0.05f;
 			buttonWidth = Screen.width * 0.2f;
-			
-			
 		}
 		
 		DrawBackground();
@@ -102,41 +101,6 @@ public class TempestVRMainMenu : VRGUI
 	
 	void mainMenu()
 	{
-	/*
-			GUILayout.BeginArea(new Rect((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight*5.0f));
-			GUI.color = buttonColour;
-			if(GUILayout.Button ("PLAY",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY"))
-			{
-				//variables.SetTwoHands(twoHands);
-				//variables.SetSensitivity(sensitivity);
-				Application.LoadLevel (firstLevel);
-			}
-			if(GUILayout.Button ("PROFILE",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
-			{
-				menuFunction = profile;
-			}
-			if(GUILayout.Button ("SETTINGS",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS"))
-			{
-				menuFunction = settings;
-			}
-			if(GUILayout.Button ("ABOUT",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), "ABOUT"))
-			{
-				menuFunction = about;
-			}
-			if(GUILayout.Button ("QUIT",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "QUIT"))
-			{
-				Application.Quit ();
-			}
-		GUILayout.EndArea();
-
-	*/
-		//GUI.color = buttonColour;
-
 		GUI.color = buttonColour;
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY"))
 		{
@@ -193,30 +157,42 @@ public class TempestVRMainMenu : VRGUI
 		{
 			menuFunction = audio;
 		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "CONFIGURATION"))
+		{
+			menuFunction = configuration;
+		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = mainMenu;
 		}
 	}
-	
+
+	float drawSlider(Rect rect, string title, float min, float max, ref float value)
+	{
+		GUILayout.BeginArea(rect);
+		GUILayout.Label(title);
+		value = GUILayout.HorizontalSlider(value, min, max);
+			GUILayout.BeginHorizontal();
+				var defaultAlignment = GUI.skin.label.alignment;
+				GUI.skin.label.alignment = TextAnchor.UpperLeft;
+				GUILayout.Label(min.ToString());
+				GUI.skin.label.alignment = TextAnchor.UpperRight;
+				GUILayout.Label(max.ToString());
+				GUI.skin.label.alignment = defaultAlignment;
+			GUILayout.EndHorizontal();
+		GUILayout.EndArea();
+
+		return value;
+	}
+
 	void configuration()
 	{
-		float min = 0.0f;
-		float max = 10.0f;
-		GUI.color = buttonColour;
-		
-		GUILayout.BeginArea(new Rect((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight*2.0f));
-		GUILayout.Label("Sensitivity");
-		sensitivity = GUILayout.HorizontalSlider(sensitivity, min, max);
-		GUILayout.BeginHorizontal();
-		var defaultAlignment = GUI.skin.label.alignment;
-		GUI.skin.label.alignment = TextAnchor.UpperLeft;
-		GUILayout.Label(min.ToString());
-		GUI.skin.label.alignment = TextAnchor.UpperRight;
-		GUILayout.Label(max.ToString());
-		GUI.skin.label.alignment = defaultAlignment;
-		GUILayout.EndHorizontal();
-		GUILayout.EndArea();
+		drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight * 2.0f), "Left Joystick Sensitivity", 1.0f, 5.0f, ref m_controller.m_leftJoystickSens);
+		drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight * 2.0f), "Right Joystick Sensitivity ", 1.0f, 5.0f, ref m_controller.m_rightJoystickSens);
+		drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight * 2.0f), "Throw Sensitivity", 1.0f, 5.0f, ref m_controller.m_throwSens);
+		drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.5f, buttonWidth, buttonHeight * 2.0f), "Trigger Sensitivity", 1.0f, 5.0f, ref m_controller.m_triggerSens);
+		drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.6f, buttonWidth, buttonHeight * 2.0f), "Linear Hand Sensitivity", 1.0f, 5.0f, ref m_controller.m_linearHandSens);
+		drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.7f, buttonWidth, buttonHeight * 2.0f), "Angular Hand Sensitivity", 1.0f, 5.0f, ref m_controller.m_angularHandSens);
 
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{

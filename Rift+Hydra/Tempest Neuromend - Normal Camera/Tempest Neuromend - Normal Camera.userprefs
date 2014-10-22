@@ -1,12 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Database\SQLTempest\Assets\Save Score\CalendarView.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs">
     <Files>
-      <File FileName="..\..\Database\SQLTempest\Assets\Database\ReportDB.cs" Line="1" Column="1" />
-      <File FileName="..\..\Database\SQLTempest\Assets\Database\ProfileMenu.cs" Line="331" Column="77" />
-      <File FileName="..\..\Database\SQLTempest\Assets\Save Score\CalendarView.cs" Line="90" Column="5" />
-      <File FileName="..\..\Database\SQLTempest\Assets\Save Score\TableView.cs" Line="1" Column="1" />
-      <File FileName="..\..\Database\SQLTempest\Assets\Database\TaskDB.cs" Line="1" Column="1" />
+      <File FileName="Assets\Hydra\Scripts\HandsMotionController.cs" Line="166" Column="60" />
+      <File FileName="Assets\Hydra\Scripts\HydraControl.cs" Line="54" Column="45" />
+      <File FileName="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" Line="195" Column="79" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
