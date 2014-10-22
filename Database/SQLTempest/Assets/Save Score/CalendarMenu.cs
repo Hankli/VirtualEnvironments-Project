@@ -29,6 +29,10 @@ namespace Tempest
 			public int m_xCount;
 			public int m_scrollPadding;
 			public int m_dropPadding;
+
+			public bool m_dayScrollEvent;
+			public bool m_monthScrollEvent;
+			public bool m_yearScrollEvent;
 			
 			public CalendarMenu(int yearRange)
 			{
@@ -53,19 +57,20 @@ namespace Tempest
 				style.alignment = TextAnchor.MiddleCenter;
 				style.fontStyle = FontStyle.Italic;
 			
+
 				if(GUI.Button(m_dayPos, SelectedDay, style))
 				{
-					m_dropDayList = !m_dropDayList;
+					m_dropDayList = true;
 				}
 				else if(GUI.Button(m_monthPos, SelectedMonth, style))
 				{
-					m_dropMonthList = !m_dropMonthList;
+					m_dropMonthList = true;
 				}
 				else if(GUI.Button(m_yearPos, SelectedYear, style))
 				{
-					m_dropYearList = !m_dropYearList;
+					m_dropYearList = true;
 				}
-				
+
 				DayDropList ();
 				MonthDropList ();
 				YearDropList ();
@@ -77,7 +82,9 @@ namespace Tempest
 				style.margin = new RectOffset (1, 1, 1, 1);
 				style.alignment = TextAnchor.MiddleCenter;
 				style.hover.textColor = Color.red;
-				
+
+				Vector2 prevScroll = m_dayScrollPos;
+
 				if(m_dropDayList)
 				{
 					const int RIGHT_PADDING = 15;
@@ -85,9 +92,9 @@ namespace Tempest
 					
 					Rect pos = new Rect(m_dayPos.x, m_dayPos.y + m_dayPos.height + m_dropPadding, m_dayPos.width + m_scrollPadding, m_dayPos.height * m_xCount);
 					Rect view = new Rect (0f, 0f, m_dayPos.width * 0.25f, m_dayPos.height * m_dayField.Length);
-					
-					m_dayScrollPos = GUI.BeginScrollView (pos, m_dayScrollPos, view);
 
+					m_dayScrollPos = GUI.BeginScrollView (pos, m_dayScrollPos, view);
+		
 					int lastSelect = m_daySelection;
 					m_daySelection = GUI.SelectionGrid(new Rect(0f, 0f, m_dayPos.width, m_dayPos.height * m_dayField.Length), 
 					                                   m_daySelection, m_dayField, 1, style);
@@ -99,6 +106,8 @@ namespace Tempest
 
 					GUI.EndScrollView ();
 				}
+
+				m_dayScrollEvent = prevScroll.sqrMagnitude != m_dayScrollPos.sqrMagnitude;
 			}
 			
 			private void MonthDropList()
@@ -107,14 +116,16 @@ namespace Tempest
 				style.margin = new RectOffset (1, 1, 1, 1);
 				style.alignment = TextAnchor.MiddleCenter;
 				style.hover.textColor = Color.red;
+
+				Vector2 prevScroll = m_monthScrollPos;
 				
 				if(m_dropMonthList)
 				{
 					Rect pos = new Rect(m_monthPos.x, m_monthPos.y + m_monthPos.height + m_dropPadding, m_monthPos.width + m_scrollPadding, m_monthPos.height * m_xCount);
 					Rect view = new Rect (0f, 0f, m_monthPos.width * 0.25f, m_monthPos.height * m_monthField.Length);
-					
+
 					m_monthScrollPos = GUI.BeginScrollView (pos, m_monthScrollPos, view);
-					
+				
 					int lastSelect = m_monthSelection;
 					m_monthSelection = GUI.SelectionGrid(new Rect(0f, 0f, m_monthPos.width, m_monthPos.height * m_monthField.Length), 
 					                                     m_monthSelection, m_monthField, 1, style);
@@ -127,6 +138,8 @@ namespace Tempest
 					
 					GUI.EndScrollView ();
 				}
+
+				m_monthScrollEvent = prevScroll.sqrMagnitude != m_monthScrollPos.sqrMagnitude;
 			}
 
 			private void YearDropList()
@@ -135,14 +148,16 @@ namespace Tempest
 				style.margin = new RectOffset (1, 1, 1, 1);
 				style.alignment = TextAnchor.MiddleCenter;
 				style.hover.textColor = Color.red;
-				
+
+				Vector2 prevScroll = m_monthScrollPos;
+
 				if(m_dropYearList)
 				{
 					Rect pos = new Rect(m_yearPos.x, m_yearPos.y + m_yearPos.height + m_dropPadding, m_yearPos.width + m_scrollPadding, m_yearPos.height * m_xCount);
 					Rect view = new Rect (0f, 0f, m_yearPos.width * 0.25f, m_yearPos.height * m_yearField.Length);
-					
+
 					m_yearScrollPos = GUI.BeginScrollView (pos, m_yearScrollPos, view);
-					
+				
 					int lastSelect = m_yearSelection;
 					m_yearSelection = GUI.SelectionGrid(new Rect(0f, 0f, m_yearPos.width, m_yearPos.height * m_yearField.Length), 
 					                                    m_yearSelection, m_yearField, 1, style);
@@ -155,6 +170,8 @@ namespace Tempest
 					
 					GUI.EndScrollView ();
 				}
+
+				m_yearScrollEvent = prevScroll.sqrMagnitude != m_yearScrollPos.sqrMagnitude;
 			}
 			
 			public void MakeToday()
@@ -226,7 +243,6 @@ namespace Tempest
 			
 			private void UpdateDayField()
 			{
-
 				m_dayField = new string[System.DateTime.DaysInMonth (int.Parse(SelectedYear), int.Parse(SelectedMonthNumeric))];
 				
 				for(int i=0; i< m_dayField.Length; i++)

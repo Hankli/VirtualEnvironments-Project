@@ -22,10 +22,15 @@ namespace Tempest
 			private bool m_dropDayList;
 			private bool m_dropMonthList;
 			private bool m_dropYearList;
-			
+
+			private bool m_dayScrollEvent;
+			private bool m_monthScrollEvent;
+			private bool m_yearScrollEvent;
+
 			public Rect m_dayPos;
 			public Rect m_monthPos;
 			public Rect m_yearPos;
+
 			public int m_xCount;
 			public int m_scrollPadding;
 			public int m_dropPadding;
@@ -62,21 +67,21 @@ namespace Tempest
 			
 				if(GUI.Button(m_dayPos, SelectedDay, style))
 				{
-					m_dropDayList = true;
+					m_dropDayList = !m_dropDayList;
+					m_dropMonthList = false;
+					m_dropYearList = false;
 				}
 				else if(GUI.Button(m_monthPos, SelectedMonth, style))
 				{
-					m_dropMonthList = true;
+					m_dropDayList = false;
+					m_dropMonthList = !m_dropMonthList;
+					m_dropYearList = false;
 				}
 				else if(GUI.Button(m_yearPos, SelectedYear, style))
 				{
-					m_dropYearList = true;
-				}
-				else if(Input.anyKey)
-				{
 					m_dropDayList = false;
 					m_dropMonthList = false;
-					m_dropYearList = false;
+					m_dropYearList = !m_dropYearList;
 				}
 
 				DayDropList ();
@@ -90,7 +95,7 @@ namespace Tempest
 				style.margin = new RectOffset (1, 1, 1, 1);
 				style.alignment = TextAnchor.MiddleCenter;
 				style.hover.textColor = Color.red;
-				
+
 				if(m_dropDayList)
 				{
 					const int RIGHT_PADDING = 15;
@@ -120,7 +125,7 @@ namespace Tempest
 				style.margin = new RectOffset (1, 1, 1, 1);
 				style.alignment = TextAnchor.MiddleCenter;
 				style.hover.textColor = Color.red;
-				
+
 				if(m_dropMonthList)
 				{
 					Rect pos = new Rect(m_monthPos.x, m_monthPos.y + m_monthPos.height + m_dropPadding, m_monthPos.width + m_scrollPadding, m_monthPos.height * m_xCount);
@@ -148,7 +153,7 @@ namespace Tempest
 				style.margin = new RectOffset (1, 1, 1, 1);
 				style.alignment = TextAnchor.MiddleCenter;
 				style.hover.textColor = Color.red;
-				
+
 				if(m_dropYearList)
 				{
 					Rect pos = new Rect(m_yearPos.x, m_yearPos.y + m_yearPos.height + m_dropPadding, m_yearPos.width + m_scrollPadding, m_yearPos.height * m_xCount);
