@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoreScreen : MonoBehaviour 
+public class ScoreScreen : VRGUI
 {
 	private float screenWidth=0.0f;
 	private float screenHeight=0.0f;
@@ -26,9 +26,12 @@ public class ScoreScreen : MonoBehaviour
 		if(gameControl=GameObject.FindWithTag("Game"))
 		{
 			gameControlScript=gameControl.GetComponent<GameControl>();
-			objectInteractionScore = gameControlScript.GetOIScore();
-			objectAvoidanceScore = gameControlScript.GetOAScore();
-			wayFindingScore = gameControlScript.GetWFScore();
+			if(gameControlScript)
+			{
+				objectInteractionScore = gameControlScript.GetOIScore();
+				objectAvoidanceScore = gameControlScript.GetOAScore();
+				wayFindingScore = gameControlScript.GetWFScore();
+			}
 		}
 	}
 	
@@ -48,16 +51,36 @@ public class ScoreScreen : MonoBehaviour
 	void Update() 
 	{
 		AdjustGUI();
-		
-		scoresText="SCORES\nObject Interaction: "+objectInteractionScore+"\nObject Avoidance: "+objectAvoidanceScore+"\nWay Finding: "+wayFindingScore;
+		if(gameControlScript)
+		{
+			if(gameControlScript.IsObjectInteractionScore())
+			{
+				scoresText="SCORES\nObject Interaction: "+TempestUtil.FormatSeconds((int)objectInteractionScore);
+			}
+			if(gameControlScript.IsObjectAvoidanceScore())
+			{
+				scoresText+="\nObject Avoidance: "+TempestUtil.FormatSeconds((int)objectAvoidanceScore);
+			}
+			if(gameControlScript.IsWayFindingScore())
+			{
+				scoresText+="\nWay Finding: "+TempestUtil.FormatSeconds((int)wayFindingScore);
+			}
+		}
+		//scoresText="SCORES\nObject Interaction: "+TempestUtil.FormatSeconds((int)objectInteractionScore)+"\nObject Avoidance: "+TempestUtil.FormatSeconds((int)objectAvoidanceScore)+"\nWay Finding: "+TempestUtil.FormatSeconds((int)wayFindingScore);
 	}
 
-	void OnGUI()
+	new void OnGUI()
 	{
 		GUI.Label(scoresShadowPosition, scoresText, scoresShadow);
 		GUI.Label(scoresPosition, scoresText, scores);
 	}
-	
+
+	public override void OnVRGUI()
+	{
+		GUI.Label(scoresShadowPosition, scoresText, scoresShadow);
+		GUI.Label(scoresPosition, scoresText, scores);
+	}
+
 	void AdjustGUI()
 	{
 		if(screenWidth!=Screen.width||screenHeight!=Screen.height)

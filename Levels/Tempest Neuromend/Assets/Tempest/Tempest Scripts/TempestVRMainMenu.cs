@@ -17,16 +17,15 @@ public class TempestVRMainMenu : VRGUI
 	
 	public string firstLevel="OI Video Tutorial";
 
-	public GUIStyle GUIStyle;
-
 	//private LeapControl variables = null;
-	private bool sound;
-	private float volume;
-	private bool twoHands;
-	private float sensitivity;
+	
+	bool sound;
+	float volume;
+	bool twoHands;
+	float sensitivity;
 
 
-	private Texture2D background;
+	Texture2D background;
 	private Rect backgroundPosition;
 
 	void Awake()
@@ -66,18 +65,6 @@ public class TempestVRMainMenu : VRGUI
 
 	public override void OnVRGUI()
 	{
-		Screen.showCursor=false;
-		
-		if(screenHeight != Screen.height||screenWidth != Screen.width)
-		{
-			screenHeight = Screen.height;
-			screenWidth = Screen.width;
-			buttonHeight = Screen.height * 0.05f;
-			buttonWidth = Screen.width * 0.2f;
-			
-			
-		}
-
 		DrawBackground();
 		menuFunction();
 	}
@@ -97,66 +84,33 @@ public class TempestVRMainMenu : VRGUI
 
 	void DrawBackground()
 	{
-		//backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
-		backgroundPosition.Set(	0, 0, Screen.width, Screen.height);
-		GUI.DrawTexture(backgroundPosition, background, ScaleMode.StretchToFill, true);
+		backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
+		GUI.DrawTexture(backgroundPosition,background);
 	}
 
 	void mainMenu()
 	{
-		/*
-		GUILayout.BeginArea(new Rect((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight*5.0f));
-			GUI.color = buttonColour;
-			if(GUILayout.Button ("PLAY",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY"))
-			{
-				//variables.SetTwoHands(twoHands);
-				//variables.SetSensitivity(sensitivity);
-				Application.LoadLevel (firstLevel);
-			}
-			if(GUILayout.Button ("PROFILE",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
-			{
-				menuFunction = profile;
-			}
-			if(GUILayout.Button ("SETTINGS",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS"))
-			{
-				menuFunction = settings;
-			}
-			if(GUILayout.Button ("ABOUT",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), "ABOUT"))
-			{
-				menuFunction = about;
-			}
-			if(GUILayout.Button ("QUIT",customGuiStyle))
-			//if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "QUIT"))
-			{
-				Application.Quit ();
-			}
-		GUILayout.EndArea();
-		*/
 		
-		//GUI.color = buttonColour;
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY", GUIStyle ))
+		GUI.color = buttonColour;
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY"))
 		{
 			//variables.SetTwoHands(twoHands);
 			//variables.SetSensitivity(sensitivity);
 			Application.LoadLevel (firstLevel);
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE", GUIStyle ))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
 		{
 			menuFunction = profile;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS", GUIStyle ))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS"))
 		{
 			menuFunction = settings;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), "ABOUT", GUIStyle ))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), "ABOUT"))
 		{
 			menuFunction = about;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "QUIT", GUIStyle ))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "QUIT"))
 		{
 			Application.Quit ();
 		}
@@ -295,6 +249,6 @@ public class TempestVRMainMenu : VRGUI
 	// Update is called once per frame
 	void Update () 
 	{
-		//Screen.showCursor=false;
+		Screen.showCursor=false;
 	}
 }

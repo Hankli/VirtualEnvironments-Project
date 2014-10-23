@@ -373,7 +373,7 @@ public class LevelControl : MonoBehaviour
 			screenWidth=Screen.width;
 			screenHeight=Screen.height;
 						
-			timerHeight=screenHeight-(screenHeight*0.95f);
+			timerHeight=screenHeight-(screenHeight*0.9f);
 			timerPosition.Set(screenWidth/2.0f,timerHeight,0,0);
 			timerShadowPosition.Set(screenWidth/2.0f+2,timerHeight+2,0,0);
 			

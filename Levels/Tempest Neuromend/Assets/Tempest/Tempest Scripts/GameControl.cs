@@ -27,13 +27,16 @@ public class GameControl : MonoBehaviour
 	private PlaythroughType playthroughType;//type of playthrough
 
 	public float objectInteractionScore = 0.0f;
-	private float objectInteractionCheckpoint = 0.0f;
+	private float objectInteractionCheckpoint = 0.0f;//not used?
+	private bool b_objectInteraction = false;
 	
 	public float objectAvoidanceScore = 0.0f;
-	private float objectAvoidanceCheckpoint = 0.0f;
-	
+	private float objectAvoidanceCheckpoint = 0.0f;//not used?
+	private bool b_objectAvoidance = false;
+
 	public float wayFindingScore = 0.0f;
-	private float wayFindingCheckpoint = 0.0f;
+	private float wayFindingCheckpoint = 0.0f;//not used?
+	private bool b_wayFinding = false;
 
 
 	//for use with networked database data...
@@ -178,6 +181,22 @@ public class GameControl : MonoBehaviour
 		WFPath = userID+"_WFScore.xml";
     }
     
+	//used to reset once new game selected etc...
+	public void ResetCurrentScores()
+	{		
+		objectInteractionScore = 0.0f;
+		objectInteractionCheckpoint = 0.0f;//not used?
+		b_objectInteraction = false;
+		
+		objectAvoidanceScore = 0.0f;
+		objectAvoidanceCheckpoint = 0.0f;//not used?
+		b_objectAvoidance = false;
+		
+		wayFindingScore = 0.0f;
+		wayFindingCheckpoint = 0.0f;//not used?
+		b_wayFinding = false;
+	}
+
     //returns object interaction score float value
     public float GetOIScore()
     {
@@ -187,6 +206,7 @@ public class GameControl : MonoBehaviour
     public void SetOIScore(float score)
     {
 		objectInteractionScore=score;
+		b_objectInteraction = true;
     }
     
     public void SetOICheckpoint(float percentageComplete)
@@ -208,6 +228,7 @@ public class GameControl : MonoBehaviour
     public void SetOAScore(float score)
     {
 		objectAvoidanceScore=score;
+		b_objectAvoidance = true;
     }
     
     public void SetOACheckpoint(float percentageComplete)
@@ -229,6 +250,7 @@ public class GameControl : MonoBehaviour
     public void SetWFScore(float score)
     {
 		wayFindingScore=score;
+		b_wayFinding = true;
     }
     
     public void SetWFCheckpoint(float percentageComplete)
@@ -241,6 +263,23 @@ public class GameControl : MonoBehaviour
 		return wayFindingCheckpoint;
     }
     
+	//check if score was changed.
+	public bool IsObjectInteractionScore()
+	{
+		return b_objectInteraction;
+	}
+	
+	public bool IsObjectAvoidanceScore()
+	{
+		return b_objectAvoidance;
+	}
+	
+	public bool IsWayFindingScore()
+	{
+		return b_wayFinding;
+	}
+	
+
     /*
     //returns userID
     uint getUserID()

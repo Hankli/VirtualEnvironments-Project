@@ -167,6 +167,11 @@ public class OVRMainMenu : MonoBehaviour
 	// the menu RenderTarget
 	OVRVisionGuide VisionGuide = null;
 
+	// Create a delegate for update functions
+	private delegate void updateFunctions();
+	private updateFunctions UpdateFunctions;
+	
+	
 	#region MonoBehaviour Message Handlers
 	/// <summary>
 	/// Awake this instance.
@@ -293,11 +298,23 @@ public class OVRMainMenu : MonoBehaviour
 			Screen.lockCursor = true;
 		}
 		
+		// Add delegates to update; useful for ordering menu tasks, if required
+		UpdateFunctions += UpdateFPS;
+		
 		// CameraController updates
 		if(CameraController != null)
 		{
+			UpdateFunctions += UpdateIPD;
+			UpdateFunctions += UpdatePrediction;
+
 			// Set LPM on by default
+			UpdateFunctions += UpdateLowPersistenceMode;
 			OVRDevice.SetLowPersistenceMode(LowPersistenceMode);
+			UpdateFunctions += UpdateVisionMode;
+			UpdateFunctions += UpdateFOV;
+			UpdateFunctions += UpdateEyeHeightOffset;
+            UpdateFunctions += UpdateResolutionEyeTexture;
+            UpdateFunctions += UpdateLatencyValues;
 
 			// Add a GridCube component to this object
 			GridCube = gameObject.AddComponent<OVRGridCube>();
@@ -310,11 +327,26 @@ public class OVRMainMenu : MonoBehaviour
 			VisionGuide.SetVisionGuideLayer(ref LayerName);
 		}
 		
+		// PlayerController updates
+		if(PlayerController != null)
+		{
+			UpdateFunctions += UpdateSpeedAndRotationScaleMultiplier;
+			UpdateFunctions += UpdatePlayerControllerMovement;
+		}
+		
+		// MainMenu updates
+		UpdateFunctions += UpdateSelectCurrentLevel;
+		UpdateFunctions += UpdateHandleSnapshots;
+		
+		// Device updates
+		UpdateFunctions += UpdateDeviceDetection;
+		
 		// Crosshair functionality
 		Crosshair.Init();
 		Crosshair.SetCrosshairTexture(ref CrosshairImage);
 		Crosshair.SetOVRCameraController (ref CameraController);
 		Crosshair.SetOVRPlayerController(ref PlayerController);
+		UpdateFunctions += Crosshair.UpdateCrosshair;
 		
 		// Check for HMD and sensor
         CheckIfRiftPresent();
@@ -326,40 +358,7 @@ public class OVRMainMenu : MonoBehaviour
 			return;
 
 		// Main update
-
-		UpdateFPS();
-		
-		// CameraController updates
-		if(CameraController != null)
-		{
-			UpdateIPD();
-			UpdatePrediction();
-			
-			// Set LPM on by default
-			UpdateLowPersistenceMode();
-			UpdateVisionMode();
-			UpdateFOV();
-			UpdateEyeHeightOffset();
-			UpdateResolutionEyeTexture();
-			UpdateLatencyValues();
-		}
-		
-		// PlayerController updates
-		if(PlayerController != null)
-		{
-			UpdateSpeedAndRotationScaleMultiplier();
-			UpdatePlayerControllerMovement();
-		}
-		
-		// MainMenu updates
-		UpdateSelectCurrentLevel();
-		UpdateHandleSnapshots();
-		
-		// Device updates
-		UpdateDeviceDetection();
-		
-		// Crosshair functionality
-		Crosshair.UpdateCrosshair();
+		UpdateFunctions();
 		
 		// Toggle Fullscreen
 		if(Input.GetKeyDown(KeyCode.F11))

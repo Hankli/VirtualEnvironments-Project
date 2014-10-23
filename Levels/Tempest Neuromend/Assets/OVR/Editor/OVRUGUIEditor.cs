@@ -8,7 +8,9 @@ public class OVRUGUIEditor : Editor
     public void OnSceneGUI()
     {
         if (Application.isPlaying)
-            return;	  
+            return;
+
+	    PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, null);
     }
 
     /// <summary>

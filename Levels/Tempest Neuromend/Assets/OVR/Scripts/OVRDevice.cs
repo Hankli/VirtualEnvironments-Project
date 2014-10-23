@@ -68,6 +68,21 @@ public class OVRDevice : MonoBehaviour
 	#region MonoBehaviour Message Handlers
 	void Awake()
 	{
+		string[] args = System.Environment.GetCommandLineArgs();
+		for (int i = 0; i < args.Length; ++i)
+		{
+			if (args[i] == "-fullscreen")
+			{
+				Debug.Log("Going to Full-Screen");
+				Screen.fullScreen = true;
+			}
+			else if (args[i] == "-window")
+			{
+				Debug.Log("Going to Window");
+				Screen.fullScreen = false;
+			}
+		}
+
         // Detect whether this platform is a supported platform
         RuntimePlatform currPlatform = Application.platform;
         SupportedPlatform |= currPlatform == RuntimePlatform.Android;
@@ -82,11 +97,13 @@ public class OVRDevice : MonoBehaviour
             return;
         }
 
-        if (HMD != null)
-            return;
+		if (HMD != null)
+			return;
+
         HMD = Hmd.GetHmd();
 
-        SetLowPersistenceMode(true);
+		//HACK: Forcing LP off until service initializes it properly.
+		SetLowPersistenceMode(true);
 	}
 
 	void Update()
@@ -96,6 +113,7 @@ public class OVRDevice : MonoBehaviour
 	}
 	#endregion
 
+#if false
 	/// <summary>
 	/// Destroy this instance.
 	/// </summary>
@@ -104,7 +122,12 @@ public class OVRDevice : MonoBehaviour
         // We may want to turn this off so that values are maintained between level / scene loads
         if (!ResetTrackerOnLoad || HMD == null)
             return;
+
+        HMD.Destroy();
+        Hmd.Shutdown();
+        HMD = null;
     }
+#endif
 
 	// * * * * * * * * * * * *
 	// PUBLIC FUNCTIONS
@@ -121,7 +144,7 @@ public class OVRDevice : MonoBehaviour
 
 		ovrTrackingState ss = HMD.GetTrackingState();
 		
-		return (ss.StatusFlags & (uint)ovrStatusBits.ovrStatus_HmdConnected) != 0;
+		return (ss.StatusFlags | (uint)ovrStatusBits.ovrStatus_HmdConnected) != 0;
 	}
 
 	/// <summary>
@@ -256,7 +279,7 @@ public class OVRDevice : MonoBehaviour
 
 		ovrTrackingState ss = HMD.GetTrackingState();
 		
-		return (ss.StatusFlags & (uint)ovrStatusBits.ovrStatus_PositionConnected) != 0;
+		return (ss.StatusFlags | (uint)ovrStatusBits.ovrStatus_PositionConnected) != 0;
 	}
 	
 	/// <summary>
@@ -270,7 +293,7 @@ public class OVRDevice : MonoBehaviour
 
 		ovrTrackingState ss = HMD.GetTrackingState();
 		
-		return (ss.StatusFlags & (uint)ovrStatusBits.ovrStatus_PositionTracked) != 0;
+		return (ss.StatusFlags | (uint)ovrStatusBits.ovrStatus_PositionTracked) != 0;
 	}
 	
 	/// <summary>
@@ -375,22 +398,22 @@ public class OVRDevice : MonoBehaviour
 		resV = 800;
 		fovH = fovV = 90.0f;
 		
+		float desiredPixelDensity = 1.0f;
+
         if (HMD == null || !SupportedPlatform)
             return;
 
 		ovrHmdDesc desc = HMD.GetDesc();
-		ovrFovPort fov = desc.DefaultEyeFov[0];
-		fov.LeftTan = fov.RightTan = Mathf.Max(fov.LeftTan, fov.RightTan);
-		fov.UpTan   = fov.DownTan  = Mathf.Max(fov.UpTan,   fov.DownTan);
-
+		
 		// Configure Stereo settings. Default pixel density is 1.0f.
-		float desiredPixelDensity = 1.0f;
-		ovrSizei texSize = HMD.GetFovTextureSize(ovrEyeType.ovrEye_Left, fov, desiredPixelDensity);
-
-		resH = texSize.w;
-		resV = texSize.h;
-		fovH = 2f * Mathf.Rad2Deg * Mathf.Atan( fov.LeftTan );
-		fovV = 2f * Mathf.Rad2Deg * Mathf.Atan( fov.UpTan );
+		ovrSizei tex0Size = HMD.GetFovTextureSize(ovrEyeType.ovrEye_Left, desc.DefaultEyeFov[0], desiredPixelDensity);
+		//ovrSizei tex1Size = HMD.GetFovTextureSize(ovrEyeType.ovrEye_Right, desc.DefaultEyeFov[1], desiredPixelDensity);
+		
+		//TODO: account for differences between eyes.
+		resH = tex0Size.w;
+		resV = tex0Size.h;
+		fovH = Mathf.Rad2Deg * ( Mathf.Atan(desc.DefaultEyeFov[0].LeftTan) + Mathf.Atan(desc.DefaultEyeFov[0].RightTan) );
+		fovV = Mathf.Rad2Deg * ( Mathf.Atan(desc.DefaultEyeFov[0].UpTan)   + Mathf.Atan(desc.DefaultEyeFov[0].DownTan)  );
 	}
 
     /// <summary>
@@ -432,16 +455,20 @@ public class OVRDevice : MonoBehaviour
         Ren = latencies[0];
         TWrp = latencies[1];
         PostPresent = latencies[2];
-    }
+    }   
 
-#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
-	[DllImport("user32.dll", CharSet=CharSet.Auto, ExactSpelling=true)]
-	public static extern IntPtr GetActiveWindow();
-#endif
+	/// <summary>
+	/// Gets the time (relative to now) at which the given frame will
+	/// show up on the screen, based on prediction.
+	/// </summary>
+	/// <returns>The scanout time.</returns>
+	/// <param name="frameNumber">Frame number.</param>
+	public static double GetScanoutTime(int frameNumber)
+	{
+        if (HMD == null || !SupportedPlatform)
+			return 0d;
 
-	public const string LibFile = "OculusPlugin";
-	[DllImport(LibFile)]
-	public static extern void OVR_SetHMD(ref IntPtr hmdPtr);
-	[DllImport(LibFile)]
-	private static extern void OVR_GetHMD(ref IntPtr hmdPtr);
+		ovrFrameTiming frameTiming = HMD.GetFrameTiming((uint)frameNumber);
+		return frameTiming.ScanoutMidpointSeconds - Hmd.GetTimeInSeconds();
+	}
 }
