@@ -82,6 +82,8 @@ namespace Tempest
 					force.z *= m_airDrag;
 				}
 
+				force *= Time.timeScale;
+
 				//set velocity(except along y axis)
 				m_motor.movement.velocity.x = force.x;
 				m_motor.movement.velocity.z = force.z;
@@ -96,7 +98,7 @@ namespace Tempest
 				{
 					if(input.GetButtonDown(m_jumpButton) && m_motor.grounded)
 					{
-						m_motor.inputMoveDirection = new Vector3(0.0f, m_jumpImpulse, 0.0f);
+						m_motor.inputMoveDirection = new Vector3(0.0f, m_jumpImpulse, 0.0f) * Time.timeScale;
 						m_motor.inputJump = true;
 					}
 					else
@@ -116,7 +118,7 @@ namespace Tempest
 					{
 						//get to lowest crouch position while crouch button is down
 						float targetHeight = m_preCrouchHeight - m_crouchHeightChange;
-						m_controller.height = Mathf.Lerp(m_controller.height, targetHeight, Time.deltaTime * m_crouchSpeed);
+						m_controller.height = Mathf.Lerp(m_controller.height, targetHeight, Time.deltaTime * m_crouchSpeed * Time.timeScale);
 					}
 
 					else if(!input.GetButton(m_crouchButton) && !m_ceiling)
@@ -125,7 +127,7 @@ namespace Tempest
 						{
 							//stand up while crouch button is up
 							float lastHeight = m_controller.height;
-							m_controller.height = Mathf.Lerp(m_controller.height, m_preCrouchHeight, Time.deltaTime * m_crouchSpeed);
+							m_controller.height = Mathf.Lerp(m_controller.height, m_preCrouchHeight, Time.deltaTime * m_crouchSpeed * Time.timeScale);
 
 							m_controller.Move(new Vector3(0.0f, (m_controller.height - lastHeight) * 0.5f, 0.0f));
 						}

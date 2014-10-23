@@ -32,7 +32,6 @@ public class PlayerOAControl : MonoBehaviour
 				motor.movement.velocity.x = translationAll.x * speed;
 				motor.movement.velocity.z = translationAll.z * speed;
 			}
-			//control.SimpleMove(translationAll*speed);
 		}
 		else if(b_knockBack)
 		{

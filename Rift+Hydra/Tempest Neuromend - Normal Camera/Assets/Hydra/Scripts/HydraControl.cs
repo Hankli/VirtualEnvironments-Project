@@ -17,12 +17,13 @@ namespace Tempest
 
 			private void Awake()
 			{
-				DontDestroyOnLoad (gameObject);
+				//DontDestroyOnLoad (gameObject);
 			}
 
 			private void OnLevelWasLoaded(int level)
 			{
 				GameObject hand = GameObject.Find ("Hand Prefab");
+
 				if(hand != null)
 				{
 					ApplyChanges (hand);
@@ -42,8 +43,7 @@ namespace Tempest
 					motion.MoveSensitivity = m_linearHandSens;
 					motion.RotateSensitivity = m_angularHandSens;
 
-					Component[] comp = o.GetComponents<Hand> ();
-					foreach(Component c in comp)
+					foreach(Component c in o.GetComponents<Hand> ())
 					{
 						if(c is Hand)
 						{

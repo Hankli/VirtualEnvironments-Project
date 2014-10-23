@@ -27,17 +27,17 @@ public class GameControl : MonoBehaviour
 	private PlaythroughType playthroughType;//type of playthrough
 
 	public float objectInteractionScore = 0.0f;
-	private float objectInteractionCheckpoint = 0.0f;
+	private float objectInteractionCheckpoint = 0.0f;//not used?
+	private bool b_objectInteraction = false;
 	
 	public float objectAvoidanceScore = 0.0f;
-	private float objectAvoidanceCheckpoint = 0.0f;
-	
+	private float objectAvoidanceCheckpoint = 0.0f;//not used?
+	private bool b_objectAvoidance = false;
+
 	public float wayFindingScore = 0.0f;
-	private float wayFindingCheckpoint = 0.0f;
-
-
-	//for use with networked database data...
-	private int userID = 0;
+	private float wayFindingCheckpoint = 0.0f;//not used?
+	private bool b_wayFinding = false;
+	
 	/*
 	float objectInteractionHighScore = 0.0f;
 	float objectAvoidanceHighScore = 0.0f;
@@ -83,14 +83,6 @@ public class GameControl : MonoBehaviour
     
     void Start()
     {
-		/*
-		OIPath = userID+"_OIScore.txt";
-		OAPath = userID+"_OAScore.txt";
-		WFPath = userID+"_WFScore.txt";
-		*/
-		OIPath = userID+"_OIScore.xml";
-		OAPath = userID+"_OAScore.xml";
-		WFPath = userID+"_WFScore.xml";
     }
         
 	void Update()
@@ -170,14 +162,29 @@ public class GameControl : MonoBehaviour
 	}
 	
 
-    public void SetUserID(int number)
+    private void SetFile(string username)
     {
-		userID=number;
-		OIPath = userID+"_OIScore.xml";
-		OAPath = userID+"_OAScore.xml";
-		WFPath = userID+"_WFScore.xml";
+		OIPath = username + "_OIScore.xml";
+		OAPath = username + "_OAScore.xml";
+		WFPath = username + "_WFScore.xml";
     }
     
+	//used to reset once new game selected etc...
+	public void ResetCurrentScores()
+	{		
+		objectInteractionScore = 0.0f;
+		objectInteractionCheckpoint = 0.0f;//not used?
+		b_objectInteraction = false;
+		
+		objectAvoidanceScore = 0.0f;
+		objectAvoidanceCheckpoint = 0.0f;//not used?
+		b_objectAvoidance = false;
+		
+		wayFindingScore = 0.0f;
+		wayFindingCheckpoint = 0.0f;//not used?
+		b_wayFinding = false;
+	}
+
     //returns object interaction score float value
     public float GetOIScore()
     {
@@ -187,6 +194,7 @@ public class GameControl : MonoBehaviour
     public void SetOIScore(float score)
     {
 		objectInteractionScore=score;
+		b_objectInteraction = true;
     }
     
     public void SetOICheckpoint(float percentageComplete)
@@ -208,6 +216,7 @@ public class GameControl : MonoBehaviour
     public void SetOAScore(float score)
     {
 		objectAvoidanceScore=score;
+		b_objectAvoidance = true;
     }
     
     public void SetOACheckpoint(float percentageComplete)
@@ -229,6 +238,7 @@ public class GameControl : MonoBehaviour
     public void SetWFScore(float score)
     {
 		wayFindingScore=score;
+		b_wayFinding = true;
     }
     
     public void SetWFCheckpoint(float percentageComplete)
@@ -241,6 +251,23 @@ public class GameControl : MonoBehaviour
 		return wayFindingCheckpoint;
     }
     
+	//check if score was changed.
+	public bool IsObjectInteractionScore()
+	{
+		return b_objectInteraction;
+	}
+	
+	public bool IsObjectAvoidanceScore()
+	{
+		return b_objectAvoidance;
+	}
+	
+	public bool IsWayFindingScore()
+	{
+		return b_wayFinding;
+	}
+	
+
     /*
     //returns userID
     uint getUserID()
@@ -275,44 +302,113 @@ public class GameControl : MonoBehaviour
 
 	public void SaveScore(LevelControl.LevelType levelType)
 	{
+		GameObject tempDBObj = null;
+		Tempest.Database.TempestDB tempDatabase =null;
+		
+		if (!(tempDBObj = GameObject.Find ("Database")) ||
+		    !(tempDatabase = tempDBObj.GetComponent<Tempest.Database.TempestDB> ()) ||
+		    !tempDatabase.Profile.HasValue)
+		{
+			return;
+		}
+
 		XmlWriterSettings settings = new XmlWriterSettings();
 		settings.Indent = true;
 		XmlWriter writer = null;
+		string filename = "";
+
+		SetFile (tempDatabase.Profile.Value.m_username);
 
 		switch(levelType)
 		{
-			case LevelControl.LevelType.ObjectAvoidance: writer = XmlWriter.Create(@OAPath, settings); break;
-			case LevelControl.LevelType.ObjectInteraction: writer = XmlWriter.Create(@OIPath, settings); break;
-			case LevelControl.LevelType.WayFinding: writer = XmlWriter.Create(@WFPath, settings); break;
+			case LevelControl.LevelType.ObjectAvoidance: 
+			{
+				filename = @OAPath;
+			}
+			break;
+
+			case LevelControl.LevelType.ObjectInteraction:
+			{
+				filename = @OIPath;
+			}
+			break;
+
+			case LevelControl.LevelType.WayFinding:
+			{
+				filename = @WFPath;
+			}
+			break;
 		}
 
+		writer = XmlWriter.Create(filename, settings);
+
 		writer.WriteStartDocument ();
-		writer.WriteStartElement("Level Summary");
-		writer.WriteElementString("Username", userID.ToString());
-		writer.WriteElementString("Level", levelType.ToString());
-		writer.WriteElementString("Controller", controllerType.ToString());
-		writer.WriteElementString("Score", objectInteractionScore.ToString());
-		writer.WriteElementString("Timestamp", System.DateTime.Now.ToLongDateString());
+		writer.WriteStartElement("Task_Report");
+
+		writer.WriteElementString("Username", tempDatabase.Profile.Value.m_username);
+		writer.WriteElementString("Timestamp", System.DateTime.Now.ToString());
+	
+		switch(levelType)
+		{
+			case LevelControl.LevelType.None: break;
+
+			case LevelControl.LevelType.ObjectInteraction:
+			{
+				writer.WriteElementString("Level", "Object Interaction");
+				writer.WriteElementString("Score", objectInteractionScore.ToString());
+			}
+			break;
+			
+			case LevelControl.LevelType.ObjectAvoidance:
+			{
+				writer.WriteElementString("Level", "Object Avoidance");
+				writer.WriteElementString("Score", objectAvoidanceScore.ToString());
+			}
+			break;
+			
+			case LevelControl.LevelType.WayFinding:
+			{
+				writer.WriteElementString("Level", "Way Finding");
+				writer.WriteElementString("Score", wayFindingScore.ToString());
+			}
+			break;
+		}
+
+		switch(controllerType)
+		{
+			case ControllerType.MouseKeyboard:
+			{
+				writer.WriteElementString("Controller", "Mouse and Keyboard");
+			}
+			break;
+			
+			case ControllerType.OculusHydra:
+			{
+				writer.WriteElementString("Controller", "Razer Hydra");
+			}
+			break;
+
+			case ControllerType.OculusKinect:
+			{
+				writer.WriteElementString("Controller", "Kinect");
+			}
+			break;
+			
+			case ControllerType.OculusLeap:
+			{
+				writer.WriteElementString("Controller", "Leap Motion");
+			}
+			break;
+		}
+
 		writer.WriteEndElement();
 		writer.WriteEndDocument();
 	
-		writer.Flush ();
 		writer.Close ();
-	}
 
-	private void ReadyFile(string pathName)
-	{
-        if (System.IO.File.Exists(pathName))
-        {
-            fileWriter = System.IO.File.AppendText(pathName);
-        }
-        else
-        {
-            fileWriter = System.IO.File.AppendText(pathName);
-            fileWriter.WriteLine("UserID\tScore\tDate");
-        }
+		tempDatabase.ReportDatabase.AddReport(filename);
 	}
-
+	
 	//still need to implement this properly...
 	//need to pause most player interaction etc...
 	public void PauseGame(bool pause=true)

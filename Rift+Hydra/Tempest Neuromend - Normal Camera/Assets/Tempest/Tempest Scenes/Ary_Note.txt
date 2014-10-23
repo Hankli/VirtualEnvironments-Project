@@ -3,3 +3,6 @@ note: an object with DontDestroyOnLoad() will be destroyed if it is a child of o
 
 0.77 unit sensitivity observed between trigger and player controller. May be different for devices + models
 
+
+
+modified OVRCamera.cs for oculus orientation adjustment
