@@ -4,7 +4,7 @@
 - Audio
 - Change the exe icon
 - Player models
-- Transferring scores to database
+x Transferring scores to database
 
 
 VIDEO TUTORIALS

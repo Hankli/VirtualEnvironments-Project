@@ -72,6 +72,17 @@
      <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
+     <Compile Include="Assets\Tempest\Database\DeviceDB.cs" />
+     <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
+     <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
+     <Compile Include="Assets\Tempest\Database\ReportDB.cs" />
+     <Compile Include="Assets\Tempest\Database\SQLTestStatements.cs" />
+     <Compile Include="Assets\Tempest\Database\SQLView.cs" />
+     <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
+     <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
+     <Compile Include="Assets\Tempest\GUI_Utility\CalendarView.cs" />
+     <Compile Include="Assets\Tempest\GUI_Utility\TableView.cs" />
+     <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />
      <Compile Include="Assets\Tempest\GameTemplate\Scripts\Frame.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\BasicMovement.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
@@ -97,6 +108,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\RabbitClone.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\RabbitTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ScoreScreen.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\TempestUtil.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRGUI.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TextureSlide.cs" />
@@ -119,7 +131,16 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
+ <Reference Include="MySql.Data">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/MySql.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

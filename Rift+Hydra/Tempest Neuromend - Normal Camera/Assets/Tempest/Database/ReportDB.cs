@@ -45,7 +45,7 @@ namespace Tempest
 				                     "Username VARCHAR(20) NOT NULL," +
 				                     "DeviceName VARCHAR(30) NOT NULL," +
 				                     "ActivityName VARCHAR(30) NOT NULL," +
-				                     "EndDate DATETIME NOT NULL," +
+				                     "CompletionDate DATETIME NOT NULL," +
 				                     "Score INT NOT NULL," +
 				                     "CONSTRAINT PRIMARY KEY(ReportID), " +
 				                     "CONSTRAINT FOREIGN KEY(DeviceName) REFERENCES device(DeviceName) ON UPDATE CASCADE ON DELETE CASCADE," +
@@ -71,13 +71,13 @@ namespace Tempest
 
 			public bool AddReport(string username, string device, string activity, DateTime timestamp, int score)
 			{
-				m_sqlView.BeginQuery("INSERT IGNORE INTO report(Username, DeviceName, ActivityName, EndDate, Score) " +
-				                     "VALUES(?USER, ?DEVICE, ?TASK, STR_TO_DATE(?ENDTIME, '%d/%m/%Y %k:%i'), ?SCORE)");
+				m_sqlView.BeginQuery("INSERT IGNORE INTO report(Username, DeviceName, ActivityName, CompletionDate, Score) " +
+				                     "VALUES(?USER, ?DEVICE, ?TASK, STR_TO_DATE(?TIME, '%d/%m/%Y %k:%i'), ?SCORE)");
 
 				m_sqlView.Write ("?USER", username);
 				m_sqlView.Write ("?DEVICE", device);
 				m_sqlView.Write ("?TASK", activity);
-				m_sqlView.Write ("?ENDTIME", timestamp.ToString("d/M/yyyy HH:mm")); //???
+				m_sqlView.Write ("?TIME", timestamp.ToString("d/M/yyyy HH:mm")); //???
 				m_sqlView.Write ("?SCORE", score);
 
 				bool success = (m_sqlView.CommitQuery () > 0);
@@ -86,10 +86,8 @@ namespace Tempest
 				return success;
 			}
 
-			public void AddReport(string levelData)
+			public bool AddReport(string levelData)
 			{
-				Debug.Log (levelData);
-
 				XElement root = XElement.Load (@levelData);
 		
 				if(root != null)
@@ -97,11 +95,13 @@ namespace Tempest
 					string username = root.Element("Username").Value;
 					string device = root.Element("Controller").Value;
 					string activity = root.Element("Level").Value;
-					string time = root.Element("EndDate").Value;
+					string time = root.Element("Timestamp").Value;
 					string score = root.Element("Score").Value;
 
-					AddReport(username, device, activity, Convert.ToDateTime(time), Int32.Parse(score));
+					return AddReport(username, device, activity, 
+					     DateTime.ParseExact(time, "d/M/yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture), Int32.Parse(score));
 				}
+				return false;
 			}
 
 			public bool DeleteReport(int reportID)
@@ -129,10 +129,10 @@ namespace Tempest
 
 			public void ExtractReport(string username, List<Report> list)
 			{
-				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT(EndDate, '%d/%m/%Y %k:%i') " +
+				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT(CompletionDate, '%d/%m/%Y %k:%i') " +
 									  "FROM report " +
 				                      "WHERE CAST(Username AS BINARY) = @username " +
-				                      "ORDER BY EndDate DESC");
+				                      "ORDER BY CompletionDate DESC");
 
 				m_sqlView.Write ("username", username);
 				m_sqlView.CommitQuery ();
@@ -148,7 +148,7 @@ namespace Tempest
 					rep.m_task = rdr.GetString("ActivityName");
 					rep.m_device = rdr.GetString("DeviceName");
 					rep.m_score = rdr.GetInt32("Score");
-					rep.m_timestamp = rdr.GetDateTime("EndDate");
+					rep.m_timestamp = rdr.GetDateTime("CompletionDate");
 				
 					list.Add(rep);
 				}

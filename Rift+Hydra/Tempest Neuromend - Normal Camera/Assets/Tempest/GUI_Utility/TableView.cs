@@ -173,19 +173,10 @@ namespace Tempest
 				return m_columns.RemoveAll (x => x.Heading.Equals (heading)) > 0;
 			}
 
-			public bool AddItem(T item) 
+			public List<T> Items
 			{
-				if(!m_items.Any(x => x.Equals(item)))
-				{
-					m_items.Add (item);
-					return true;
-				}
-				return false;
-			}
-
-			public bool RemoveItem(T item)
-			{
-				return m_items.Remove (item);
+				get { return m_items; }
+				set { m_items = value; }
 			}
 
 			public void DropItems()

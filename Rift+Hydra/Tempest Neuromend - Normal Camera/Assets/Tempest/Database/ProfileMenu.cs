@@ -29,7 +29,7 @@ namespace Tempest
 			private string[] m_genderField;
 			private string m_medicalField;
 			private CalendarView m_dobView;
-			private TableView<Tempest.Database.ReportDB.Report> m_statView;
+			private TableView<Database.ReportDB.Report> m_statView;
 			
 			private string m_dbServerField;
 			private string m_dbPasswordField;
@@ -52,7 +52,7 @@ namespace Tempest
 
 			private TimedMessage m_feedback;
 			
-			private Tempest.Database.TempestDB m_tempestDB;
+			private Database.TempestDB m_tempestDB;
 			
 			private int m_time;
 			private string m_message;
@@ -72,7 +72,7 @@ namespace Tempest
 			{
 				if(m_tempestDB == null)
 				{
-					m_tempestDB = GameObject.Find ("Database").GetComponent<Tempest.Database.TempestDB> ();
+					m_tempestDB = GameObject.Find ("Database").GetComponent<Database.TempestDB> ();
 					m_feedback = new TimedMessage ();
 					
 					m_usernameField = "";
@@ -82,7 +82,7 @@ namespace Tempest
 					m_medicalField = "";
 					m_dobView = new CalendarView (80);
 					
-					m_statView = new TableView<Tempest.Database.ReportDB.Report> ();
+					m_statView = new TableView<Database.ReportDB.Report> ();
 					m_statView.AddColumn ("ID", 0.1f, (x, y) => (x.m_reportID.CompareTo(y.m_reportID)), (x, y) => (y.m_reportID.CompareTo(x.m_reportID)));
 					m_statView.AddColumn ("Device", 0.2f, (x, y) => (x.m_device.CompareTo(y.m_device)), (x, y) => (y.m_device.CompareTo(x.m_device)));
 					m_statView.AddColumn ("Task", 0.2f, (x, y) => (x.m_task.CompareTo(y.m_task)), (x, y) => (y.m_task.CompareTo(x.m_task)));
@@ -277,12 +277,15 @@ namespace Tempest
 					//deletion of profile
 					Rect showScoreRect = new Rect (Screen.width * 0.1f, Screen.height * 0.42f,(Screen.width - m_buttonWidth) * 0.12f,(Screen.height - m_buttonHeight) * 0.06f);
 					Rect deleteButtonRect = new Rect(Screen.width * 0.1f, Screen.height * 0.54f, (Screen.width - m_buttonWidth) * 0.12f, (Screen.height - m_buttonHeight) * 0.06f);
-					
+
 					if(GUI.Button(showScoreRect, "VIEW SCORES", m_buttonStyle))
 					{
+						//retrieve all scores from the database belonging to this user
+						LoadScores();
+
 						Callback = ViewScores;
 					}
-					
+
 					else if(GUI.Button(deleteButtonRect, "DELETE PROFILE", m_buttonStyle))
 					{
 						if(m_tempestDB.AccountDatabase.DeletePatient (m_tempestDB.Profile.Value.m_username, m_tempestDB.Profile.Value.m_password))
@@ -308,6 +311,15 @@ namespace Tempest
 				
 				GoBack (Options, backRect);
 			}
+
+			private void LoadScores()
+			{
+				if(m_tempestDB.Profile.HasValue)
+				{
+					m_statView.DropItems ();
+					m_tempestDB.ReportDatabase.ExtractReport(m_tempestDB.Profile.Value.m_username, m_statView.Items);
+				}
+			}
 			
 			private void LoadProfile()
 			{
@@ -325,18 +337,9 @@ namespace Tempest
 					{
 						//clear whatever was left from before
 						m_statView.DropItems();
-						
-						//extract all reports
-						List<Tempest.Database.ReportDB.Report> list = new List<Tempest.Database.ReportDB.Report>();
-						m_tempestDB.ReportDatabase.ExtractReport(m_usernameField, list);
-
-						foreach(Tempest.Database.ReportDB.Report report in list)
-						{
-							m_statView.AddItem(report);
-						}
-						
+					
 						//display feedback
-						Tempest.Database.PatientDB.Patient profile = new Tempest.Database.PatientDB.Patient();	
+						Database.PatientDB.Patient profile = new Database.PatientDB.Patient();	
 
 						if(m_tempestDB.AccountDatabase.ExtractPatient (m_usernameField, m_passwordField, ref profile))
 						{
@@ -506,8 +509,6 @@ namespace Tempest
 				{
 					Callback = ViewProfile;
 				}
-				
-				//GoBack (Options, backRect);
 			}
 			
 			

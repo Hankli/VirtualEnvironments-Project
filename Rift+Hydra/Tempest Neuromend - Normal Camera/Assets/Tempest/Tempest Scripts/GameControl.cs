@@ -346,7 +346,7 @@ public class GameControl : MonoBehaviour
 		writer.WriteStartElement("Task_Report");
 
 		writer.WriteElementString("Username", tempDatabase.Profile.Value.m_username);
-		writer.WriteElementString("Timestamp", System.DateTime.Now.ToString());
+		writer.WriteElementString("Timestamp", System.DateTime.Now.ToString("d/M/yyyy HH:mm"));
 	
 		switch(levelType)
 		{
@@ -404,6 +404,7 @@ public class GameControl : MonoBehaviour
 		writer.WriteEndElement();
 		writer.WriteEndDocument();
 	
+		writer.Flush ();
 		writer.Close ();
 
 		tempDatabase.ReportDatabase.AddReport(filename);

@@ -70,7 +70,16 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/user/Desktop/2013 Uni Work/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
+ <Reference Include="MySql.Data">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/MySql.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/System.Drawing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
