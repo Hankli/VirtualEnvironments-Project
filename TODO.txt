@@ -1,0 +1,20 @@
+- Loading screen
+- Pause screen
+- Audio
+- Change the exe icon
+- Player models
+- Transferring scores to database
+
+VIDEO TUTORIALS
+
+MENU
+- Add textures
+- Add more functionality
+- Speed slider in menu
+- Lock sliders at different intervals |-|-|-|-|
+- Need to be able to switch between CAM/OVR in menu
+- Level loader (ability to select level)
+
+
+- Get correct game flow happening
+- Run game through on each device with no troubles
