@@ -68,7 +68,11 @@ namespace Tempest
 			{
 				get 
 				{ 
-					return m_connection != null ? m_connection.State == System.Data.ConnectionState.Open : false;
+					if(m_connection != null)
+					{
+						return m_connection.State.Equals (System.Data.ConnectionState.Open);
+					}
+					else return false;
 				}
 			}
 
@@ -76,7 +80,11 @@ namespace Tempest
 			{
 				get 
 				{
-					return m_connection != null ? m_connection.State == System.Data.ConnectionState.Closed : true;
+					if(m_connection != null)
+					{
+						return m_connection.State.Equals (System.Data.ConnectionState.Closed);
+					}
+					else return false;
 				}
 			}
 			

@@ -435,6 +435,7 @@ public class OVRCameraController : MonoBehaviour
 			OrientationOffset = FollowOrientation.rotation;
 		else
 			OrientationOffset = transform.rotation;
+
 	}
 
 	/// <summary>

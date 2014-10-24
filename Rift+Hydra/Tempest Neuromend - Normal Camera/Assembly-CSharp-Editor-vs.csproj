@@ -72,14 +72,20 @@
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
+ <Reference Include="I18N">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Plugins/I18N.dll</HintPath>
+ </Reference>
+ <Reference Include="I18N.West">
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Plugins/I18N.West.dll</HintPath>
+ </Reference>
  <Reference Include="MySql.Data">
- <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/MySql.Data.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/System.Data.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/Libraries/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Drawing">
- <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/sql_libraries/System.Drawing.dll</HintPath>
+ <HintPath>C:/Users/user/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>

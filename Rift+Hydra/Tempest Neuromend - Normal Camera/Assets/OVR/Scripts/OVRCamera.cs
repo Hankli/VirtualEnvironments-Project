@@ -22,6 +22,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+
+//Tempest Neuromend edit for faulty rift orientation correction
+//orientationAdjustment
+//AdjustOrientation()
 ************************************************************************************/
 
 using UnityEngine;
@@ -93,6 +97,9 @@ public class OVRCamera : MonoBehaviour
 	/// True if this camera corresponds to the right eye.
 	/// </summary>
 	public bool RightEye = false;
+
+	public float orientationAdjustment=0.0f;//Tempest		
+	
 	#endregion
 
 	#region Static Members
@@ -175,7 +182,20 @@ public class OVRCamera : MonoBehaviour
 		OVR_SetTexture(EyeId, CameraTexture[EyeId].GetNativeTexturePtr(), CameraController.ScaleRenderTarget);
 	}
 
-    static int PendingEyeCount = 0;
+	void Update()
+	{
+		if (Input.GetAxis("Mouse ScrollWheel") < 0)
+		{
+			AdjustOrientation(true);
+		}
+		
+		if (Input.GetAxis("Mouse ScrollWheel") > 0)
+		{
+			AdjustOrientation(false);
+		}
+	}
+	
+	static int PendingEyeCount = 0;
 
 	void OnPreCull()
 	{        
@@ -254,6 +274,8 @@ public class OVRCamera : MonoBehaviour
 			OVR_SampleEyePose(0);
 			OVR_SampleEyePose(1);
 
+
+
 			// Get camera orientation and position from vision
 			Quaternion camOrt = Quaternion.identity;
 			Vector3 camPos = Vector3.zero;
@@ -264,8 +286,12 @@ public class OVRCamera : MonoBehaviour
 
 			bool useOrt = (CameraController.EnableOrientation &&
 			               !(CameraController.TimeWarp && CameraController.FreezeTimeWarp));	
+			//Tempest (Ary) adjustment for faulty oculus orientation errors...
+			camOrt=Quaternion.AngleAxis(orientationAdjustment,new Vector3(0.0f,1.0f,0.0f))*camOrt;
+
 			if(useOrt)
 				CameraOrientation = camOrt;
+
 		}
 		
 		// Calculate the rotation Y offset that is getting updated externally
@@ -400,6 +426,17 @@ public class OVRCamera : MonoBehaviour
 
 		CameraTexture[i].Create();
 	}
+
+	public void AdjustOrientation(bool up, float amount=1.0f)
+	{
+		if(up)
+		{
+			orientationAdjustment+=amount;	
+		}
+		else
+			orientationAdjustment-=amount;
+	}
+
 	#endregion
 
 	#region Vision Functions
