@@ -7,6 +7,7 @@
 x Transferring scores to database
 
 
+
 VIDEO TUTORIALS
 
 MENU
@@ -20,3 +21,7 @@ MENU
 
 - Get correct game flow happening
 - Run game through on each device with no troubles
+
+
+- in game level skip functionality
+- all devices with adjustable sensitivity settings
