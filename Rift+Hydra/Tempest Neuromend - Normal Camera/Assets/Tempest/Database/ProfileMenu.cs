@@ -173,7 +173,7 @@ namespace Tempest
 					{
 						if(VerifyAccountDetails(m_usernameField, m_passwordField))
 						{
-							if(m_tempestDB.AccountDatabase.AddPatient(m_usernameField, m_passwordField, m_dobView.GetFormattedNumericDate ('/'), m_genderField[m_genderSelection], m_medicalField))
+							if(m_tempestDB.ProfileDatabase.AddPatient(m_usernameField, m_passwordField, m_dobView.GetFormattedNumericDate ('/'), m_genderField[m_genderSelection], m_medicalField))
 							{
 								m_feedback.Begin("Profile created", 5.0f, m_msgLogStyle);
 							}
@@ -287,7 +287,7 @@ namespace Tempest
 
 					else if(GUI.Button(deleteButtonRect, "DELETE PROFILE", m_buttonStyle))
 					{
-						if(m_tempestDB.AccountDatabase.DeletePatient (m_tempestDB.Profile.Value.m_username, m_tempestDB.Profile.Value.m_password))
+						if(m_tempestDB.ProfileDatabase.DeletePatient (m_tempestDB.Profile.Value.m_username, m_tempestDB.Profile.Value.m_password))
 						{
 							m_tempestDB.Profile = null;
 							
@@ -340,10 +340,13 @@ namespace Tempest
 						//display feedback
 						Database.PatientDB.Patient profile = new Database.PatientDB.Patient();	
 
-						if(m_tempestDB.AccountDatabase.ExtractPatient (m_usernameField, m_passwordField, ref profile))
+						if(m_tempestDB.ProfileDatabase.ExtractPatient (m_usernameField, m_passwordField, ref profile))
 						{
 							m_tempestDB.Profile = profile;
-							
+
+							//create new session so user can restore to this later on(if they don't log out)
+							m_tempestDB.SaveLoggedSession(false);
+
 							m_feedback.Begin("Profile successfully loaded", 5.0f, m_msgLogStyle);
 						}
 						else 
@@ -432,7 +435,8 @@ namespace Tempest
 					{
 						Callback = Options;
 						ClearNonPersistantFields();
-						
+						m_tempestDB.LoadLoggedSession();
+
 						m_feedback.Begin("Connected", 5.0f, m_msgLogStyle); 
 					}
 					else
@@ -489,11 +493,15 @@ namespace Tempest
 				                               (Screen.width - m_buttonWidth) * 0.12f,
 				                               (Screen.height - m_buttonHeight) * 0.06f);
 				
-				Rect backRect = new Rect(Screen.width * 0.42f, Screen.height * 0.56f,
+				Rect logoutRect = new Rect(Screen.width * 0.42f, Screen.height * 0.56f,
+				                           (Screen.width - m_buttonWidth) * 0.12f,
+				                           (Screen.height - m_buttonHeight) * 0.06f);
+
+				Rect backRect = new Rect(Screen.width * 0.42f, Screen.height * 0.8f,
 				                        (Screen.width - m_buttonWidth) * 0.12f,
 				                        (Screen.height - m_buttonHeight) * 0.06f);
-				
-				
+
+
 				if(GUI.Button (createProfileRect, "CREATE PROFILE", m_buttonStyle))
 				{
 					Callback = CreateProfile;
@@ -508,14 +516,25 @@ namespace Tempest
 				{
 					Callback = ViewProfile;
 				}
+
+				else if(GUI.Button(logoutRect, "LOGOUT", m_buttonStyle))
+				{
+					//mark session as end, so it does not restore the session
+					if(m_tempestDB.SaveLoggedSession(true))
+					{
+						m_feedback.Begin("Logged out of session", 5.0f, m_feedbackStyle);
+					}
+					else
+					{
+						m_feedback.Begin("No session currently logged into", 5.0f, m_feedbackStyle);
+					}
+				}
 			}
-			
 			
 			private void UpdateFeedback()
 			{
 				GUILayout.BeginArea (new Rect(Screen.width * 0.4f, Screen.height * 0.85f, (Screen.width - 150.0f) * 0.2f, (Screen.height - 200.0f) * 0.2f), "", GUI.skin.box);
 				m_msgLogScrollView = GUILayout.BeginScrollView (m_msgLogScrollView);
-
 
 				GUILayout.BeginHorizontal ();
 				GUILayout.Label ("MESSAGE LOG", m_feedbackStyle);
@@ -537,6 +556,7 @@ namespace Tempest
 				ServerSettings();
 				Callback ();
 			}
+
 		}
 	}
 }

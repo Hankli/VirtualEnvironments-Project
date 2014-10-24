@@ -90,6 +90,31 @@ namespace Tempest
 
 				return success;
 			}
+
+			public bool ExtractPatient(string username, ref Patient patient)
+			{
+				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') " +
+				                      "FROM patient " +
+				                      "WHERE CAST(Username AS BINARY) = @username");
+
+				m_sqlView.Write ("username", username);
+				m_sqlView.CommitQuery ();
+
+				m_sqlView.BeginRead ();
+				MySqlDataReader rdr = m_sqlView.Read ();
+				if(rdr != null)
+				{
+					patient.m_username = rdr.GetString("Username");
+					patient.m_password = rdr.GetString("Password");
+					patient.m_gender = rdr.GetString("Gender");
+					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
+					patient.m_medicalCondition = rdr.GetString("MedicalCondition");
+				}
+				m_sqlView.EndRead ();
+				m_sqlView.EndQuery ();
+				
+				return rdr != null;
+			}
 			
 			public bool ExtractPatient(string username, string password, ref Patient patient)
 			{

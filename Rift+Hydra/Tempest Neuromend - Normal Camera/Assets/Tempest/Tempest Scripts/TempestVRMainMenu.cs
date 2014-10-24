@@ -108,7 +108,7 @@ public class TempestVRMainMenu : VRGUI
 			drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight * 2.0f), "Right Joystick Sensitivity ", 1.0f, 5.0f, ref hydraControl.m_rightJoystickSens);
 			drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight * 2.0f), "Throw Sensitivity", 1.0f, 5.0f, ref hydraControl.m_throwSens);
 			drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.5f, buttonWidth, buttonHeight * 2.0f), "Trigger Sensitivity", 1.0f, 5.0f, ref hydraControl.m_triggerSens);
-			drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.6f, buttonWidth, buttonHeight * 2.0f), "Linear Hand Sensitivity", 1.0f, 5.0f, ref hydraControl.m_linearHandSens);
+			drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.6f, buttonWidth, buttonHeight * 2.0f), "Linear Hand Sensitivity", 1.0f, 10.0f, ref hydraControl.m_linearHandSens);
 			drawSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.7f, buttonWidth, buttonHeight * 2.0f), "Angular Hand Sensitivity", 1.0f, 5.0f, ref hydraControl.m_angularHandSens);
 		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))

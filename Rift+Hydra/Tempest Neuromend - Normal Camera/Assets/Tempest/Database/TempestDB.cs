@@ -19,6 +19,7 @@ namespace Tempest
 			private const string k_defaultServerFile = "db_server.xml";
 			private const string k_defaultTasksFile = "db_tasks.xml";
 			private const string k_defaultDevicesFile = "db_devices.xml";
+			private const string k_loggedSessionFile = "session_log.xml";
 
 			private SQLView m_sqlSource = new SQLView();
 			private TaskDB m_taskDB = null;
@@ -37,7 +38,7 @@ namespace Tempest
 				get { return m_reportDB; }
 			}
 
-			public PatientDB AccountDatabase
+			public PatientDB ProfileDatabase
 			{
 				get { return m_patientDB; }
 			}
@@ -92,6 +93,65 @@ namespace Tempest
 						   "Pooling=" + root.Element("Pooling").Value + ";";
 				}
 				return "";
+			}
+
+			public bool SaveLoggedSession(bool logout)
+			{
+				if(Profile.HasValue)
+				{
+					XmlWriterSettings settings = new XmlWriterSettings();
+					settings.Indent = true;
+					XmlWriter writer =  XmlWriter.Create(@k_loggedSessionFile, settings);
+
+					writer.WriteStartDocument();
+					writer.WriteStartElement("Session");
+					writer.WriteElementString("Logout", logout.ToString());
+					writer.WriteElementString("Database", m_sqlSource.Database); 
+					writer.WriteElementString("Username", Profile.Value.m_username);
+					writer.WriteEndElement();
+					writer.WriteEndDocument();
+
+					writer.Flush();
+					writer.Close();
+
+					if(logout)
+					{
+						Profile = null;
+					}
+
+					return true;
+				}
+				return false;
+			}
+
+			public bool LoadLoggedSession()
+			{
+				if(IsConnected)
+				{
+					XElement root =  XElement.Load(@k_loggedSessionFile);
+					
+					if(root != null)
+					{
+						if(root.Element("Database").Value == m_sqlSource.Database)
+						{
+							bool logout = false;
+							bool.TryParse(root.Element("Logout").Value, out logout);
+
+							if(!logout)
+							{
+								string username = root.Element("Username").Value;
+								PatientDB.Patient patient = new PatientDB.Patient();
+
+								if(m_patientDB.ExtractPatient(username, ref patient))
+								{
+									Profile = patient;
+									return true;
+								}
+							}//end if
+						}//end if
+					}//end if
+				}
+				return false;
 			}
 
 			public bool Reconnect(string config)

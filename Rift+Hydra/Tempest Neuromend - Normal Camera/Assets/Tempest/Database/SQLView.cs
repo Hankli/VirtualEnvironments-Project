@@ -41,6 +41,18 @@ namespace Tempest
 					m_latestError = ex.Message;
 				}
 			}
+
+			public string Database
+			{
+				get 
+				{
+					if(m_connection != null)
+					{
+						return m_connection.Database;
+					}
+					return null;
+				}
+			}
 			
 			public void CloseConnection()
 			{
