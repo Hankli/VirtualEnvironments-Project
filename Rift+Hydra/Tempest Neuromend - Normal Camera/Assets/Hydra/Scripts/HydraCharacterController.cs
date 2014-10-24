@@ -11,8 +11,11 @@ namespace Tempest
 
 			public float m_walkSpeed = 2.0f;
 			public float m_strafeSpeed = 2.0f;
+
+			private float m_constantWalkSpeed = 0.0f;
+
 			private float m_moveSensitivity = 1.0f;
-			
+
 			public Hands m_crouchHand;
 			public Buttons m_crouchButton;
 			public float m_crouchHeightChange;
@@ -31,6 +34,12 @@ namespace Tempest
 			{
 				get { return m_moveSensitivity; }
 				set { m_moveSensitivity = value; }
+			}
+
+			public float ConstantWalkSpeed
+			{
+				get { return m_constantWalkSpeed; }
+				set { m_constantWalkSpeed = value; }
 			}
 
 			public float WalkSpeed
@@ -73,13 +82,18 @@ namespace Tempest
 			
 				//calculate velocity
 				Vector3 right = transform.right * jx * m_strafeSpeed;
-				Vector3 front = transform.forward * jy * m_walkSpeed;		
+				Vector3 front = transform.forward * jy * m_walkSpeed;
 				Vector3 force = right + front;
+
+				if(force.z < m_constantWalkSpeed)
+				{
+					force.z = m_constantWalkSpeed;
+				}
 
 				if(!m_motor.grounded)
 				{
-					force.x *= m_airDrag;
-					force.z *= m_airDrag;
+					force.x *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
+					force.z *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
 				}
 
 				force *= Time.timeScale;

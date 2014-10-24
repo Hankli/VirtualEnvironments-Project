@@ -25,12 +25,16 @@ public class PlayerOAControl : MonoBehaviour
 		
 		translationAll = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 1.0f);//1.0f is constant 'forward' movement
 		translationAll = transform.TransformDirection(translationAll);//direction from world to local
+
 		if(b_notOver&&!b_knockBack)
 		{
 			if(control)
 			{
-				motor.movement.velocity.x = translationAll.x * speed;
-				motor.movement.velocity.z = translationAll.z * speed;
+				//translationAll.y = 0.0f;
+				//control.SimpleMove(translationAll * speed);
+				Tempest.RazorHydra.HydraCharacterController handController = GetComponentInChildren<Tempest.RazorHydra.HydraCharacterController>();
+
+				handController.ConstantWalkSpeed = speed;
 			}
 		}
 		else if(b_knockBack)

@@ -1,0 +1,4 @@
+1) Create a new gameobject and name it "Database"
+2) Add sql libraries to plugins
+3) Add .l18N.dll and .l18N.West.dll to plugins
+4) Edi->Player->Optimization->Api Compabilitiy to .NET2.0
