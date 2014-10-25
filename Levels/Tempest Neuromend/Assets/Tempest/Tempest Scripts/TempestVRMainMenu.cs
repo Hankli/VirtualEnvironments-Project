@@ -9,6 +9,7 @@ public class TempestVRMainMenu : VRGUI
 
 	private delegate void MenuDelegate();
 	private MenuDelegate menuFunction;
+	private Tempest.Menu.ProfileMenu profileMenu;
 
 	private float screenHeight;
 	private float screenWidth;
@@ -36,7 +37,7 @@ public class TempestVRMainMenu : VRGUI
 			GameControl gameControlScript=null;
 			if(gameControlScript=gameControl.GetComponent<GameControl>())
 			{
-				//gameControlScript.MenuActive();
+				gameControlScript.MenuActive();
 			}
 			//variables=gameControl.GetComponent<LeapControl>();
 		}
@@ -61,10 +62,23 @@ public class TempestVRMainMenu : VRGUI
 		menuFunction = anyKey;
 		
 		background = Resources.Load<Texture2D>("TitleProxy01");
-	}
 
+		profileMenu = new Tempest.Menu.ProfileMenu ();
+	}
+	
 	public override void OnVRGUI()
 	{
+		Screen.showCursor=false;
+		if(screenHeight != Screen.height||screenWidth != Screen.width)
+		{
+			screenHeight = Screen.height;
+			screenWidth = Screen.width;
+			buttonHeight = Screen.height * 0.05f;
+			buttonWidth = Screen.width * 0.2f;
+			
+			
+		}
+
 		DrawBackground();
 		menuFunction();
 	}
@@ -84,8 +98,10 @@ public class TempestVRMainMenu : VRGUI
 
 	void DrawBackground()
 	{
-		backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
-		GUI.DrawTexture(backgroundPosition,background);
+		//backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
+		//GUI.DrawTexture(backgroundPosition,background);
+		backgroundPosition.Set(	0, 0, Screen.width, Screen.height);
+		GUI.DrawTexture(backgroundPosition, background);
 	}
 
 	void mainMenu()
@@ -100,6 +116,8 @@ public class TempestVRMainMenu : VRGUI
 		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
 		{
+			profileMenu.Initialize ();
+
 			menuFunction = profile;
 		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS"))
@@ -118,17 +136,11 @@ public class TempestVRMainMenu : VRGUI
 
 	void profile()
 	{
+		profileMenu.Draw ();
+
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "LOAD"))
-		{
-			menuFunction = loadProfile;
-		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "SCORES"))
-		{
-			menuFunction = scores;
-		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
 		{
 			menuFunction = mainMenu;
@@ -232,6 +244,7 @@ public class TempestVRMainMenu : VRGUI
 			menuFunction = settings;
 		}
 	}
+
 	void loadProfile()
 	{
 		GUI.color = buttonColour;
