@@ -4,7 +4,8 @@ using System.Collections;
 public class TempestVRMainMenu : VRGUI 
 {
 	Color backgroundColour = new Color (1.0f, 1.0f, 1.0f);
-	Color buttonColour = new Color (0.22f, 1.0f, 0.97f);
+	Color cursorColour = new Color (0.22f, 1.0f, 0.97f);
+	Color buttonColour = new Color (1.0f, 1.0f, 1.0f);
 	//Color textColour = new Color (1.0f, 1.0f, 1.0f);
 
 	private delegate void MenuDelegate();
@@ -16,7 +17,17 @@ public class TempestVRMainMenu : VRGUI
 	private float buttonHeight;
 	private float buttonWidth;
 	
-	public string firstLevel="OI Video Tutorial";
+	private string firstLevel="OI Video Tutorial";//default... should to remove?
+	private int firstLevelIndex=1;
+	private int numberOfLevels = 0;
+	private int[] levelIndexes=new int[7];
+
+
+	public GUIStyle menuButtonStyle;//button GUIStyle
+	public GUIStyle menuLabelStyle;//label GUIStyle
+	public GUIStyle menuLabelStyleA;//label GUIStyle
+	public GUIStyle menuToggleStyle;//toggle GUIStyle
+
 
 	//private LeapControl variables = null;
 	
@@ -24,6 +35,11 @@ public class TempestVRMainMenu : VRGUI
 	float volume;
 	bool twoHands;
 	float sensitivity;
+
+	private bool b_playTutorials=true;
+	private bool b_objectInteraction=false;
+	private bool b_objectAvoidance=false;
+	private bool b_wayFinding=false;
 
 
 	Texture2D background;
@@ -59,11 +75,16 @@ public class TempestVRMainMenu : VRGUI
 		buttonWidth = Screen.width * 0.2f;
 		
 		Camera.main.backgroundColor = backgroundColour;
-		menuFunction = anyKey;
-		
+		//menuFunction = anyKey;
+		menuFunction = mainMenu;
+
 		background = Resources.Load<Texture2D>("TitleProxy01");
 
 		profileMenu = new Tempest.Menu.ProfileMenu ();
+		menuButtonStyle.fontSize = (int)(Screen.width/40.0f);
+		menuLabelStyle.fontSize = menuButtonStyle.fontSize;
+		menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
+		menuToggleStyle.fontSize = menuButtonStyle.fontSize;
 	}
 	
 	public override void OnVRGUI()
@@ -75,25 +96,16 @@ public class TempestVRMainMenu : VRGUI
 			screenWidth = Screen.width;
 			buttonHeight = Screen.height * 0.05f;
 			buttonWidth = Screen.width * 0.2f;
-			
-			
+
+			menuButtonStyle.fontSize = (int)(Screen.width/40.0f);
+			menuLabelStyle.fontSize = menuButtonStyle.fontSize;
+			menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
+			menuToggleStyle.fontSize = menuButtonStyle.fontSize;
+
 		}
 
 		DrawBackground();
 		menuFunction();
-	}
-
-	void anyKey()
-	{
-		if(Input.anyKey) //if the user has pressed any key
-		{
-			menuFunction = mainMenu; //change the menu to main menu
-		}
-
-		GUI.color = buttonColour;
-		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.35f, screenHeight * 0.3f, screenWidth * 0.3f, screenHeight * 0.1f), "Press any key to continue");
-
 	}
 
 	void DrawBackground()
@@ -106,32 +118,48 @@ public class TempestVRMainMenu : VRGUI
 
 	void mainMenu()
 	{
-		
 		GUI.color = buttonColour;
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "PLAY"))
-		{
-			//variables.SetTwoHands(twoHands);
-			//variables.SetSensitivity(sensitivity);
-			Application.LoadLevel (firstLevel);
-		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE"))
-		{
-			profileMenu.Initialize ();
 
-			menuFunction = profile;
-		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), "SETTINGS"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.2f, buttonWidth, buttonHeight), "PROFILE", menuButtonStyle ))
 		{
-			menuFunction = settings;
+			menuFunction = profileMain;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), "ABOUT"))
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.3f, buttonWidth, buttonHeight), "ABOUT", menuButtonStyle ))
 		{
 			menuFunction = about;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "QUIT"))
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "EXIT", menuButtonStyle ))
+		{
+			menuFunction = exitMain;
+		}
+
+		GUI.color = cursorColour;
+
+	}
+
+	void exitMain()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+
+		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.4f, buttonWidth, buttonHeight), "Are you sure you want to exit?", menuLabelStyle);
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.25f, screenHeight * 0.5f, buttonWidth, buttonHeight), "YES", menuButtonStyle))
 		{
 			Application.Quit ();
 		}
+		
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.75f, screenHeight * 0.5f, buttonWidth, buttonHeight), "NO", menuButtonStyle))
+		{
+			menuFunction = mainMenu;
+		}
+		
+
+		GUI.color = cursorColour;
+
 	}
 
 	void profile()
@@ -141,10 +169,140 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			menuFunction = profileMain;
+		}
+		GUI.color = cursorColour;
+	}
+
+	void profileMain()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.7f, buttonWidth, buttonHeight), "SETTINGS", menuButtonStyle))
+		{
+			menuFunction = settings;
+		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.76f, buttonWidth, buttonHeight), "START", menuButtonStyle))
+		{
+			menuFunction = levelSelect;
+		}
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = mainMenu;
 		}
+		GUI.color = cursorColour;
+
+	}
+
+	void levelSelect()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		//need to display current devices
+		//
+
+
+		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.09f, screenHeight * 0.2f, buttonWidth, buttonHeight), b_playTutorials, "");
+		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.2f, buttonWidth, buttonHeight), "Play Tutorials", menuLabelStyleA);
+		b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.2f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
+		b_objectInteraction = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_objectInteraction, "Object Interaction", menuToggleStyle);
+		b_objectAvoidance = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.37f, buttonWidth*1.5f, buttonHeight), b_objectAvoidance, "Object Avoidance", menuToggleStyle);
+		b_wayFinding = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.44f, buttonWidth*1.5f, buttonHeight), b_wayFinding, "Way Finding", menuToggleStyle);
+
+
+		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.3f, buttonWidth, buttonHeight), "Object Interaction", menuLabelStyleA);
+		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.37f, buttonWidth, buttonHeight), "Object Avoidance", menuLabelStyleA);
+		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.44f, buttonWidth, buttonHeight), "Way Finding", menuLabelStyleA);
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.76f, buttonWidth, buttonHeight), "START", menuButtonStyle))
+		{
+			//variables.SetTwoHands(twoHands);
+			//variables.SetSensitivity(sensitivity);
+
+
+			//set first level
+			if(b_objectInteraction){firstLevelIndex = 3;}
+			else if(b_objectAvoidance){firstLevelIndex = 5;}
+			else if(b_wayFinding){firstLevelIndex = 7;}
+			//adjust first level index if tutorials are to be played
+			if(b_playTutorials){firstLevelIndex--;}
+
+
+			//count levels and...
+			//populate level index array for game control...
+			numberOfLevels=0;
+			if(b_objectInteraction)
+			{
+				if(b_playTutorials)
+				{
+					levelIndexes[numberOfLevels]=2;
+					numberOfLevels++;
+				}
+				levelIndexes[numberOfLevels]=3;
+				numberOfLevels++;
+
+			}
+			if(b_objectAvoidance)
+			{
+				if(b_playTutorials)
+				{
+					levelIndexes[numberOfLevels]=4;
+					numberOfLevels++;
+					
+				}
+				levelIndexes[numberOfLevels]=5;
+				numberOfLevels++;
+			}
+			if(b_wayFinding)
+			{
+				if(b_playTutorials)
+				{
+					levelIndexes[numberOfLevels]=6;
+					numberOfLevels++;
+					
+				}
+				levelIndexes[numberOfLevels]=7;
+				numberOfLevels++;
+			}
+			//score screen last
+			levelIndexes[numberOfLevels]=8;
+			numberOfLevels++;
+
+			//send level indexes to gamecontrol...
+			GameObject gameControl=null;
+			if(gameControl=GameObject.FindWithTag("Game"))
+			{
+				GameControl gameControlScript=null;
+				if(gameControlScript=gameControl.GetComponent<GameControl>())
+				{
+					gameControlScript.levelIndexes=levelIndexes;
+					gameControlScript.numberOfLevels=numberOfLevels;
+				}
+				//variables=gameControl.GetComponent<LeapControl>();
+			}
+
+
+
+			if(b_objectInteraction||b_objectAvoidance||b_wayFinding)
+			{
+				//Application.LoadLevel (firstLevel);
+				Application.LoadLevel (firstLevelIndex);
+			}
+			else
+			{
+				//display "please select at least one exercise..."
+			}
+		}
+
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			menuFunction = profileMain;
+		}
+		GUI.color = cursorColour;
 	}
 
 	void settings()
@@ -152,18 +310,19 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "CONTROLS"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), "CONTROLS", menuButtonStyle))
 		{
 			menuFunction = controls;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "AUDIO"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), "AUDIO", menuButtonStyle))
 		{
 			menuFunction = audio;
 		}
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
-			menuFunction = mainMenu;
+			menuFunction = profileMain;
 		}
+		GUI.color = cursorColour;
 	}
 
 	void configuration()
@@ -185,27 +344,29 @@ public class TempestVRMainMenu : VRGUI
 				GUILayout.EndHorizontal();
 		GUILayout.EndArea();
 
-		twoHands = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), twoHands, "Two hands");
+		twoHands = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), twoHands, "Two hands", menuLabelStyle);
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = settings;
 		}
+		GUI.color = cursorColour;
 	}
 
 	new void audio()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display audio options here*");
+		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display audio options here*", menuButtonStyle);
 		
-		sound = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), sound, "Sound");
-		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, screenHeight), "Volume");
+		sound = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), sound, "Sound", menuButtonStyle);
+		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, screenHeight), "Volume", menuLabelStyle);
 		volume = GUI.HorizontalSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), volume,0.0f,10.0f);
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = settings;
 		}
+		GUI.color = cursorColour;
 	}
 	
 	
@@ -215,10 +376,11 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label(new Rect(screenWidth * 0.4f, screenHeight * 0.3f, screenWidth * 0.2f, screenHeight * 0.1f), "NEUROMEND\n\nBrought to you by TEMPEST");
 		
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = mainMenu;
 		}
+		GUI.color = cursorColour;
 	}
 	
 	void scores()
@@ -227,10 +389,11 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display scores here*");
 		
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = profile;
 		}
+		GUI.color = cursorColour;
 	}
 	
 	void controls()
@@ -239,10 +402,11 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*insert controls here*");
 		
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = settings;
 		}
+		GUI.color = cursorColour;
 	}
 
 	void loadProfile()
@@ -251,10 +415,11 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*List profiles to load*");
 		
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK"))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.8f, screenHeight * 0.8f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			menuFunction = profile;
 		}
+		GUI.color = cursorColour;
 	}
 	
 	
@@ -264,4 +429,20 @@ public class TempestVRMainMenu : VRGUI
 	{
 		Screen.showCursor=false;
 	}
+
+
+	/*
+	void anyKey()
+	{
+		if(Input.anyKey) //if the user has pressed any key
+		{
+			menuFunction = mainMenu; //change the menu to main menu
+		}
+
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(new Rect(screenWidth * 0.35f, screenHeight * 0.3f, screenWidth * 0.3f, screenHeight * 0.1f), "Press any key to continue", menuButtonStyle);
+
+	}
+	*/
 }

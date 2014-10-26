@@ -16,6 +16,8 @@ public class ThrowableObject : MonoBehaviour
 	private bool b_error=false;
 	private bool b_noGravSpin=false;
 	public WindowTrigger.WindowType windowType;
+
+	//private bool b_isHeld=false;
 	
 	void Start() 
 	{
@@ -25,7 +27,36 @@ public class ThrowableObject : MonoBehaviour
 	void Update() 
 	{
 	}
-	
+
+	/*
+	private void IsHeld(bool val=true)
+	{
+		b_isHeld = val;
+	}
+
+	public void HoldThis(bool val=true)
+	{
+		Rigidbody rigidBodyComponent;
+		if(val)
+		{
+			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
+			{	
+				rigidBodyComponent.freezeRotation=true;
+				rigidBodyComponent.velocity=Vector3.zero;
+			}
+			IsHeld();
+		}
+		else
+		{
+			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
+			{	
+				rigidBodyComponent.freezeRotation=false;
+			}
+			IsHeld(false);
+		}
+
+	}
+*/
 	/*
 	public ThrowableObjectType GetObjectType()
 	{
@@ -95,6 +126,9 @@ public class ThrowableObject : MonoBehaviour
 			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
 			{	
 				rigidBodyComponent.useGravity=true;
+				//Vector3 rotationVector =Vector3.zero;
+				//rigidBodyComponent.AddTorque(rotationVector);
+				//rigidBodyComponent.freezeRotation=true;
 			}
 			b_noGravSpin=false;
 		}

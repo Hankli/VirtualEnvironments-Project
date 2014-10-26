@@ -344,6 +344,7 @@ public class LevelControl : MonoBehaviour
 			
 			if(loadCountdown<=0.0f)
 			{
+				/*
 				if(nextLevelName!="")
 				{
 					gameControlScript.LoadNextLevel(nextLevelName);
@@ -352,6 +353,8 @@ public class LevelControl : MonoBehaviour
 				{
 					gameControlScript.LoadNextLevel("Main Menu");
 				}
+				*/
+				gameControlScript.LoadNextLevel();
 			}
 		}
 	}
@@ -364,6 +367,11 @@ public class LevelControl : MonoBehaviour
 	public void ToggleTimer()
 	{
 		b_showTimer=!b_showTimer;
+	}
+
+	public void ShowTimer(bool val=true)
+	{
+		b_showTimer = val;
 	}
 	
 	void AdjustGUI()

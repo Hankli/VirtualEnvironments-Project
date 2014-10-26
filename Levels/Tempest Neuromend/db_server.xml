@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Server>au-cdbr-azure-east-a.cloudapp.net</Server>
+  <Database>cdb_de02ef7d99</Database>
+  <User>bdf6053979c316</User>
+  <Password>eaadd23f</Password>
+  <Pooling>false</Pooling>
+</Settings>

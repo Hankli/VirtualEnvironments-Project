@@ -24,7 +24,7 @@ public class GameControl : MonoBehaviour
 	};
 	
 	private ControllerType controllerType;
-	private PlaythroughType playthroughType;//type of playthrough
+	private PlaythroughType playthroughType;//type of playthrough... not needed
 
 	public float objectInteractionScore = 0.0f;
 	private float objectInteractionCheckpoint = 0.0f;//not used?
@@ -38,6 +38,9 @@ public class GameControl : MonoBehaviour
 	private float wayFindingCheckpoint = 0.0f;//not used?
 	private bool b_wayFinding = false;
 
+	public int[] levelIndexes=new int[7];//indexes of levels in current playthrough
+	public int numberOfLevels=0;//number of levels in current playthrough
+	public int currentLevelIndex = 0;//current level index for current playthrough
 
 	//for use with networked database data...
 	private int userID = 0;
@@ -197,6 +200,13 @@ public class GameControl : MonoBehaviour
 		b_wayFinding = false;
 	}
 
+	public void ResetCurrentPlaythrough()
+	{
+		b_objectInteraction = false;
+		b_objectAvoidance = false;
+		b_wayFinding = false;
+	}
+
     //returns object interaction score float value
     public float GetOIScore()
     {
@@ -291,6 +301,24 @@ public class GameControl : MonoBehaviour
     {
 		Application.LoadLevel(levelName);
     }
+
+	public void LoadNextLevel()
+	{
+		currentLevelIndex++;
+		//if no more levels
+		if(currentLevelIndex>=numberOfLevels)
+		{
+			currentLevelIndex=0;
+			ResetCurrentPlaythrough();
+			MenuActive();
+			Application.LoadLevel ("Main Menu");//load main menu
+		}
+		else
+		{
+			MenuActive(false);
+			Application.LoadLevel (levelIndexes[currentLevelIndex]);//load the next level...
+		}
+	}
     
     public void SetControllerType(ControllerType type)
     {
@@ -317,19 +345,83 @@ public class GameControl : MonoBehaviour
 		XmlWriterSettings settings = new XmlWriterSettings();
 		settings.Indent = true;
 		XmlWriter writer = null;
+		string filename = "";
 
 		switch(levelType)
 		{
-			case LevelControl.LevelType.ObjectAvoidance: writer = XmlWriter.Create(@OAPath, settings); break;
-			case LevelControl.LevelType.ObjectInteraction: writer = XmlWriter.Create(@OIPath, settings); break;
-			case LevelControl.LevelType.WayFinding: writer = XmlWriter.Create(@WFPath, settings); break;
+			case LevelControl.LevelType.ObjectAvoidance: 
+			{
+				filename = @OAPath;
+				writer = XmlWriter.Create(@OAPath, settings);
+			}
+			break;
+
+			case LevelControl.LevelType.ObjectInteraction:
+			{
+				filename = @OIPath;
+				writer = XmlWriter.Create(@OIPath, settings);
+			}
+			break;
+
+			case LevelControl.LevelType.WayFinding:
+			{
+				filename = @WFPath;
+				writer = XmlWriter.Create(@WFPath, settings);
+			}
+			break;
 		}
+
+		GameObject tempDBObj = null;
+		Tempest.Database.TempestDB tempDatabase =null;
+		
+		if (!(tempDBObj = GameObject.Find ("Database")) ||
+		    !(tempDatabase = tempDBObj.GetComponent<Tempest.Database.TempestDB> ()) ||
+		    !tempDatabase.Profile.HasValue)
+		{
+
+			writer.Flush();
+			writer.Close ();
+			return;
+		}
+		
 
 		writer.WriteStartDocument ();
 		writer.WriteStartElement("Level Summary");
-		writer.WriteElementString("Username", userID.ToString());
-		writer.WriteElementString("Level", levelType.ToString());
-		writer.WriteElementString("Controller", controllerType.ToString());
+
+		writer.WriteElementString("Username", tempDatabase.Profile.Value.m_username);
+	
+		switch(levelType)
+		{
+		case LevelControl.LevelType.None:
+			//writer.WriteElementString("Level", "None");
+			break;
+		case LevelControl.LevelType.ObjectInteraction:
+			writer.WriteElementString("Level", "Object Interaction");
+			break;
+		case LevelControl.LevelType.ObjectAvoidance:
+			writer.WriteElementString("Level", "Object Avoidance");
+			break;
+		case LevelControl.LevelType.WayFinding:
+			writer.WriteElementString("Level", "Way Finding");
+			break;
+		}
+
+		switch(controllerType)
+		{
+		case ControllerType.MouseKeyboard:
+			writer.WriteElementString("Controller", "Mouse and Keyboard");
+			break;
+		case ControllerType.OculusHydra:
+			writer.WriteElementString("Controller", "Razer Hydra");
+			break;
+		case ControllerType.OculusKinect:
+			writer.WriteElementString("Controller", "Kinect");
+			break;
+		case ControllerType.OculusLeap:
+			writer.WriteElementString("Controller", "Leap Motion");
+			break;
+		}
+
 		writer.WriteElementString("Score", objectInteractionScore.ToString());
 		writer.WriteElementString("Timestamp", System.DateTime.Now.ToLongDateString());
 		writer.WriteEndElement();
@@ -337,6 +429,8 @@ public class GameControl : MonoBehaviour
 	
 		writer.Flush ();
 		writer.Close ();
+
+		tempDatabase.ReportDatabase.AddReport(filename);
 	}
 
 	private void ReadyFile(string pathName)
