@@ -77,30 +77,33 @@ namespace Tempest
 			private void MoveBehaviour(HandInput inp)
 			{
 				//get scale factor for movement
-				float jx = inp.JoystickX * m_moveSensitivity;
-				float jy = inp.JoystickY * m_moveSensitivity;
-			
-				//calculate velocity
-				Vector3 right = transform.right * jx * m_strafeSpeed;
-				Vector3 front = transform.forward * jy * m_walkSpeed;
-				Vector3 force = right + front;
-
-				if(force.z < m_constantWalkSpeed)
+				if(m_motor != null)
 				{
-					force.z = m_constantWalkSpeed;
+					float jx = inp.JoystickX * m_moveSensitivity;
+					float jy = inp.JoystickY * m_moveSensitivity;
+				
+					//calculate velocity
+					Vector3 right = transform.right * jx * m_strafeSpeed;
+					Vector3 front = transform.forward * jy * m_walkSpeed;
+					Vector3 force = right + front;
+
+					if(force.z < m_constantWalkSpeed)
+					{
+						force.z = m_constantWalkSpeed;
+					}
+
+					if(!m_motor.grounded)
+					{
+						force.x *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
+						force.z *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
+					}
+
+					force *= Time.timeScale;
+
+					//set velocity(except along y axis)
+					m_motor.movement.velocity.x = force.x;
+					m_motor.movement.velocity.z = force.z;
 				}
-
-				if(!m_motor.grounded)
-				{
-					force.x *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
-					force.z *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
-				}
-
-				force *= Time.timeScale;
-
-				//set velocity(except along y axis)
-				m_motor.movement.velocity.x = force.x;
-				m_motor.movement.velocity.z = force.z;
 			}
 
 
@@ -153,10 +156,10 @@ namespace Tempest
 			{
 				HandInput movementHI = HandInputController.GetController (Hands.LEFT);
 
-				CheckCeiling ();
-
-				if(movementHI != null)
+				if(m_motor != null && movementHI != null)
 				{
+					CheckCeiling ();
+
 					CrouchBehaviour ();
 					JumpBehaviour ();
 					MoveBehaviour (movementHI);

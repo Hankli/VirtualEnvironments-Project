@@ -97,10 +97,7 @@ namespace Tempest
 				style.hover.textColor = Color.red;
 
 				if(m_dropDayList)
-				{
-					const int RIGHT_PADDING = 15;
-					const int BOTTOM_PADDING = 5;
-					
+				{	
 					Rect pos = new Rect(m_dayPos.x, m_dayPos.y + m_dayPos.height + m_dropPadding, m_dayPos.width + m_scrollPadding, m_dayPos.height * m_xCount);
 					Rect view = new Rect (0f, 0f, m_dayPos.width * 0.25f, m_dayPos.height * m_dayField.Length);
 					
