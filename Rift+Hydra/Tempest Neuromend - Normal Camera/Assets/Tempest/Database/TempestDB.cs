@@ -108,6 +108,7 @@ namespace Tempest
 					writer.WriteElementString("Logout", logout.ToString());
 					writer.WriteElementString("Database", m_sqlSource.Database); 
 					writer.WriteElementString("Username", Profile.Value.m_username);
+					writer.WriteElementString("Password", Profile.Value.m_password);
 					writer.WriteEndElement();
 					writer.WriteEndDocument();
 
@@ -126,7 +127,7 @@ namespace Tempest
 
 			public bool LoadLoggedSession()
 			{
-				if(IsConnected)
+				if(IsConnected && System.IO.File.Exists(@k_loggedSessionFile))
 				{
 					XElement root =  XElement.Load(@k_loggedSessionFile);
 					
@@ -140,9 +141,11 @@ namespace Tempest
 							if(!logout)
 							{
 								string username = root.Element("Username").Value;
+								string password = root.Element("Password").Value;
+
 								PatientDB.Patient patient = new PatientDB.Patient();
 
-								if(m_patientDB.ExtractPatient(username, ref patient))
+								if(m_patientDB.ExtractPatient(username, password, ref patient))
 								{
 									Profile = patient;
 									return true;
@@ -159,7 +162,7 @@ namespace Tempest
 				if(config.Length == null || config.Length == 0) return false;
 
 				m_sqlSource.OpenConnection(config);
-				
+
 				if(m_sqlSource.OpenConnectionState)
 				{
 					//create each database relation manager
@@ -180,6 +183,7 @@ namespace Tempest
 
 					return true;
 				}
+
 				return false;
 			}
 
@@ -200,8 +204,9 @@ namespace Tempest
 
 				DontDestroyOnLoad (gameObject);
 		
-				/*
+
 				/////////keep for testing purposes ONLY EVERYTHING BELOW/////////////////////////
+
 				if(Reconnect (GetDefaultServer()))
 				{
 					m_reportDB.DropRelation ();
@@ -217,12 +222,12 @@ namespace Tempest
 					WriteDefaultDevices ();
 					WriteDefaultTasks ();
 
-					m_patientDB.AddPatient ("Bryan", "password", "12/5/1209", "Male", "Bad");
+					m_patientDB.AddPatient ("Bryan", "password", "12/5/1209", "Male", "Stroke");
 					m_reportDB.AddReport("Bryan", "Leap Motion", "Object Avoidance", new System.DateTime(1999, 10, 19, 3, 20, 30), 212);
 					m_reportDB.AddReport("Bryan", "Kinect", "Way Finding", new System.DateTime(2001, 8, 24, 5, 54, 9), 444);
 					m_reportDB.AddReport("Bryan", "Razer Hydra", "Object Interaction", new System.DateTime(1989, 4, 10, 10, 30, 55), 194);
 				}
-				*/
+
 			}
 
 			private void OnApplicationQuit()

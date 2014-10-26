@@ -42,7 +42,7 @@ namespace Tempest
 			{
 				m_sqlView.BeginQuery("CREATE TABLE IF NOT EXISTS report(" +
 				                     "ReportID INT NOT NULL AUTO_INCREMENT," +
-				                     "Username VARCHAR(20) NOT NULL," +
+				                     "Username VARCHAR(30) NOT NULL," +
 				                     "DeviceName VARCHAR(30) NOT NULL," +
 				                     "ActivityName VARCHAR(30) NOT NULL," +
 				                     "CompletionDate DATETIME NOT NULL," +

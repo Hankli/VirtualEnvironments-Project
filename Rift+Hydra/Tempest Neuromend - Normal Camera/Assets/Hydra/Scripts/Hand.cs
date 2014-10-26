@@ -21,6 +21,7 @@ namespace Tempest
 			private FSM<Hand> m_animationFSM;
 			private Animator m_animator; 
 
+			public Vector3 m_correctedPosition;
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 
 
@@ -59,6 +60,12 @@ namespace Tempest
 			{
 				set { m_triggerSensitivity = value; }
 				get { return m_triggerSensitivity; }
+			}
+
+			public Vector3 CorrectedPosition
+			{
+				get { return m_correctedPosition; }
+				set { m_correctedPosition = value; }
 			}
 
 			private void Start() 

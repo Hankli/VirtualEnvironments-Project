@@ -54,7 +54,7 @@ namespace Tempest
 				if ( bResetHandPosition )
 				{
 					m_bInitialized = true;
-					
+				
 					m_referencePoint = Vector3.zero;
 					
 					// Get the base offset assuming forward facing down the z axis of the base
@@ -78,12 +78,16 @@ namespace Tempest
 					
 					//localPosition
 					Vector3 relPosToPar = (hand.Controller.Position - m_referencePoint) * 0.001f;
+					relPosToPar += relPosToPar.normalized * 2.0f;
 
 					//localPosition to worldPosition
 					Vector3 desiredPos = tr.parent.TransformDirection(relPosToPar) * m_linearSensitivity + tr.parent.position; 
-					
+				
+
 					//directional vector
 					Vector3 v = desiredPos - tr.position;
+					//Vector3 v = desiredPos - hand.CorrectedPosition;
+
 
 					//force
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
