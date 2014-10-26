@@ -25,3 +25,7 @@ MENU
 
 - in game level skip functionality
 - all devices with adjustable sensitivity settings
+
+OBJECT AVOIDANCE
+- Make jump higher
+- Make crouch lower
