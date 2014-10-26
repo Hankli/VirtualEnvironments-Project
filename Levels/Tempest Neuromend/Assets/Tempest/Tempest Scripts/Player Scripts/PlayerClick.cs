@@ -48,6 +48,11 @@ public class PlayerClick : MonoBehaviour
 				Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
 				heldObject.position = ray2.GetPoint(holdDistance);//still need to account for object x object x environment collisions while being held... ie. object needs to not go through other objects while being held
 				b_isHolding=true;
+				if(heldObject.collider.attachedRigidbody)
+				{
+					heldObject.collider.attachedRigidbody.freezeRotation=true;
+					heldObject.collider.attachedRigidbody.velocity=Vector3.zero;
+				}
 			}
 		}
 		
@@ -59,6 +64,7 @@ public class PlayerClick : MonoBehaviour
 				if(heldObject.collider.attachedRigidbody)
 				{
 					heldObject.collider.attachedRigidbody.useGravity = true;
+					heldObject.collider.attachedRigidbody.freezeRotation=false;
 					Ray ray3 = Camera.main.ScreenPointToRay(Input.mousePosition);
 					heldObject.collider.attachedRigidbody.AddForce(ray3.direction*10, ForceMode.Impulse);
 				}
@@ -73,7 +79,10 @@ public class PlayerClick : MonoBehaviour
 			if(heldObject!=null)
 			{
 				if(heldObject.collider.attachedRigidbody)
+				{
+					heldObject.collider.attachedRigidbody.freezeRotation=false;
 					heldObject.collider.attachedRigidbody.useGravity = true;
+				}
 				heldObject=null;
 				b_isHolding=false;
 			}
