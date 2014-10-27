@@ -26,7 +26,10 @@ namespace Tempest
 			private float m_joystickY;
 
 			private Vector3 m_position;
+			private Vector3 m_lastPosition;
+
 			private Quaternion m_rotation;
+			private Quaternion m_lastRotation;
 
 			/// <summary>
 			/// The default trigger button threshold constant.
@@ -72,7 +75,8 @@ namespace Tempest
 			/// The controller position in Unity coordinates.
 			/// </summary>
 			public Vector3 Position { get { return new Vector3( m_position.x, m_position.y, -m_position.z ); } }
-		
+			public Vector3 LastPosition { get { return new Vector3(m_lastPosition.x, m_lastPosition.y, -m_lastPosition.z ); } }
+
 			/// <summary>
 			/// The raw controller position value.
 			/// </summary>
@@ -82,6 +86,7 @@ namespace Tempest
 			/// The controller rotation in Unity coordinates.
 			/// </summary>
 			public Quaternion Rotation { get { return new Quaternion( -m_rotation.x, -m_rotation.y, m_rotation.z, m_rotation.w ); } }
+			public Quaternion LastRotation { get { return new Quaternion( -m_lastRotation.x, -m_lastRotation.y, m_lastRotation.z, m_lastRotation.w ); } }
 
 			/// <summary>
 			/// The raw controller rotation value.
@@ -131,7 +136,10 @@ namespace Tempest
 				m_joystickY = 0.0f;
 	
 				m_position.Set( 0.0f, 0.0f, 0.0f );
+				m_lastPosition = m_position;
+
 				m_rotation.Set( 0.0f, 0.0f, 0.0f, 1.0f );
+				m_lastRotation = m_rotation;
 			}
 			
 			internal void SetEnabled( bool enabled )
@@ -153,7 +161,10 @@ namespace Tempest
 				m_joystickX = cd.joystick_x;
 				m_joystickY = cd.joystick_y;
 
+				m_lastPosition = m_position;
 				m_position.Set( cd.pos[0], cd.pos[1], cd.pos[2] );
+
+				m_lastRotation = m_rotation;
 				m_rotation.Set( cd.rot_quat[0], cd.rot_quat[1], cd.rot_quat[2], cd.rot_quat[3] );
 		
 				if ( m_trigger > TriggerButtonThreshold )

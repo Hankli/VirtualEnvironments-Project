@@ -21,7 +21,9 @@ namespace Tempest
 			private FSM<Hand> m_animationFSM;
 			private Animator m_animator; 
 
-			public Vector3 m_correctedPosition;
+			private Vector3 m_correctedPosition;
+			private Quaternion m_correctedRotation;
+
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 
 
@@ -66,6 +68,12 @@ namespace Tempest
 			{
 				get { return m_correctedPosition; }
 				set { m_correctedPosition = value; }
+			}
+
+			public Quaternion CorrectedRotation
+			{
+				get { return m_correctedRotation; }
+				set { m_correctedRotation = value; }
 			}
 
 			private void Start() 

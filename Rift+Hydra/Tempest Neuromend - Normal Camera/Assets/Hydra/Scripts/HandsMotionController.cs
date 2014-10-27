@@ -10,7 +10,8 @@ namespace Tempest
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
 			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
-			private float m_angularSensitivity = 1.0f;
+			private float m_angularSensitivity = 5.0f;
+			public GUIStyle m_messageStyle = new GUIStyle();
 
 			public float MoveSensitivity
 			{
@@ -43,6 +44,8 @@ namespace Tempest
 					     hand.Controller.GetButtonDown( Buttons.START ) )
 					{
 						bResetHandPosition = true;
+						hand.CorrectedPosition = hand.Controller.Position;
+						hand.CorrectedRotation = hand.Controller.Rotation;
 					}
 					
 					if ( m_bInitialized )
@@ -60,7 +63,8 @@ namespace Tempest
 					// Get the base offset assuming forward facing down the z axis of the base
 					foreach ( Hand hand in m_hands )
 					{
-						m_referencePoint += hand.Controller.Position;
+						hand.CorrectedPosition = hand.Controller.Position;
+						m_referencePoint += hand.CorrectedPosition;
 					}
 					
 					m_referencePoint *= 0.5f; //midway point serve as a reference point for each hand motion
@@ -75,19 +79,18 @@ namespace Tempest
 				{
 					Rigidbody rb = hand.rigidbody;
 					Transform tr = hand.transform;
-					
+
+
+					hand.CorrectedPosition += (hand.Controller.Position - hand.Controller.LastPosition) * m_linearSensitivity;
+				
 					//localPosition
-					Vector3 relPosToPar = (hand.Controller.Position - m_referencePoint) * 0.001f;
-					relPosToPar += relPosToPar.normalized * 2.0f;
+					Vector3 relPosToPar = (hand.CorrectedPosition - m_referencePoint) * 0.001f;
 
 					//localPosition to worldPosition
-					Vector3 desiredPos = tr.parent.TransformDirection(relPosToPar) * m_linearSensitivity + tr.parent.position; 
-				
+					Vector3 desiredPos = tr.parent.TransformDirection(relPosToPar) + tr.parent.position; 
 
 					//directional vector
-					Vector3 v = desiredPos - tr.position;
-					//Vector3 v = desiredPos - hand.CorrectedPosition;
-
+					Vector3 v = (desiredPos - tr.position);
 
 					//force
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
@@ -96,14 +99,19 @@ namespace Tempest
 					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
 
 
+					Quaternion diffQuat = Quaternion.Inverse(hand.Controller.LastRotation) * hand.Controller.Rotation;
+					float angle;
+					Vector3 axis;
+					diffQuat.ToAngleAxis(out angle, out axis);
+					diffQuat = Quaternion.AngleAxis(angle * m_angularSensitivity, axis);
+				
+					hand.CorrectedRotation *= diffQuat;
+
 					//handle rotational movement with torque
-					Quaternion relRotToPar = hand.Controller.Rotation * hand.ModelRotation; //localRotation
-
-
+					Quaternion relRotToPar = hand.CorrectedRotation * hand.ModelRotation; //localRotation
 
 					//get desired orientation
 					Quaternion desiredRot = tr.parent.rotation * relRotToPar;  //localRotation to worldRotation
-		
 
 					//calc axis of rotation between desired rotation's (xyz) axis and current rotation's (xyz) axis
 					Vector3 sCrossE_Z = Vector3.Cross (tr.forward, desiredRot * Vector3.forward);
@@ -151,24 +159,15 @@ namespace Tempest
 			{
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
-					uint boxWidth = 150;
-					uint boxHeight = 40;
+					uint boxWidth = 500;
+					uint boxHeight = 550;
 
-					GUIStyle style = new GUIStyle(GUI.skin.button);
-					style.alignment = TextAnchor.MiddleCenter;
-					style.fontStyle = FontStyle.Normal;
-					style.normal.textColor = Color.Lerp(Color.red, Color.green, 0.90f);
-					style.fontSize = 20;
-		
 					string boxText = "Press start";
 					
-					GUILayout.BeginArea( new Rect(( ( Screen.width / 2 ) - ( boxWidth / 2 ) ), 
-					                              ( ( Screen.height / 2 ) - ( boxHeight / 2 ) ),
-					                              boxWidth, boxHeight), "");
-					
-					GUILayout.Label(boxText, style);
-					
-					GUILayout.EndArea();
+					GUI.Box( new Rect( (Screen.width / 2) - ( boxWidth / 2), 
+					                    (Screen.height / 2) - ( boxHeight / 2),
+					                    boxWidth, boxHeight), boxText, m_messageStyle);
+		
 
 				}
 			}

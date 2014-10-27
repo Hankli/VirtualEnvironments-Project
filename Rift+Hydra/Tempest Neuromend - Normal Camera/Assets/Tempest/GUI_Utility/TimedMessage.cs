@@ -32,14 +32,20 @@ namespace Tempest
 				m_startTime = 0f;
 			}
 
-			public void Display()
+			public string Message
+			{
+				get { return m_log; }
+				set { m_log = value; }
+			}
+
+			public void Display(Rect pos)
 			{
 				float t = Time.time;
 				GUIStyle style = (m_style != null) ? m_style : GUI.skin.label;
 
 				if(t - m_startTime <= m_displayTime)
 				{
-					GUILayout.Label (m_log, style);	
+					GUI.Label (pos, m_log, style);	
 				}
 			}
 		}

@@ -42,6 +42,8 @@ namespace Tempest
 
 			public static ControllerManagerState ConfigurationState { get { return m_controllerManagerState; } }
 
+			public GUIStyle m_messageStyle = new GUIStyle();
+
 			/// <summary>
 			/// Access to Controller objects.
 			/// </summary>
@@ -216,26 +218,16 @@ namespace Tempest
 			
 				if ( m_controllerManagerEnabled && ( m_controllerManagerState != ControllerManagerState.NONE ) )
 				{
-					GUIStyle style = new GUIStyle(GUI.skin.box);
-					style.alignment = TextAnchor.MiddleCenter;
-					style.font = Resources.Load<Font>("linowrite");
-					style.fontStyle = FontStyle.Normal;
-					style.fontSize = 20;
-					style.normal.textColor = Color.Lerp(Color.red, Color.green, 0.90f);
-					uint boxWidth = 420;
-					uint boxHeight = 40;
+					uint boxWidth = 620;
+					uint boxHeight = 550;
 
 					string boxText = ( m_controllerManagerState == ControllerManagerState.BIND_CONTROLLER_ONE ) ?
 						"Point left controller at base and pull trigger" :
 						"Point right controller at base and pull trigger";
 
-					GUILayout.BeginArea( new Rect(( ( Screen.width / 2 ) - ( boxWidth / 2 ) ), 
-					                  ( ( Screen.height / 2 ) - ( boxHeight / 2 ) ),
-					                      boxWidth, boxHeight));
-
-					GUILayout.Label(boxText, style);
-
-					GUILayout.EndArea();
+					GUI.Box( new Rect( (Screen.width / 2) - ( boxWidth / 2), 
+					                   (Screen.height / 2) - ( boxHeight / 2),
+					                  boxWidth, boxHeight), boxText, m_messageStyle);
 					
 				}
 			}

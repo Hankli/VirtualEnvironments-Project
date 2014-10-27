@@ -469,7 +469,8 @@ namespace Tempest
 
 				m_feedbackStyle = new GUIStyle(GUI.skin.label);
 				m_feedbackStyle.alignment = TextAnchor.UpperLeft;
-				m_feedbackStyle.fontSize = 9;
+				m_feedbackStyle.wordWrap = true;;
+				m_feedbackStyle.fontSize = 10;
 			}
 
 			private void Options()
@@ -540,21 +541,18 @@ namespace Tempest
 			
 			private void UpdateFeedback()
 			{
-				Rect rect1 = new Rect (Screen.width * 0.75f, Screen.height * 0.4f, Screen.width * 0.12f, Screen.height * 0.15f);
+				Rect pos = new Rect (Screen.width * 0.75f, Screen.height * 0.4f, Screen.width * 0.15f, Screen.height * 0.15f);
+				Rect view = new Rect (0.0f, 0.0f, pos.width, pos.height);
 
-				GUILayout.BeginArea (rect1, s3);
-				m_msgLogScrollView = GUILayout.BeginScrollView (m_msgLogScrollView);
+				m_msgLogScrollView = GUI.BeginScrollView (pos, m_msgLogScrollView, view, false, false);
 
-				GUILayout.BeginHorizontal ();
-				GUILayout.Label ("MESSAGE LOG", m_feedbackStyle);
-				GUILayout.EndHorizontal ();
 				
-				GUILayout.BeginHorizontal ();
-				m_feedback.Display ();
-				GUILayout.EndHorizontal ();
+				GUI.Box (view, "", GUI.skin.textArea);
+				Rect rect1 = new Rect (0.05f, 0.05f, 250.0f, 20.0f);
+
+				m_feedback.Display (rect1);
 				
-				GUILayout.EndScrollView ();
-				GUILayout.EndArea ();
+				GUI.EndScrollView ();
 			}
 			
 			public void Draw()
