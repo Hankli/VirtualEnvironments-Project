@@ -32,9 +32,13 @@ public class TempestVRMainMenu : VRGUI
 	//private LeapControl variables = null;
 	
 	bool sound;
+	bool music;
 	float volume;
 	bool twoHands;
 	float sensitivity;
+
+	float playerSpeedOA;
+	float playerSpeedWF;
 
 	private bool b_playTutorials=true;
 	private bool b_objectInteraction=false;
@@ -77,7 +81,9 @@ public class TempestVRMainMenu : VRGUI
 		volume = 5.0f;
 		twoHands = false;
 		sensitivity = 5.0f;
-		
+		playerSpeedOA = 2.0f;
+		playerSpeedWF = 5.0f;
+
 		screenHeight = Screen.height;
 		screenWidth = Screen.width;
 		
@@ -101,8 +107,27 @@ public class TempestVRMainMenu : VRGUI
 		menuLabelStyle.fontSize = menuButtonStyle.fontSize;
 		menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 		menuToggleStyle.fontSize = menuButtonStyle.fontSize;
+
+		profileMenu.Initialize ();
+		ConfigGameControl();
 	}
-	
+
+	//run before loading levels...
+	public void ConfigGameControl()
+	{
+		GameObject gameControl=null;
+		if(gameControl=GameObject.FindWithTag("Game"))
+		{
+			GameControl gameControlScript=null;
+			if(gameControlScript=gameControl.GetComponent<GameControl>())
+			{
+				gameControlScript.wayFindingPlayerSpeed=playerSpeedWF;
+				gameControlScript.objectAvoidancePlayerSpeed=playerSpeedOA;
+				gameControlScript.inputSensitivity=sensitivity;
+			}
+		}
+	}
+
 	public override void OnVRGUI()
 	{
 		Screen.showCursor=false;
@@ -193,7 +218,7 @@ public class TempestVRMainMenu : VRGUI
 	
 	void profile()
 	{
-		//profileMenu.Draw ();
+		profileMenu.Draw ();
 
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
@@ -229,8 +254,8 @@ public class TempestVRMainMenu : VRGUI
 		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.09f, screenHeight * 0.2f, buttonWidth, buttonHeight), b_playTutorials, "");
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.2f, buttonWidth, buttonHeight), "Play Tutorials", menuLabelStyleA);
 		b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
-		b_objectInteraction = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.4f, buttonWidth*1.5f, buttonHeight), b_objectInteraction, "Object Interaction", menuToggleStyle);
-		b_objectAvoidance = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.47f, buttonWidth*1.5f, buttonHeight), b_objectAvoidance, "Object Avoidance", menuToggleStyle);
+		b_objectInteraction = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.4f, buttonWidth*1.5f, buttonHeight), b_objectInteraction, "Object Manipulation", menuToggleStyle);
+		b_objectAvoidance = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.47f, buttonWidth*1.5f, buttonHeight), b_objectAvoidance, "Obstacle Avoidance", menuToggleStyle);
 		b_wayFinding = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.54f, buttonWidth*1.5f, buttonHeight), b_wayFinding, "Way Finding", menuToggleStyle);
 
 
@@ -308,6 +333,7 @@ public class TempestVRMainMenu : VRGUI
 			if(b_objectInteraction||b_objectAvoidance||b_wayFinding)
 			{
 				//Application.LoadLevel (firstLevel);
+				ConfigGameControl();
 				Application.LoadLevel (firstLevelIndex);
 			}
 			else
@@ -329,7 +355,7 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.7f, buttonWidth, buttonHeight), "CONTROLS", menuButtonStyle))
+		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.7f, buttonWidth, buttonHeight), "CONFIG", menuButtonStyle))
 		{
 			titleTexture = controlsTitle;
 			menuFunction = controls;
@@ -347,43 +373,15 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = cursorColour;
 	}
 
-	void configuration()
-	{
-		float min = 0.0f;
-		float max = 10.0f;
-		GUI.color = buttonColour;
-
-		GUILayout.BeginArea(new Rect((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight*2.0f));
-		GUILayout.Label("Sensitivity");
-		sensitivity = GUILayout.HorizontalSlider(sensitivity, min, max);
-			GUILayout.BeginHorizontal();
-				var defaultAlignment = GUI.skin.label.alignment;
-				GUI.skin.label.alignment = TextAnchor.UpperLeft;
-				GUILayout.Label(min.ToString());
-				GUI.skin.label.alignment = TextAnchor.UpperRight;
-				GUILayout.Label(max.ToString());
-				GUI.skin.label.alignment = defaultAlignment;
-				GUILayout.EndHorizontal();
-		GUILayout.EndArea();
-
-		twoHands = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), twoHands, "Two hands", menuLabelStyle);
-
-		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
-		{
-			titleTexture = settingsTitle;
-			menuFunction = settings;
-		}
-		GUI.color = cursorColour;
-	}
-
 	new void audio()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display audio options here*", menuButtonStyle);
+		//GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*display audio options here*", menuButtonStyle);
 		
-		sound = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), sound, "Sound", menuButtonStyle);
-		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, screenHeight), "Volume", menuLabelStyle);
+		sound = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.3f, buttonWidth, buttonHeight), sound, "SFX", menuToggleStyle);
+		music = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.4f, buttonWidth, buttonHeight), music, "MUSIC", menuToggleStyle);
+		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, buttonHeight), "Volume", menuLabelStyle);
 		volume = GUI.HorizontalSlider (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.2f, buttonWidth, buttonHeight), volume,0.0f,10.0f);
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -398,7 +396,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.4f, screenHeight * 0.3f, screenWidth * 0.2f, screenHeight * 0.1f), "NEUROMEND\n\nBrought to you by TEMPEST");
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "NEUROMEND\n\nA Murdoch University School of IT and Engineering project.\n\nBrought to you by TEMPEST\n\nAry Bizar, Anopan Kandiah, Hannah Klinac, Alex Mlodawski, Bryan Yu ", menuButtonStyle);
 		
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -412,10 +410,30 @@ public class TempestVRMainMenu : VRGUI
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(screenWidth * 0.45f, screenHeight * 0.3f, screenWidth * 0.1f, screenHeight * 0.1f), "*insert controls here*");
+
+		float min = 0.0f;
+		float max = 10.0f;
+		float minOASpeed = 1.0f;
+		float maxOASpeed = 5.0f;
+		float minWFSpeed = 1.0f;
+		float maxWFSpeed = 5.0f;
+		GUI.color = buttonColour;
 		
+		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
+		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight*2.0f),sensitivity, min, max);
+	
+		GUI.Label(new Rect((screenWidth- screenWidth * 0.4f)* 0.5f, screenHeight * 0.54f, screenWidth * 0.4f, screenHeight * 0.1f), "Player Movement Speed",menuButtonStyle);
+		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.62f, buttonWidth*1.5f, buttonHeight*2.0f),"Obstacle Avoidance",menuLabelStyle);
+		playerSpeedOA = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.7f, buttonWidth*1.5f, buttonHeight*2.0f),playerSpeedOA, minOASpeed, maxOASpeed);
+
+		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.72f, buttonWidth*1.5f, buttonHeight*2.0f),"Way Finding",menuLabelStyle);
+		playerSpeedWF = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.8f, buttonWidth*1.5f, buttonHeight*2.0f),playerSpeedWF, minWFSpeed, maxWFSpeed);
+
+		//twoHands = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.2f, screenHeight * 0.1f, buttonWidth, buttonHeight), twoHands, "Two hands", menuToggleStyle);//leap motion specific...
+
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
+			ConfigGameControl();
 			titleTexture = settingsTitle;
 			menuFunction = settings;
 		}

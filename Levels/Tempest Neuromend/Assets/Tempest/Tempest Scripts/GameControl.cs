@@ -68,7 +68,7 @@ public class GameControl : MonoBehaviour
 	//PLAYER SETTINGS==============================================
 	public float objectAvoidancePlayerSpeed=2.0f;
 	public float wayFindingPlayerSpeed=5.0f;
-	public float inputSensitivity=100;
+	public float inputSensitivity=5.0f;
 	//END PLAYER SETTINGS==============================================
 
 
@@ -117,10 +117,33 @@ public class GameControl : MonoBehaviour
 			Screen.lockCursor=false;
 			Screen.showCursor=false;
 		}
-		
-		if(Input.GetKey(KeyCode.Escape))
+
+		//pause... still need to stop all actions on player and world...
+		if(Input.GetKeyDown("p"))
 		{
 			PauseGame(!b_paused);
+		}
+
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			/*
+			//handled in level control?
+			//if level is over... save scores first, then load next level
+			GameObject tempLevelControl=null;
+			LevelControl tempLevelControlScript=null;
+			if(tempLevelControl=GameObject.FindWithTag("Level"))
+			{
+				if(tempLevelControlScript=tempLevelControl.GetComponent<LevelControl>())
+				{
+					if(tempLevelControlScript.IsLevelComplete())
+					{
+
+					}
+				}
+			}
+			*/
+
+			LoadNextLevel();
 		}
 	}
 	
@@ -296,12 +319,12 @@ public class GameControl : MonoBehaviour
     {
 		return userID;
     }
-    */
+
     public void LoadNextLevel(string levelName)
     {
 		Application.LoadLevel(levelName);
     }
-
+*/
 	public void LoadNextLevel()
 	{
 		currentLevelIndex++;
