@@ -85,16 +85,22 @@ namespace Tempest
 			private void Start()
 			{
 				Plugin.sixenseInit();
+
+				Plugin.sixenseSetFilterParams (800.0f, 0.93f, 1200.0f, 0.98f);
+				Plugin.sixenseSetFilterEnabled(1);
+
+
 				for ( int i = 0; i < MAX_CONTROLLERS; i++ )
 				{
 					m_controllers[i] = new HandInput();
 				}
+
 			}
 			
 			/// <summary>
 			/// Update the static controller data once per frame.
 			/// </summary>
-			private void Update()
+			private void FixedUpdate()
 			{
 				// update controller data
 				uint numControllersBound = 0;

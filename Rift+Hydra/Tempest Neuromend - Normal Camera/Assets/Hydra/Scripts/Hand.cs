@@ -21,13 +21,13 @@ namespace Tempest
 			private FSM<Hand> m_animationFSM;
 			private Animator m_animator; 
 
-			private Vector3 m_correctedPosition;
-			private Quaternion m_correctedRotation;
+			private Vector3 m_position;
+			private Quaternion m_rotation;
 
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 
 
-			public float m_triggerSensitivity;
+			private float m_triggerSensitivity = 0.8f;
 
 			public Quaternion ModelRotation
 			{
@@ -55,7 +55,7 @@ namespace Tempest
 
 			public float TriggerValue
 			{
-				get { return m_controller != null ? m_controller.Trigger * m_triggerSensitivity : 0.0f; }
+				get { return m_controller != null ? m_controller.Trigger : 0.0f; }
 			}
 
 			public float TriggerSensitivity
@@ -64,16 +64,24 @@ namespace Tempest
 				get { return m_triggerSensitivity; }
 			}
 
-			public Vector3 CorrectedPosition
+			public Vector3 Position
 			{
-				get { return m_correctedPosition; }
-				set { m_correctedPosition = value; }
+				get { return m_position; }
+				set { m_position = value; }
 			}
 
-			public Quaternion CorrectedRotation
+			public float SensitizedTriggerValue
 			{
-				get { return m_correctedRotation; }
-				set { m_correctedRotation = value; }
+				get 
+				{
+					return Mathf.Clamp(TriggerValue * (1.0f + TriggerSensitivity), 0.0f, 1.0f);
+				}
+			}
+
+			public Quaternion Rotation
+			{
+				get { return m_rotation; }
+				set { m_rotation = value; }
 			}
 
 			private void Start() 

@@ -12,7 +12,6 @@ namespace Tempest
 			public float m_linearHandSens = 1.0f;
 			public float m_angularHandSens = 1.0f;
 
-			public float m_throwSens = 1.0f;
 			public float m_triggerSens = 1.0f;
 
 			private void Awake()
@@ -40,8 +39,8 @@ namespace Tempest
 
 					character.MoveSensitivity = m_leftJoystickSens; 
 					cam.CameraSensitivity = m_rightJoystickSens;
-					motion.MoveSensitivity = m_linearHandSens;
-					motion.RotateSensitivity = m_angularHandSens;
+					motion.LinearSensitivity = m_linearHandSens;
+					motion.AngularSensitivity = m_angularHandSens;
 
 					foreach(Component c in o.GetComponents<Hand> ())
 					{
@@ -49,9 +48,6 @@ namespace Tempest
 						{
 							Hand hand = c as Hand;
 							hand.TriggerSensitivity = m_triggerSens;
-
-							HandsObjectPicker picker = hand.GetComponent<HandsObjectPicker>();
-							picker.ThrowSensitivity = m_throwSens;
 						}
 					}
 				}

@@ -29,13 +29,25 @@ public class FPSCrouchRun : MonoBehaviour
 		motor = GetComponent<CharacterMotor>();
 		control = GetComponent<CharacterController>();
 		initialHeight = control.height;
-		initialForwardSpeed = motor.movement.maxForwardSpeed;
-		initialBackwardSpeed = motor.movement.maxBackwardsSpeed;
-		initialStrafeSpeed = motor.movement.maxSidewaysSpeed;
-		crouchSpeed = motor.movement.maxForwardSpeed/2.0f;
-		runSpeed = motor.movement.maxForwardSpeed*3;
+
+		//need to set speed here from menu/gamecontrol values...
+		//initialForwardSpeed = motor.movement.maxForwardSpeed;
+		//initialBackwardSpeed = motor.movement.maxBackwardsSpeed;
+		//initialStrafeSpeed = motor.movement.maxSidewaysSpeed;
+		//crouchSpeed = motor.movement.maxForwardSpeed/2.0f;
+		//runSpeed = motor.movement.maxForwardSpeed*3;
 	}
 	 
+	public void SetMovementSpeeds(float speed)
+	{
+		initialForwardSpeed = speed;
+		initialBackwardSpeed = speed;
+		initialStrafeSpeed = speed;
+		crouchSpeed = speed/2.0f;
+		runSpeed = speed*3;
+
+	}
+
 	void Update()
 	{
 		finalHeight = initialHeight;

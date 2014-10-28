@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 namespace Tempest
 {
 	namespace RazorHydra
@@ -9,17 +10,17 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
-			private float m_angularSensitivity = 5.0f;
+			private float m_linearSensitivity = 10.0f; // Sixense units are in mm
+			private float m_angularSensitivity = 2.0f;
 			public GUIStyle m_messageStyle = new GUIStyle();
 
-			public float MoveSensitivity
+			public float LinearSensitivity
 			{
 				get { return m_linearSensitivity; }
 				set { m_linearSensitivity = value; }
 			}
 
-			public float RotateSensitivity
+			public float AngularSensitivity
 			{
 				get { return m_angularSensitivity; }
 				set { m_angularSensitivity = value; }
@@ -30,7 +31,8 @@ namespace Tempest
 			{
 				m_hands = GetComponentsInChildren<Hand>();
 			}
-			
+
+
 			// Update is called once per frame
 			private void FixedUpdate () 
 			{
@@ -38,14 +40,13 @@ namespace Tempest
 				
 				foreach ( Hand hand in m_hands )
 				{
+
 					//active controller and start button is pushed
 					if ( IsControllerActive( hand.Controller ) &&
 					     HandInputController.CalibrationState == ControllerManagerState.NONE &&
 					     hand.Controller.GetButtonDown( Buttons.START ) )
 					{
 						bResetHandPosition = true;
-						hand.CorrectedPosition = hand.Controller.Position;
-						hand.CorrectedRotation = hand.Controller.Rotation;
 					}
 					
 					if ( m_bInitialized )
@@ -63,8 +64,13 @@ namespace Tempest
 					// Get the base offset assuming forward facing down the z axis of the base
 					foreach ( Hand hand in m_hands )
 					{
-						hand.CorrectedPosition = hand.Controller.Position;
-						m_referencePoint += hand.CorrectedPosition;
+						//hand.Controller.ResetToRawPosition();
+						hand.Controller.ResetToRawOrientation();
+
+						hand.Position = hand.Controller.PositionRaw;
+						hand.Rotation = hand.Controller.RotationRaw;
+
+						m_referencePoint += hand.Controller.PositionRaw;
 					}
 					
 					m_referencePoint *= 0.5f; //midway point serve as a reference point for each hand motion
@@ -80,11 +86,19 @@ namespace Tempest
 					Rigidbody rb = hand.rigidbody;
 					Transform tr = hand.transform;
 
+					if(m_linearSensitivity != 0.0f)
+					{
+						hand.Position += (hand.Controller.Position - hand.Controller.LastPosition) * m_linearSensitivity;
+					    
+					}
+					else
+					{
+						hand.Position = hand.Controller.PositionRaw;
+					}
 
-					hand.CorrectedPosition += (hand.Controller.Position - hand.Controller.LastPosition) * m_linearSensitivity;
-				
+		
 					//localPosition
-					Vector3 relPosToPar = (hand.CorrectedPosition - m_referencePoint) * 0.001f;
+					Vector3 relPosToPar = (hand.Position - m_referencePoint) * 0.001f;
 
 					//localPosition to worldPosition
 					Vector3 desiredPos = tr.parent.TransformDirection(relPosToPar) + tr.parent.position; 
@@ -92,23 +106,30 @@ namespace Tempest
 					//directional vector
 					Vector3 v = (desiredPos - tr.position);
 
+
 					//force
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
 			
 					//apply force in place of previous value
 					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
 
+					if(m_angularSensitivity != 0.0f)
+					{
+						Quaternion dr = Quaternion.Inverse(hand.Controller.LastRotation) * hand.Controller.Rotation;
+						float angle;
+						Vector3 axis;
+						dr.ToAngleAxis(out angle, out axis);
+						dr = Quaternion.AngleAxis(angle * m_angularSensitivity, axis);
 
-					Quaternion diffQuat = Quaternion.Inverse(hand.Controller.LastRotation) * hand.Controller.Rotation;
-					float angle;
-					Vector3 axis;
-					diffQuat.ToAngleAxis(out angle, out axis);
-					diffQuat = Quaternion.AngleAxis(angle * m_angularSensitivity, axis);
-				
-					hand.CorrectedRotation *= diffQuat;
+						hand.Rotation *= dr;
+					}
+					else 
+					{
+						hand.Rotation = hand.Controller.Rotation;
+					}
 
 					//handle rotational movement with torque
-					Quaternion relRotToPar = hand.CorrectedRotation * hand.ModelRotation; //localRotation
+					Quaternion relRotToPar = hand.Rotation * hand.ModelRotation; //localRotation
 
 					//get desired orientation
 					Quaternion desiredRot = tr.parent.rotation * relRotToPar;  //localRotation to worldRotation

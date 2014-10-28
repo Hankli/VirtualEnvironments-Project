@@ -24,24 +24,16 @@ namespace Tempest
 
 			private float m_pullReach = 0.8f;
 			private float m_pullRadius = 0.1f;
-		
-			private float m_throwSensitivity = 1.0f;
 
-			private float m_gripTriggerValue = 0.2f;
+			private float m_gripTriggerValue = 0.3f;
 			private float m_gripMaxTriggerValue = 1.0f;
-			private float m_gripBreakResistance = 50.0f;
+			private float m_gripBreakResistance = 20.0f;
 
 			private Hand m_hand;
 			private GameObject m_gripJoint;
 			private ConfigurableJoint m_gripConstraint;
 
 			private int m_connectedLayerMask;
-	
-			public float ThrowSensitivity
-			{
-				get { return m_throwSensitivity; }
-				set { m_throwSensitivity = value; }
-			}
 
 			private void Start()
 			{
@@ -59,8 +51,8 @@ namespace Tempest
 				m_gripConstraint.connectedBody.useGravity = true;
 
 				//retrieve hand for application of extra velocity from throw
-				m_gripConstraint.connectedBody.AddForce (m_hand.rigidbody.velocity * m_throwSensitivity, ForceMode.Impulse);
-				m_gripConstraint.connectedBody.AddTorque (m_hand.rigidbody.angularVelocity * m_throwSensitivity, ForceMode.Impulse);
+				m_gripConstraint.connectedBody.AddForce (m_hand.rigidbody.velocity, ForceMode.Impulse);
+				m_gripConstraint.connectedBody.AddTorque (m_hand.rigidbody.angularVelocity, ForceMode.Impulse);
 
 				//destroy dummy joint object attached to the constraint
 				GameObject.Destroy (m_gripConstraint.gameObject);
@@ -83,18 +75,20 @@ namespace Tempest
 
 			private void UpdateConnections()
 			{
-				m_gripConstraint.breakForce = (m_hand.TriggerValue * m_hand.TriggerSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime;
-				m_gripConstraint.breakTorque = (m_hand.TriggerValue * m_hand.TriggerSensitivity * m_gripBreakResistance) / Time.fixedDeltaTime; 
+				m_gripConstraint.breakForce =  m_hand.SensitizedTriggerValue * m_gripBreakResistance;
+				m_gripConstraint.breakTorque = m_hand.SensitizedTriggerValue * m_gripBreakResistance;
+
+				Debug.Log (m_hand.SensitizedTriggerValue);
 			}
 
 			private void PickupScan()
 			{
 				//check if player is trying to grab something at all an if something is already grabbed
-				if(m_hand.TriggerValue < m_gripTriggerValue ||
-				   m_hand.TriggerValue > m_gripMaxTriggerValue || m_gripConstraint)
+				if( m_hand.SensitizedTriggerValue < m_gripTriggerValue || m_gripConstraint)
 				{
 					return;
 				}
+
 
     			//check if the grabbing limb exists
 				RaycastHit hit;

@@ -55,31 +55,36 @@ namespace Tempest
 			{
 				if(m_tempestDB == null)
 				{
-					m_tempestDB = GameObject.Find ("Database").GetComponent<Database.TempestDB> ();
-					m_feedback = new TimedMessage ();
-					
-					m_usernameField = "";
-					m_passwordField = "";
-					m_genderField = new string[] {"Male", "Female", "Other"};
-					m_genderSelection = 0;
-					m_medicalField = "";
-					m_dobView = new CalendarView (80);
-					
-					m_statView = new TableView<Database.ReportDB.Report> ();
-					m_statView.AddColumn ("ID", 0.1f, (x, y) => (x.m_reportID.CompareTo(y.m_reportID)), (x, y) => (y.m_reportID.CompareTo(x.m_reportID)));
-					m_statView.AddColumn ("Device", 0.2f, (x, y) => (x.m_device.CompareTo(y.m_device)), (x, y) => (y.m_device.CompareTo(x.m_device)));
-					m_statView.AddColumn ("Task", 0.2f, (x, y) => (x.m_task.CompareTo(y.m_task)), (x, y) => (y.m_task.CompareTo(x.m_task)));
-					m_statView.AddColumn ("Date", 0.3f, (x, y) => (x.m_timestamp.CompareTo(y.m_timestamp)), (x, y) => (y.m_timestamp.CompareTo(x.m_timestamp)));
-					m_statView.AddColumn ("Score", 0.2f,(x, y) => (x.m_score.CompareTo(y.m_score)), (x, y) => (y.m_score.CompareTo(x.m_score)));
-					
-					m_dbServerField = "";
-					m_dbUserIDField = "";
-					m_dbDatabaseField = "";
-					m_dbPasswordField = "";
+					GameObject dbObj = GameObject.Find ("Database");
 
-					m_msgLogScrollView = Vector2.zero;
+					if(dbObj != null)
+					{
+						m_tempestDB = dbObj.GetComponent<Database.TempestDB> ();
+						m_feedback = new TimedMessage ();
+						
+						m_usernameField = "";
+						m_passwordField = "";
+						m_genderField = new string[] {"Male", "Female", "Other"};
+						m_genderSelection = 0;
+						m_medicalField = "";
+						m_dobView = new CalendarView (80);
+						
+						m_statView = new TableView<Database.ReportDB.Report> ();
+						m_statView.AddColumn ("ID", 0.1f, (x, y) => (x.m_reportID.CompareTo(y.m_reportID)), (x, y) => (y.m_reportID.CompareTo(x.m_reportID)));
+						m_statView.AddColumn ("Device", 0.2f, (x, y) => (x.m_device.CompareTo(y.m_device)), (x, y) => (y.m_device.CompareTo(x.m_device)));
+						m_statView.AddColumn ("Task", 0.2f, (x, y) => (x.m_task.CompareTo(y.m_task)), (x, y) => (y.m_task.CompareTo(x.m_task)));
+						m_statView.AddColumn ("Date", 0.3f, (x, y) => (x.m_timestamp.CompareTo(y.m_timestamp)), (x, y) => (y.m_timestamp.CompareTo(x.m_timestamp)));
+						m_statView.AddColumn ("Score", 0.2f,(x, y) => (x.m_score.CompareTo(y.m_score)), (x, y) => (y.m_score.CompareTo(x.m_score)));
+						
+						m_dbServerField = "";
+						m_dbUserIDField = "";
+						m_dbDatabaseField = "";
+						m_dbPasswordField = "";
 
-					Callback = Options;
+						m_msgLogScrollView = Vector2.zero;
+
+						Callback = Options;
+					}
 				}
 			}
 			
@@ -452,25 +457,25 @@ namespace Tempest
 			private void SetupStyles()
 			{
 				s1 = new GUIStyle (GUI.skin.label);
-				s1.fontSize = 10;
+				s1.fontSize = Screen.width / 120;
 				s1.alignment = TextAnchor.UpperCenter;
 				
 				s2 = new GUIStyle (GUI.skin.textField);
-				s2.fontSize = 10;
+				s2.fontSize = Screen.width / 120;
 				s2.alignment = TextAnchor.MiddleLeft;
 				
 				s3 = new GUIStyle (GUI.skin.textArea);
-				s3.fontSize = 10;
+				s3.fontSize = Screen.width / 120;
 				s3.alignment = TextAnchor.UpperLeft;
 				
 				s4 = new GUIStyle (GUI.skin.button);
-				s4.fontSize = 10;
+				s4.fontSize = Screen.width / 120;
 				s4.alignment = TextAnchor.MiddleCenter;
 
 				m_feedbackStyle = new GUIStyle(GUI.skin.label);
 				m_feedbackStyle.alignment = TextAnchor.UpperLeft;
 				m_feedbackStyle.wordWrap = true;;
-				m_feedbackStyle.fontSize = 10;
+				m_feedbackStyle.fontSize = Screen.width / 120;
 			}
 
 			private void Options()
@@ -545,8 +550,7 @@ namespace Tempest
 				Rect view = new Rect (0.0f, 0.0f, pos.width, pos.height);
 
 				m_msgLogScrollView = GUI.BeginScrollView (pos, m_msgLogScrollView, view, false, false);
-
-				
+						
 				GUI.Box (view, "", GUI.skin.textArea);
 				Rect rect1 = new Rect (0.05f, 0.05f, 250.0f, 20.0f);
 

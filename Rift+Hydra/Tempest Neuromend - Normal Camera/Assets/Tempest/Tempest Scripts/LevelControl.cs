@@ -136,6 +136,37 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontStyle=FontStyle.Bold;
 		
 		crosshairsTexture=Resources.Load<Texture2D>("Crosshairs01");
+
+		switch(levelType)
+		{
+		case LevelType.ObjectAvoidance:
+			if(gameControlScript)
+			{
+				GameObject tempPlayer = null;
+				if(tempPlayer=GameObject.FindWithTag("Player"))
+				{
+					PlayerOAControl fPSCRscript = null;
+					if(fPSCRscript=tempPlayer.GetComponent<PlayerOAControl>())
+					{
+						fPSCRscript.SetMovementSpeed(gameControlScript.objectAvoidancePlayerSpeed);
+					}
+				}
+			}
+			break;
+			
+		case LevelType.WayFinding:
+			GameObject tempPlayer = null;
+			if(tempPlayer=GameObject.FindWithTag("Player"))
+			{
+				FPSCrouchRun fPSCRscript = null;
+				if(fPSCRscript=tempPlayer.GetComponent<FPSCrouchRun>())
+				{
+					fPSCRscript.SetMovementSpeeds(gameControlScript.wayFindingPlayerSpeed);
+				}
+			}
+
+			break;
+		}
 	}
 	
 	void Update() 
@@ -344,6 +375,7 @@ public class LevelControl : MonoBehaviour
 			
 			if(loadCountdown<=0.0f)
 			{
+				/*
 				if(nextLevelName!="")
 				{
 					gameControlScript.LoadNextLevel(nextLevelName);
@@ -352,6 +384,8 @@ public class LevelControl : MonoBehaviour
 				{
 					gameControlScript.LoadNextLevel("Main Menu");
 				}
+				*/
+				gameControlScript.LoadNextLevel();
 			}
 		}
 	}
@@ -360,10 +394,24 @@ public class LevelControl : MonoBehaviour
 	{
 		b_isLevelComplete=complete;
 	}
-	
+
+	public bool IsLevelComplete()
+	{
+		if(levelCompletion>=1.0f||b_isLevelComplete)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	public void ToggleTimer()
 	{
 		b_showTimer=!b_showTimer;
+	}
+
+	public void ShowTimer(bool val=true)
+	{
+		b_showTimer = val;
 	}
 	
 	void AdjustGUI()
