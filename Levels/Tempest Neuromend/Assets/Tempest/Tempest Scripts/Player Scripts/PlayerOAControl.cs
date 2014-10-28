@@ -6,7 +6,7 @@ public class PlayerOAControl : MonoBehaviour
 	private Vector3 translationAll = Vector3.zero;
 	private CharacterController control;
 	private CharacterMotor motor;
-	public float speed = 3.0f;
+	public float m_speed = 3.0f;
 	private bool b_notOver=true;
 	private bool b_knockBack=false;
 	private float knockBackDuration = 0.1f;
@@ -28,7 +28,7 @@ public class PlayerOAControl : MonoBehaviour
 		if(b_notOver&&!b_knockBack)
 		{
 			if(control)
-				control.SimpleMove(translationAll*speed);
+				control.SimpleMove(translationAll*m_speed);
 		}
 		else if(b_knockBack)
 		{
@@ -41,6 +41,11 @@ public class PlayerOAControl : MonoBehaviour
 				b_knockBack=false;
 			}
 		}
+	}
+
+	public void SetMovementSpeed(float speed)
+	{
+		m_speed = speed;
 	}
 	
 	public void ReachedEndZone()
