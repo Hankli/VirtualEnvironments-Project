@@ -1,8 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\GUI_Utility\CalendarView.cs">
     <Files>
-      <File FileName="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" Line="42" Column="3" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\HandsMotionController.cs" Line="127" Column="8" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Hydra\Scripts\HandInput.cs" Line="33" Column="5" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\TempestDB.cs" Line="224" Column="70" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Tempest Scripts\GameControl.cs" Line="445" Column="38" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\ProfileMenu.cs" Line="297" Column="6" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\GUI_Utility\CalendarView.cs" Line="65" Column="16" />
+      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\ReportDB.cs" Line="160" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

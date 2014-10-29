@@ -41,9 +41,9 @@ namespace Tempest
 				m_dropYearList = false;
 				m_dropMonthList = false;
 
-				m_xCount = 5;
+				m_xCount = 4;
 				m_scrollPadding = 15;
-				m_dropPadding = 5;
+				m_dropPadding = 3;
 				
 				YearRange = yearRange;
 				
@@ -58,13 +58,8 @@ namespace Tempest
 			}
 
 			
-			public void Display()
+			public void Display(GUIStyle style)
 			{
-				GUIStyle style = new GUIStyle (GUI.skin.button);
-				style.fontSize = 15;
-				style.alignment = TextAnchor.MiddleCenter;
-				style.fontStyle = FontStyle.Italic;
-			
 				if(GUI.Button(m_dayPos, SelectedDay, style))
 				{
 					m_dropDayList = !m_dropDayList;
@@ -84,18 +79,13 @@ namespace Tempest
 					m_dropYearList = !m_dropYearList;
 				}
 
-				DayDropList ();
-				MonthDropList ();
-				YearDropList ();
+				DayDropList (style);
+				MonthDropList (style);
+				YearDropList (style);
 			}
 			
-			private void DayDropList()
+			private void DayDropList(GUIStyle style)
 			{
-				GUIStyle style = new GUIStyle (GUI.skin.button);
-				style.margin = new RectOffset (1, 1, 1, 1);
-				style.alignment = TextAnchor.MiddleCenter;
-				style.hover.textColor = Color.red;
-
 				if(m_dropDayList)
 				{	
 					Rect pos = new Rect(m_dayPos.x, m_dayPos.y + m_dayPos.height + m_dropPadding, m_dayPos.width + m_scrollPadding, m_dayPos.height * m_xCount);
@@ -116,13 +106,8 @@ namespace Tempest
 				}
 			}
 			
-			private void MonthDropList()
+			private void MonthDropList(GUIStyle style)
 			{
-				GUIStyle style = new GUIStyle (GUI.skin.button);
-				style.margin = new RectOffset (1, 1, 1, 1);
-				style.alignment = TextAnchor.MiddleCenter;
-				style.hover.textColor = Color.red;
-
 				if(m_dropMonthList)
 				{
 					Rect pos = new Rect(m_monthPos.x, m_monthPos.y + m_monthPos.height + m_dropPadding, m_monthPos.width + m_scrollPadding, m_monthPos.height * m_xCount);
@@ -144,13 +129,8 @@ namespace Tempest
 				}
 			}
 
-			private void YearDropList()
+			private void YearDropList(GUIStyle style)
 			{
-				GUIStyle style = new GUIStyle (GUI.skin.button);
-				style.margin = new RectOffset (1, 1, 1, 1);
-				style.alignment = TextAnchor.MiddleCenter;
-				style.hover.textColor = Color.red;
-
 				if(m_dropYearList)
 				{
 					Rect pos = new Rect(m_yearPos.x, m_yearPos.y + m_yearPos.height + m_dropPadding, m_yearPos.width + m_scrollPadding, m_yearPos.height * m_xCount);

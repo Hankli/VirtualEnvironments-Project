@@ -413,40 +413,65 @@ public class GameControl : MonoBehaviour
 
 		writer.WriteElementString("Username", tempDatabase.Profile.Value.m_username);
 	
-		switch(levelType)
-		{
-		case LevelControl.LevelType.None:
-			//writer.WriteElementString("Level", "None");
-			break;
-		case LevelControl.LevelType.ObjectInteraction:
-			writer.WriteElementString("Level", "Object Interaction");
-			break;
-		case LevelControl.LevelType.ObjectAvoidance:
-			writer.WriteElementString("Level", "Object Avoidance");
-			break;
-		case LevelControl.LevelType.WayFinding:
-			writer.WriteElementString("Level", "Way Finding");
-			break;
-		}
-
 		switch(controllerType)
 		{
-		case ControllerType.MouseKeyboard:
-			writer.WriteElementString("Controller", "Mouse and Keyboard");
+			case ControllerType.MouseKeyboard:
+			{
+				writer.WriteElementString("Controller", "Mouse and Keyboard");
+			}
 			break;
-		case ControllerType.OculusHydra:
-			writer.WriteElementString("Controller", "Razer Hydra");
+
+			case ControllerType.OculusHydra:
+			{
+				writer.WriteElementString("Controller", "Razer Hydra");
+			}
 			break;
-		case ControllerType.OculusKinect:
-			writer.WriteElementString("Controller", "Kinect");
+			
+			case ControllerType.OculusKinect:
+			{
+				writer.WriteElementString("Controller", "Kinect");
+			}
 			break;
-		case ControllerType.OculusLeap:
-			writer.WriteElementString("Controller", "Leap Motion");
+			
+			case ControllerType.OculusLeap:
+			{
+				writer.WriteElementString("Controller", "Leap Motion");
+			}
 			break;
 		}
 
-		writer.WriteElementString("Score", objectInteractionScore.ToString());
-		writer.WriteElementString("Timestamp", System.DateTime.Now.ToLongDateString());
+		switch(levelType)
+		{
+			case LevelControl.LevelType.None: break;
+			
+			case LevelControl.LevelType.ObjectInteraction:
+			{
+				writer.WriteElementString("Level", "Object Interaction");
+				writer.WriteElementString("Score", objectInteractionScore.ToString());
+				writer.WriteElementString("Speed", (0.0f).ToString()); //speed not applicable
+			}
+			break;
+			
+			case LevelControl.LevelType.ObjectAvoidance:
+			{
+				writer.WriteElementString("Level", "Object Avoidance");
+				writer.WriteElementString("Score", objectAvoidanceScore.ToString());
+				writer.WriteElementString("Speed", objectAvoidancePlayerSpeed.ToString());
+			}
+			break;
+
+			case LevelControl.LevelType.WayFinding:
+			{
+				writer.WriteElementString("Level", "Way Finding");
+				writer.WriteElementString("Score", wayFindingScore.ToString());
+				writer.WriteElementString("Speed", wayFindingPlayerSpeed.ToString());
+			}
+			break;
+		}
+		
+		writer.WriteElementString("Sensitivity", inputSensitivity.ToString());
+		writer.WriteElementString ("Timestamp", System.DateTime.Now.ToLongDateString ());
+
 		writer.WriteEndElement();
 		writer.WriteEndDocument();
 	

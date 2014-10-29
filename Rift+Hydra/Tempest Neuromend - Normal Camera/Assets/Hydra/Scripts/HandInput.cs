@@ -6,7 +6,7 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-		public class HandSmoother
+		public class HandMotionSmoother
 		{
 			private Vector3[] m_samples = null;
 			private float m_smoothFactor;
@@ -14,7 +14,7 @@ namespace Tempest
 			private int m_index;
 			private int m_total;
 
-			public HandSmoother(int readings, float smoothFactor)
+			public HandMotionSmoother(int readings, float smoothFactor)
 			{
 				m_samples = new Vector3[readings];
 				m_smoothFactor = smoothFactor;
@@ -41,6 +41,9 @@ namespace Tempest
 			public Vector3 GetSmoothedSample()
 			{
 				//use simple exponential smoothing for positional input data
+				//x(0) = sample[0]
+				//s(i) = a * x(i) + (1.0f - a) * s(i-1)
+
 				Vector3 s_0 = m_samples[0];
 				Vector3 s_t = s_0;
 
@@ -57,7 +60,7 @@ namespace Tempest
 		/** used by Hand class to keep track of input to razor hydra device**/
 		public class HandInput
 		{
-			private HandSmoother m_smoother;
+			private HandMotionSmoother m_smoother;
 
 			private bool m_enabled;
 			private bool m_docked;
@@ -82,8 +85,7 @@ namespace Tempest
 			private Quaternion m_rawRotation;
 			private Quaternion m_rotation;
 			private Quaternion m_lastRotation;
-
-			private Vector3 m_smoothedPosition;
+		
 
 			/// <summary>
 			/// The default trigger button threshold constant.
@@ -108,7 +110,7 @@ namespace Tempest
 
 			internal Hands HandBind { get { return m_handBind; } set { m_handBind = value; } }
 
-			public HandSmoother Smoother { get { return m_smoother; } }
+			public HandMotionSmoother Smoother { get { return m_smoother; } }
 
 			/// <summary>
 			/// Value of trigger from released (0.0) to pressed (1.0).
@@ -198,7 +200,7 @@ namespace Tempest
 				m_rotation.Set( 0.0f, 0.0f, 0.0f, 1.0f );
 				m_lastRotation = m_rotation;
 
-				m_smoother = new HandSmoother (3, 0.2f);
+				m_smoother = new HandMotionSmoother (3, 0.3f);
 			}
 			
 			internal void SetEnabled( bool enabled )

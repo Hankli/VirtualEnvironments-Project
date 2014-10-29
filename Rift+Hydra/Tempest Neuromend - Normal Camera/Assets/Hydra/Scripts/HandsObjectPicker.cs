@@ -26,7 +26,6 @@ namespace Tempest
 			private float m_pullRadius = 0.1f;
 
 			private float m_gripTriggerValue = 0.3f;
-			private float m_gripMaxTriggerValue = 1.0f;
 			private float m_gripBreakResistance = 20.0f;
 
 			private Hand m_hand;

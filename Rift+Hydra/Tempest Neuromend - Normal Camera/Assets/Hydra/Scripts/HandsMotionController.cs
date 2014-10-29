@@ -10,7 +10,7 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			private float m_linearSensitivity = 10.0f; // Sixense units are in mm
+			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
 			private float m_angularSensitivity = 2.0f;
 			public GUIStyle m_messageStyle = new GUIStyle();
 
@@ -114,15 +114,17 @@ namespace Tempest
 
 					if(m_angularSensitivity != 0.0f)
 					{
-						Quaternion dr = Quaternion.Inverse(hand.Controller.LastRotation) * hand.Controller.Rotation;
+						Quaternion dr =  hand.Controller.Rotation * Quaternion.Inverse(hand.Controller.LastRotation);
 						float angle;
 						Vector3 axis;
 						dr.ToAngleAxis(out angle, out axis);
-						dr = Quaternion.AngleAxis(angle * m_angularSensitivity, axis);
+						angle *= m_angularSensitivity;
+						axis *= m_angularSensitivity;
+						dr = Quaternion.AngleAxis(angle, axis);
 
 						hand.Rotation *= dr;
 					}
-					else 
+					//else 
 					{
 						hand.Rotation = hand.Controller.Rotation;
 					}
