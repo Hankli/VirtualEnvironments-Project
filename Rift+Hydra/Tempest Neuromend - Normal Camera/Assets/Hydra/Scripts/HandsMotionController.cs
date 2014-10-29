@@ -64,8 +64,7 @@ namespace Tempest
 					// Get the base offset assuming forward facing down the z axis of the base
 					foreach ( Hand hand in m_hands )
 					{
-						//hand.Controller.ResetToRawPosition();
-						hand.Controller.ResetToRawOrientation();
+						hand.Controller.Smoother.ClearSamples();
 
 						hand.Position = hand.Controller.PositionRaw;
 						hand.Rotation = hand.Controller.RotationRaw;

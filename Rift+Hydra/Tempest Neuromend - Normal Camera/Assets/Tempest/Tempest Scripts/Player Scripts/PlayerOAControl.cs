@@ -28,7 +28,9 @@ public class PlayerOAControl : MonoBehaviour
 		if(b_notOver&&!b_knockBack)
 		{
 			if(control)
+			{
 				control.SimpleMove(translationAll*m_speed);
+			}
 		}
 		else if(b_knockBack)
 		{

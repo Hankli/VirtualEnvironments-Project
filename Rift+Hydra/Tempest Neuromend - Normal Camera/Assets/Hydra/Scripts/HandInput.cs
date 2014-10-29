@@ -8,57 +8,49 @@ namespace Tempest
 	{
 		public class HandSmoother
 		{
-			private Vector3[] m_positionReading = null;
-			private int m_samples;
-			private int m_index;
+			private Vector3[] m_samples = null;
+			private float m_smoothFactor;
 
-			public HandSmoother(int readings)
+			private int m_index;
+			private int m_total;
+
+			public HandSmoother(int readings, float smoothFactor)
 			{
-				m_positionReading = new Vector3[readings];
-				m_samples = 0;
+				m_samples = new Vector3[readings];
+				m_smoothFactor = smoothFactor;
 				m_index = 0;
 			}
 
-			public void PushSample(Vector3 position)
-			{
-				m_positionReading[(m_index + 1) % m_positionReading.Length] = position;
 
-				if(m_samples < m_positionReading.Length)
+			public void AddSample(Vector3 sample)
+			{
+				m_samples [++m_index % m_samples.Length] = sample;
+
+				if(m_total < m_samples.Length)
 				{
-					++m_samples;
+					++m_total;
 				}
 			}
 
-			public void ResetSamples(Vector3 initialPosition)
+			public void ClearSamples()
 			{
-				m_positionReading [m_index] = initialPosition;
-				m_index = 1;
-				m_samples = 1;
+				m_total = 0;
+				m_index = 0;
 			}
 
-		
-			public Vector3 GetSampleAverage()
+			public Vector3 GetSmoothedSample()
 			{
-				Vector3 avgPos = Vector3.zero;
+				//use simple exponential smoothing for positional input data
+				Vector3 s_0 = m_samples[0];
+				Vector3 s_t = s_0;
 
-				if(m_samples == m_positionReading.Length)
+				for(int i = 1; i < m_total; i++)
 				{
-					foreach(Vector3 pos in m_positionReading)
-					{
-						avgPos += pos;
-					}
-					avgPos /= m_samples;
-				}
-				else if(m_samples > 0)
-				{
-					for(int i=0; i<m_samples; i++)
-					{
-						avgPos += m_positionReading[i];
-					}
-					avgPos /= m_samples;
+					s_t = m_smoothFactor * s_0 + (1.0f - m_smoothFactor) * s_t;
+					s_0 = m_samples[i];
 				}
 
-				return avgPos;
+				return s_t;
 			}
 		}
 
@@ -206,25 +198,12 @@ namespace Tempest
 				m_rotation.Set( 0.0f, 0.0f, 0.0f, 1.0f );
 				m_lastRotation = m_rotation;
 
-				m_smoother = new HandSmoother (3);
+				m_smoother = new HandSmoother (3, 0.2f);
 			}
 			
 			internal void SetEnabled( bool enabled )
 			{
 				m_enabled = enabled;
-			}
-
-			public void ResetToRawPosition()
-			{
-				m_lastPosition = m_rawPosition;
-				m_position = m_rawPosition;
-				m_smoother.ResetSamples (m_rawPosition);
-			}
-
-			public void ResetToRawOrientation()
-			{
-				m_lastRotation = m_rawRotation;
-				m_rotation = m_rawRotation;
 			}
 
 			internal void Update( ref Plugin.sixenseControllerData cd )
@@ -242,10 +221,10 @@ namespace Tempest
 				m_joystickY = cd.joystick_y;
 
 				m_rawPosition = new Vector3 (cd.pos [0], cd.pos [1], -cd.pos [2]);
+				m_smoother.AddSample (m_rawPosition);
 
 				m_lastPosition = m_position;
-				m_position = m_rawPosition;
-				//m_position = m_smoother.GetSampleAverage ();
+				m_position = m_smoother.GetSmoothedSample();
 
 				m_rawRotation = new Quaternion (-cd.rot_quat [0], -cd.rot_quat [1], cd.rot_quat [2], cd.rot_quat [3]);
 			

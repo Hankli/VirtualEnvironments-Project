@@ -9,10 +9,10 @@ namespace Tempest
 			private CharacterController m_controller;
 			private CharacterMotor m_motor;
 
+			public bool m_enableWalk;
+			public bool m_enableStrafe;
 			public float m_walkSpeed = 2.0f;
 			public float m_strafeSpeed = 2.0f;
-
-			private float m_constantWalkSpeed = 0.0f;
 
 			private float m_moveSensitivity = 1.0f;
 
@@ -34,12 +34,6 @@ namespace Tempest
 			{
 				get { return m_moveSensitivity; }
 				set { m_moveSensitivity = value; }
-			}
-
-			public float ConstantWalkSpeed
-			{
-				get { return m_constantWalkSpeed; }
-				set { m_constantWalkSpeed = value; }
 			}
 
 			public float WalkSpeed
@@ -87,22 +81,30 @@ namespace Tempest
 					Vector3 front = transform.forward * jy * m_walkSpeed;
 					Vector3 force = right + front;
 
-					if(force.z < m_constantWalkSpeed)
-					{
-						force.z = m_constantWalkSpeed;
-					}
-
 					if(!m_motor.grounded)
 					{
 						force.x *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
 						force.z *= Mathf.Pow(m_airDrag, Time.deltaTime * Time.timeScale);
 					}
 
-					force *= Time.timeScale;
-
 					//set velocity(except along y axis)
-					m_motor.movement.velocity.x = force.x;
-					m_motor.movement.velocity.z = force.z;
+					if(m_enableStrafe)
+					{
+						if(!m_motor.grounded)
+						{
+							force.x *= Mathf.Pow(m_airDrag, Time.deltaTime);
+						}
+						m_motor.movement.velocity.x = force.x * Time.timeScale;
+					}
+
+					if(m_enableWalk)
+					{
+						if(!m_motor.grounded)
+						{
+							force.z *= Mathf.Pow(m_airDrag, Time.deltaTime);
+						}
+						m_motor.movement.velocity.z = force.z * Time.timeScale;
+					}
 				}
 			}
 

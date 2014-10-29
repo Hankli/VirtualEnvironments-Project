@@ -20,7 +20,9 @@ public class ScoreScreen : VRGUI
 
 	GameObject gameControl=null;
 	GameControl gameControlScript=null;
-	
+	GameObject levelControl=null;
+	LevelControl levelControlScript=null;
+
 	void Awake() 
 	{
 		if(gameControl=GameObject.FindWithTag("Game"))
@@ -31,6 +33,14 @@ public class ScoreScreen : VRGUI
 				objectInteractionScore = gameControlScript.GetOIScore();
 				objectAvoidanceScore = gameControlScript.GetOAScore();
 				wayFindingScore = gameControlScript.GetWFScore();
+			}
+		}
+		if(levelControl=GameObject.FindWithTag("Level"))
+		{
+			levelControlScript=levelControl.GetComponent<LevelControl>();
+			if(levelControlScript)
+			{
+				levelControlScript.ShowTimer(false);
 			}
 		}
 	}
@@ -53,9 +63,10 @@ public class ScoreScreen : VRGUI
 		AdjustGUI();
 		if(gameControlScript)
 		{
+			scoresText="SCORES";
 			if(gameControlScript.IsObjectInteractionScore())
 			{
-				scoresText="SCORES\nObject Interaction: "+TempestUtil.FormatSeconds((int)objectInteractionScore);
+				scoresText+="\nObject Interaction: "+TempestUtil.FormatSeconds((int)objectInteractionScore);
 			}
 			if(gameControlScript.IsObjectAvoidanceScore())
 			{
