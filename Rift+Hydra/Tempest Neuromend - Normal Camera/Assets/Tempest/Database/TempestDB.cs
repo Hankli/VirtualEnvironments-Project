@@ -160,13 +160,12 @@ namespace Tempest
 
 			public bool Reconnect(string config)
 			{		
-				if(config.Length == null || config.Length == 0) return false;
+				if(config.Length == null && config.Length == 0) return false;
 
 				m_sqlSource.OpenConnection(config);
 
 				if(m_sqlSource.OpenConnectionState)
 				{
-					//m_sqlSource.GrantFilePrivileges();
 
 					//create each database relation manager
 					m_patientDB = new PatientDB (m_sqlSource);
@@ -209,26 +208,27 @@ namespace Tempest
 
 				/////////keep for testing purposes ONLY EVERYTHING BELOW/////////////////////////
 			
-//				if(Reconnect (GetDefaultServer()))
-//				{
-//					m_reportDB.DropRelation ();
-//					m_deviceDB.DropRelation ();
-//					m_taskDB.DropRelation ();
-//					m_patientDB.DropRelation ();
-//
-//					m_deviceDB.CreateRelation ();
-//					m_patientDB.CreateRelation ();
-//					m_taskDB.CreateRelation ();
-//					m_reportDB.CreateRelation ();
-//
-//					WriteDefaultDevices ();
-//					WriteDefaultTasks ();
-//
-//					Debug.Log (m_patientDB.AddPatient ("Bryan", "password", "12/5/1209", "Male"));
-//					m_reportDB.AddReport("Bryan", "Leap Motion", "Object Avoidance", new System.DateTime(1999, 10, 19, 3, 20, 30), 212, 24.05f, 2.0f);
-//					m_reportDB.AddReport("Bryan", "Kinect", "Way Finding", new System.DateTime(2001, 8, 24, 5, 54, 9), 444, 4.0f, 11.0f);
-//					m_reportDB.AddReport("Bryan", "Razer Hydra", "Object Interaction", new System.DateTime(1989, 4, 10, 10, 30, 55), 194, 12.0f, 14.0f);
-//				}
+				if(Reconnect (GetDefaultServer()))
+				{
+					m_reportDB.DropRelation ();
+					m_deviceDB.DropRelation ();
+					m_taskDB.DropRelation ();
+					m_patientDB.DropRelation ();
+
+					m_deviceDB.CreateRelation ();
+					m_patientDB.CreateRelation ();
+					m_taskDB.CreateRelation ();
+					m_reportDB.CreateRelation ();
+
+					WriteDefaultDevices ();
+					WriteDefaultTasks ();
+
+					m_patientDB.AddPatient ("Bryan", "password", "12/5/1209", "Male");
+					m_reportDB.AddReport("Bryan", "Mouse and Keyboard", "Object Interaction", new System.DateTime(2011, 3, 12, 20, 34, 19), 120, 10.0f, 0.0f);
+					m_reportDB.AddReport("Bryan", "Leap Motion", "Object Avoidance", new System.DateTime(1999, 10, 19, 3, 20, 30), 212, 2.05f, 2.0f);
+					m_reportDB.AddReport("Bryan", "Kinect", "Way Finding", new System.DateTime(2001, 8, 24, 5, 54, 9), 444, 4.0f, 11.0f);
+					m_reportDB.AddReport("Bryan", "Razer Hydra", "Object Interaction", new System.DateTime(1977, 4, 12, 16, 30, 55), 194, 12.0f, 14.0f);
+				}
 
 			}
 

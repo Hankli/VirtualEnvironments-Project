@@ -28,35 +28,12 @@ namespace Tempest
 				get { return m_latestResult; }
 			}
 
-			public void GrantFilePrivileges()
-			{
-				string q = "GRANT ALL PRIVILEGES ON @Database TO @UserID" + "@'%' " + 
-					"IDENTIFIED BY @Password";
-			
-				BeginQuery (q);
-				Write ("UserID", m_connectionString.UserID);
-				Write ("Database", m_connectionString.Database);
-				Write ("Password", m_connectionString.Password);
-				CommitQuery ();
-
-				q = "FLUSH PRIVILEGES";
-
-				BeginQuery(q);
-				CommitQuery();
-
-				//q = "GRANT FILE *.* ON @UserID" + "@'%'";
-				//BeginQuery (q);
-				//Write ("UserID", m_connectionString.UserID);
-			//	CommitQuery ();
-
-				EndQuery ();
-			}
-
 			public void OpenConnection(string config)
 			{
 				if(m_connection != null)
 				{
 					CloseConnection();
+
 					m_connection.ConnectionString = config;
 					m_connectionString.ConnectionString = config;
 				}
@@ -123,9 +100,20 @@ namespace Tempest
 				}
 			}
 
+			public string GetUserGrants()
+			{
+				BeginQuery ("SHOW GRANTS FOR '" + m_connectionString.UserID + "'@'%'"); 
+				CommitQuery ();
+
+				string result = GetQueryResult ();
+				EndQuery ();
+
+				return result;
+			}
+
 			public string DescribeRelation(string tablename)
 			{
-				BeginQuery ("describe " + tablename);
+				BeginQuery ("DESCRIBE " + tablename);
 				CommitQuery ();
 
 				string query = GetQueryResult ();

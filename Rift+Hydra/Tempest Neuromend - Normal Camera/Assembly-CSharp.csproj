@@ -1,156 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>10.0.20506</ProductVersion>
-	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{14877E15-1806-19A1-9B28-FEF6C3D7A42D}</ProjectGuid>
-	<OutputType>Library</OutputType>
-	<AppDesignerFolder>Properties</AppDesignerFolder>
-	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<FileAlignment>512</FileAlignment>
-	<BaseDirectory>Assets</BaseDirectory>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{14877E15-1806-19A1-9B28-FEF6C3D7A42D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	<DebugSymbols>true</DebugSymbols>
-	<DebugType>full</DebugType>
-	<Optimize>false</Optimize>
-	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_4_5_4;UNITY_4_5;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;UNITY_PRO_LICENSE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	<DebugType>pdbonly</DebugType>
-	<Optimize>true</Optimize>
-	<OutputPath>Temp\bin\Release\</OutputPath>
-	<DefineConstants>TRACE</DefineConstants>
-	<ErrorReport>prompt</ErrorReport>
-	<WarningLevel>4</WarningLevel>
-	<NoWarn>0169</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="System" />
-    <Reference Include="System.XML" />
-	<Reference Include="System.Core" />
-	<Reference Include="System.Xml.Linq" />
-	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/UnityV/Editor/Data/Managed/UnityEngine.dll</HintPath>
-	</Reference>
-	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/UnityV/Editor/Data/Managed/UnityEditor.dll</HintPath>
-	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files %28x86%29\UnityV\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:\Program Files %28x86%29\UnityV\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Hydra\Scripts\Constants.cs" />
-     <Compile Include="Assets\Hydra\Scripts\Hand.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HandAnimationStates.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HandInput.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HandInputController.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HandsMotionController.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HandsObjectPicker.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
-     <Compile Include="Assets\Hydra\Scripts\HydraControl.cs" />
-     <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
-     <Compile Include="Assets\Hydra\Scripts\State.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRDevice.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGUI.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGamepadController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGridCube.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRHmd.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRMainMenu.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRPlayerController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
-     <Compile Include="Assets\Tempest\Database\DeviceDB.cs" />
-     <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
-     <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
-     <Compile Include="Assets\Tempest\Database\ReportDB.cs" />
-     <Compile Include="Assets\Tempest\Database\SQLTestStatements.cs" />
-     <Compile Include="Assets\Tempest\Database\SQLView.cs" />
-     <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
-     <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
-     <Compile Include="Assets\Tempest\GUI_Utility\CalendarView.cs" />
-     <Compile Include="Assets\Tempest\GUI_Utility\TableView.cs" />
-     <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />
-     <Compile Include="Assets\Tempest\GameTemplate\Scripts\Frame.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\BasicMovement.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\DroppingObjective.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\DebugUtils.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\MathUtils.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineController.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineInterpolator.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineNodeProperties.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\HintTrigger.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\HoverPad.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\LevelControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Menu.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Obstacle.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\RabbitClone.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\RabbitTrigger.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ScoreScreen.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TempestUtil.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRGUI.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TextureSlide.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableObject.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableSpawner.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\WFHintManager.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
-     <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
-     <None Include="Assets\Plugins\donotdelete.txt" />
-     <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
-     <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
-     <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
-     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
-     <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
-     <None Include="Assets\Standard Assets\Water (Pro Only)\Sources\Shaders\FX-Water.shader" />
-     <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
-     <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
-     <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
- <Reference Include="I18N">
- <HintPath>C:/Users/USER/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Plugins/I18N.dll</HintPath>
- </Reference>
- <Reference Include="I18N.West">
- <HintPath>C:/Users/USER/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Plugins/I18N.West.dll</HintPath>
- </Reference>
- <Reference Include="MySql.Data">
- <HintPath>C:/Users/USER/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
- </Reference>
- <Reference Include="System.Data">
- <HintPath>C:/Users/USER/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/Libraries/System.Data.dll</HintPath>
- </Reference>
- <Reference Include="System.Drawing">
- <HintPath>C:/Users/USER/Desktop/VirtualEnvironments-Project/Rift+Hydra/Tempest Neuromend - Normal Camera/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
- </Reference>
+    <Compile Include="Assets\Hydra\Scripts\Constants.cs" />
+    <Compile Include="Assets\Hydra\Scripts\Hand.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HandAnimationStates.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HandInput.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HandInputController.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HandsMotionController.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HandsObjectPicker.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
+    <Compile Include="Assets\Hydra\Scripts\HydraControl.cs" />
+    <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
+    <Compile Include="Assets\Hydra\Scripts\State.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRDevice.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRGUI.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRGamepadController.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRGridCube.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRHmd.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRMainMenu.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRPlayerController.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
+    <Compile Include="Assets\Tempest\Database\DeviceDB.cs" />
+    <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
+    <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
+    <Compile Include="Assets\Tempest\Database\ReportDB.cs" />
+    <Compile Include="Assets\Tempest\Database\SQLTestStatements.cs" />
+    <Compile Include="Assets\Tempest\Database\SQLView.cs" />
+    <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
+    <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
+    <Compile Include="Assets\Tempest\GUI_Utility\CalendarView.cs" />
+    <Compile Include="Assets\Tempest\GUI_Utility\TableView.cs" />
+    <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />
+    <Compile Include="Assets\Tempest\GameTemplate\Scripts\Frame.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\BasicMovement.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\DroppingObjective.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\DebugUtils.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\MathUtils.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineController.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineInterpolator.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\SplineNodeProperties.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\HintTrigger.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\HoverPad.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\LevelControl.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Menu.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Obstacle.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\RabbitClone.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\RabbitTrigger.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\ScoreScreen.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\TempestUtil.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRGUI.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\TextureSlide.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableObject.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\ThrowableSpawner.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\WFHintManager.cs" />
+    <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
+    <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
+    <None Include="Assets\Plugins\donotdelete.txt" />
+    <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
+    <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
+    <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
+    <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
+    <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
+    <Reference Include="I18N">
+      <HintPath>C:\Users\USER\Desktop\VirtualEnvironments-Project\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Plugins\I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>C:\Users\USER\Desktop\VirtualEnvironments-Project\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Plugins\I18N.West.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>C:\Users\USER\Desktop\VirtualEnvironments-Project\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Libraries\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>C:\Users\USER\Desktop\VirtualEnvironments-Project\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Libraries\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <HintPath>C:\Users\USER\Desktop\VirtualEnvironments-Project\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Libraries\System.Drawing.dll</HintPath>
+    </Reference>
+    <None Include="Assets\Standard Assets\Water %28Pro Only%29\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
+    <None Include="Assets\Standard Assets\Water %28Pro Only%29\Sources\Shaders\FX-Water.shader" />
+    <None Include="Assets\Standard Assets\Water %28Pro Only%29\Water4\Sources\Shaders\WaterInclude.cginc" />
+    <None Include="Assets\Standard Assets\Water %28Pro Only%29\Water4\Sources\Shaders\FX-Water4.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{5B46F153-8B01-F552-3F29-8F54EBB508CD}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{5B46F153-8B01-F552-3F29-8F54EBB508CD}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{DEF68631-075E-AFEA-F971-122A943DE0DF}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
+      <Project>{DEF68631-075E-AFEA-F971-122A943DE0DF}</Project>
+      <Name>Assembly-UnityScript-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -160,5 +163,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  
 </Project>

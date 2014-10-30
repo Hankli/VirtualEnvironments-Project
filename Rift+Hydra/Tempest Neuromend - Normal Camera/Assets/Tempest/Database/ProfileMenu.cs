@@ -20,6 +20,7 @@ namespace Tempest
 			private string m_dbUserIDField;
 			
 			private Vector2 m_msgLogScrollView;
+			byte[] m_saltedPassword;
 			
 			private int m_maxUsernameLength = 15;
 			private int m_minUsernameLength = 2;
@@ -73,13 +74,12 @@ namespace Tempest
 						m_dobView = new CalendarView (80);
 						
 						m_statView = new TableView<Database.ReportDB.Report> ();
-						m_statView.AddColumn ("ID", 0.05f, (x, y) => (x.m_reportID.CompareTo(y.m_reportID)), (x, y) => (y.m_reportID.CompareTo(x.m_reportID)));
-						m_statView.AddColumn ("Device", 0.2f, (x, y) => (x.m_device.CompareTo(y.m_device)), (x, y) => (y.m_device.CompareTo(x.m_device)));
-						m_statView.AddColumn ("Task", 0.2f, (x, y) => (x.m_task.CompareTo(y.m_task)), (x, y) => (y.m_task.CompareTo(x.m_task)));
-						m_statView.AddColumn ("Date", 0.3f, (x, y) => (x.m_timestamp.CompareTo(y.m_timestamp)), (x, y) => (y.m_timestamp.CompareTo(x.m_timestamp)));
-						m_statView.AddColumn ("Score", 0.1f,(x, y) => (x.m_score.CompareTo(y.m_score)), (x, y) => (y.m_score.CompareTo(x.m_score)));
-						m_statView.AddColumn ("Sensitivity", 0.1f, (x, y) => (x.m_sens.CompareTo(y.m_sens)), (x, y) => (y.m_sens.CompareTo(x.m_sens)));
-						m_statView.AddColumn ("Speed", 0.1f, (x, y) => (x.m_speed.CompareTo(y.m_speed)), (x, y) => (y.m_speed.CompareTo(x.m_speed)))	;
+						m_statView.AddColumn ("Device", 0.16f, (x, y) => (x.m_device.CompareTo(y.m_device)), (x, y) => (y.m_device.CompareTo(x.m_device)));
+						m_statView.AddColumn ("Task", 0.16f, (x, y) => (x.m_task.CompareTo(y.m_task)), (x, y) => (y.m_task.CompareTo(x.m_task)));
+						m_statView.AddColumn ("Date", 0.2f, (x, y) => (x.m_timestamp.CompareTo(y.m_timestamp)), (x, y) => (y.m_timestamp.CompareTo(x.m_timestamp)));
+						m_statView.AddColumn ("Score", 0.16f,(x, y) => (x.m_score.CompareTo(y.m_score)), (x, y) => (y.m_score.CompareTo(x.m_score)));
+						m_statView.AddColumn ("Sensitivity", 0.16f, (x, y) => (x.m_sens.CompareTo(y.m_sens)), (x, y) => (y.m_sens.CompareTo(x.m_sens)));
+						m_statView.AddColumn ("Speed", 0.16f, (x, y) => (x.m_speed.CompareTo(y.m_speed)), (x, y) => (y.m_speed.CompareTo(x.m_speed)));
 
 						m_dbServerField = "";
 						m_dbUserIDField = "";
@@ -122,20 +122,20 @@ namespace Tempest
 			
 			private void CreateProfile()
 			{
-				Rect rect1 = new Rect (Screen.width * 0.15f, Screen.height * 0.2f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect2 = new Rect (Screen.width * 0.15f, Screen.height * 0.26f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect3 = new Rect (Screen.width * 0.15f, Screen.height * 0.32f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect4 = new Rect (Screen.width * 0.15f, Screen.height * 0.38f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect1 = new Rect (Screen.width * 0.15f, Screen.height * 0.1f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect2 = new Rect (Screen.width * 0.15f, Screen.height * 0.16f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect3 = new Rect (Screen.width * 0.15f, Screen.height * 0.22f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect4 = new Rect (Screen.width * 0.15f, Screen.height * 0.28f, Screen.width * 0.14f, Screen.height * 0.05f);
 			
-				Rect rect5 = new Rect (Screen.width * 0.3f, Screen.height * 0.2f, Screen.width * 0.14f, Screen.height * 0.05f);		
-				Rect rect6 = new Rect (Screen.width * 0.3f, Screen.height * 0.26f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect7 = new Rect (Screen.width * 0.3f, Screen.height * 0.32f, Screen.width * 0.26f, Screen.height * 0.05f);
-				Rect rect8 = new Rect (Screen.width * 0.3f, Screen.height * 0.38f, Screen.width * 0.11f, Screen.height * 0.05f);
-				Rect rect9 = new Rect (Screen.width * 0.42f, Screen.height * 0.38f, Screen.width * 0.12f, Screen.height * 0.05f);
-				Rect rect10 = new Rect (Screen.width * 0.55f, Screen.height * 0.38f, Screen.width * 0.11f, Screen.height * 0.05f);
+				Rect rect5 = new Rect (Screen.width * 0.3f, Screen.height * 0.1f, Screen.width * 0.14f, Screen.height * 0.05f);		
+				Rect rect6 = new Rect (Screen.width * 0.3f, Screen.height * 0.16f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect7 = new Rect (Screen.width * 0.3f, Screen.height * 0.22f, Screen.width * 0.26f, Screen.height * 0.05f);
+				Rect rect8 = new Rect (Screen.width * 0.3f, Screen.height * 0.28f, Screen.width * 0.11f, Screen.height * 0.05f);
+				Rect rect9 = new Rect (Screen.width * 0.42f, Screen.height * 0.28f, Screen.width * 0.12f, Screen.height * 0.05f);
+				Rect rect10 = new Rect (Screen.width * 0.55f, Screen.height * 0.28f, Screen.width * 0.11f, Screen.height * 0.05f);
 
-				Rect rect11 = new Rect (Screen.width * 0.15f, Screen.height * 0.5f, Screen.width * 0.12f, Screen.height * 0.05f);
-				Rect rect12 = new Rect (Screen.width * 0.3f, Screen.height * 0.5f, Screen.width * 0.12f, Screen.height * 0.05f);
+				Rect rect11 = new Rect (Screen.width * 0.15f, Screen.height * 0.4f, Screen.width * 0.12f, Screen.height * 0.05f);
+				Rect rect12 = new Rect (Screen.width * 0.3f, Screen.height * 0.4f, Screen.width * 0.12f, Screen.height * 0.05f);
 
 				//enter details, submit 'form'.. if username does not exist
 				
@@ -180,6 +180,8 @@ namespace Tempest
 				}
 
 				GoBack (Options, rect12, s4);
+
+				ServerSettings ();
 			}
 			
 			private void ViewStats()
@@ -189,47 +191,50 @@ namespace Tempest
 					//set styles for id and score column
 					GUIStyle tupleStyle = new GUIStyle(GUI.skin.label);
 					GUIStyle columnStyle = new GUIStyle(GUI.skin.label);
-					
-					tupleStyle.alignment = TextAnchor.MiddleCenter;
-					tupleStyle.fontSize = 12;
-					columnStyle.alignment = TextAnchor.MiddleCenter;
-					columnStyle.fontSize = 10;
-					
-					m_statView.GetColumn("ID").SetStyles(columnStyle, tupleStyle);
-					m_statView.GetColumn("Score").SetStyles(columnStyle, tupleStyle);
-					m_statView.GetColumn("Sensitivity").SetStyles(columnStyle, tupleStyle);
-					m_statView.GetColumn("Speed").SetStyles(columnStyle, tupleStyle);
+
+					m_statView.GetColumn("Score").SetStyles(columnStyle, s1);
+					m_statView.GetColumn("Sensitivity").SetStyles(columnStyle, s1);
+					m_statView.GetColumn("Speed").SetStyles(columnStyle, s1);
 
 					//set styles for device, task and date columns
-					tupleStyle = new GUIStyle(GUI.skin.label);
-					columnStyle = new GUIStyle(GUI.skin.label);
-					
-					tupleStyle.alignment = TextAnchor.MiddleLeft;
-					tupleStyle.fontSize = 12;
-					columnStyle.alignment = TextAnchor.MiddleLeft;
-					columnStyle.fontSize = 10;
-					
-					m_statView.GetColumn("Device").SetStyles(columnStyle, tupleStyle);
-					m_statView.GetColumn("Task").SetStyles(columnStyle, tupleStyle);
-					m_statView.GetColumn("Date").SetStyles(columnStyle, tupleStyle);
+					tupleStyle = s1;
+					columnStyle = s1;
+
+					m_statView.GetColumn("Device").SetStyles(columnStyle, s1);
+					m_statView.GetColumn("Task").SetStyles(columnStyle, s1);
+					m_statView.GetColumn("Date").SetStyles(columnStyle, s1);
 					
 					//set style for entire table
 					GUIStyle viewStyle = new GUIStyle(GUI.skin.box);
 					viewStyle.alignment = TextAnchor.UpperCenter;
 					m_statView.ViewStyle = viewStyle;
 					
-					m_statView.Width = Screen.width * 0.45f;
+					m_statView.Width = Screen.width * 0.9f;
 					m_statView.Height = Screen.height * 0.5f;
-					m_statView.Position = new Vector2(Screen.width * 0.25f, Screen.height * 0.2f);
+					m_statView.Position = new Vector2(Screen.width * 0.05f, Screen.height * 0.05f);
 					
 					m_statView.Display();
 				}
+
+				Rect rect1 = new Rect (Screen.width * 0.05f, Screen.height * 0.56f, Screen.width * 0.44f, Screen.height * 0.05f);
+				Rect rect2 = new Rect (Screen.width * 0.5f, Screen.height * 0.56f, Screen.width * 0.44f, Screen.height * 0.05f);
 				
-				Rect backRect = new Rect (Screen.width * 0.1f, Screen.height * 0.60f,
-				                          (Screen.width ) * 0.12f,
-				                          (Screen.height ) * 0.06f);
-				
-				GoBack (ViewProfile, backRect, s4);
+				if(GUI.Button(rect1, "EXPORT CSV", s4))
+				{
+					string path = "ProfileData";
+					string file = m_tempestDB.Profile.Value.m_username + ".csv";
+					
+					if(m_tempestDB.ReportDatabase.ExtractReport(m_tempestDB.Profile.Value.m_username, path, file))
+					{
+						m_feedback.Begin("Profile data has been exported to .csv file", 5.0f, m_feedbackStyle);
+					}
+					else
+					{
+						m_feedback.Begin("Error exporting profile data to .csv file, check if file is currently open", 5.0f, m_feedbackStyle);
+					}
+				}
+
+				GoBack (ViewProfile, rect2, s4);
 			}
 			
 			
@@ -237,18 +242,17 @@ namespace Tempest
 			{
 				if(m_tempestDB.Profile.HasValue)
 				{
-					Rect rect1 = new Rect (Screen.width * 0.3f, Screen.height * 0.2f, Screen.width * 0.14f, Screen.height * 0.05f);
-					Rect rect2 = new Rect (Screen.width * 0.3f, Screen.height * 0.26f, Screen.width * 0.14f, Screen.height * 0.05f);
-					Rect rect3 = new Rect (Screen.width * 0.3f, Screen.height * 0.32f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect1 = new Rect (Screen.width * 0.3f, Screen.height * 0.1f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect2 = new Rect (Screen.width * 0.3f, Screen.height * 0.16f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect3 = new Rect (Screen.width * 0.3f, Screen.height * 0.22f, Screen.width * 0.14f, Screen.height * 0.05f);
 
-					Rect rect5 = new Rect (Screen.width * 0.45f, Screen.height * 0.2f, Screen.width * 0.14f, Screen.height * 0.05f);		
-					Rect rect6 = new Rect (Screen.width * 0.45f, Screen.height * 0.26f, Screen.width * 0.14f, Screen.height * 0.05f);
-					Rect rect7 = new Rect (Screen.width * 0.45f, Screen.height * 0.32f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect5 = new Rect (Screen.width * 0.45f, Screen.height * 0.1f, Screen.width * 0.14f, Screen.height * 0.05f);		
+					Rect rect6 = new Rect (Screen.width * 0.45f, Screen.height * 0.16f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect7 = new Rect (Screen.width * 0.45f, Screen.height * 0.22f, Screen.width * 0.14f, Screen.height * 0.05f);
 			
-					Rect rect8 = new Rect (Screen.width * 0.3f, Screen.height * 0.38f, Screen.width * 0.14f, Screen.height * 0.05f);
-					Rect rect9 = new Rect (Screen.width * 0.45f, Screen.height * 0.38f, Screen.width * 0.14f, Screen.height * 0.05f);
-					Rect rect10 = new Rect (Screen.width * 0.3f, Screen.height * 0.44f, Screen.width * 0.14f, Screen.height * 0.05f);
-					Rect rect11 = new Rect (Screen.width * 0.45f, Screen.height * 0.44f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect8 = new Rect (Screen.width * 0.3f, Screen.height * 0.28f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect9 = new Rect (Screen.width * 0.45f, Screen.height * 0.28f, Screen.width * 0.14f, Screen.height * 0.05f);
+					Rect rect11 = new Rect (Screen.width * 0.3f, Screen.height * 0.34f, Screen.width * 0.29f, Screen.height * 0.05f);
 				
 					//viewing of profile
 					GUI.Label (rect1, "Username", s1);
@@ -287,15 +291,10 @@ namespace Tempest
 						}
 					}	
 
-					else if(GUI.Button(rect10, "EXPORT CSV", s4))
-					{
-						m_tempestDB.ReportDatabase.ExtractReport(username, username, ",", "\n", "");
-					
-						m_feedback.Begin("Profile data has been exported to .csv file", 5.0f, m_feedbackStyle);
-					}
-
 					GoBack(Options, rect11, s4);
 				}		
+
+				ServerSettings ();
 			}
 
 			private void LoadScores()
@@ -306,17 +305,17 @@ namespace Tempest
 					m_tempestDB.ReportDatabase.ExtractReport(m_tempestDB.Profile.Value.m_username, m_statView.Items);
 				}
 			}
-			
+
 			private void LoginProfile()
 			{
-				Rect rect1 = new Rect (Screen.width * 0.3f, Screen.height * 0.3f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect2 = new Rect (Screen.width * 0.45f, Screen.height * 0.3f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect1 = new Rect (Screen.width * 0.3f, Screen.height * 0.2f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect2 = new Rect (Screen.width * 0.45f, Screen.height * 0.2f, Screen.width * 0.14f, Screen.height * 0.05f);
 
-				Rect rect3 = new Rect (Screen.width * 0.3f, Screen.height * 0.36f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect4 = new Rect (Screen.width * 0.45f, Screen.height * 0.36f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect3 = new Rect (Screen.width * 0.3f, Screen.height * 0.26f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect4 = new Rect (Screen.width * 0.45f, Screen.height * 0.26f, Screen.width * 0.14f, Screen.height * 0.05f);
 
-				Rect rect5 = new Rect (Screen.width * 0.3f, Screen.height * 0.42f, Screen.width * 0.14f, Screen.height * 0.05f);
-				Rect rect6 = new Rect (Screen.width * 0.45f, Screen.height * 0.42f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect5 = new Rect (Screen.width * 0.3f, Screen.height * 0.32f, Screen.width * 0.14f, Screen.height * 0.05f);
+				Rect rect6 = new Rect (Screen.width * 0.45f, Screen.height * 0.32f, Screen.width * 0.14f, Screen.height * 0.05f);
 				
 				GUI.Label (rect1, "USERNAME", s1);
 				GUI.Label (rect3, "PASSWORD", s1);
@@ -355,6 +354,8 @@ namespace Tempest
 				}
 				
 				GoBack (Options, rect5, s4);
+
+				ServerSettings ();
 			}
 			
 			private void GoBack(MenuFunction func, Rect rect, GUIStyle style)
@@ -449,12 +450,13 @@ namespace Tempest
 						m_feedback.Begin("Connection attempt failed", 5.0f, m_feedbackStyle); 
 					}
 				}
-		
+
+				UpdateFeedback ();
 			}
 			
 			private void SetupStyles()
 			{
-				int fontSize = (int)Mathf.Min (Screen.width, Screen.height) / 50;
+				int fontSize = (int)Mathf.Min (Screen.width, Screen.height) / 48;
 
 				s1 = new GUIStyle (GUI.skin.label);
 				s1.fontSize = fontSize;
@@ -487,7 +489,7 @@ namespace Tempest
 				Rect rect5 = new Rect (Screen.width * 0.05f, Screen.height * 0.11f, Screen.width * 0.14f, Screen.height * 0.05f);
 				Rect rect6 = new Rect (Screen.width * 0.2f, Screen.height * 0.11f, Screen.width * 0.16f, Screen.height * 0.05f);
 				
-				GUI.Label (rect1, "CURRENT PROFILE:", s1);
+				GUI.Label (rect1, "LOGGED IN:", s1);
 
 				Color prevColor = s2.normal.textColor;
 
@@ -530,6 +532,8 @@ namespace Tempest
 						Callback = ViewProfile;
 					}
 				}
+
+				ServerSettings ();
 			}
 
 			private void LogoutProfile()
@@ -567,8 +571,6 @@ namespace Tempest
 			public void Draw()
 			{
 				SetupStyles ();
-				UpdateFeedback ();
-				ServerSettings();
 				Callback ();
 			}
 

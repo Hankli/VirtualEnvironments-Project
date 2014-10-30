@@ -18,6 +18,8 @@ namespace Tempest
 				public string m_username;
 				public string m_password;
 
+				public byte[] m_saltedPassword;
+
 				public override string ToString ()
 				{
 					return m_username + '\n' +
@@ -106,6 +108,7 @@ namespace Tempest
 					patient.m_password = rdr.GetString("Password");
 					patient.m_gender = rdr.GetString("Gender");
 					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
+
 				}
 				m_sqlView.EndRead ();
 				m_sqlView.EndQuery ();

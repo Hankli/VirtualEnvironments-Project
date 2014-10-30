@@ -147,6 +147,8 @@ public class TempestVRMainMenu : VRGUI
 
 		DrawBackground();
 		DrawTitle (titleTexture);
+
+		if(menuFunction != null)
 		menuFunction();
 	}
 
