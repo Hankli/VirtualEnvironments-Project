@@ -16,8 +16,6 @@ namespace Tempest
 		{
 			Nullable<PatientDB.Patient> m_profile;
 
-			private const string k_loggedSessionFile = "session_log.xml";
-
 			public TextAsset m_dbLevelAsset = null;
 			public TextAsset m_dbDeviceAsset = null;
 			public TextAsset m_dbServerAsset = null;
@@ -32,6 +30,11 @@ namespace Tempest
 			{
 				get { return m_profile; }
 				set { m_profile = value; }
+			}
+
+			public string Database
+			{
+				get { return m_sqlSource.Database; }
 			}
 
 			public ReportDB ReportDatabase
@@ -68,7 +71,6 @@ namespace Tempest
 						
 						foreach(XmlNode node in nodes.ChildNodes)
 						{
-							Debug.Log (node.Name);
 							if(node.Name == "Name") name = node.InnerXml;
 							if(node.Name == "Description") description = node.InnerXml;
 						}
@@ -123,69 +125,6 @@ namespace Tempest
 				}
 
 				return "";
-			}
-
-			public bool SaveLoggedSession(bool logout)
-			{
-				if(Profile.HasValue)
-				{
-					XmlWriterSettings settings = new XmlWriterSettings();
-					settings.Indent = true;
-					XmlWriter writer =  XmlWriter.Create(@k_loggedSessionFile, settings);
-
-					writer.WriteStartDocument();
-					writer.WriteStartElement("Session");
-					writer.WriteElementString("Logout", logout.ToString());
-					writer.WriteElementString("Database", m_sqlSource.Database); 
-					writer.WriteElementString("Username", Profile.Value.m_username);
-					writer.WriteElementString("Password", Profile.Value.m_password);
-					writer.WriteElementString("Access-Time", DateTime.Now.ToLongDateString());
-					writer.WriteEndElement();
-					writer.WriteEndDocument();
-
-					writer.Flush();
-					writer.Close();
-
-					if(logout)
-					{
-						Profile = null;
-					}
-
-					return true;
-				}
-				return false;
-			}
-
-			public bool LoadLoggedSession()
-			{
-				if(IsConnected && System.IO.File.Exists(@k_loggedSessionFile))
-				{
-					XElement root =  XElement.Load(@k_loggedSessionFile);
-					
-					if(root != null)
-					{
-						if(root.Element("Database").Value == m_sqlSource.Database)
-						{
-							bool logout = false;
-							bool.TryParse(root.Element("Logout").Value, out logout);
-
-							if(!logout)
-							{
-								string username = root.Element("Username").Value;
-								string password = root.Element("Password").Value;
-
-								PatientDB.Patient patient = new PatientDB.Patient();
-
-								if(m_patientDB.ExtractPatient(username, password, ref patient))
-								{
-									Profile = patient;
-									return true;
-								}
-							}//end if
-						}//end if
-					}//end if
-				}
-				return false;
 			}
 
 			public bool Reconnect(string config)

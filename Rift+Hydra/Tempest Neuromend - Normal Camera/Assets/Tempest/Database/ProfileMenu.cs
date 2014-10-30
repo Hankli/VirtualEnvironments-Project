@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Tempest
 {
@@ -7,6 +9,8 @@ namespace Tempest
 	{
 		public class ProfileMenu
 		{
+			private const string k_loggedSessionFile = "session_log.xml";
+
 			private string m_usernameField;
 			private string m_passwordField;
 			private int m_genderSelection;
@@ -42,6 +46,7 @@ namespace Tempest
 
 			private delegate void MenuFunction();
 			private MenuFunction Callback;
+
 
 			public void Initialize () 
 			{
@@ -122,8 +127,8 @@ namespace Tempest
 				Rect rect9 = new Rect (Screen.width * 0.42f, Screen.height * 0.28f, Screen.width * 0.12f, Screen.height * 0.05f);
 				Rect rect10 = new Rect (Screen.width * 0.55f, Screen.height * 0.28f, Screen.width * 0.11f, Screen.height * 0.05f);
 
-				Rect rect11 = new Rect (Screen.width * 0.15f, Screen.height * 0.4f, Screen.width * 0.12f, Screen.height * 0.05f);
-				Rect rect12 = new Rect (Screen.width * 0.3f, Screen.height * 0.4f, Screen.width * 0.12f, Screen.height * 0.05f);
+				Rect rect11 = new Rect (Screen.width * 0.15f, Screen.height * 0.58f, Screen.width * 0.12f, Screen.height * 0.05f);
+				Rect rect12 = new Rect (Screen.width * 0.3f, Screen.height * 0.58f, Screen.width * 0.37f, Screen.height * 0.05f);
 
 				//enter details, submit 'form'.. if username does not exist
 				
@@ -308,7 +313,10 @@ namespace Tempest
 							m_tempestDB.Profile = profile;
 
 							//create new session so user can restore to this later on(if they don't log out)
-							m_tempestDB.SaveLoggedSession(false);
+							SaveLoggedSession(false);
+		
+							ClearNonPersistantFields();
+							Callback = Options; 
 
 							m_feedback.Begin("Profile successfully loaded", 5.0f, m_feedbackStyle);
 						}
@@ -324,7 +332,6 @@ namespace Tempest
 				}
 				
 				GoBack (Options, rect5, m_buttonStyle);
-
 				ServerSettings ();
 			}
 			
@@ -411,7 +418,7 @@ namespace Tempest
 					if(m_tempestDB.IsConnected)
 					{
 						//if could not load a logged session, then set to not logged in(also a sign that the database is not the same)
-						if(!m_tempestDB.LoadLoggedSession())
+						if(!LoadLoggedSession())
 						{
 							m_tempestDB.Profile = null;
 						}
@@ -432,11 +439,13 @@ namespace Tempest
 			
 			private void SetupStyles()
 			{
-				int fontSize = (int)Mathf.Min (Screen.width, Screen.height) / 48;
+				int fontSize = (int)Mathf.Min (Screen.width, Screen.height) / 50;
 
 				m_boxStyle = new GUIStyle (GUI.skin.box);
 				m_boxStyle.fontSize = fontSize;
-				m_boxStyle.alignment = TextAnchor.UpperCenter;
+				m_boxStyle.fontStyle = FontStyle.Bold;
+				m_boxStyle.normal.textColor = Color.black;
+				m_boxStyle.alignment = TextAnchor.UpperLeft;
 
 				m_statColumnStyle = new GUIStyle(GUI.skin.label); //score table column
 				m_statColumnStyle.fontSize = fontSize;
@@ -536,7 +545,7 @@ namespace Tempest
 
 			private void LogoutProfile()
 			{
-				if(m_tempestDB.SaveLoggedSession(true))
+				if(SaveLoggedSession(true))
 				{
 					m_feedback.Begin("Logged out of session", 5.0f, m_feedbackStyle);
 				}
@@ -554,7 +563,6 @@ namespace Tempest
 
 				GUI.Label (rect1, "CONFIRM DELETION OF PROFILE\n" + m_tempestDB.Profile.Value.m_username + "?", m_labelStyle);
 
-				if(m_passwordField != null) Debug.Log(m_passwordField);
 				if(GUI.Button(rect2, "YES", m_buttonStyle))
 				{
 					if(m_tempestDB.IsConnected)
@@ -562,7 +570,7 @@ namespace Tempest
 						if(m_tempestDB.ProfileDatabase.DeletePatient(m_tempestDB.Profile.Value.m_username, m_passwordField))
 						{
 							m_tempestDB.Profile = null;
-							m_tempestDB.SaveLoggedSession(true);
+							SaveLoggedSession(true);
 
 							m_feedback.Begin("Your profile has been successfully deleted", 5.0f, m_feedbackStyle);
 					
@@ -590,14 +598,14 @@ namespace Tempest
 			
 			private void UpdateFeedback()
 			{
-				Rect pos = new Rect (Screen.width * 0.7f, Screen.height * 0.41f, Screen.width * 0.29f, Screen.height * 0.15f);
-				Rect view = new Rect (0.0f, 0.0f, pos.width, pos.height);
+				Rect pos = new Rect (Screen.width * 0.7f, Screen.height * 0.43f, Screen.width * 0.29f, Screen.height * 0.2f);
+				Rect view = new Rect (0.0f, 0.0f, pos.width * 2.0f, pos.height * 2.0f);
 
 				m_msgLogScrollView = GUI.BeginScrollView (pos, m_msgLogScrollView, view, false, false);
 						
-				GUI.Box (view, "", GUI.skin.textArea);
+				GUI.Box (view, "Message Log", m_boxStyle);
 
-				GUI.Label (new Rect (Screen.width * 0.01f, Screen.height * 0.01f, Screen.width * 0.2f, Screen.height * 0.05f), "<Message Log>", m_feedbackStyle);
+				//GUI.Label (new Rect (Screen.width * 0.01f, Screen.height * 0.01f, Screen.width * 0.2f, Screen.height * 0.05f), "<Message Log>", m_feedbackStyle);
 			    m_feedback.Display (new Rect (Screen.width * 0.01f, Screen.height * 0.045f, Screen.width * 0.2f, Screen.height * 0.1f));
 				
 				GUI.EndScrollView ();
@@ -608,6 +616,71 @@ namespace Tempest
 				SetupStyles ();
 				Callback ();
 			}
+
+			public bool SaveLoggedSession(bool logout)
+			{
+				if(m_tempestDB.Profile.HasValue)
+				{
+					XmlWriterSettings settings = new XmlWriterSettings();
+					settings.Indent = true;
+					XmlWriter writer =  XmlWriter.Create(@k_loggedSessionFile, settings);
+					
+					writer.WriteStartDocument();
+					writer.WriteStartElement("Session");
+					writer.WriteElementString("Logout", logout.ToString());
+					writer.WriteElementString("Database", m_tempestDB.Database); 
+					writer.WriteElementString("Username", m_tempestDB.Profile.Value.m_username);
+					//writer.WriteElementString("Password", Profile.Value.m_password);
+					writer.WriteElementString("Access-Time", System.DateTime.Now.ToLongDateString());
+					writer.WriteEndElement();
+					writer.WriteEndDocument();
+					
+					writer.Flush();
+					writer.Close();
+					
+					if(logout)
+					{
+						m_tempestDB.Profile = null;
+					}
+					
+					return true;
+				}
+				return false;
+			}
+			
+			public bool LoadLoggedSession()
+			{
+				if(m_tempestDB.IsConnected && System.IO.File.Exists(@k_loggedSessionFile))
+				{
+					XElement root =  XElement.Load(@k_loggedSessionFile);
+					
+					if(root != null)
+					{
+						if(root.Element("Database").Value == m_tempestDB.Database)
+						{
+							bool logout = false;
+							bool.TryParse(root.Element("Logout").Value, out logout);
+							
+							if(!logout)
+							{
+								string username = root.Element("Username").Value;
+								string password = root.Element("Password").Value;
+								
+								Database.PatientDB.Patient patient = new Database.PatientDB.Patient();
+								
+								if(m_tempestDB.ProfileDatabase.ExtractPatient(username, password, ref patient))
+								{
+									m_tempestDB.Profile = patient;
+									return true;
+								}
+							}//end if
+						}//end if
+					}//end if
+				}
+				return false;
+			}
+
+
 		}
 	}
 }

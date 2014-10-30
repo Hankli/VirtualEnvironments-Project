@@ -16,7 +16,6 @@ namespace Tempest
 				public string m_birthDate;
 				public string m_gender;
 				public string m_username;
-				public string m_password;
 
 				public byte[] m_saltedPassword;
 
@@ -66,7 +65,6 @@ namespace Tempest
 					"VALUES (?USERNAME, SHA1(?PASSWORD), ?GENDER, STR_TO_DATE(?BIRTH,'%d/%m/%Y'))");
 
 				m_sqlView.Write ("?USERNAME", username);
-				m_sqlView.Write ("?PASSWORD", password);
 			    m_sqlView.Write ("?BIRTH", birthDate);
 				m_sqlView.Write ("?GENDER", gender);
 
@@ -105,7 +103,6 @@ namespace Tempest
 				if(rdr != null)
 				{
 					patient.m_username = rdr.GetString("Username");
-					patient.m_password = rdr.GetString("Password");
 					patient.m_gender = rdr.GetString("Gender");
 					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
 
