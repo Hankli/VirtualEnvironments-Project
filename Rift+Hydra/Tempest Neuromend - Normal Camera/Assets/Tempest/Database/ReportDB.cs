@@ -146,7 +146,7 @@ namespace Tempest
 				    	"ORDER BY CompletionDate DESC");
 
 				m_sqlView.Write ("User", username);
-				int result = m_sqlView.CommitQuery ();
+				m_sqlView.CommitQuery ();
 
 				DataTable dt = new DataTable ("Progression");
 				dt.Columns.Add (new DataColumn ("Device", typeof(string)));
@@ -229,8 +229,9 @@ namespace Tempest
 
 					System.IO.File.WriteAllText (filename, sb.ToString ());
 				}
-				catch(System.Exception ex)
+				catch(System.Exception)
 				{
+
 					return false;
 				}
 
@@ -245,7 +246,7 @@ namespace Tempest
 				                      "ORDER BY CompletionDate DESC");
 
 				m_sqlView.Write ("User", username);
-				int result = m_sqlView.CommitQuery ();
+				m_sqlView.CommitQuery ();
 
 				m_sqlView.BeginRead ();
 				MySqlDataReader rdr = m_sqlView.Read();

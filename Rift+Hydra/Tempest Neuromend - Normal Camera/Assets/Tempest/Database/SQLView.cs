@@ -158,7 +158,6 @@ namespace Tempest
 
 				catch(MySqlException ex)
 				{
-					Debug.Log (ex.Message);
 					m_latestError = ex.Message;
 
 					return 0; 

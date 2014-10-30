@@ -18,6 +18,7 @@ namespace Tempest
 			private string m_dbPasswordField;
 			private string m_dbDatabaseField;
 			private string m_dbUserIDField;
+			private string m_dbPoolingField;
 			
 			private Vector2 m_msgLogScrollView;
 			byte[] m_saltedPassword;
@@ -85,6 +86,7 @@ namespace Tempest
 						m_dbUserIDField = "";
 						m_dbDatabaseField = "";
 						m_dbPasswordField = "";
+						m_dbPoolingField = "";
 
 						m_msgLogScrollView = Vector2.zero;
 
@@ -425,6 +427,7 @@ namespace Tempest
 					m_dbDatabaseField = tokens[1].Split (new string[]{"="} , System.StringSplitOptions.RemoveEmptyEntries)[1];
 					m_dbUserIDField = tokens[2].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
 					m_dbPasswordField = tokens[3].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];
+					m_dbPoolingField = tokens[4].Split (new string[]{"="}, System.StringSplitOptions.RemoveEmptyEntries)[1];     
 				}
 						
 				if(GUI.Button (rect12, "CONNECT", s4))
@@ -433,7 +436,7 @@ namespace Tempest
 							"Database=" + m_dbDatabaseField + ";" +
 							"User ID=" + m_dbUserIDField + ";" +
 							"Password=" + m_dbPasswordField + ";" + 
-							"Pooling=false;";
+							"Pooling=" + m_dbPoolingField + ";";
 							
 					m_tempestDB.Reconnect(config);
 							

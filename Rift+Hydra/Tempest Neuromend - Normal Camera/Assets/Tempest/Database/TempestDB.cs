@@ -16,10 +16,11 @@ namespace Tempest
 		{
 			Nullable<PatientDB.Patient> m_profile;
 
-			private const string k_defaultServerFile = "db_server.xml";
-			private const string k_defaultTasksFile = "db_tasks.xml";
-			private const string k_defaultDevicesFile = "db_devices.xml";
 			private const string k_loggedSessionFile = "session_log.xml";
+
+			public TextAsset m_dbLevelAsset = null;
+			public TextAsset m_dbDeviceAsset = null;
+			public TextAsset m_dbServerAsset = null;
 
 			private SQLView m_sqlSource = new SQLView();
 			private TaskDB m_taskDB = null;
@@ -55,26 +56,47 @@ namespace Tempest
 
 			private void WriteDefaultDevices()
 			{
-				XElement root = XElement.Load (@k_defaultDevicesFile);
-
-				if(root != null)
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(m_dbDeviceAsset.text);	
+				
+				if(doc != null)
 				{
-					foreach (XElement e in root.Elements())
+					XmlNode root = doc.SelectSingleNode("Devices");
+					foreach(XmlNode nodes in root.SelectNodes("Device"))
 					{
-						m_deviceDB.AddDevice(e.Element("Name").Value, e.Element ("Description").Value);
+						string name = "", description = "";
+						
+						foreach(XmlNode node in nodes.ChildNodes)
+						{
+							Debug.Log (node.Name);
+							if(node.Name == "Name") name = node.InnerXml;
+							if(node.Name == "Description") description = node.InnerXml;
+						}
+						
+						m_deviceDB.AddDevice(name, description);
 					}
 				}
 			}
 
 			private void WriteDefaultTasks()
 			{
-				XElement root = XElement.Load (@k_defaultTasksFile);
-
-				if(root != null)
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(m_dbLevelAsset.text);	
+				
+				if(doc != null)
 				{
-					foreach (XElement e in root.Elements())
+					XmlNode root = doc.SelectSingleNode("Tasks");
+					foreach(XmlNode nodes in root.SelectNodes("Task"))
 					{
-						m_taskDB.AddTask(e.Element("Name").Value, e.Element ("Description").Value);
+						string name = "", description = "";
+
+						foreach(XmlNode node in nodes.ChildNodes)
+						{
+							if(node.Name == "Name") name = node.InnerXml;
+							if(node.Name == "Description") description = node.InnerXml;
+						}
+
+						m_taskDB.AddTask(name, description);
 					}
 				}
 			}
@@ -82,16 +104,24 @@ namespace Tempest
 			public string GetDefaultServer()
 			{
 				//whitespace sensitive
-				XElement root = XElement.Load (@k_defaultServerFile);
-	
-				if(root != null)
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(m_dbServerAsset.text);	
+			
+				if(doc != null)
 				{
-					return "Server=" + root.Element("Server").Value + ";" +
-						   "Database=" + root.Element("Database").Value + ";" +
-						   "User=" + root.Element("User").Value + ";" +
-						   "Password=" + root.Element("Password").Value + ";" +
-						   "Pooling=" + root.Element("Pooling").Value + ";";
+					string settings = "";
+
+					foreach(XmlNode x in doc.SelectSingleNode("Settings").ChildNodes)
+					{
+						if(x.Name == "Server") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "Database") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "User") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "Password") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "Pooling") settings += x.Name + "=" + x.InnerXml + ";";
+					}
+					return settings;	
 				}
+
 				return "";
 			}
 
@@ -160,7 +190,7 @@ namespace Tempest
 
 			public bool Reconnect(string config)
 			{		
-				if(config.Length == null && config.Length == 0) return false;
+				if(config == null || config.Length == 0) return false;
 
 				m_sqlSource.OpenConnection(config);
 
