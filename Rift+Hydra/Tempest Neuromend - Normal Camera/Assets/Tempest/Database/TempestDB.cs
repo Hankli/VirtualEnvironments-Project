@@ -177,6 +177,7 @@ namespace Tempest
 
 				/////////keep for testing purposes ONLY EVERYTHING BELOW/////////////////////////
 			
+
 				if(Reconnect (GetDefaultServer()))
 				{
 					m_reportDB.DropRelation ();
@@ -197,6 +198,7 @@ namespace Tempest
 					m_reportDB.AddReport("Bryan", "Leap Motion", "Object Avoidance", new System.DateTime(1999, 10, 19, 3, 20, 30), 212, 2.05f, 2.0f);
 					m_reportDB.AddReport("Bryan", "Kinect", "Way Finding", new System.DateTime(2001, 8, 24, 5, 54, 9), 444, 4.0f, 11.0f);
 					m_reportDB.AddReport("Bryan", "Razer Hydra", "Object Interaction", new System.DateTime(1977, 4, 12, 16, 30, 55), 194, 12.0f, 14.0f);
+
 				}
 
 			}

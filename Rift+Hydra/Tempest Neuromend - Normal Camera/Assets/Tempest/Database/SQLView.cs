@@ -11,7 +11,6 @@ namespace Tempest
 		public class SQLView
 		{
 			private string m_latestError = "";
-			private string m_latestResult = "";
 
 			private MySqlConnection m_connection = null;
 			private MySqlCommand m_command = null;
@@ -21,11 +20,6 @@ namespace Tempest
 			public string LatestError
 			{
 				get { return m_latestError; }
-			}
-
-			public string LatestResult
-			{
-				get { return m_latestResult; }
 			}
 
 			public void OpenConnection(string config)
@@ -187,7 +181,7 @@ namespace Tempest
 				m_command.Prepare ();
 			}
 
-			private string GetQueryResult()
+			public string GetQueryResult()
 			{
 				string txt = null;
 				MySqlDataReader rdr;

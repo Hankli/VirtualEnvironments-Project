@@ -16,8 +16,7 @@ namespace Tempest
 				public string m_birthDate;
 				public string m_gender;
 				public string m_username;
-
-				public byte[] m_saltedPassword;
+				public string m_password;
 
 				public override string ToString ()
 				{
@@ -65,6 +64,7 @@ namespace Tempest
 					"VALUES (?USERNAME, SHA1(?PASSWORD), ?GENDER, STR_TO_DATE(?BIRTH,'%d/%m/%Y'))");
 
 				m_sqlView.Write ("?USERNAME", username);
+				m_sqlView.Write ("?PASSWORD", password);
 			    m_sqlView.Write ("?BIRTH", birthDate);
 				m_sqlView.Write ("?GENDER", gender);
 
@@ -90,18 +90,18 @@ namespace Tempest
 			
 			public bool ExtractPatient(string username, string password, ref Patient patient)
 			{
-				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') FROM patient " +
+				m_sqlView.BeginQuery ("SELECT * FROM patient " +
 				                      "WHERE CAST(Username AS BINARY) = @username AND " +
 				                      "CAST(Password AS BINARY) = SHA1(@password)");
 
 				m_sqlView.Write ("username", username);
 				m_sqlView.Write ("password", password);
-				m_sqlView.CommitQuery ();
 
 				m_sqlView.BeginRead ();
 				MySqlDataReader rdr = m_sqlView.Read ();
 				if(rdr != null)
 				{
+					patient.m_password = password;
 					patient.m_username = rdr.GetString("Username");
 					patient.m_gender = rdr.GetString("Gender");
 					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
@@ -133,8 +133,8 @@ namespace Tempest
 				m_sqlView.BeginQuery ("UPDATE patient SET " +
 				                      "Gender = @gender, " +
 				                      "BirthDate = STR_TO_DATE(@birthDate, '%d/%m/%Y') " +
-				                      "WHERE CAST(Username AS BINARY) = @username AND" +
-				                      " CAST(Password AS BINARY) = SHA1(@password)");
+				                      "WHERE CAST(Username AS BINARY) = @username AND " +
+				                      "CAST(Password AS BINARY) = SHA1(@password)");
 
 				m_sqlView.Write ("gender", gender);
 				m_sqlView.Write ("birthDate", birthDate);
