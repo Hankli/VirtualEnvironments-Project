@@ -80,6 +80,7 @@
      <Compile Include="Assets\Tempest\Database\SQLView.cs" />
      <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
      <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
+     <Compile Include="Assets\Tempest\Database\Utils.cs" />
      <Compile Include="Assets\Tempest\GUI_Utility\CalendarView.cs" />
      <Compile Include="Assets\Tempest\GUI_Utility\TableView.cs" />
      <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />

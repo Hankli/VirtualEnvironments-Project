@@ -628,9 +628,15 @@ namespace Tempest
 					writer.WriteStartElement("Session");
 					writer.WriteElementString("Logout", logout.ToString());
 					writer.WriteElementString("Database", m_tempestDB.Database); 
-					writer.WriteElementString("Username", m_tempestDB.Profile.Value.m_username);
-					writer.WriteElementString("Password", m_tempestDB.Profile.Value.m_password);
 					writer.WriteElementString("Access-Time", System.DateTime.Now.ToLongDateString());
+
+					writer.WriteStartElement("Information");
+					writer.WriteAttributeString("Username", m_tempestDB.Profile.Value.m_username);
+					writer.WriteAttributeString("Password", m_tempestDB.Profile.Value.m_encryptedPassword);
+					writer.WriteAttributeString("Key", m_tempestDB.Profile.Value.m_key);
+					writer.WriteAttributeString("IV", m_tempestDB.Profile.Value.m_iv);
+					writer.WriteEndElement();
+
 					writer.WriteEndElement();
 					writer.WriteEndDocument();
 					
@@ -662,8 +668,11 @@ namespace Tempest
 							
 							if(!logout)
 							{
-								string username = root.Element("Username").Value;
-								string password = root.Element("Password").Value;
+								XElement info = root.Element("Information");
+								string username = info.Attribute("Username").Value;
+								string password = Utils.Encryptor.Decrypt(info.Attribute("Password").Value,
+								                                          info.Attribute("Key").Value,
+								                                          info.Attribute("IV").Value);
 								
 								Database.PatientDB.Patient patient = new Database.PatientDB.Patient();
 								

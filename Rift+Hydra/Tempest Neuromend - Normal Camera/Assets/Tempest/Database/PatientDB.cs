@@ -16,7 +16,10 @@ namespace Tempest
 				public string m_birthDate;
 				public string m_gender;
 				public string m_username;
-				public string m_password;
+
+				public string m_encryptedPassword;
+				public string m_key;
+				public string m_iv;
 
 				public override string ToString ()
 				{
@@ -101,7 +104,7 @@ namespace Tempest
 				MySqlDataReader rdr = m_sqlView.Read ();
 				if(rdr != null)
 				{
-					patient.m_password = password;
+					patient.m_encryptedPassword = Utils.Encryptor.Encrypt(password, out patient.m_key, out patient.m_iv); //database password is already encrypted
 					patient.m_username = rdr.GetString("Username");
 					patient.m_gender = rdr.GetString("Gender");
 					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
