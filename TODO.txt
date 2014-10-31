@@ -29,3 +29,54 @@ MENU
 OBJECT AVOIDANCE
 - Make jump higher
 - Make crouch lower
+
+must run on client pc
+kinect + oculus
+hydra + oculus
+leap + oculus
+mouse + keyboard
+
+MAIN MENU
+able to play all levels
+list all 3 levels to be selected separately
+allow for skip a level or quit
+must not fiddle with controls to get oculus working after everything is set up
+controls sceen for each device
+how to play
+
+sensitivity sliders
+- interaction
+- walking speed
+
+game timer on screen
+timer being saved to profile
+scores being able to be viewed
+
+user profile entry
+session saved to user profile
+access of session data
+
+orientation of game at start (and oculus)
+needs to be straight on
+
+INSTRUCTION SCREEN
+what is is about
+how to play
+check effectiveness of above or non-it literate
+
+sound cues
+music
+
+space to jump
+
+X-hair, no mouse
+
+testing - easy for able bodied people to play
+
+object manipulation level needs to be revamped
+sensitivity adjusts the level, not the devices
+
+complete game flow
+1 .exe per device
+.exe icon needs to be changed
+
