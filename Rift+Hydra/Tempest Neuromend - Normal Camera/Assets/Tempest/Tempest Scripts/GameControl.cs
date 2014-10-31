@@ -409,7 +409,7 @@ public class GameControl : MonoBehaviour
 		
 
 		writer.WriteStartDocument ();
-		writer.WriteStartElement("Level Summary");
+		writer.WriteStartElement("Level_Summary");
 
 		writer.WriteElementString("Username", tempDatabase.Profile.Value.m_username);
 	
@@ -470,7 +470,7 @@ public class GameControl : MonoBehaviour
 		}
 		
 		writer.WriteElementString("Sensitivity", inputSensitivity.ToString());
-		writer.WriteElementString ("Timestamp", System.DateTime.Now.ToLongDateString ());
+		writer.WriteElementString ("Timestamp", System.DateTime.Now.ToString ("d/M/yyyy HH:mm:ss"));
 
 		writer.WriteEndElement();
 		writer.WriteEndDocument();

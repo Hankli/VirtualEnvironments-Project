@@ -52,9 +52,10 @@ game timer on screen
 timer being saved to profile
 scores being able to be viewed
 
-user profile entry
-session saved to user profile
-access of session data
+x user profile entry
+x save database data to csv file
+x session saved to user profile
+x access of session data
 
 orientation of game at start (and oculus)
 needs to be straight on
