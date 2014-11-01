@@ -114,26 +114,21 @@ namespace Tempest
 
 					if(m_angularSensitivity != 0.0f)
 					{
-						Quaternion dr =  hand.Controller.Rotation * Quaternion.Inverse(hand.Controller.LastRotation);
-						float angle;
-						Vector3 axis;
-						dr.ToAngleAxis(out angle, out axis);
-						angle *= m_angularSensitivity;
-						axis *= m_angularSensitivity;
-						dr = Quaternion.AngleAxis(angle, axis);
-
-						hand.Rotation *= dr;
+						Quaternion dr =  Quaternion.Inverse(hand.Controller.LastRotation) * hand.Controller.Rotation;
+//						float angle;
+//						Vector3 axis;
+//						dr.ToAngleAxis(out angle, out axis);
+//						angle *= m_angularSensitivity;
+//
+						hand.Rotation *= Quaternion.Euler(dr.eulerAngles * m_angularSensitivity);
 					}
-					//else 
+					else 
 					{
 						hand.Rotation = hand.Controller.Rotation;
 					}
 
-					//handle rotational movement with torque
-					Quaternion relRotToPar = hand.Rotation * hand.ModelRotation; //localRotation
-
 					//get desired orientation
-					Quaternion desiredRot = tr.parent.rotation * relRotToPar;  //localRotation to worldRotation
+					Quaternion desiredRot = tr.parent.rotation * (hand.Rotation * hand.ModelRotation);  //localRotation to worldRotation
 
 					//calc axis of rotation between desired rotation's (xyz) axis and current rotation's (xyz) axis
 					Vector3 sCrossE_Z = Vector3.Cross (tr.forward, desiredRot * Vector3.forward);

@@ -560,20 +560,22 @@ namespace Tempest
 				Rect rect2 = new Rect (Screen.width * 0.2f, Screen.height * 0.31f, Screen.width * 0.17f, Screen.height * 0.05f);
 				Rect rect3 = new Rect (Screen.width * 0.38f, Screen.height * 0.31f, Screen.width * 0.17f, Screen.height * 0.05f);
 				
-				GUI.Label (rect1, "CONFIRM DELETION OF PROFILE\n" + m_tempestDB.Profile.Value.m_username + "?", m_labelStyle);
+				GUI.Label (rect1, "ARE YOU SURE ?", m_labelStyle);
 				
 				if(GUI.Button(rect2, "YES", m_buttonStyle))
 				{
 					if(m_tempestDB.IsConnected)
 					{
-						if(m_tempestDB.ProfileDatabase.DeletePatient(m_tempestDB.Profile.Value.m_username, m_passwordField))
+
+						string password = Utils.Encryptor.Decrypt(m_tempestDB.Profile.Value.m_encryptedPassword, m_tempestDB.Profile.Value.m_salt);
+
+						if(m_tempestDB.ProfileDatabase.DeletePatient(m_tempestDB.Profile.Value.m_username, password))
 						{
 							m_tempestDB.Profile = null;
-							SaveLoggedSession(true);
-							
-							m_feedback.Begin("Your profile has been successfully deleted", 5.0f, m_feedbackStyle);
-							
+							DeleteLoggedSession();
 							ClearNonPersistantFields();
+		
+							m_feedback.Begin("Your profile has been successfully deleted", 5.0f, m_feedbackStyle);
 							Callback = Options;
 							
 						}
@@ -615,6 +617,14 @@ namespace Tempest
 				SetupStyles ();
 				Callback ();
 			}
+
+			public void DeleteLoggedSession()
+			{
+				if(System.IO.File.Exists(k_loggedSessionFile))
+				{
+					System.IO.File.Delete (k_loggedSessionFile);
+				}
+			}
 			
 			public bool SaveLoggedSession(bool logout)
 			{
@@ -633,8 +643,7 @@ namespace Tempest
 					writer.WriteStartElement("Information");
 					writer.WriteAttributeString("Username", m_tempestDB.Profile.Value.m_username);
 					writer.WriteAttributeString("Password", m_tempestDB.Profile.Value.m_encryptedPassword);
-					writer.WriteAttributeString("Key", m_tempestDB.Profile.Value.m_key);
-					writer.WriteAttributeString("IV", m_tempestDB.Profile.Value.m_iv);
+					writer.WriteAttributeString("Salt", m_tempestDB.Profile.Value.m_salt);
 					writer.WriteEndElement();
 
 					writer.WriteEndElement();
@@ -671,8 +680,7 @@ namespace Tempest
 								XElement info = root.Element("Information");
 								string username = info.Attribute("Username").Value;
 								string password = Utils.Encryptor.Decrypt(info.Attribute("Password").Value,
-								                                          info.Attribute("Key").Value,
-								                                          info.Attribute("IV").Value);
+								                                          info.Attribute("Salt").Value);
 								
 								Database.PatientDB.Patient patient = new Database.PatientDB.Patient();
 								
