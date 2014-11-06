@@ -1,10 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\ProfileMenu.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs">
     <Files>
-      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\ProfileMenu.cs" Line="601" Column="67" />
-      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\PatientDB.cs" Line="139" Column="19" />
-      <File FileName="..\..\Rift+Hydra\Tempest Neuromend - Normal Camera\Assets\Tempest\Database\TempestDB.cs" Line="18" Column="4" />
+      <File FileName="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" Line="448" Column="20" />
+      <File FileName="Assets\Tempest\Tempest Scenes\Ary_Note.txt" Line="11" Column="63" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

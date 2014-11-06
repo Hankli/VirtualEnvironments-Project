@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +60,17 @@
      <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
+     <Compile Include="Assets\Tempest\Database\DeviceDB.cs" />
+     <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
+     <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
+     <Compile Include="Assets\Tempest\Database\ReportDB.cs" />
+     <Compile Include="Assets\Tempest\Database\SQLTestStatements.cs" />
+     <Compile Include="Assets\Tempest\Database\SQLView.cs" />
+     <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
+     <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
+     <Compile Include="Assets\Tempest\GUI_Utility\CalendarView.cs" />
+     <Compile Include="Assets\Tempest\GUI_Utility\TableView.cs" />
+     <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\BasicMovement.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\DroppingObjective.cs" />
@@ -84,6 +95,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\RabbitClone.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\RabbitTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ScoreScreen.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\TempestUtil.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRGUI.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TextureSlide.cs" />
@@ -92,6 +104,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\WFHintManager.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
      <None Include="Assets\Plugins\donotdelete.txt" />
@@ -105,7 +118,22 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
+ <Reference Include="I18N">
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Plugins/I18N.dll</HintPath>
+ </Reference>
+ <Reference Include="I18N.West">
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Plugins/I18N.West.dll</HintPath>
+ </Reference>
+ <Reference Include="MySql.Data">
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Data">
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Data.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

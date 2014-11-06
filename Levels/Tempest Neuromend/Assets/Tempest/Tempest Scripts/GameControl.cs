@@ -60,7 +60,9 @@ public class GameControl : MonoBehaviour
 
 	
 	public bool b_paused=false;
-	public bool b_OVRCam=false;
+	public bool b_OVRCam=false;//used to toggle OVRCam... toggling not stable
+
+	public bool b_OVRCamMode=true;
 	
 	public bool b_menuActive=false;
 
@@ -84,7 +86,7 @@ public class GameControl : MonoBehaviour
 	
     void Awake() 
     {
-        DontDestroyOnLoad(transform.gameObject);    
+        DontDestroyOnLoad(transform.gameObject);   
     }
     
     void Start()
@@ -97,17 +99,17 @@ public class GameControl : MonoBehaviour
 		OIPath = userID+"_OIScore.xml";
 		OAPath = userID+"_OAScore.xml";
 		WFPath = userID+"_WFScore.xml";
-    }
+	}
         
 	void Update()
 	{
 	
-		/*//debugging...*/
+		/*//debugging...	
 		if(Input.GetMouseButtonDown(2))
 		{
-			OVRCamera();
+			OVRCamera(!b_OVRCam);
 		}
-
+		*/
 		if(!b_menuActive)
 		{
 			Screen.lockCursor=true;
@@ -126,73 +128,55 @@ public class GameControl : MonoBehaviour
 
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
-			/*
-			//handled in level control?
-			//if level is over... save scores first, then load next level
-			GameObject tempLevelControl=null;
-			LevelControl tempLevelControlScript=null;
-			if(tempLevelControl=GameObject.FindWithTag("Level"))
-			{
-				if(tempLevelControlScript=tempLevelControl.GetComponent<LevelControl>())
-				{
-					if(tempLevelControlScript.IsLevelComplete())
-					{
-
-					}
-				}
-			}
-			*/
-
 			LoadNextLevel();
 		}
 	}
-	
-	//toggles OVRCam mode... still needs testing etc.
-	public void OVRCamera()
+
+	//set oculus camera mode if selectd in menu
+	//this function will act as initialiser since this object should be persistent
+	void OnLevelWasLoaded(int level)
 	{
-		b_OVRCam = !b_OVRCam;
-		
+		//if menu, don't use Oculus rift...
+		if(level==1)
+		{
+			OVRCamera(false);
+		}
+		else
+			OVRCamera(b_OVRCamMode);
+	}
+
+	//switches between OVRcam and normal... does not work well or at all if toggled more than once?? needs more testing...
+	public void OVRCamera(bool OVRcam=true)
+	{
+		b_OVRCam = OVRcam;
+
 		GameObject tempPlayer=null;
 		if (tempPlayer = GameObject.FindWithTag ("Player")) 
 		{
-			//Debug.Log ("PLAYER");
-			//float tempOVRCamIndex = 0;
 			GameObject tempOVRCam = null;
 			GameObject tempMainCam = null;
-			//int i=0;
 			foreach(Transform child in tempPlayer.transform)
 			{
-				//Debug.Log (i);
 				if(child.tag=="OVRCam")
 				{
-					//Debug.Log ("OVRCAM");
 					tempOVRCam=child.gameObject;
-					//tempOVRCamIndex=i;
 				}
 				if(child.tag=="MainCamera")
 				{
-					//Debug.Log ("MAINCAM");
 					tempMainCam=child.gameObject;
 				}
-				//i++;
 			}
 			if(tempOVRCam!=null&&tempMainCam!=null)
 			{
-				Debug.Log (b_OVRCam);
-				
-				Camera tempCameraComponent = null;
-				if(tempCameraComponent=tempMainCam.GetComponent<Camera>())
+				if(b_OVRCam)
 				{
-					if(b_OVRCam)
-					{
-						tempCameraComponent.gameObject.SetActive(false);
-						tempOVRCam.gameObject.SetActive(true);
-					}
-					else
-					{
-						tempCameraComponent.gameObject.SetActive(true);
-						tempOVRCam.gameObject.SetActive(false);
-					}
+					tempMainCam.camera.enabled=false;
+					tempOVRCam.gameObject.SetActive(true);
+				}
+				else
+				{
+					tempMainCam.camera.enabled=true;
+					tempOVRCam.gameObject.SetActive(false);
 				}
 			}
 		}
@@ -327,14 +311,19 @@ public class GameControl : MonoBehaviour
 */
 	public void LoadNextLevel()
 	{
+		//unpause if paused
+		if(b_paused)
+		{
+			PauseGame(false);
+		}
 		currentLevelIndex++;
-		//if no more levels
+		//if no more levels go to main menu otherwise load next level in queue
 		if(currentLevelIndex>=numberOfLevels)
 		{
 			currentLevelIndex=0;
 			ResetCurrentPlaythrough();
 			MenuActive();
-			Application.LoadLevel ("Main Menu");//load main menu
+			Application.LoadLevel ("Main Menu");//load main menu...
 		}
 		else
 		{
@@ -482,19 +471,6 @@ public class GameControl : MonoBehaviour
 		{
 			Time.timeScale = 1.0f;
 		}
-		
-		/*
-		if(!b_paused)
-		{
-			Time.timeScale = 0.0f;
-			b_paused = true;
-		}
-		else
-		{
-			Time.timeScale = 1.0f;
-			b_paused = false;
-		}
-		*/
  	}
  	
  	public bool Paused()

@@ -40,24 +40,36 @@ public class TempestVRGUI : VRGUI
 	public GUIStyle scoresShadow;
 	float scoresHeight;
 
+	Rect pauseLabelPosition;
+
+
+
 	private bool b_isScoreScreen=false;
 
 	private LevelControl levelControlScript=null;
 	private ScoreScreen scoreScreenScript=null;
 
+	private GameControl gameControlScript=null;
+
 	void Awake()
 	{
 		GameObject theLevel = null;
+		GameObject theGame = null;
 		GameObject theScores = null;
 		if(theLevel = GameObject.FindWithTag("Level"))
 		{
 			levelControlScript = theLevel.GetComponent<LevelControl>();
+		}
+		if(theGame = GameObject.FindWithTag("Game"))
+		{
+			gameControlScript = theGame.GetComponent<GameControl>();
 		}
 		if(theScores = GameObject.FindWithTag("ScoreScreen"))
 		{
 			b_isScoreScreen=true;
 			scoreScreenScript = theScores.GetComponent<ScoreScreen>();
 		}
+
 	}
 	
 	void Start() 
@@ -129,27 +141,36 @@ public class TempestVRGUI : VRGUI
 
 	public override void OnVRGUI()
 	{		
-		//Screen.lockCursor=true;
-		if(!b_isScoreScreen)
+		if(gameControlScript.Paused())
 		{
-			timerText = levelControlScript.GetTimerText();
-			currentObjective = levelControlScript.GetObjectiveText();
-			
-			GUI.Label(timerShadowPosition, timerText, timerShadow);
-			GUI.Label(timerPosition, timerText, timer);
-			GUI.Label(objectiveShadowPosition, currentObjective, objectiveShadow);
-			GUI.Label(objectivePosition, currentObjective, objective);
+			pauseLabelPosition.Set(screenWidth/2.0f+2,scoresHeight+2,0,0);
+			GUI.Label(pauseLabelPosition, "Paused - press 'p' to continue", objectiveShadow);
+			pauseLabelPosition.Set(screenWidth/2.0f,scoresHeight,0,0);
+			GUI.Label(pauseLabelPosition, "Paused - press 'p' to continue", objective);
 		}
 		else
 		{
-			scoresText = scoreScreenScript.GetScoreText();
-
-			GUI.Label(scoresShadowPosition, scoresText, scoresShadow);
-			GUI.Label(scoresPosition, scoresText, scores);
+			//Screen.lockCursor=true;
+			if(!b_isScoreScreen)
+			{
+				timerText = levelControlScript.GetTimerText();
+				currentObjective = levelControlScript.GetObjectiveText();
+				
+				GUI.Label(timerShadowPosition, timerText, timerShadow);
+				GUI.Label(timerPosition, timerText, timer);
+				GUI.Label(objectiveShadowPosition, currentObjective, objectiveShadow);
+				GUI.Label(objectivePosition, currentObjective, objective);
+			}
+			else
+			{
+				scoresText = scoreScreenScript.GetScoreText();
+				
+				GUI.Label(scoresShadowPosition, scoresText, scoresShadow);
+				GUI.Label(scoresPosition, scoresText, scores);
+			}
+			countdownText = levelControlScript.GetCountDownText();
+			GUI.Label(countdownShadowPosition, countdownText, countdownShadow);
+			GUI.Label(countdownPosition, countdownText, countdown);
 		}
-		countdownText = levelControlScript.GetCountDownText();
-		GUI.Label(countdownShadowPosition, countdownText, countdownShadow);
-		GUI.Label(countdownPosition, countdownText, countdown);
 	}
-
 }

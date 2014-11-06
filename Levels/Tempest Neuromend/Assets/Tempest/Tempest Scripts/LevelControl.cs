@@ -80,6 +80,9 @@ public class LevelControl : MonoBehaviour
 	public GUIStyle countdownShadow;
 	float countdownHeight;
 
+	float pauseHeight;
+	Rect pauseLabelPosition;
+
 	private float loadCountdown = 5.0f;//for next level load
 	//bool b_endingLevel=false;
 	
@@ -134,7 +137,9 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.fontSize=30;
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
-		
+
+
+
 		crosshairsTexture=Resources.Load<Texture2D>("Crosshairs01");
 
 		switch(levelType)
@@ -302,6 +307,15 @@ public class LevelControl : MonoBehaviour
 	{
 		if(gameControlScript)
 		{
+			//should be checking is mouse and keyboard
+			if(gameControlScript.Paused())
+			{
+				pauseLabelPosition.Set(screenWidth/2.0f+2,pauseHeight+2,0,0);
+				GUI.Label(pauseLabelPosition, "Paused - press 'p' to continue", objectiveShadow);
+				pauseLabelPosition.Set(screenWidth/2.0f,pauseHeight,0,0);
+				GUI.Label(pauseLabelPosition, "Paused - press 'p' to continue", objective);	
+			}
+			else
 			if(!gameControlScript.OVRCam())
 			{
 				crosshairsPosition.Set(	Input.mousePosition.x-(crosshairsDimensions/2.0f), Screen.height-Input.mousePosition.y-(crosshairsDimensions/2.0f), crosshairsDimensions, crosshairsDimensions);
@@ -432,7 +446,9 @@ public class LevelControl : MonoBehaviour
 			countdownHeight=screenHeight-(screenHeight*0.15f);
 			countdownPosition.Set(screenWidth/2.0f,countdownHeight,0,0);
 			countdownShadowPosition.Set(screenWidth/2.0f+2,countdownHeight+2,0,0);
-			
+
+			pauseHeight=screenHeight*0.5f;
+
 			/*
 			crosshairsPosition.Set(	Input.mousePosition.x, 
 									Input.mousePosition.y, 
