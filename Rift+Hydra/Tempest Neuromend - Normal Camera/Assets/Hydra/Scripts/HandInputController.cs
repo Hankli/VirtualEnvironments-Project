@@ -38,6 +38,8 @@ namespace Tempest
 
 			private static HandInput[] m_controllers = new HandInput[MAX_CONTROLLERS];
 
+			private static ControllerDataArray[] m_controllerDataArray = new ControllerDataArray[MAX_CONTROLLERS];
+
 			private static ControllerManagerState m_controllerManagerState = ControllerManagerState.NONE;
 
 			public static ControllerManagerState ConfigurationState { get { return m_controllerManagerState; } }
@@ -56,7 +58,7 @@ namespace Tempest
 			{
 				for ( int i = 0; i < MAX_CONTROLLERS; i++ )
 				{
-					if ( ( m_controllers[i] != null ) && ( m_controllers[i].BoundedHand == hand ) )
+					if (m_controllers[i] != null && m_controllers[i].BoundedHand == hand)
 					{
 						return m_controllers[i];
 					}
@@ -85,7 +87,6 @@ namespace Tempest
 			private void Start()
 			{
 				Plugin.sixenseInit();
-
 				Plugin.sixenseSetFilterParams (800.0f, 0.93f, 1200.0f, 0.98f);
 				Plugin.sixenseSetFilterEnabled(1);
 
@@ -93,6 +94,9 @@ namespace Tempest
 				for ( int i = 0; i < MAX_CONTROLLERS; i++ )
 				{
 					m_controllers[i] = new HandInput();
+
+					m_controllerDataArray[i] = new ControllerDataArray(10, i);
+					m_controllerDataArray[i].Initialize();
 				}
 
 			}
@@ -106,7 +110,7 @@ namespace Tempest
 				uint numControllersBound = 0;
 				uint numControllersEnabled = 0;
 
-				Plugin.sixenseControllerData cd = new Plugin.sixenseControllerData(); //capture all data in loop
+				//Plugin.sixenseControllerData[] cdSamples = new Plugin.sixenseControllerData[10]; //capture all data in loop
 
 				for ( int i = 0; i < MAX_CONTROLLERS; i++ )
 				{
@@ -114,8 +118,9 @@ namespace Tempest
 					{
 						if ( Plugin.sixenseIsControllerEnabled( i ) == 1 )
 						{
-							Plugin.sixenseGetNewestData( i, ref cd );
-							m_controllers[i].Update( ref cd );
+							m_controllerDataArray[i].Update();
+			
+							m_controllers[i].Update(i, m_controllerDataArray[i].ControllerData);
 							m_controllers[i].SetEnabled( true );
 
 							numControllersEnabled++; //controller is enabled and updated
@@ -171,13 +176,14 @@ namespace Tempest
 							//find which hand to bind controller to
 								for ( int i = 0; i < MAX_CONTROLLERS; i++ )
 								{
-									if ( ( m_controllers[i] != null ) &&
-								    	m_controllers[i].GetButtonDown( Buttons.TRIGGER ) &&
-								    ( 	m_controllers[i].BoundedHand == Hands.UNKNOWN ) )
+									if ( m_controllers[i] != null  &&
+								    	 m_controllers[i].GetButtonDown(Buttons.TRIGGER) &&
+								    	 m_controllers[i].BoundedHand == Hands.UNKNOWN)
 									{
 										m_controllers[i].HandBind = Hands.LEFT;
 									 	Plugin.sixenseAutoEnableHemisphereTracking( i );
 										m_controllerManagerState = ControllerManagerState.BIND_CONTROLLER_TWO;
+
 										break;
 									}
 								}
@@ -195,14 +201,14 @@ namespace Tempest
 							{
 								for ( int i = 0; i < MAX_CONTROLLERS; i++ )
 								{
-									if ( ( m_controllers[i] != null ) && 
-								    	m_controllers[i].GetButtonDown( Buttons.TRIGGER ) &&
-								    ( 	m_controllers[i].BoundedHand == Hands.UNKNOWN ) )
+								if (m_controllers[i] != null  &&
+								    m_controllers[i].GetButtonDown(Buttons.TRIGGER) &&
+								    m_controllers[i].BoundedHand == Hands.UNKNOWN )
 									{
-							
 										m_controllers[i].HandBind = Hands.RIGHT;
 										Plugin.sixenseAutoEnableHemisphereTracking( i );
 										m_controllerManagerState = ControllerManagerState.NONE;
+
 										break;
 									}
 								}

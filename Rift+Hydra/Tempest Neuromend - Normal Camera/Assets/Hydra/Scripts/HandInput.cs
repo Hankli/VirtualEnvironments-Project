@@ -6,62 +6,10 @@ namespace Tempest
 {
 	namespace RazorHydra
 	{
-		public class HandMotionSmoother
-		{
-			private Vector3[] m_samples = null;
-			private float m_smoothFactor;
-
-			private int m_index;
-			private int m_total;
-
-			public HandMotionSmoother(int readings, float smoothFactor)
-			{
-				m_samples = new Vector3[readings];
-				m_smoothFactor = smoothFactor;
-				m_index = 0;
-			}
-
-
-			public void AddSample(Vector3 sample)
-			{
-				m_samples [++m_index % m_samples.Length] = sample;
-
-				if(m_total < m_samples.Length)
-				{
-					++m_total;
-				}
-			}
-
-			public void ClearSamples()
-			{
-				m_total = 0;
-				m_index = 0;
-			}
-
-			public Vector3 GetSmoothedSample()
-			{
-				//use simple exponential smoothing for positional input data
-				//x(0) = sample[0]
-				//s(i) = a * x(i) + (1.0f - a) * s(i-1)
-
-				Vector3 s_0 = m_samples[0];
-				Vector3 s_t = s_0;
-
-				for(int i = 1; i < m_total; i++)
-				{
-					s_t = m_smoothFactor * s_0 + (1.0f - m_smoothFactor) * s_t;
-					s_0 = m_samples[i];
-				}
-
-				return s_t;
-			}
-		}
 
 		/** used by Hand class to keep track of input to razor hydra device**/
 		public class HandInput
 		{
-			private HandMotionSmoother m_smoother;
-
 			private bool m_enabled;
 			private bool m_docked;
 
@@ -85,7 +33,7 @@ namespace Tempest
 			private Quaternion m_rawRotation;
 			private Quaternion m_rotation;
 			private Quaternion m_lastRotation;
-		
+
 
 			/// <summary>
 			/// The default trigger button threshold constant.
@@ -110,8 +58,6 @@ namespace Tempest
 
 			internal Hands HandBind { get { return m_handBind; } set { m_handBind = value; } }
 
-			public HandMotionSmoother Smoother { get { return m_smoother; } }
-
 			/// <summary>
 			/// Value of trigger from released (0.0) to pressed (1.0).
 			/// </summary>
@@ -132,9 +78,12 @@ namespace Tempest
 			/// <summary>
 			/// The controller position in Unity coordinates.
 			/// </summary>
-			public Vector3 Position { get { return m_position; } set { m_position = value; }}
-			public Vector3 LastPosition { get { return m_lastPosition; } set { m_lastPosition = value; }}
+			public Vector3 Position { get { return m_position; } }
 
+			/// <summary>
+			/// The previous controller position in Unity coordinates.
+			/// </summary>
+			public Vector3 LastPosition { get { return m_lastPosition; } }
 
 			/// <summary>
 			/// The raw controller position value.
@@ -145,6 +94,10 @@ namespace Tempest
 			/// The controller rotation in Unity coordinates.
 			/// </summary>
 			public Quaternion Rotation { get { return m_rotation; } }
+
+			/// <summary>
+			/// The previous controller position in Unity coordinates.
+			/// </summary>
 			public Quaternion LastRotation { get { return m_lastRotation; } }
 
 			/// <summary>
@@ -193,14 +146,12 @@ namespace Tempest
 				m_lastTrigger = 0.0f;
 				m_joystickX = 0.0f;
 				m_joystickY = 0.0f;
-	
+
 				m_position.Set( 0.0f, 0.0f, 0.0f );
 				m_lastPosition = m_position;
 
 				m_rotation.Set( 0.0f, 0.0f, 0.0f, 1.0f );
 				m_lastRotation = m_rotation;
-
-				m_smoother = new HandMotionSmoother (3, 0.3f);
 			}
 			
 			internal void SetEnabled( bool enabled )
@@ -208,31 +159,30 @@ namespace Tempest
 				m_enabled = enabled;
 			}
 
-			internal void Update( ref Plugin.sixenseControllerData cd )
+			internal void Update(int which, Plugin.sixenseControllerData[] cd )
 			{
-				m_docked = ( cd.is_docked != 0 );
-				m_hand = ( Hands )cd.which_hand;
+				int latest = cd.Length - 1;
+
+				m_docked = ( cd[latest].is_docked != 0 );
+				m_hand = ( Hands )cd[latest].which_hand;
 		
 				m_buttonsPrevious = m_buttons;
-				m_buttons = ( Buttons )cd.buttons;
+				m_buttons = ( Buttons )cd[latest].buttons;
 
 				m_lastTrigger = m_trigger;
-				m_trigger = cd.trigger;
+				m_trigger = cd[latest].trigger;
 
-				m_joystickX = cd.joystick_x;
-				m_joystickY = cd.joystick_y;
+				m_joystickX = cd[latest].joystick_x;
+				m_joystickY = cd[latest].joystick_y;
 
-				m_rawPosition = new Vector3 (cd.pos [0], cd.pos [1], -cd.pos [2]);
-				m_smoother.AddSample (m_rawPosition);
-
+				m_rawPosition = new Vector3 (cd[latest].pos [0], cd[latest].pos [1], -cd[latest].pos [2]);
 				m_lastPosition = m_position;
-				m_position = m_smoother.GetSmoothedSample();
+				m_position = MotionSmoother.CalculatePosition (0.2f, cd);
 
-				m_rawRotation = new Quaternion (-cd.rot_quat [0], -cd.rot_quat [1], cd.rot_quat [2], cd.rot_quat [3]);
-			
+				m_rawRotation = new Quaternion (-cd[latest].rot_quat [0], -cd[latest].rot_quat [1], cd[latest].rot_quat [2], cd[latest].rot_quat [3]);
 				m_lastRotation = m_rotation;
-				m_rotation = m_rawRotation;
-		
+				m_rotation = MotionSmoother.CalculateOrientation(cd);
+
 
 				if ( m_trigger > TriggerButtonThreshold )
 				{

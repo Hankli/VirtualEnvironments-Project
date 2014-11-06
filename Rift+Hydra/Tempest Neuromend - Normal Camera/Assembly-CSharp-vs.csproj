@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Hydra\Scripts\Constants.cs" />
+     <Compile Include="Assets\Hydra\Scripts\ControllerDataArray.cs" />
      <Compile Include="Assets\Hydra\Scripts\Hand.cs" />
      <Compile Include="Assets\Hydra\Scripts\HandAnimationStates.cs" />
      <Compile Include="Assets\Hydra\Scripts\HandInput.cs" />
@@ -56,6 +57,7 @@
      <Compile Include="Assets\Hydra\Scripts\HydraCameraController.cs" />
      <Compile Include="Assets\Hydra\Scripts\HydraCharacterController.cs" />
      <Compile Include="Assets\Hydra\Scripts\HydraControl.cs" />
+     <Compile Include="Assets\Hydra\Scripts\MotionSmoothing.cs" />
      <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
      <Compile Include="Assets\Hydra\Scripts\State.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />

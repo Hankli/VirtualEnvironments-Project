@@ -23,6 +23,7 @@ namespace Tempest
 
 			private Vector3 m_position;
 			private Quaternion m_rotation;
+			public Quaternion m_accumRotation;
 
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 
@@ -60,7 +61,15 @@ namespace Tempest
 
 			public float TriggerSensitivity
 			{
-				set { m_triggerSensitivity = value; }
+				set
+				{ 
+					while(value > 1.0f)
+					{
+						value *= 0.1f;
+					}
+					m_triggerSensitivity = value; 
+				}
+
 				get { return m_triggerSensitivity; }
 			}
 
@@ -68,6 +77,12 @@ namespace Tempest
 			{
 				get { return m_position; }
 				set { m_position = value; }
+			}
+
+			public Quaternion RotationalReference
+			{
+				get { return m_rotation; }
+				set { m_rotation = value; }
 			}
 
 			public float SensitizedTriggerValue
@@ -78,14 +93,11 @@ namespace Tempest
 				}
 			}
 
-			public Quaternion Rotation
-			{
-				get { return m_rotation; }
-				set { m_rotation = value; }
-			}
-
 			private void Start() 
 			{
+				m_rotation = Quaternion.identity;
+				m_position = Vector3.zero;
+
 				//use interpolation and continous detection mode
 				rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 				rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;

@@ -10,8 +10,8 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
-			private float m_angularSensitivity = 2.0f;
+			private float m_linearSensitivity = 0.0f; // Sixense units are in mm
+			private float m_angularSensitivity = 5.0f;
 			public GUIStyle m_messageStyle = new GUIStyle();
 
 			public float LinearSensitivity
@@ -40,7 +40,6 @@ namespace Tempest
 				
 				foreach ( Hand hand in m_hands )
 				{
-
 					//active controller and start button is pushed
 					if ( IsControllerActive( hand.Controller ) &&
 					     HandInputController.CalibrationState == ControllerManagerState.NONE &&
@@ -64,11 +63,11 @@ namespace Tempest
 					// Get the base offset assuming forward facing down the z axis of the base
 					foreach ( Hand hand in m_hands )
 					{
-						hand.Controller.Smoother.ClearSamples();
-
+					//	hand.Controller.Smoother.ClearSamples();
 						hand.Position = hand.Controller.PositionRaw;
-						hand.Rotation = hand.Controller.RotationRaw;
 
+						hand.RotationalReference = hand.Controller.Rotation * hand.ModelRotation;
+	
 						m_referencePoint += hand.Controller.PositionRaw;
 					}
 					
@@ -83,16 +82,16 @@ namespace Tempest
 				if ( bControllerActive )
 				{
 					Rigidbody rb = hand.rigidbody;
-					Transform tr = hand.transform;
+					Transform trans = hand.transform;
 
-					if(m_linearSensitivity != 0.0f)
+					if(m_linearSensitivity > 0.0f)
 					{
 						hand.Position += (hand.Controller.Position - hand.Controller.LastPosition) * m_linearSensitivity;
 					    
 					}
 					else
 					{
-						hand.Position = hand.Controller.PositionRaw;
+						hand.Position = hand.Controller.Position;
 					}
 
 		
@@ -100,11 +99,10 @@ namespace Tempest
 					Vector3 relPosToPar = (hand.Position - m_referencePoint) * 0.001f;
 
 					//localPosition to worldPosition
-					Vector3 desiredPos = tr.parent.TransformDirection(relPosToPar) + tr.parent.position; 
+					Vector3 desiredPos = trans.parent.TransformDirection(relPosToPar) + trans.parent.position; 
 
 					//directional vector
-					Vector3 v = (desiredPos - tr.position);
-
+					Vector3 v = (desiredPos - trans.position);
 
 					//force
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
@@ -112,28 +110,23 @@ namespace Tempest
 					//apply force in place of previous value
 					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
 
-					if(m_angularSensitivity != 0.0f)
+
+					Quaternion rot = hand.Controller.Rotation * hand.ModelRotation;
+
+					if(m_angularSensitivity > 0.0f)
 					{
-						Quaternion dr =  Quaternion.Inverse(hand.Controller.LastRotation) * hand.Controller.Rotation;
-//						float angle;
-//						Vector3 axis;
-//						dr.ToAngleAxis(out angle, out axis);
-//						angle *= m_angularSensitivity;
-//
-						hand.Rotation *= Quaternion.Euler(dr.eulerAngles * m_angularSensitivity);
+						Quaternion diff = Quaternion.Inverse(hand.RotationalReference) * hand.Controller.Rotation;
+						rot = hand.RotationalReference * diff;
 					}
-					else 
-					{
-						hand.Rotation = hand.Controller.Rotation;
-					}
+
 
 					//get desired orientation
-					Quaternion desiredRot = tr.parent.rotation * (hand.Rotation * hand.ModelRotation);  //localRotation to worldRotation
+					Quaternion desiredRot = trans.parent.rotation * rot;  //localRotation to worldRotation
 
 					//calc axis of rotation between desired rotation's (xyz) axis and current rotation's (xyz) axis
-					Vector3 sCrossE_Z = Vector3.Cross (tr.forward, desiredRot * Vector3.forward);
-					Vector3 sCrossE_X = Vector3.Cross (tr.right, desiredRot * Vector3.right);
-					Vector3 sCrossE_Y = Vector3.Cross (tr.up, desiredRot * Vector3.up);
+					Vector3 sCrossE_Z = Vector3.Cross (trans.forward, desiredRot * Vector3.forward);
+					Vector3 sCrossE_X = Vector3.Cross (trans.right, desiredRot * Vector3.right);
+					Vector3 sCrossE_Y = Vector3.Cross (trans.up, desiredRot * Vector3.up);
 					
 					//get angular acceleration about x,y and z axis
 					float aZ = sCrossE_Z.magnitude;
@@ -153,7 +146,7 @@ namespace Tempest
 					Vector3 wY = sCrossE_Y.normalized * (aY / Time.deltaTime);
 
 					//bring hand's rotation to local coordinates of the inertia tensor
-					Quaternion q = tr.rotation * rb.inertiaTensorRotation;
+					Quaternion q = trans.rotation * rb.inertiaTensorRotation;
 					
 					Vector3 w = wX + wZ + wY; 
 
@@ -180,12 +173,10 @@ namespace Tempest
 					uint boxHeight = 550;
 
 					string boxText = "Press start";
-					
+									
 					GUI.Box( new Rect( (Screen.width / 2) - ( boxWidth / 2), 
 					                    (Screen.height / 2) - ( boxHeight / 2),
 					                    boxWidth, boxHeight), boxText, m_messageStyle);
-		
-
 				}
 			}
 

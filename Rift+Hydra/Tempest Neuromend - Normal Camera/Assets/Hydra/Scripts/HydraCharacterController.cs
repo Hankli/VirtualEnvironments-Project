@@ -11,8 +11,8 @@ namespace Tempest
 
 			public bool m_enableWalk;
 			public bool m_enableStrafe;
-			public float m_walkSpeed = 2.0f;
-			public float m_strafeSpeed = 2.0f;
+			public float m_walkSpeed = 2.0f; //$
+			public float m_strafeSpeed = 2.0f; //$
 
 			private float m_moveSensitivity = 1.0f;
 

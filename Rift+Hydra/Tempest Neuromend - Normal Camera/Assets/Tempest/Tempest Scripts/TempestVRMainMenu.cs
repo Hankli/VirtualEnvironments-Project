@@ -34,7 +34,6 @@ public class TempestVRMainMenu : VRGUI
 	bool sound;
 	bool music;
 	float volume;
-	bool twoHands;
 	float sensitivity;
 
 	float playerSpeedOA;
@@ -79,7 +78,6 @@ public class TempestVRMainMenu : VRGUI
 	{
 		sound = true;
 		volume = 5.0f;
-		twoHands = false;
 		sensitivity = 5.0f;
 		playerSpeedOA = 2.0f;
 		playerSpeedWF = 5.0f;

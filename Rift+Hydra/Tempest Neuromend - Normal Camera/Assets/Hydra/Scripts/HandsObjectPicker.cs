@@ -26,7 +26,7 @@ namespace Tempest
 			private float m_pullRadius = 0.1f;
 
 			private float m_gripTriggerValue = 0.3f;
-			private float m_gripBreakResistance = 20.0f;
+			private float m_gripBreakResistance = 50000.0f;
 
 			private Hand m_hand;
 			private GameObject m_gripJoint;
@@ -77,7 +77,7 @@ namespace Tempest
 				m_gripConstraint.breakForce =  m_hand.SensitizedTriggerValue * m_gripBreakResistance;
 				m_gripConstraint.breakTorque = m_hand.SensitizedTriggerValue * m_gripBreakResistance;
 
-				Debug.Log (m_hand.SensitizedTriggerValue);
+				//Debug.Log (m_hand.SensitizedTriggerValue);
 			}
 
 			private void PickupScan()
