@@ -1,9 +1,8 @@
-- Loading screen
-- Pause screen
+x Loading screen
+x Pause screen
 - Song
 - Audio
-- Change the exe icon
-- Player models
+x Change the exe icon
 x Transferring scores to database
 
 
@@ -13,71 +12,71 @@ VIDEO TUTORIALS
 MENU
 - Add textures
 - Add more functionality
-- Speed slider in menu
-- Lock sliders at different intervals |-|-|-|-|
-- Need to be able to switch between CAM/OVR in menu
-- Level loader (ability to select level)
+x Speed slider in menu
+x Lock sliders at different intervals |-|-|-|-|
+x Need to be able to switch between CAM/OVR in menu
+x Level loader (ability to select level)
 
 
-- Get correct game flow happening
+x Get correct game flow happening
 - Run game through on each device with no troubles
 
 
-- in game level skip functionality
-- all devices with adjustable sensitivity settings
+x ability skip level in level
+x all devices with adjustable sensitivity settings
 
 OBJECT AVOIDANCE
 - Make jump higher
 - Make crouch lower
 
 must run on client pc
-kinect + oculus
-hydra + oculus
-leap + oculus
-mouse + keyboard
+- kinect + oculus
+- hydra + oculus
+- leap + oculus
+- mouse + keyboard
 
 MAIN MENU
-able to play all levels
-list all 3 levels to be selected separately
-allow for skip a level or quit
-must not fiddle with controls to get oculus working after everything is set up
-controls sceen for each device
-how to play
+x able to play all levels
+x list all 3 levels to be selected separately
+x allow for skip a level or quit
+x must not fiddle with controls to get oculus working after everything is set up
+- controls sceen for each device
+- how to play
 
 sensitivity sliders
-- interaction
-- walking speed
+x interaction
+x walking speed
 
-game timer on screen
-timer being saved to profile
-scores being able to be viewed
+x game timer on screen
+- timer being saved to profile
+- scores being able to be viewed
 
 x user profile entry
 x save database data to csv file
 x session saved to user profile
 x access of session data
 
-orientation of game at start (and oculus)
-needs to be straight on
+x orientation of game at start (and oculus) needs to be straight on
 
 INSTRUCTION SCREEN
-what is is about
-how to play
-check effectiveness of above or non-it literate
+- what is is about
+- how to play
 
-sound cues
-music
+- check effectiveness of above or non-it literate
 
-space to jump
+- sound cues
+- music
 
-X-hair, no mouse
+x space to jump
 
-testing - easy for able bodied people to play
+x X-hair, no mouse
 
-object manipulation level needs to be revamped
-sensitivity adjusts the level, not the devices
+- testing - easy for able bodied people to play
 
-complete game flow
-1 .exe per device
-.exe icon needs to be changed
+- object manipulation level needs to be revamped
+- sensitivity adjusts the level, not the devices
+
+- complete game flow
+- 1 .exe per device
+x .exe icon needs to be changed
 
