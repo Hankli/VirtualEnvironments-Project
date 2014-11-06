@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +68,7 @@
      <Compile Include="Assets\Tempest\Database\SQLView.cs" />
      <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
      <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
+     <Compile Include="Assets\Tempest\Database\Utils.cs" />
      <Compile Include="Assets\Tempest\GUI_Utility\CalendarView.cs" />
      <Compile Include="Assets\Tempest\GUI_Utility\TableView.cs" />
      <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />
@@ -108,29 +109,32 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />
      <None Include="Assets\Plugins\donotdelete.txt" />
+     <None Include="Assets\Tempest\Resources\XML\db_devices.xml" />
      <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
+     <None Include="Assets\Tempest\Resources\XML\db_tasks.xml" />
+     <None Include="Assets\Tempest\Resources\XML\db_server.xml" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Sources\Shaders\FX-Water.shader" />
      <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="I18N">
- <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Plugins/I18N.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Plugins/I18N.dll</HintPath>
  </Reference>
  <Reference Include="I18N.West">
- <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Plugins/I18N.West.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Plugins/I18N.West.dll</HintPath>
  </Reference>
  <Reference Include="MySql.Data">
- <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Data.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Drawing">
- <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
+ <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

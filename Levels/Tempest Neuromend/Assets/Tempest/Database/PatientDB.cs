@@ -15,16 +15,16 @@ namespace Tempest
 			{
 				public string m_birthDate;
 				public string m_gender;
-				public string m_medicalCondition;
 				public string m_username;
-				public string m_password;
+
+				public string m_encryptedPassword;
+				public string m_salt;
 
 				public override string ToString ()
 				{
 					return m_username + '\n' +
 						   m_gender + '\n' +
-						   m_birthDate + '\n' +
-						   m_medicalCondition;
+						   m_birthDate;
 				}
 			}
 			
@@ -36,10 +36,9 @@ namespace Tempest
 			public void CreateRelation()
 			{
 				m_sqlView.BeginQuery ("CREATE TABLE IF NOT EXISTS patient(" +
-										"Username VARCHAR(20) NOT NULL, " +
-										"Password VARCHAR(20) NOT NULL, " +
+										"Username VARCHAR(30) NOT NULL, " +
+				                        "Password CHAR(40) NOT NULL, " +
 										"Gender VARCHAR(10) DEFAULT NULL, " +
-										"MedicalCondition VARCHAR(200) DEFAULT NULL, " +
 										"BirthDate DATE DEFAULT NULL, " +
 										"CONSTRAINT PRIMARY KEY (Username))"); 
 				m_sqlView.CommitQuery ();
@@ -61,16 +60,15 @@ namespace Tempest
 				m_sqlView.EndQuery ();
 			}
 
-			public bool AddPatient(string username, string password, string birthDate, string gender, string medicalCondition)
+			public bool AddPatient(string username, string password, string birthDate, string gender)
 			{
-				m_sqlView.BeginQuery("INSERT IGNORE INTO patient(Username, Password, Gender, MedicalCondition, BirthDate) " +
-					"VALUES (?USER, ?PASS, ?GND, ?COND, STR_TO_DATE(?BIRTH,'%d/%m/%Y'))");
+				m_sqlView.BeginQuery("INSERT IGNORE INTO patient(Username, Password, Gender, BirthDate) " +
+					"VALUES (?USERNAME, SHA1(?PASSWORD), ?GENDER, STR_TO_DATE(?BIRTH,'%d/%m/%Y'))");
 
-				m_sqlView.Write ("?USER", username);
-				m_sqlView.Write ("?PASS", password);
+				m_sqlView.Write ("?USERNAME", username);
+				m_sqlView.Write ("?PASSWORD", password);
 			    m_sqlView.Write ("?BIRTH", birthDate);
-				m_sqlView.Write ("?GND", gender);
-				m_sqlView.Write ("?COND",  medicalCondition);
+				m_sqlView.Write ("?GENDER", gender);
 
 				bool success = (m_sqlView.CommitQuery () > 0);
 				m_sqlView.EndQuery ();
@@ -80,8 +78,9 @@ namespace Tempest
 			
 			public bool DeletePatient(string username, string password)
 			{
-				m_sqlView.BeginQuery ("DELETE FROM patient WHERE CAST(Username AS BINARY) = @username AND" +
-				                      " CAST(Password AS BINARY) = @password");
+				m_sqlView.BeginQuery ("DELETE FROM patient " +
+					                  "WHERE CAST(Username AS BINARY) = @username AND " +
+				                      "CAST(Password AS BINARY) = SHA1(@password)");
 				m_sqlView.Write ("username", username);
 				m_sqlView.Write ("password", password);
 
@@ -93,24 +92,22 @@ namespace Tempest
 			
 			public bool ExtractPatient(string username, string password, ref Patient patient)
 			{
-				m_sqlView.BeginQuery ("SELECT *, DATE_FORMAT('BirthDate', '%d/%m/%Y') " +
-									  "FROM patient " +
-				                      "WHERE CAST(Username AS BINARY) = @username AND" +
-				                      " CAST(Password AS BINARY) = @password");
+				m_sqlView.BeginQuery ("SELECT * FROM patient " +
+				                      "WHERE CAST(Username AS BINARY) = @username AND " +
+				                      "CAST(Password AS BINARY) = SHA1(@password)");
 
 				m_sqlView.Write ("username", username);
 				m_sqlView.Write ("password", password);
-				m_sqlView.CommitQuery ();
 
 				m_sqlView.BeginRead ();
 				MySqlDataReader rdr = m_sqlView.Read ();
 				if(rdr != null)
 				{
+					patient.m_encryptedPassword = Utils.Encryptor.Encrypt(password, out patient.m_salt); //database password is already encrypted
 					patient.m_username = rdr.GetString("Username");
-					patient.m_password = rdr.GetString("Password");
 					patient.m_gender = rdr.GetString("Gender");
 					patient.m_birthDate = rdr.GetDateTime("BirthDate").ToShortDateString();
-					patient.m_medicalCondition = rdr.GetString("MedicalCondition");
+
 				}
 				m_sqlView.EndRead ();
 				m_sqlView.EndQuery ();
@@ -120,8 +117,10 @@ namespace Tempest
 
 			public bool FindPatient(string username, string password)
 			{
-				m_sqlView.BeginQuery ("SELECT COUNT(1) FROM patient WHERE CAST(Username AS BINARY) = @username AND" +
-					" CAST(Password AS BINARY) = @password");
+				m_sqlView.BeginQuery ("SELECT COUNT(1) FROM patient " +
+					"WHERE CAST(Username AS BINARY) = @username AND " +
+					"CAST(Password AS BINARY) = SHA1(@password)");
+
 				m_sqlView.Write ("username", username);
 				m_sqlView.Write ("password", password);
 
@@ -131,17 +130,15 @@ namespace Tempest
 				return Convert.ToInt32 (obj) > 0;
 			}
 			
-			public bool UpdatePatient(string username, string password, string birthDate, string condition, string gender)
+			public bool UpdatePatient(string username, string password, string birthDate, string gender)
 			{
 				m_sqlView.BeginQuery ("UPDATE patient SET " +
 				                      "Gender = @gender, " +
-				                      "BirthDate = STR_TO_DATE(@birthDate, '%d/%m/%Y'), " +
-				                      "MedicalCondition = @medicalCondition " +
-				                      "WHERE CAST(Username AS BINARY) = @username AND" +
-				                      " CAST(Password AS BINARY) = @password");
+				                      "BirthDate = STR_TO_DATE(@birthDate, '%d/%m/%Y') " +
+				                      "WHERE CAST(Username AS BINARY) = @username AND " +
+				                      "CAST(Password AS BINARY) = SHA1(@password)");
 
 				m_sqlView.Write ("gender", gender);
-				m_sqlView.Write ("medicalCondition", condition);
 				m_sqlView.Write ("birthDate", birthDate);
 				m_sqlView.Write ("username", username);
 				m_sqlView.Write ("password", password);

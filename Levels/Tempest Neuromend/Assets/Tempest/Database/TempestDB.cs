@@ -16,9 +16,9 @@ namespace Tempest
 		{
 			Nullable<PatientDB.Patient> m_profile;
 
-			private const string k_defaultServerFile = "db_server.xml";
-			private const string k_defaultTasksFile = "db_tasks.xml";
-			private const string k_defaultDevicesFile = "db_devices.xml";
+			public TextAsset m_dbLevelAsset = null;
+			public TextAsset m_dbDeviceAsset = null;
+			public TextAsset m_dbServerAsset = null;
 
 			private SQLView m_sqlSource = new SQLView();
 			private TaskDB m_taskDB = null;
@@ -32,12 +32,17 @@ namespace Tempest
 				set { m_profile = value; }
 			}
 
+			public string Database
+			{
+				get { return m_sqlSource.Database; }
+			}
+
 			public ReportDB ReportDatabase
 			{
 				get { return m_reportDB; }
 			}
 
-			public PatientDB AccountDatabase
+			public PatientDB ProfileDatabase
 			{
 				get { return m_patientDB; }
 			}
@@ -54,26 +59,46 @@ namespace Tempest
 
 			private void WriteDefaultDevices()
 			{
-				XElement root = XElement.Load (@k_defaultDevicesFile);
-
-				if(root != null)
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(m_dbDeviceAsset.text);	
+				
+				if(doc != null)
 				{
-					foreach (XElement e in root.Elements())
+					XmlNode root = doc.SelectSingleNode("Devices");
+					foreach(XmlNode nodes in root.SelectNodes("Device"))
 					{
-						m_deviceDB.AddDevice(e.Element("Name").Value, e.Element ("Description").Value);
+						string name = "", description = "";
+						
+						foreach(XmlNode node in nodes.ChildNodes)
+						{
+							if(node.Name == "Name") name = node.InnerXml;
+							if(node.Name == "Description") description = node.InnerXml;
+						}
+						
+						m_deviceDB.AddDevice(name, description);
 					}
 				}
 			}
 
 			private void WriteDefaultTasks()
 			{
-				XElement root = XElement.Load (@k_defaultTasksFile);
-
-				if(root != null)
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(m_dbLevelAsset.text);	
+				
+				if(doc != null)
 				{
-					foreach (XElement e in root.Elements())
+					XmlNode root = doc.SelectSingleNode("Tasks");
+					foreach(XmlNode nodes in root.SelectNodes("Task"))
 					{
-						m_taskDB.AddTask(e.Element("Name").Value, e.Element ("Description").Value);
+						string name = "", description = "";
+
+						foreach(XmlNode node in nodes.ChildNodes)
+						{
+							if(node.Name == "Name") name = node.InnerXml;
+							if(node.Name == "Description") description = node.InnerXml;
+						}
+
+						m_taskDB.AddTask(name, description);
 					}
 				}
 			}
@@ -81,27 +106,36 @@ namespace Tempest
 			public string GetDefaultServer()
 			{
 				//whitespace sensitive
-				XElement root = XElement.Load (@k_defaultServerFile);
-	
-				if(root != null)
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(m_dbServerAsset.text);	
+			
+				if(doc != null)
 				{
-					return "Server=" + root.Element("Server").Value + ";" +
-						   "Database=" + root.Element("Database").Value + ";" +
-						   "User=" + root.Element("User").Value + ";" +
-						   "Password=" + root.Element("Password").Value + ";" +
-						   "Pooling=" + root.Element("Pooling").Value + ";";
+					string settings = "";
+
+					foreach(XmlNode x in doc.SelectSingleNode("Settings").ChildNodes)
+					{
+						if(x.Name == "Server") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "Database") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "User") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "Password") settings += x.Name + "=" + x.InnerXml + ";";
+						else if(x.Name == "Pooling") settings += x.Name + "=" + x.InnerXml + ";";
+					}
+					return settings;	
 				}
+
 				return "";
 			}
 
 			public bool Reconnect(string config)
 			{		
-				if(config.Length == null || config.Length == 0) return false;
+				if(config == null || config.Length == 0) return false;
 
 				m_sqlSource.OpenConnection(config);
-				
+
 				if(m_sqlSource.OpenConnectionState)
 				{
+
 					//create each database relation manager
 					m_patientDB = new PatientDB (m_sqlSource);
 					m_deviceDB = new DeviceDB (m_sqlSource);
@@ -120,6 +154,7 @@ namespace Tempest
 
 					return true;
 				}
+
 				return false;
 			}
 
@@ -127,7 +162,6 @@ namespace Tempest
 			{
 				get { return m_sqlSource != null ? m_sqlSource.OpenConnectionState : false; }
 			}
-
 
 			public void Disconnect()
 			{
@@ -140,8 +174,10 @@ namespace Tempest
 
 				DontDestroyOnLoad (gameObject);
 		
-				/*
+
 				/////////keep for testing purposes ONLY EVERYTHING BELOW/////////////////////////
+			
+				/*
 				if(Reconnect (GetDefaultServer()))
 				{
 					m_reportDB.DropRelation ();
@@ -157,10 +193,11 @@ namespace Tempest
 					WriteDefaultDevices ();
 					WriteDefaultTasks ();
 
-					m_patientDB.AddPatient ("Bryan", "password", "12/5/1209", "Male", "Bad");
-					m_reportDB.AddReport("Bryan", "Leap Motion", "Object Avoidance", new System.DateTime(1999, 10, 19, 3, 20, 30), 212);
-					m_reportDB.AddReport("Bryan", "Kinect", "Way Finding", new System.DateTime(2001, 8, 24, 5, 54, 9), 444);
-					m_reportDB.AddReport("Bryan", "Razer Hydra", "Object Interaction", new System.DateTime(1989, 4, 10, 10, 30, 55), 194);
+					m_patientDB.AddPatient ("Bryan", "password", "12/5/1209", "Male");
+					m_reportDB.AddReport("Bryan", "Mouse and Keyboard", "Object Interaction", new System.DateTime(2011, 3, 12, 20, 34, 19), 120, 10.0f, 0.0f);
+					m_reportDB.AddReport("Bryan", "Leap Motion", "Object Avoidance", new System.DateTime(1999, 10, 19, 3, 20, 30), 212, 2.05f, 2.0f);
+					m_reportDB.AddReport("Bryan", "Kinect", "Way Finding", new System.DateTime(2001, 8, 24, 5, 54, 9), 444, 4.0f, 11.0f);
+					m_reportDB.AddReport("Bryan", "Razer Hydra", "Object Interaction", new System.DateTime(1977, 4, 12, 16, 30, 55), 194, 12.0f, 14.0f);
 				}
 				*/
 			}

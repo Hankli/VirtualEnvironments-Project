@@ -10,10 +10,12 @@ namespace Tempest
 	{
 		public class SQLView
 		{
-			private string m_latestError = null;
+			private string m_latestError = "";
+
 			private MySqlConnection m_connection = null;
 			private MySqlCommand m_command = null;
 			private MySqlDataReader m_reader = null;
+			private MySqlConnectionStringBuilder m_connectionString = null;
 
 			public string LatestError
 			{
@@ -25,11 +27,14 @@ namespace Tempest
 				if(m_connection != null)
 				{
 					CloseConnection();
+
 					m_connection.ConnectionString = config;
+					m_connectionString.ConnectionString = config;
 				}
 				else
 				{
 					m_connection = new MySqlConnection (config);
+					m_connectionString = new MySqlConnectionStringBuilder(config);
 				}
 
 				try
@@ -39,6 +44,42 @@ namespace Tempest
 				catch(MySqlException ex)
 				{
 					m_latestError = ex.Message;
+				}
+			}
+
+			public string Database
+			{
+				get 
+				{
+					if(m_connectionString != null)
+					{
+						return m_connectionString.Database;
+					}
+					return null;
+				}
+			}
+
+			public string Server
+			{
+				get 
+				{
+					if(m_connectionString != null)
+					{
+						return m_connectionString.Server;
+					}
+					return null;
+				}
+			}
+
+			public string UserID
+			{
+				get 
+				{
+					if(m_connectionString != null)
+					{
+						return m_connectionString.UserID;
+					}
+					return null;
 				}
 			}
 			
@@ -53,9 +94,20 @@ namespace Tempest
 				}
 			}
 
+			public string GetUserGrants()
+			{
+				BeginQuery ("SHOW GRANTS FOR '" + m_connectionString.UserID + "'@'%'"); 
+				CommitQuery ();
+
+				string result = GetQueryResult ();
+				EndQuery ();
+
+				return result;
+			}
+
 			public string DescribeRelation(string tablename)
 			{
-				BeginQuery ("describe " + tablename);
+				BeginQuery ("DESCRIBE " + tablename);
 				CommitQuery ();
 
 				string query = GetQueryResult ();
@@ -94,12 +146,14 @@ namespace Tempest
 				{
 					int rowsAffected = m_command.ExecuteNonQuery ();
 					m_latestError = null; //no errors if we got here
+
 					return rowsAffected;
 				}
 
 				catch(MySqlException ex)
 				{
 					m_latestError = ex.Message;
+
 					return 0; 
 				}
 			}
@@ -138,7 +192,12 @@ namespace Tempest
 					for(int i=0; i<rdr.FieldCount; i++)
 					{
 						txt += rdr.GetValue(i).ToString();
-						txt += " ";
+
+						if(i < rdr.FieldCount - 1)
+						{
+							txt += ", ";
+						}
+
 					}
 					txt += "\n";
 				}

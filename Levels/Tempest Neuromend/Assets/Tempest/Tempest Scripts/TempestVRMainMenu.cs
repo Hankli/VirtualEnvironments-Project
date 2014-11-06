@@ -26,6 +26,7 @@ public class TempestVRMainMenu : VRGUI
 	public GUIStyle menuButtonStyle;//button GUIStyle
 	public GUIStyle menuLabelStyle;//label GUIStyle
 	public GUIStyle menuLabelStyleA;//label GUIStyle
+	public GUIStyle menuLabelStyleB;//label GUIStyle
 	public GUIStyle menuToggleStyle;//toggle GUIStyle
 
 
@@ -87,6 +88,7 @@ public class TempestVRMainMenu : VRGUI
 	void Start() 
 	{
 		sound = true;
+		music = true;
 		volume = 5.0f;
 		twoHands = false;
 		sensitivity = 5.0f;
@@ -116,6 +118,7 @@ public class TempestVRMainMenu : VRGUI
 		menuLabelStyle.fontSize = menuButtonStyle.fontSize;
 		menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 		menuToggleStyle.fontSize = menuButtonStyle.fontSize;
+		menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
 
 		profileMenu.Initialize ();
 		ConfigGameControl();
@@ -152,6 +155,7 @@ public class TempestVRMainMenu : VRGUI
 			menuLabelStyle.fontSize = menuButtonStyle.fontSize;
 			menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 			menuToggleStyle.fontSize = menuButtonStyle.fontSize;
+			menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
 
 		}
 
@@ -363,7 +367,6 @@ public class TempestVRMainMenu : VRGUI
 
 			if(b_objectInteraction||b_objectAvoidance||b_wayFinding)
 			{
-				//Application.LoadLevel (firstLevel);
 				ConfigGameControl();
 				Application.LoadLevel (firstLevelIndex);
 			}
@@ -394,7 +397,7 @@ public class TempestVRMainMenu : VRGUI
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.76f, buttonWidth, buttonHeight), "AUDIO", menuButtonStyle))
 		{
 			titleTexture = audioTitle;
-			menuFunction = audio;
+			menuFunction = audioMenu;
 		}
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -404,7 +407,7 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = cursorColour;
 	}
 
-	new void audio()
+	void audioMenu()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
@@ -412,7 +415,7 @@ public class TempestVRMainMenu : VRGUI
 		
 		sound = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.4f, buttonWidth, buttonHeight), sound, "SFX", menuToggleStyle);
 		music = GUI.Toggle (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.47f, buttonWidth, buttonHeight), music, "MUSIC", menuToggleStyle);
-		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.54f, buttonWidth, buttonHeight), "Volume", menuLabelStyle);
+		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.54f, buttonWidth, buttonHeight), "Volume", menuLabelStyleB);
 		volume = GUI.HorizontalSlider (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.61f, buttonWidth, buttonHeight), volume,0.0f,10.0f);
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -429,7 +432,8 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "NEUROMEND\n\nA Murdoch University School of IT and Engineering project." 
 		          +	"\n\nBrought to you by TEMPEST\n\nAry Bizar, Anopan Kandiah, Hannah Klinac, Alex Mlodawski, Bryan Yu "
-		          + "\n\nMusic by Ayden-James Nolan" + "\nSounds by", menuButtonStyle);
+		          + "\n\nMusic by: Ayden-James Nolan" + "\nSounds by: Elly Thompson"
+		          + "\n\nProject client and supervisor:\nShri Rai and Dr Fairuz Shiratuddin", menuButtonStyle);
 		
 		if(GUI.Button (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -458,34 +462,18 @@ public class TempestVRMainMenu : VRGUI
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
 		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight),sensitivity, min, max);
-		//slider locking...
-		if(sensitivity<=max&&sensitivity>=(max-min)*0.875f+min)							{sensitivity=max;}
-		else if(sensitivity<(max-min)*0.875f+min && sensitivity>=(max-min)*0.625f+min)	{sensitivity=(max-min)*0.75f+min;}
-		else if(sensitivity<(max-min)*0.625f+min && sensitivity>=(max-min)*0.375f+min)	{sensitivity=(max-min)*0.5f+min;}
-		else if(sensitivity<(max-min)*0.375f+min && sensitivity>=(max-min)*0.125f+min)	{sensitivity=(max-min)*0.25f+min;}
-		else																			{sensitivity=min;}
+		SliderLock(ref sensitivity,min,max);
 
 	
 		GUI.Label(new Rect((screenWidth- screenWidth * 0.4f)* 0.5f, screenHeight * 0.54f, screenWidth * 0.4f, screenHeight * 0.1f), "Player Movement Speed",menuButtonStyle);
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.62f, buttonWidth*1.5f, buttonHeight*2.0f),"Obstacle Avoidance",menuLabelStyle);
 		playerSpeedOA = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.7f, buttonWidth*1.5f, buttonHeight),playerSpeedOA, minOASpeed, maxOASpeed);
-		//slider locking...
-		if(		playerSpeedOA<=maxOASpeed && playerSpeedOA>=(maxOASpeed-minOASpeed)*0.875f+minOASpeed)									{playerSpeedOA=maxOASpeed;}
-		else if(playerSpeedOA<(maxOASpeed-minOASpeed)*0.875f+minOASpeed && playerSpeedOA>=(maxOASpeed-minOASpeed)*0.625f+minOASpeed)	{playerSpeedOA=(maxOASpeed-minOASpeed)*0.75f+minOASpeed;}
-		else if(playerSpeedOA<(maxOASpeed-minOASpeed)*0.625f+minOASpeed && playerSpeedOA>=(maxOASpeed-minOASpeed)*0.375f+minOASpeed)	{playerSpeedOA=(maxOASpeed-minOASpeed)*0.5f+minOASpeed;}
-		else if(playerSpeedOA<(maxOASpeed-minOASpeed)*0.375f+minOASpeed && playerSpeedOA>=(maxOASpeed-minOASpeed)*0.125f+minOASpeed)	{playerSpeedOA=(maxOASpeed-minOASpeed)*0.25f+minOASpeed;}
-		else																															{playerSpeedOA=minOASpeed;}
-		
+		SliderLock(ref playerSpeedOA,minOASpeed,maxOASpeed);
+
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.72f, buttonWidth*1.5f, buttonHeight*2.0f),"Way Finding",menuLabelStyle);
 		playerSpeedWF = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.8f, buttonWidth*1.5f, buttonHeight),playerSpeedWF, minWFSpeed, maxWFSpeed);
-		//slider locking...
-		if(		playerSpeedWF<=maxWFSpeed && playerSpeedWF>=(maxWFSpeed-minWFSpeed)*0.875f+minWFSpeed)									{playerSpeedWF=maxWFSpeed;}
-		else if(playerSpeedWF<(maxWFSpeed-minWFSpeed)*0.875f+minWFSpeed && playerSpeedWF>=(maxWFSpeed-minWFSpeed)*0.625f+minWFSpeed)	{playerSpeedWF=(maxWFSpeed-minWFSpeed)*0.75f+minWFSpeed;}
-		else if(playerSpeedWF<(maxWFSpeed-minWFSpeed)*0.625f+minWFSpeed && playerSpeedWF>=(maxWFSpeed-minWFSpeed)*0.375f+minWFSpeed)	{playerSpeedWF=(maxWFSpeed-minWFSpeed)*0.5f+minWFSpeed;}
-		else if(playerSpeedWF<(maxWFSpeed-minWFSpeed)*0.375f+minWFSpeed && playerSpeedWF>=(maxWFSpeed-minWFSpeed)*0.125f+minWFSpeed)	{playerSpeedWF=(maxWFSpeed-minWFSpeed)*0.25f+minWFSpeed;}
-		else																															{playerSpeedWF=minWFSpeed;}
-		
+		SliderLock(ref playerSpeedWF,minWFSpeed,maxWFSpeed);
 
 		//twoHands = GUI.Toggle (new Rect ((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.45f, buttonWidth*1.5f, buttonHeight), twoHands, "Two hands", menuToggleStyle);//leap motion specific...
 
@@ -496,6 +484,16 @@ public class TempestVRMainMenu : VRGUI
 			menuFunction = settings;
 		}
 		GUI.color = cursorColour;
+	}
+
+	//locks slider at intervals 0%, 25%, 50%, 75%, 100%
+	void SliderLock(ref float sliderVal, float minVal, float maxVal)
+	{
+		if(sliderVal<=maxVal && sliderVal>=(maxVal-minVal)*0.875f+minVal){sliderVal=maxVal;}
+		else if(sliderVal<(maxVal-minVal)*0.875f+minVal && sliderVal>=(maxVal-minVal)*0.625f+minVal){sliderVal=(maxVal-minVal)*0.75f+minVal;}
+		else if(sliderVal<(maxVal-minVal)*0.625f+minVal && sliderVal>=(maxVal-minVal)*0.375f+minVal){sliderVal=(maxVal-minVal)*0.5f+minVal;}
+		else if(sliderVal<(maxVal-minVal)*0.375f+minVal && sliderVal>=(maxVal-minVal)*0.125f+minVal){sliderVal=(maxVal-minVal)*0.25f+minVal;}
+		else{sliderVal=minVal;}
 	}
 
 	// Update is called once per frame
