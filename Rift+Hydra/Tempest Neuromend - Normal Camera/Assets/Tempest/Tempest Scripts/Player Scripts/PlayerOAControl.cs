@@ -20,23 +20,38 @@ public class PlayerOAControl : MonoBehaviour
 	
 	void Update() 
 	{
-		motor.movement.maxForwardSpeed=0;
-		motor.movement.maxBackwardsSpeed=0;
-		
-		translationAll = new Vector3(Input.GetAxis("Horizontal"), 0.0f, 1.0f);//1.0f is constant 'forward' movement
+		//enable user strafe
+		float strafe = motor.movement.velocity.x;
+
+		//set max speeds
+		motor.movement.maxForwardSpeed = 0;
+		motor.movement.maxBackwardsSpeed = 0;
+
+		//disable velocity based movement
+		motor.movement.velocity.x = 0;
+		motor.movement.velocity.z = 0; 
+
+		translationAll = new Vector3(0.0f, 0.0f, 1.0f);//1.0f is constant 'forward' movement
 		translationAll = transform.TransformDirection(translationAll);//direction from world to local
-		if(b_notOver&&!b_knockBack)
+	
+		if(b_notOver && !b_knockBack)
 		{
 			if(control)
 			{
-				control.SimpleMove(translationAll*m_speed);
+				translationAll *= m_speed;
+				translationAll.x = strafe;
+
+				control.SimpleMove(translationAll);
 			}
 		}
 		else if(b_knockBack)
 		{
 			Vector3 knockBack = new Vector3(0.0f, 0.0f, -3.0f);
 			if(control)
+			{
 				control.SimpleMove(knockBack);
+			}
+
 			float knockBackTimeCheck = Time.time;
 			if(knockBackTimeCheck-knockBackTime>knockBackDuration)
 			{

@@ -26,14 +26,15 @@ namespace Tempest
 						HydraCharacterController character = objHand.GetComponent<HydraCharacterController> ();
 						HydraCameraController camera = objHand.GetComponent<HydraCameraController> ();
 					
-						//speed slider setting
-						character.MoveSensitivity = gameControl.inputSensitivity; 
-						camera.CameraSensitivity = gameControl.inputSensitivity;
+						//joysticks
+						character.Sensitivity = gameControl.inputSensitivity; 
+						camera.Sensitivity = gameControl.inputSensitivity;
 					
-						//sensitivity slider setting
+						//movement + rotation of virtual hands
 						motion.LinearSensitivity = gameControl.inputSensitivity;
 						motion.AngularSensitivity = gameControl.inputSensitivity;
-						
+
+						//trigger button sensitivity
 						foreach(Component c in objHand.GetComponents<Hand> ())
 						{
 							if(c is Hand)

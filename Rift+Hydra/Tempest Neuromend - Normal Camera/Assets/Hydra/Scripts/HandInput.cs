@@ -34,7 +34,6 @@ namespace Tempest
 			private Quaternion m_rotation;
 			private Quaternion m_lastRotation;
 
-
 			/// <summary>
 			/// The default trigger button threshold constant.
 			/// </summary>
@@ -68,7 +67,7 @@ namespace Tempest
 			/// <summary>
 			/// Value of joystick X axis from left (-1.0) to right (1.0).
 			/// </summary>
-			public float JoystickX { get { return m_joystickX; } }
+			public float JoystickX { get { return m_joystickX ; } }
 			
 			/// <summary>
 			/// Value of joystick Y axis from bottom (-1.0) to top (1.0).

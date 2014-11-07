@@ -229,9 +229,9 @@ namespace Tempest
 
 					System.IO.File.WriteAllText (filename, sb.ToString ());
 				}
-				catch(System.Exception)
+				catch(System.Exception bleh)
 				{
-
+					Debug.Log (bleh.Message);
 					return false;
 				}
 

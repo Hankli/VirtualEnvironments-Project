@@ -135,7 +135,7 @@ namespace Tempest
 				GUI.Label (rect1, "USERNAME", m_labelStyle);
 				GUI.Label (rect2, "PASSWORD", m_labelStyle);
 				GUI.Label (rect3, "GENDER", m_labelStyle);
-				GUI.Label (rect4, "DATE OF BIRTH", m_labelStyle);
+				GUI.Label (rect4, "D.O.B", m_labelStyle);
 				
 				//accept user details
 				m_usernameField = GUI.TextField(rect5, m_usernameField, m_maxUsernameLength, m_textFieldStyle).Trim();
@@ -438,8 +438,8 @@ namespace Tempest
 			
 			private void SetupStyles()
 			{
-				int fontSize = (int)Mathf.Min (Screen.width, Screen.height) / 50;
-				
+				//int fontSize = (int)Mathf.Min (Screen.width, Screen.height) / 50;
+				int fontSize = (int)(Screen.width/50.0f);
 				m_boxStyle = new GUIStyle (GUI.skin.box);
 				m_boxStyle.fontSize = fontSize;
 				m_boxStyle.fontStyle = FontStyle.Bold;

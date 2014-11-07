@@ -1,47 +1,90 @@
-﻿/*
-Ary...
-slight mod of standard Unity javascript FPSInputController to allow for forced jump not using input button etc...
-
-*/
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class FPSControl : MonoBehaviour 
 {
-	CharacterMotor motor=null;
-	private bool b_jump;
+	private CharacterMotor motor;
+	private CharacterController control;
 
-	private bool b_forceJump=false;
+	private float initialHeight;
+	private float initialForwardSpeed;
+	private float initialBackwardSpeed;
+	private float initialStrafeSpeed;
+	 
+	private float crouchSpeed;
+	private float runSpeed;
 
-	void Awake () 
+	private bool b_inputCrouch = false;
+	private bool b_canRun = true;
+	private bool b_canCrouch = true;
+	private bool b_jump = false;
+
+	private float finalHeight = 0.0f;
+	private float forwardSpeed = 0.0f;
+	private float backwardSpeed = 0.0f;
+	private float strafeSpeed = 0.0f;
+
+	private Vector3 direction;
+	 
+	public Vector3 Direction
+	{
+		get { return direction; }
+		set { direction = value; }
+	}
+
+	void Start()
 	{
 		motor = GetComponent<CharacterMotor>();
+		control = GetComponent<CharacterController>();
+		initialHeight = control.height;
+
+		//need to set speed here from menu/gamecontrol values...
+		//initialForwardSpeed = motor.movement.maxForwardSpeed;
+		//initialBackwardSpeed = motor.movement.maxBackwardsSpeed;
+		//initialStrafeSpeed = motor.movement.maxSidewaysSpeed;
+		//crouchSpeed = motor.movement.maxForwardSpeed/2.0f;
+		//runSpeed = motor.movement.maxForwardSpeed*3;
+	}
+	 
+	public void SetMovementSpeeds(float speed)
+	{
+		initialForwardSpeed = speed;
+		initialBackwardSpeed = speed;
+		initialStrafeSpeed = speed;
+		crouchSpeed = speed / 2.0f;
+		runSpeed = speed * 2.0f;
 	}
 
-	// Use this for initialization
-	void Start () 
+	void Update()
 	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		b_jump=Input.GetButton("Jump");
+		finalHeight = initialHeight;
+		forwardSpeed = initialForwardSpeed;
+		backwardSpeed = initialBackwardSpeed;
+		strafeSpeed = initialStrafeSpeed;
 
-		if(b_forceJump)
+		Debug.Log (strafeSpeed);
+
+		if(!b_inputCrouch)
 		{
-			b_jump=true;
-			b_forceJump=false;
-		}
+			float lastHeight = control.height;
+			control.height = Mathf.Lerp(control.height, finalHeight, 5.0f * Time.deltaTime);
 
-		Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-		
+			transform.position += new Vector3(0, (control.height - lastHeight) / 2.0f, 0);
+		}	
+
+		//walking based movement
+		float walk = direction.z < 0.0f ? (direction.z * backwardSpeed) : (direction.z * forwardSpeed);
+		float strafe = direction.x * strafeSpeed;
+
+		Vector3 directionVector = new Vector3(strafe, 0.0f, walk);
+
+
 		if (directionVector != Vector3.zero) 
 		{
 			// Get the length of the directon vector and then normalize it
 			// Dividing by the length is cheaper than normalizing when we already have the length anyway
-			float directionLength = directionVector.magnitude;
+			float directionLength = direction.magnitude;
+
 			directionVector = directionVector / directionLength;
 			
 			// Make sure the length is no bigger than 1
@@ -58,17 +101,51 @@ public class FPSControl : MonoBehaviour
 		// Apply the direction to the CharacterMotor
 		if(motor)
 		{
-			motor.inputMoveDirection = transform.rotation * directionVector;
+			directionVector.y = motor.movement.velocity.y; //keep jump velocity
+
+			motor.movement.maxForwardSpeed = forwardSpeed;
+			motor.movement.maxBackwardsSpeed = backwardSpeed;
+			motor.movement.maxSidewaysSpeed = strafeSpeed;
+
+			motor.movement.velocity = directionVector;
 			motor.inputJump = b_jump;
 		}
-
 	}
 
 	public void ForceJump()
 	{
-		b_forceJump = true;
+		b_jump = true;
 	}
 
+	public void StopJump()
+	{
+		b_jump = false;
+	}
 
+	public void StopCrouch()
+	{
+		b_inputCrouch = false;
+	}
+	
+	public void ForceCrouch()
+	{
+		if(b_canCrouch)
+		{
+			b_inputCrouch = true;
+
+			finalHeight = 0.5f * initialHeight;
+			forwardSpeed = crouchSpeed;
+			backwardSpeed = crouchSpeed;
+			strafeSpeed = crouchSpeed;
+			
+			motor.movement.maxForwardSpeed = forwardSpeed;
+			motor.movement.maxBackwardsSpeed = backwardSpeed;
+			motor.movement.maxSidewaysSpeed = strafeSpeed;
+			
+			float lastHeight = control.height;
+			control.height = Mathf.Lerp(control.height, finalHeight, 5.0f * Time.deltaTime);
+
+ 			transform.position += new Vector3(0,(control.height - lastHeight) / 2.0f, 0);
+		}
+	}
 }
-

@@ -78,6 +78,7 @@
      <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
      <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
      <Compile Include="Assets\Tempest\Database\ReportDB.cs" />
+     <Compile Include="Assets\Tempest\Database\SQLTestStatements.cs" />
      <Compile Include="Assets\Tempest\Database\SQLView.cs" />
      <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
      <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
@@ -103,7 +104,6 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\NeuromendOnceOnly.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Obstacle.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\FPSCrouchRun.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerClick.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\PlayerOAControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Player Scripts\Push.cs" />

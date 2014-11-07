@@ -9,7 +9,6 @@ public class ExitControl : MonoBehaviour
 	
 	void Start() 
 	{
-	
 	}
 	
 	void Update() 
