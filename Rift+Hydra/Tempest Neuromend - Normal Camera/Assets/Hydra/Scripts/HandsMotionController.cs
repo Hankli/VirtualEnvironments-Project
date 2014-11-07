@@ -86,8 +86,7 @@ namespace Tempest
 
 					if(m_linearSensitivity > 0.0f)
 					{
-						hand.Position += (hand.Controller.Position - hand.Controller.LastPosition) * m_linearSensitivity;
-					    
+						hand.Position += (hand.Controller.Position - hand.Controller.LastPosition) * m_linearSensitivity;		    
 					}
 					else
 					{
@@ -112,13 +111,6 @@ namespace Tempest
 
 
 					Quaternion rot = hand.Controller.Rotation * hand.ModelRotation;
-
-					if(m_angularSensitivity > 0.0f)
-					{
-						Quaternion diff = Quaternion.Inverse(hand.RotationalReference) * hand.Controller.Rotation;
-						rot = hand.RotationalReference * diff;
-					}
-
 
 					//get desired orientation
 					Quaternion desiredRot = trans.parent.rotation * rot;  //localRotation to worldRotation

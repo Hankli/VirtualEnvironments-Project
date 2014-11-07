@@ -28,7 +28,7 @@ namespace Tempest
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 
 
-			private float m_triggerSensitivity = 0.8f;
+			private float m_triggerSensitivity = 1.0f;
 
 			public Quaternion ModelRotation
 			{
@@ -56,19 +56,25 @@ namespace Tempest
 
 			public float TriggerValue
 			{
-				get { return m_controller != null ? m_controller.Trigger : 0.0f; }
+				get 
+				{ 
+					if(m_controller == null)
+					{
+						return 0.0f;
+					}
+
+					float triggerVal = m_controller.Trigger;
+					if(triggerVal > 0.0f && m_triggerSensitivity > 0.0f)
+					{
+						triggerVal += (1.0f - triggerVal) * m_triggerSensitivity;
+					}
+					return triggerVal;
+				}
 			}
 
 			public float TriggerSensitivity
 			{
-				set
-				{ 
-					while(value > 1.0f)
-					{
-						value *= 0.1f;
-					}
-					m_triggerSensitivity = value; 
-				}
+				set { m_triggerSensitivity = value; }
 
 				get { return m_triggerSensitivity; }
 			}

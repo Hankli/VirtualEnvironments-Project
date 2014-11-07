@@ -8,7 +8,7 @@ namespace Tempest
 		{
 			private void Awake()
 			{
-				//DontDestroyOnLoad (gameObject);
+				DontDestroyOnLoad (gameObject);
 			}
 
 			private void OnLevelWasLoaded(int level)
@@ -19,7 +19,7 @@ namespace Tempest
 				if(objControl != null && objHand != null)
 				{
 					GameControl gameControl = objControl.GetComponent<GameControl>();
-
+				
 					if(gameControl != null)
 					{
 						HandsMotionController motion = objHand.GetComponent<HandsMotionController> ();				
@@ -27,20 +27,20 @@ namespace Tempest
 						HydraCameraController camera = objHand.GetComponent<HydraCameraController> ();
 					
 						//joysticks
-						character.Sensitivity = gameControl.inputSensitivity; 
-						camera.Sensitivity = gameControl.inputSensitivity;
+						character.Sensitivity = gameControl.inputSensitivity / 10.0f; 
+						camera.Sensitivity = gameControl.inputSensitivity / 10.0f;
 					
 						//movement + rotation of virtual hands
 						motion.LinearSensitivity = gameControl.inputSensitivity;
 						motion.AngularSensitivity = gameControl.inputSensitivity;
 
 						//trigger button sensitivity
-						foreach(Component c in objHand.GetComponents<Hand> ())
+						foreach(Component c in objHand.GetComponentsInChildren<Hand> ())
 						{
 							if(c is Hand)
 							{
 								Hand hand = c as Hand;
-								hand.TriggerSensitivity = gameControl.inputSensitivity;
+								hand.TriggerSensitivity = gameControl.inputSensitivity / 10.0f;
 							}
 						}
 					}

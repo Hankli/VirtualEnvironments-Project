@@ -6,7 +6,8 @@ public class PlayerOAControl : MonoBehaviour
 	private Vector3 translationAll = Vector3.zero;
 	private CharacterController control;
 	private CharacterMotor motor;
-	public float m_speed = 3.0f;
+	private float m_walk = 3.0f;
+	private float m_strafe = 0.0f;
 	private bool b_notOver=true;
 	private bool b_knockBack=false;
 	private float knockBackDuration = 0.1f;
@@ -21,7 +22,7 @@ public class PlayerOAControl : MonoBehaviour
 	void Update() 
 	{
 		//enable user strafe
-		float strafe = motor.movement.velocity.x;
+		m_strafe = motor.movement.velocity.x;
 
 		//set max speeds
 		motor.movement.maxForwardSpeed = 0;
@@ -30,17 +31,16 @@ public class PlayerOAControl : MonoBehaviour
 		//disable velocity based movement
 		motor.movement.velocity.x = 0;
 		motor.movement.velocity.z = 0; 
-
-		translationAll = new Vector3(0.0f, 0.0f, 1.0f);//1.0f is constant 'forward' movement
-		translationAll = transform.TransformDirection(translationAll);//direction from world to local
+		
+		translationAll = transform.TransformDirection(Vector3.forward);//direction from world to local
 	
 		if(b_notOver && !b_knockBack)
 		{
 			if(control)
 			{
-				translationAll *= m_speed;
-				translationAll.x = strafe;
-
+				translationAll.x = m_strafe;
+				translationAll.z *= m_walk;
+			
 				control.SimpleMove(translationAll);
 			}
 		}
@@ -53,7 +53,7 @@ public class PlayerOAControl : MonoBehaviour
 			}
 
 			float knockBackTimeCheck = Time.time;
-			if(knockBackTimeCheck-knockBackTime>knockBackDuration)
+			if(knockBackTimeCheck - knockBackTime > knockBackDuration)
 			{
 				b_knockBack=false;
 			}
@@ -62,7 +62,7 @@ public class PlayerOAControl : MonoBehaviour
 
 	public void SetMovementSpeed(float speed)
 	{
-		m_speed = speed;
+		m_walk = speed;
 	}
 	
 	public void ReachedEndZone()

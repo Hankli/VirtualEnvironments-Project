@@ -41,8 +41,7 @@ namespace Tempest
 			
 			public void Execute(Hand hand)
 			{
-				// Fist with right or left
-				float fTriggerVal = Mathf.Lerp( m_fLastTriggerVal, hand.SensitizedTriggerValue, m_interpolateFist);
+				float fTriggerVal = Mathf.Lerp( m_fLastTriggerVal, hand.TriggerValue, m_interpolateFist);
 				m_fLastTriggerVal = fTriggerVal;
 				
 				if ( fTriggerVal > 0.01f )

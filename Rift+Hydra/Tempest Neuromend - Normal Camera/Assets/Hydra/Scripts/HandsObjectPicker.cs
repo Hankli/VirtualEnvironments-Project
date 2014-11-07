@@ -74,20 +74,17 @@ namespace Tempest
 
 			private void UpdateConnections()
 			{
-				m_gripConstraint.breakForce =  m_hand.SensitizedTriggerValue * m_gripBreakResistance;
-				m_gripConstraint.breakTorque = m_hand.SensitizedTriggerValue * m_gripBreakResistance;
-
-				//Debug.Log (m_hand.SensitizedTriggerValue);
+				m_gripConstraint.breakForce = m_hand.TriggerValue * m_gripBreakResistance;
+				m_gripConstraint.breakTorque = m_hand.TriggerValue * m_gripBreakResistance;
 			}
 
 			private void PickupScan()
 			{
 				//check if player is trying to grab something at all an if something is already grabbed
-				if( m_hand.SensitizedTriggerValue < m_gripTriggerValue || m_gripConstraint)
+				if(m_hand.TriggerValue < m_gripTriggerValue || m_gripConstraint != null)
 				{
 					return;
 				}
-
 
     			//check if the grabbing limb exists
 				RaycastHit hit;

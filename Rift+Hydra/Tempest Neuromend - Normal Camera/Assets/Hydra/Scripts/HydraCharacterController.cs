@@ -7,16 +7,12 @@ namespace Tempest
 		public class HydraCharacterController : MonoBehaviour
 		{
 			private FPSControl m_fpsControl = null;
-
 			private float m_sensitivity = 1.0f;
-
 			public Hands m_controlHand;
 			public Hands m_jumpHand;
 			public Buttons m_jumpButton;
 			public Hands m_crouchHand;
 			public Buttons m_crouchButton;
-		
-
 
 			public float Sensitivity
 			{
@@ -37,8 +33,22 @@ namespace Tempest
 
 				if(input != null && m_fpsControl != null)
 				{
-					float jx = input.JoystickX * m_sensitivity;
-					float jy = input.JoystickY * m_sensitivity;
+					float jx = input.JoystickX;
+					float jy = input.JoystickY;
+					if(m_sensitivity > 0.0f)
+					{
+						if(jy > 0.0f)
+						{
+							jy += (1.0f - jy) * m_sensitivity;
+						}
+
+						if(jx > 0.0f)
+						{
+							jx += (1.0f - jx) * m_sensitivity;
+						}
+					}
+					jx *= Time.timeScale;
+					jy *= Time.timeScale;
 
 					Vector3 right = transform.right * jx;
 					Vector3 front = transform.forward * jy;

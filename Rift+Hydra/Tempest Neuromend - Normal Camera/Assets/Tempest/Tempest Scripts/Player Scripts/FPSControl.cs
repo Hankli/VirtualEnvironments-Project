@@ -62,8 +62,6 @@ public class FPSControl : MonoBehaviour
 		backwardSpeed = initialBackwardSpeed;
 		strafeSpeed = initialStrafeSpeed;
 
-		Debug.Log (strafeSpeed);
-
 		if(!b_inputCrouch)
 		{
 			float lastHeight = control.height;
