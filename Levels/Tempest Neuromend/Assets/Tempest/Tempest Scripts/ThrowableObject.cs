@@ -3,66 +3,45 @@ using System.Collections;
 
 public class ThrowableObject : MonoBehaviour 
 {
-	/*
-	public enum ThrowableObjectType
-	{
-		Sphere,//circle
-		Cube,//square
-		Tetrahedron//triangle
-	};
-	public ThrowableObjectType objectType;
-	*/
 	private bool b_scorable=true;
 	private bool b_error=false;
 	private bool b_noGravSpin=false;
 	public WindowTrigger.WindowType windowType;
 
-	//private bool b_isHeld=false;
+	private bool b_destroy=false;
+	private float m_destructionTimer=2.0f;
+	private GameObject m_explosion=null;
+
+	void Awake()
+	{
+		m_explosion = Resources.Load<GameObject> ("Prefabs/Explosion01");
+	}
 	
 	void Start() 
 	{
-		//NoGravSpin();
 	}
 	
 	void Update() 
 	{
-	}
-
-	/*
-	private void IsHeld(bool val=true)
-	{
-		b_isHeld = val;
-	}
-
-	public void HoldThis(bool val=true)
-	{
-		Rigidbody rigidBodyComponent;
-		if(val)
+		if(b_destroy)
 		{
-			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
-			{	
-				rigidBodyComponent.freezeRotation=true;
-				rigidBodyComponent.velocity=Vector3.zero;
-			}
-			IsHeld();
+			m_destructionTimer-=1*Time.deltaTime;
 		}
-		else
+		if(m_destructionTimer<=0.0f)
 		{
-			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
-			{	
-				rigidBodyComponent.freezeRotation=false;
+			//spawn particles and then destroy this object...
+			Vector3 pos=transform.position;
+			GameObject death;
+			if(m_explosion)
+			{
+				death=Instantiate(m_explosion, pos, Quaternion.identity)as GameObject;
 			}
-			IsHeld(false);
-		}
 
+			GameObject.Destroy(this.gameObject);
+		}
+			
 	}
-*/
-	/*
-	public ThrowableObjectType GetObjectType()
-	{
-		return objectType;
-	}
-	*/
+
 	public WindowTrigger.WindowType GetWindowType()
 	{
 		return windowType;
@@ -107,15 +86,13 @@ public class ThrowableObject : MonoBehaviour
 	{
 		b_error=b_canMistake;
 	}
-	/*
-	public void Scored()
-	{
-		NoGravSpin(false);
-	}
-	*/
-	public void SelfDestruct(float x=2.0f)
+
+
+	public void SelfDestruct(float x=2.0f, bool destroy=true)
 	{
 		//need to activate timer and destroy after x seconds
+		m_destructionTimer = x;
+		b_destroy = destroy;
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -126,9 +103,6 @@ public class ThrowableObject : MonoBehaviour
 			if(rigidBodyComponent=gameObject.GetComponent<Rigidbody>())
 			{	
 				rigidBodyComponent.useGravity=true;
-				//Vector3 rotationVector =Vector3.zero;
-				//rigidBodyComponent.AddTorque(rotationVector);
-				//rigidBodyComponent.freezeRotation=true;
 			}
 			b_noGravSpin=false;
 		}
