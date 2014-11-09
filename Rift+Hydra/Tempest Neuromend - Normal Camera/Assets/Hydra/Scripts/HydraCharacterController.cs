@@ -6,8 +6,7 @@ namespace Tempest
 	{
 		public class HydraCharacterController : MonoBehaviour
 		{
-			private FPSControl m_fpsControl = null;
-			private float m_sensitivity = 1.0f;
+			private float m_sensitivity = 0.0f;
 			public Hands m_controlHand;
 			public Hands m_jumpHand;
 			public Buttons m_jumpButton;
@@ -22,29 +21,28 @@ namespace Tempest
 			
 			private void Start()
 			{
-				m_fpsControl = GetComponentInParent<FPSControl> ();
 			}
 
-			private void MoveBehaviour()
+			private void MoveBehaviour(FPSControl fpsControl)
 			{
 				//get scale factor for movement
 
 				HandInput input = HandInputController.GetController (m_controlHand);
 
-				if(input != null && m_fpsControl != null)
+				if(input != null)
 				{
 					float jx = input.JoystickX;
 					float jy = input.JoystickY;
 					if(m_sensitivity > 0.0f)
 					{
-						if(jy > 0.0f)
+						if(Mathf.Abs(jy) > 0.0f)
 						{
-							jy += (1.0f - jy) * m_sensitivity;
+							jy += jy < 0.0f ? -(1.0f + jy) * m_sensitivity : (1.0f - jy) * m_sensitivity;
 						}
 
-						if(jx > 0.0f)
+						if(Mathf.Abs(jx) > 0.0f)
 						{
-							jx += (1.0f - jx) * m_sensitivity;
+							jx += jx < 0.0f ? -(1.0f + jx) * m_sensitivity : (1.0f - jx) * m_sensitivity;
 						}
 					}
 					jx *= Time.timeScale;
@@ -53,50 +51,55 @@ namespace Tempest
 					Vector3 right = transform.right * jx;
 					Vector3 front = transform.forward * jy;
 
-					m_fpsControl.Direction = right + front;
+					fpsControl.Direction = right + front;
 				}
 			}
 
 
-			private void JumpBehaviour()
+			private void JumpBehaviour(FPSControl fpsControl)
 			{
 				HandInput input = HandInputController.GetController (m_jumpHand);
 			
-				if(input != null && m_fpsControl != null)
+				if(input != null)
 				{
 					if(input.GetButton(m_jumpButton))
 					{
-						m_fpsControl.ForceJump();
+						fpsControl.ForceJump();
 					}
 					else
 					{
-						m_fpsControl.StopJump();
+						fpsControl.StopJump();
 					}
 				}
 			}
 
-			private void CrouchBehaviour()
+			private void CrouchBehaviour(FPSControl fpsControl)
 			{
 				HandInput input = HandInputController.GetController (m_crouchHand);
 
-				if(input != null && m_fpsControl != null)
+				if(input != null)
 				{
 					if(input.GetButton(m_crouchButton))
 					{
-						m_fpsControl.ForceCrouch();
+						fpsControl.ForceCrouch();
 					}
 					else 
 					{
-						m_fpsControl.StopCrouch();
+						fpsControl.StopCrouch();
 					}
 				}
 			}
 			
 			private void FixedUpdate()
 			{
-				CrouchBehaviour ();
-				JumpBehaviour ();
-				MoveBehaviour ();
+				FPSControl fpsControl = GetComponentInParent<FPSControl> ();
+
+				if(fpsControl != null)
+				{
+					CrouchBehaviour (fpsControl);
+					JumpBehaviour (fpsControl);
+					MoveBehaviour (fpsControl);
+				}
 			}
 
 		}

@@ -129,6 +129,7 @@ namespace Tempest
 
 			public bool Reconnect(string config)
 			{		
+
 				if(config == null || config.Length == 0) return false;
 
 				m_sqlSource.OpenConnection(config);
@@ -173,7 +174,6 @@ namespace Tempest
 				m_profile = null;
 
 				DontDestroyOnLoad (gameObject);
-		
 
 				/////////keep for testing purposes ONLY EVERYTHING BELOW/////////////////////////
 			

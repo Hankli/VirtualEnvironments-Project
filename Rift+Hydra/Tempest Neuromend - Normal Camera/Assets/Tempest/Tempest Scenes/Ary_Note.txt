@@ -5,4 +5,7 @@ note: an object with DontDestroyOnLoad() will be destroyed if it is a child of o
 
 
 
-modified OVRCamera.cs for oculus orientation adjustment
+modified OVRCamera.cs for oculus orientation adjustment... this is due to possible faulty oculus hardware
+
+
+player actions still require to be paused when game is paused.

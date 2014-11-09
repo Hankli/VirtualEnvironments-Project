@@ -78,7 +78,6 @@
      <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
      <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
      <Compile Include="Assets\Tempest\Database\ReportDB.cs" />
-     <Compile Include="Assets\Tempest\Database\SQLTestStatements.cs" />
      <Compile Include="Assets\Tempest\Database\SQLView.cs" />
      <Compile Include="Assets\Tempest\Database\TaskDB.cs" />
      <Compile Include="Assets\Tempest\Database\TempestDB.cs" />
@@ -91,6 +90,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\DroppingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Explosion.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\DebugUtils.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\MathUtils.cs" />

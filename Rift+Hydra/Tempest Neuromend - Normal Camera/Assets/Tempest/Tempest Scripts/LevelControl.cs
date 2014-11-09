@@ -17,7 +17,8 @@ public class LevelControl : MonoBehaviour
 		Video,
 		ObjectInteraction,
 		ObjectAvoidance,
-		WayFinding
+		WayFinding,
+		Scores
 	};
 	
 	[Tooltip("Type of level...")]
@@ -138,8 +139,7 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
 
-
-
+		GameObject tempPlayer = null;
 		crosshairsTexture=Resources.Load<Texture2D>("Crosshairs01");
 
 		switch(levelType)
@@ -148,7 +148,6 @@ public class LevelControl : MonoBehaviour
 			{
 				if(gameControlScript)
 				{
-					GameObject tempPlayer = null;
 					if(tempPlayer=GameObject.FindWithTag("Player"))
 					{
 						FPSControl fPSCRscript = null;
@@ -164,14 +163,13 @@ public class LevelControl : MonoBehaviour
 						}
 					}
 				}
-			}	
+			}
 			break;
-
+			
 			case LevelType.WayFinding:
 			{
-				if(gameControlScript)
+				if(gameControlScript != null)
 				{
-					GameObject tempPlayer = null;
 					if(tempPlayer=GameObject.FindWithTag("Player"))
 					{
 						FPSControl fPSCRscript = null;
@@ -347,7 +345,12 @@ public class LevelControl : MonoBehaviour
 			}
 		}
 	}
-	
+
+	public void ShowCrosshairs(bool val=true)
+	{
+		b_showCrosshairs = val;
+	}
+
 	void EndLevel(bool loadMenu=false)
 	{
 		if(gameControlScript)

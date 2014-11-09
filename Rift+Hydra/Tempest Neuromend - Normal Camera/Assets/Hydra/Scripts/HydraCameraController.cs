@@ -8,7 +8,7 @@ namespace Tempest
 		{		
 			//movement and rotation related variables
 			public Vector3 m_rotateForce;
-			private float m_sensitivity = 1.0f;
+			private float m_sensitivity = 0.0f;
 
 			//y axis related variables
 			private Quaternion m_leftYRotation;
@@ -49,9 +49,10 @@ namespace Tempest
 				if(inp != null)
 				{
 					float jx = inp.JoystickX;
-					if(m_sensitivity > 0.0f && jx > 0.0f)
+			
+					if(m_sensitivity > 0.0f && Mathf.Abs(jx) > 0.0f)
 					{
-						jx += (1.0f - jx) * m_sensitivity;
+						jx += jx < 0.0f ? -(1.0f + jx) * m_sensitivity : (1.0f - jx) * m_sensitivity;
 					}
 					jx *= Time.timeScale;
 
@@ -87,9 +88,9 @@ namespace Tempest
 				if(inp != null)
 				{
 					float jy = inp.JoystickY;
-					if(m_sensitivity > 0.0f && jy > 0.0f)
+					if(m_sensitivity > 0.0f && Mathf.Abs(jy) > 0.0f)
 					{
-						jy += (1.0f - jy) * m_sensitivity;
+						jy += jy < 0.0f ? -(1.0f + jy) * m_sensitivity : (1.0f - jy) * m_sensitivity;
 					}
 					jy *= Time.timeScale;
 

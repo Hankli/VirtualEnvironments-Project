@@ -92,6 +92,7 @@ namespace Tempest
 	
 	     		//cast down palm's local y axis to check for objects within reach
 				Ray ray = new Ray (m_gripJoint.transform.position, -m_gripJoint.transform.up);
+
 				if(Physics.SphereCast (ray, m_pullRadius, out hit, m_pullReach, layer) )
 				{
 					Rigidbody hitRB = hit.rigidbody;
@@ -105,8 +106,10 @@ namespace Tempest
 						o.AddComponent<JointBreakEventPasser>().m_target = transform;
 					
 						//pull the object closer to hand
-						Vector3 sphereOuterPoint = m_gripJoint.transform.position - m_pullRadius * m_gripJoint.transform.up;
-						hitRB.transform.Translate(sphereOuterPoint - hit.point, Space.World);
+						CapsuleCollider collider = GetComponent<CapsuleCollider> ();
+						Vector3 holdPoint = collider.ClosestPointOnBounds(hit.point);
+
+						hitRB.transform.Translate(holdPoint - hit.point, Space.World);
 
 						//turn off collision between hand and object and turn off gravity of held object
 						m_connectedLayerMask = hitRB.gameObject.layer; 

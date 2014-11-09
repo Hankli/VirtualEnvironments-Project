@@ -23,7 +23,6 @@ namespace Tempest
 
 			private Vector3 m_position;
 			private Quaternion m_rotation;
-			public Quaternion m_accumRotation;
 
 			private Vector3	m_modelPosition; 
 			private Quaternion m_modelRotation; 

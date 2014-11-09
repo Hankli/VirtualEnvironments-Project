@@ -6,7 +6,8 @@ public class PlayerClick : MonoBehaviour
 	private bool b_isHolding=false;
 	private Transform heldObject;
 	private float holdDistance=1.0f;
-	
+	private ThrowableObject throwableScript=null;
+
 	void Start()
 	{
 	}
@@ -20,7 +21,7 @@ public class PlayerClick : MonoBehaviour
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(ray, out hit, 2.0f))
 			{
-				Debug.DrawLine(ray.origin, hit.point);
+				//Debug.DrawLine(ray.origin, hit.point);
 				if(hit.collider!=null)
 				{
 					if(hit.collider.attachedRigidbody)
@@ -61,6 +62,11 @@ public class PlayerClick : MonoBehaviour
 		{
 			if(heldObject!=null)
 			{
+				throwableScript=null;
+				if(throwableScript=heldObject.GetComponent<ThrowableObject>())
+				{
+					throwableScript.SelfDestruct();
+				}
 				if(heldObject.collider.attachedRigidbody)
 				{
 					heldObject.collider.attachedRigidbody.useGravity = true;
@@ -78,6 +84,11 @@ public class PlayerClick : MonoBehaviour
 		{
 			if(heldObject!=null)
 			{
+				throwableScript=null;
+				if(throwableScript=heldObject.GetComponent<ThrowableObject>())
+				{
+					throwableScript.SelfDestruct();
+				}
 				if(heldObject.collider.attachedRigidbody)
 				{
 					heldObject.collider.attachedRigidbody.freezeRotation=false;

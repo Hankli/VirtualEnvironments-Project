@@ -71,12 +71,13 @@ public class TouchPanel : MonoBehaviour
 			{
 				if(this.gameObject.transform.position.z<vanishingZ)
 				{
-					this.gameObject.transform.Translate(Vector3.forward*0.4f*Time.deltaTime,Space.World);
-					this.gameObject.transform.Translate(Vector3.up*0.05f*Time.deltaTime,Space.World);
+					this.gameObject.transform.Translate(Vector3.forward*0.6f*Time.deltaTime,Space.World);
+					this.gameObject.transform.Translate(Vector3.up*0.1f*Time.deltaTime,Space.World);
 				}
 				else
 				{
 					this.gameObject.transform.Translate(Vector3.up*-0.4f*Time.deltaTime,Space.World);
+					this.gameObject.transform.Rotate(Vector3.left*-15.0f*Time.deltaTime,Space.World);
 				}
 			}
 			else
@@ -189,7 +190,7 @@ public class TouchPanel : MonoBehaviour
 	
 	public int GetCurrentSequenceNumber()
 	{
-		return theSequence[currentSequenceIndex];
+		return theSequence[currentSequenceIndex];//will return null reference on collision after exercise completed... need to fix!
 	}
 	
 	public void NextIndex()

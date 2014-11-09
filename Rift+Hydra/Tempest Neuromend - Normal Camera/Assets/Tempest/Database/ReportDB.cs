@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
+using System.IO;
 
 using UnityEngine;
 using MySql.Data;
@@ -216,16 +217,17 @@ namespace Tempest
 			
 				try
 				{
-					if(!System.IO.Directory.Exists(csv_path))
+					if(!Directory.Exists(csv_path))
 					{
-						System.IO.Directory.CreateDirectory(csv_path);
+						Directory.CreateDirectory(csv_path);
 					}
 
 					string filename = csv_path + "/" + csv_file;
-					if(!System.IO.File.Exists(filename))
+					if(!File.Exists(filename))
 					{
-						System.IO.File.Create (filename);
+						 
 					}
+
 
 					System.IO.File.WriteAllText (filename, sb.ToString ());
 				}

@@ -10,19 +10,22 @@ public class FPSControl : MonoBehaviour
 	private float initialForwardSpeed;
 	private float initialBackwardSpeed;
 	private float initialStrafeSpeed;
-	 
-	private float crouchSpeed;
-	private float runSpeed;
 
 	private bool b_inputCrouch = false;
-	private bool b_canRun = true;
-	private bool b_canCrouch = true;
-	private bool b_jump = false;
+	private bool b_inputRun = false;
+	private bool b_inputJump = false;
+
+	private bool b_canRun = false;
+	private bool b_canJump = false;
+	private bool b_canCrouch = false;
 
 	private float finalHeight = 0.0f;
 	private float forwardSpeed = 0.0f;
 	private float backwardSpeed = 0.0f;
 	private float strafeSpeed = 0.0f;
+
+	private float crouchSpeedModifier = 0.5f;
+	private float sprintSpeedModifier = 2.0f;
 
 	private Vector3 direction;
 	 
@@ -37,13 +40,6 @@ public class FPSControl : MonoBehaviour
 		motor = GetComponent<CharacterMotor>();
 		control = GetComponent<CharacterController>();
 		initialHeight = control.height;
-
-		//need to set speed here from menu/gamecontrol values...
-		//initialForwardSpeed = motor.movement.maxForwardSpeed;
-		//initialBackwardSpeed = motor.movement.maxBackwardsSpeed;
-		//initialStrafeSpeed = motor.movement.maxSidewaysSpeed;
-		//crouchSpeed = motor.movement.maxForwardSpeed/2.0f;
-		//runSpeed = motor.movement.maxForwardSpeed*3;
 	}
 	 
 	public void SetMovementSpeeds(float speed)
@@ -51,32 +47,51 @@ public class FPSControl : MonoBehaviour
 		initialForwardSpeed = speed;
 		initialBackwardSpeed = speed;
 		initialStrafeSpeed = speed;
-		crouchSpeed = speed / 2.0f;
-		runSpeed = speed * 2.0f;
 	}
 
-	void Update()
+	public void SetMovementSpeeds(float forward, float backward, float strafe)
 	{
+		initialForwardSpeed = forward;
+		initialBackwardSpeed = backward;
+		initialStrafeSpeed = strafe;
+	}
+
+	private void Update()
+	{
+		SetAllowableMotion ();
+
 		finalHeight = initialHeight;
 		forwardSpeed = initialForwardSpeed;
 		backwardSpeed = initialBackwardSpeed;
 		strafeSpeed = initialStrafeSpeed;
 
-		if(!b_inputCrouch)
+		if(b_inputCrouch)
+		{
+			forwardSpeed = initialForwardSpeed * crouchSpeedModifier;
+			backwardSpeed = initialBackwardSpeed * crouchSpeedModifier;
+			strafeSpeed = initialStrafeSpeed * crouchSpeedModifier;
+		}
+		else
 		{
 			float lastHeight = control.height;
 			control.height = Mathf.Lerp(control.height, finalHeight, 5.0f * Time.deltaTime);
-
+			
 			transform.position += new Vector3(0, (control.height - lastHeight) / 2.0f, 0);
-		}	
+		}
+
+		if(b_inputRun)
+		{
+			forwardSpeed = initialForwardSpeed * sprintSpeedModifier;
+			backwardSpeed = initialBackwardSpeed * sprintSpeedModifier;
+			strafeSpeed = initialStrafeSpeed * sprintSpeedModifier;
+		}
 
 		//walking based movement
 		float walk = direction.z < 0.0f ? (direction.z * backwardSpeed) : (direction.z * forwardSpeed);
 		float strafe = direction.x * strafeSpeed;
 
 		Vector3 directionVector = new Vector3(strafe, 0.0f, walk);
-
-
+		
 		if (directionVector != Vector3.zero) 
 		{
 			// Get the length of the directon vector and then normalize it
@@ -106,23 +121,53 @@ public class FPSControl : MonoBehaviour
 			motor.movement.maxSidewaysSpeed = strafeSpeed;
 
 			motor.movement.velocity = directionVector;
-			motor.inputJump = b_jump;
+			motor.inputJump = b_inputJump;
 		}
+	}
+
+	private void SetAllowableMotion()
+	{
+		if(motor)
+		{
+			if(motor.grounded)
+			{
+				b_canRun = true;
+				b_canJump = true;
+				b_canCrouch = true;
+			}
+			else
+			{
+				b_canRun = false;
+				b_canJump = false;
+				b_canCrouch = false;
+			}
+		}
+	}
+
+	public void ForceRun()
+	{
+		if(b_canRun)
+		{
+			b_inputRun = true;
+		}
+	}
+
+	public void StopRun()
+	{
+		b_inputRun = false;
 	}
 
 	public void ForceJump()
 	{
-		b_jump = true;
+		if(b_canJump)
+		{
+			b_inputJump = true;
+		}
 	}
 
 	public void StopJump()
 	{
-		b_jump = false;
-	}
-
-	public void StopCrouch()
-	{
-		b_inputCrouch = false;
+		b_inputJump = false;
 	}
 	
 	public void ForceCrouch()
@@ -132,18 +177,15 @@ public class FPSControl : MonoBehaviour
 			b_inputCrouch = true;
 
 			finalHeight = 0.5f * initialHeight;
-			forwardSpeed = crouchSpeed;
-			backwardSpeed = crouchSpeed;
-			strafeSpeed = crouchSpeed;
-			
-			motor.movement.maxForwardSpeed = forwardSpeed;
-			motor.movement.maxBackwardsSpeed = backwardSpeed;
-			motor.movement.maxSidewaysSpeed = strafeSpeed;
-			
 			float lastHeight = control.height;
 			control.height = Mathf.Lerp(control.height, finalHeight, 5.0f * Time.deltaTime);
 
  			transform.position += new Vector3(0,(control.height - lastHeight) / 2.0f, 0);
 		}
+	}
+
+	public void StopCrouch()
+	{
+		b_inputCrouch = false;
 	}
 }

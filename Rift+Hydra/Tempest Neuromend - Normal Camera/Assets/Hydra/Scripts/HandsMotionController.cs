@@ -64,7 +64,7 @@ namespace Tempest
 					foreach ( Hand hand in m_hands )
 					{
 					//	hand.Controller.Smoother.ClearSamples();
-						hand.Position = hand.Controller.PositionRaw;
+						hand.Position = hand.Controller.Position;
 
 						hand.RotationalReference = hand.Controller.Rotation * hand.ModelRotation;
 	
