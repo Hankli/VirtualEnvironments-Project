@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -73,25 +73,25 @@
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="I18N">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Plugins/I18N.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Plugins/I18N.dll</HintPath>
  </Reference>
  <Reference Include="I18N.West">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Plugins/I18N.West.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Plugins/I18N.West.dll</HintPath>
  </Reference>
  <Reference Include="MySql.Data">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/MySql.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Data.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="System.Drawing">
- <HintPath>D:/Ary/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
+ <HintPath>E:/_ARY/__MURDOCH/ICT313/Tempest Neuromend/Assets/Tempest/Libraries/System.Drawing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
- <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ <HintPath>E:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

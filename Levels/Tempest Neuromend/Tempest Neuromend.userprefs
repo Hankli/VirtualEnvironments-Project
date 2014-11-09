@@ -1,16 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scenes\Ary_Note.txt">
     <Files>
-      <File FileName="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" Line="498" Column="2" />
       <File FileName="Assets\Tempest\Tempest Scenes\Ary_Note.txt" Line="1" Column="1" />
-      <File FileName="Assets\Tempest\Tempest Scripts\LevelControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Tempest\Tempest Scripts\GameControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Tempest\Database\ProfileMenu.cs" Line="135" Column="47" />
-      <File FileName="Assets\Tempest\GUI_Utility\TimedMessage.cs" Line="13" Column="4" />
-      <File FileName="Assets\Tempest\GUI_Utility\TableView.cs" Line="199" Column="5" />
-      <File FileName="Assets\Tempest\GUI_Utility\CalendarView.cs" Line="127" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
