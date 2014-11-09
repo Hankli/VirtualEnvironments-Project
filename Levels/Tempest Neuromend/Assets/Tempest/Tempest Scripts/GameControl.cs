@@ -62,8 +62,8 @@ public class GameControl : MonoBehaviour
 	public bool b_paused=false;
 	public bool b_OVRCam=false;//used to toggle OVRCam... toggling not stable
 
-	public bool b_OVRCamMode=true;
-	
+	private bool b_OVRCamMode=true;//internal OVR camera switching...
+
 	public bool b_menuActive=false;
 
 
@@ -71,6 +71,12 @@ public class GameControl : MonoBehaviour
 	public float objectAvoidancePlayerSpeed=2.0f;
 	public float wayFindingPlayerSpeed=5.0f;
 	public float inputSensitivity=5.0f;
+
+	public float audioVolume=1.0f;
+	public bool b_sound=true;
+	public bool b_music=true;
+
+	public bool b_OVRCamMenuChoice = true;
 	//END PLAYER SETTINGS==============================================
 
 
@@ -149,63 +155,71 @@ public class GameControl : MonoBehaviour
 		}
 		else
 		{
-			OVRCamera(b_OVRCamMode);
-		}
+			OVRCamera(b_OVRCamMenuChoice);
 
-		if(controllerType==ControllerType.MouseKeyboard)
-		{
-			GameObject tempLevel=null;
-			if(tempLevel=GameObject.FindWithTag("Level"))
+			GameObject theMusic = null;
+			if(theMusic=GameObject.Find("Music"))
 			{
-				LevelControl tempLevelControl =null;
-				if(tempLevelControl=tempLevel.GetComponent<LevelControl>())
+				if(b_music)
+					theMusic.audio.volume=audioVolume;
+				else
+					theMusic.audio.volume=0;
+			}
+
+
+			if(controllerType==ControllerType.MouseKeyboard)
+			{
+				GameObject tempLevel=null;
+				if(tempLevel=GameObject.FindWithTag("Level"))
 				{
-
-					if(tempLevelControl.levelType==LevelControl.LevelType.Video||tempLevelControl.levelType==LevelControl.LevelType.Scores)
+					LevelControl tempLevelControl =null;
+					if(tempLevelControl=tempLevel.GetComponent<LevelControl>())
 					{
-						tempLevelControl.ShowCrosshairs(false);
+						
+						if(tempLevelControl.levelType==LevelControl.LevelType.Video||tempLevelControl.levelType==LevelControl.LevelType.Scores)
+						{
+							tempLevelControl.ShowCrosshairs(false);
+						}
+						else
+						{
+							tempLevelControl.ShowCrosshairs();
+						}
+						
+						//tempLevelControl.ShowCrosshairs(!(tempLevelControl.levelType==LevelControl.LevelType.Video));
+						
 					}
-					else
+				}
+				GameObject tempPlayer = null;
+				if(tempPlayer=GameObject.FindWithTag("Player"))
+				{
+					MouseLook tempMouseLook = null;
+					if(tempMouseLook=tempPlayer.GetComponent<MouseLook>())
 					{
-						tempLevelControl.ShowCrosshairs();
+						tempMouseLook.sensitivityX=inputSensitivity+0.5f;
+						tempMouseLook.sensitivityY=inputSensitivity+0.5f;
 					}
-
-					//tempLevelControl.ShowCrosshairs(!(tempLevelControl.levelType==LevelControl.LevelType.Video));
-
+					
+					GameObject tempMainCam = null;
+					foreach(Transform child in tempPlayer.transform)
+					{
+						if(child.tag=="MainCamera")
+						{
+							tempMainCam=child.gameObject;
+						}
+					}
+					
+					if(tempMainCam)
+					{
+						MouseLook tempMouseLookB = null;
+						if(tempMouseLookB=tempMainCam.GetComponent<MouseLook>())
+						{
+							tempMouseLookB.sensitivityX=inputSensitivity+0.5f;
+							tempMouseLookB.sensitivityY=inputSensitivity+0.5f;
+						}
+					}
 				}
 			}
-			GameObject tempPlayer = null;
-			if(tempPlayer=GameObject.FindWithTag("Player"))
-			{
-				MouseLook tempMouseLook = null;
-				if(tempMouseLook=tempPlayer.GetComponent<MouseLook>())
-				{
-					tempMouseLook.sensitivityX=inputSensitivity+0.5f;
-					tempMouseLook.sensitivityY=inputSensitivity+0.5f;
-				}
-
-				GameObject tempMainCam = null;
-				foreach(Transform child in tempPlayer.transform)
-				{
-					if(child.tag=="MainCamera")
-					{
-						tempMainCam=child.gameObject;
-					}
-				}
-
-				if(tempMainCam)
-				{
-					MouseLook tempMouseLookB = null;
-					if(tempMouseLookB=tempMainCam.GetComponent<MouseLook>())
-					{
-						tempMouseLookB.sensitivityX=inputSensitivity+0.5f;
-						tempMouseLookB.sensitivityY=inputSensitivity+0.5f;
-					}
-				}
-			}
 		}
-
-
 	}
 
 	//switches between OVRcam and normal... does not work well or at all if toggled more than once?? needs more testing...

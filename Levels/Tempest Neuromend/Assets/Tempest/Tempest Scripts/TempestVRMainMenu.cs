@@ -73,8 +73,6 @@ public class TempestVRMainMenu : VRGUI
 			{
 				gameControlScript.MenuActive();
 
-				gameControlScript.b_OVRCamMode=false;
-
 				gameControlScript.SetControllerType(GameControl.ControllerType.MouseKeyboard);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusLeap);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusHydra);
@@ -90,7 +88,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		sound = true;
 		music = true;
-		volume = 5.0f;
+		volume = 1.0f;
 		twoHands = false;
 		sensitivity = 5.0f;
 		playerSpeedOA = 2.0f;
@@ -123,7 +121,8 @@ public class TempestVRMainMenu : VRGUI
 		menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
 
 		profileMenu.Initialize ();
-		ConfigGameControl();
+		ConfigMenuValues();
+		//ConfigGameControl();
 	}
 
 	//run before loading levels...
@@ -138,10 +137,45 @@ public class TempestVRMainMenu : VRGUI
 				gameControlScript.wayFindingPlayerSpeed=playerSpeedWF;
 				gameControlScript.objectAvoidancePlayerSpeed=playerSpeedOA;
 				gameControlScript.inputSensitivity=sensitivity;
-				gameControlScript.b_OVRCamMode=b_Oculus;
+				gameControlScript.b_OVRCamMenuChoice=b_Oculus;
+				gameControlScript.audioVolume=volume;
+				gameControlScript.b_sound=sound;
+				gameControlScript.b_music=music;
 			}
 		}
 	}
+
+	//public void ConfigMenuValues(float wfSpeed, float oaSpeed, float sensitive, bool rift, float vol, bool mus, bool sfx )
+	public void ConfigMenuValues()
+	{
+		GameObject gameControl=null;
+		if(gameControl=GameObject.FindWithTag("Game"))
+		{
+			GameControl gameControlScript=null;
+			if(gameControlScript=gameControl.GetComponent<GameControl>())
+			{
+				playerSpeedWF = gameControlScript.wayFindingPlayerSpeed;
+				playerSpeedOA = gameControlScript.objectAvoidancePlayerSpeed;
+				sensitivity = gameControlScript.inputSensitivity;
+				b_Oculus = gameControlScript.b_OVRCamMenuChoice;
+				volume = gameControlScript.audioVolume;
+				sound = gameControlScript.b_sound;
+				music = gameControlScript.b_music;
+			}	
+
+		}
+/*
+			playerSpeedWF = wfSpeed;
+			playerSpeedOA = oaSpeed;
+			sensitivity = sensitive;
+			b_Oculus = rift;
+			volume = vol;
+			sound = sfx;
+			music = mus;
+*/
+
+	}
+
 
 	public override void OnVRGUI()
 	{
@@ -419,7 +453,7 @@ public class TempestVRMainMenu : VRGUI
 		sound = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.4f, buttonWidth, buttonHeight), sound, "SFX", menuToggleStyle);
 		music = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.47f, buttonWidth, buttonHeight), music, "MUSIC", menuToggleStyle);
 		GUI.Label(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.54f, buttonWidth, buttonHeight), "Volume", menuLabelStyleB);
-		volume = GUI.HorizontalSlider (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.61f, buttonWidth, buttonHeight), volume,0.0f,10.0f);
+		volume = GUI.HorizontalSlider (new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.61f, buttonWidth, buttonHeight), volume,0.0f,1.0f);
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			titleTexture = settingsTitle;
