@@ -129,7 +129,12 @@ public class GameControl : MonoBehaviour
 
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
-			LoadNextLevel();
+			//if not main menu skip to next level...
+			GameObject tempLevel=null;
+			if(tempLevel=GameObject.FindWithTag("Level"))
+			{
+				LoadNextLevel();
+			}
 		}
 	}
 
@@ -167,6 +172,35 @@ public class GameControl : MonoBehaviour
 
 					//tempLevelControl.ShowCrosshairs(!(tempLevelControl.levelType==LevelControl.LevelType.Video));
 
+				}
+			}
+			GameObject tempPlayer = null;
+			if(tempPlayer=GameObject.FindWithTag("Player"))
+			{
+				MouseLook tempMouseLook = null;
+				if(tempMouseLook=tempPlayer.GetComponent<MouseLook>())
+				{
+					tempMouseLook.sensitivityX=inputSensitivity+0.5f;
+					tempMouseLook.sensitivityY=inputSensitivity+0.5f;
+				}
+
+				GameObject tempMainCam = null;
+				foreach(Transform child in tempPlayer.transform)
+				{
+					if(child.tag=="MainCamera")
+					{
+						tempMainCam=child.gameObject;
+					}
+				}
+
+				if(tempMainCam)
+				{
+					MouseLook tempMouseLookB = null;
+					if(tempMouseLookB=tempMainCam.GetComponent<MouseLook>())
+					{
+						tempMouseLookB.sensitivityX=inputSensitivity+0.5f;
+						tempMouseLookB.sensitivityY=inputSensitivity+0.5f;
+					}
 				}
 			}
 		}
