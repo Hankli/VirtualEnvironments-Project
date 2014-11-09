@@ -224,14 +224,14 @@ namespace Tempest
 					string filename = csv_path + "/" + csv_file;
 					if(!System.IO.File.Exists(filename))
 					{
-						System.IO.File.Create (filename);
+						System.IO.File.Create (filename).Close();
 					}
 
 					System.IO.File.WriteAllText (filename, sb.ToString ());
 				}
-				catch(System.Exception bleh)
+				catch(System.Exception exception)
 				{
-					Debug.Log (bleh.Message);
+					Debug.Log (exception.Message);
 					return false;
 				}
 
