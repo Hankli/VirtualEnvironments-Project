@@ -17,7 +17,8 @@ public class LevelControl : MonoBehaviour
 		Video,
 		ObjectInteraction,
 		ObjectAvoidance,
-		WayFinding
+		WayFinding,
+		Scores
 	};
 	
 	[Tooltip("Type of level...")]
@@ -335,7 +336,12 @@ public class LevelControl : MonoBehaviour
 			}
 		}
 	}
-	
+
+	public void ShowCrosshairs(bool val=true)
+	{
+		b_showCrosshairs = val;
+	}
+
 	void EndLevel(bool loadMenu=false)
 	{
 		if(gameControlScript)

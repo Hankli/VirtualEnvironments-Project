@@ -113,6 +113,7 @@ public class GameControl : MonoBehaviour
 		if(!b_menuActive)
 		{
 			Screen.lockCursor=true;
+			Screen.showCursor=false;
 		}
 		else
 		{
@@ -142,7 +143,35 @@ public class GameControl : MonoBehaviour
 			OVRCamera(false);
 		}
 		else
+		{
 			OVRCamera(b_OVRCamMode);
+		}
+
+		if(controllerType==ControllerType.MouseKeyboard)
+		{
+			GameObject tempLevel=null;
+			if(tempLevel=GameObject.FindWithTag("Level"))
+			{
+				LevelControl tempLevelControl =null;
+				if(tempLevelControl=tempLevel.GetComponent<LevelControl>())
+				{
+
+					if(tempLevelControl.levelType==LevelControl.LevelType.Video||tempLevelControl.levelType==LevelControl.LevelType.Scores)
+					{
+						tempLevelControl.ShowCrosshairs(false);
+					}
+					else
+					{
+						tempLevelControl.ShowCrosshairs();
+					}
+
+					//tempLevelControl.ShowCrosshairs(!(tempLevelControl.levelType==LevelControl.LevelType.Video));
+
+				}
+			}
+		}
+
+
 	}
 
 	//switches between OVRcam and normal... does not work well or at all if toggled more than once?? needs more testing...
