@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scenes\Ary_Note.txt">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\VideoPlayer.cs">
     <Files>
-      <File FileName="Assets\Tempest\Tempest Scenes\Ary_Note.txt" Line="1" Column="1" />
+      <File FileName="Assets\Tempest\Tempest Scripts\VideoPlayer.cs" Line="40" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

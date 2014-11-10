@@ -3,7 +3,8 @@ using System.Collections;
 
 public class TempestVRMainMenu : VRGUI 
 {
-	Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
+	//Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
+	Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
 	Color cursorColour = new Color(0.22f, 1.0f, 0.97f);
 	Color buttonColour = new Color(1.0f, 1.0f, 1.0f);
 
@@ -55,6 +56,9 @@ public class TempestVRMainMenu : VRGUI
 	Texture2D exerciseTitle;
 	Texture2D controlsTitle;
 	Texture2D audioTitle;
+	Texture2D helpTitle;
+	Texture2D helpHowToPlayTitle;
+	Texture2D settingsConfigTitle;
 	Texture2D neuromendIcon;
 
 	Texture2D titleTexture=null;
@@ -111,6 +115,10 @@ public class TempestVRMainMenu : VRGUI
 		exerciseTitle = Resources.Load<Texture2D>("Exercise01");
 		controlsTitle = Resources.Load<Texture2D>("Controls01");
 		audioTitle = Resources.Load<Texture2D>("Audio01");
+		helpTitle = Resources.Load<Texture2D>("Help");
+		helpHowToPlayTitle = Resources.Load<Texture2D>("HelpHowToPlay");
+		settingsConfigTitle = Resources.Load<Texture2D>("Config");
+
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
 		profileMenu = new Tempest.Menu.ProfileMenu ();
@@ -164,16 +172,6 @@ public class TempestVRMainMenu : VRGUI
 			}	
 
 		}
-/*
-			playerSpeedWF = wfSpeed;
-			playerSpeedOA = oaSpeed;
-			sensitivity = sensitive;
-			b_Oculus = rift;
-			volume = vol;
-			sound = sfx;
-			music = mus;
-*/
-
 	}
 
 
@@ -230,7 +228,7 @@ public class TempestVRMainMenu : VRGUI
 		
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.7f, buttonWidth, buttonHeight), "HELP", menuButtonStyle ))
 		{
-			titleTexture = profileTitle;
+			titleTexture = helpTitle;
 			menuFunction = help;
 		}
 		
@@ -326,9 +324,9 @@ public class TempestVRMainMenu : VRGUI
 		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.09f, screenHeight * 0.2f, buttonWidth, buttonHeight), b_playTutorials, "");
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.2f, buttonWidth, buttonHeight), "Play Tutorials", menuLabelStyleA);
 		b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
-		b_objectInteraction = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.4f, buttonWidth*1.5f, buttonHeight), b_objectInteraction, "Object Manipulation", menuToggleStyle);
-		b_objectAvoidance = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.47f, buttonWidth*1.5f, buttonHeight), b_objectAvoidance, "Obstacle Avoidance", menuToggleStyle);
-		b_wayFinding = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.54f, buttonWidth*1.5f, buttonHeight), b_wayFinding, "Way Finding", menuToggleStyle);
+		b_objectAvoidance = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.4f, buttonWidth*1.5f, buttonHeight), b_objectAvoidance, "Obstacle Avoidance", menuToggleStyle);
+		b_wayFinding = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.47f, buttonWidth*1.5f, buttonHeight), b_wayFinding, "Way Finding", menuToggleStyle);
+		b_objectInteraction = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.54f, buttonWidth*1.5f, buttonHeight), b_objectInteraction, "Object Manipulation", menuToggleStyle);
 
 
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.3f, buttonWidth, buttonHeight), "Object Interaction", menuLabelStyleA);
@@ -342,9 +340,9 @@ public class TempestVRMainMenu : VRGUI
 
 
 			//set first level
-			if(b_objectInteraction){firstLevelIndex = 3;}
-			else if(b_objectAvoidance){firstLevelIndex = 5;}
-			else if(b_wayFinding){firstLevelIndex = 7;}
+			if(b_objectAvoidance){firstLevelIndex = 3;}
+			else if(b_wayFinding){firstLevelIndex = 5;}
+			else if(b_objectInteraction){firstLevelIndex = 7;}
 			//adjust first level index if tutorials are to be played
 			if(b_playTutorials){firstLevelIndex--;}
 
@@ -352,7 +350,7 @@ public class TempestVRMainMenu : VRGUI
 			//count levels and...
 			//populate level index array for game control...
 			numberOfLevels=0;
-			if(b_objectInteraction)
+			if(b_objectAvoidance)
 			{
 				if(b_playTutorials)
 				{
@@ -363,7 +361,7 @@ public class TempestVRMainMenu : VRGUI
 				numberOfLevels++;
 
 			}
-			if(b_objectAvoidance)
+			if(b_wayFinding)
 			{
 				if(b_playTutorials)
 				{
@@ -374,7 +372,7 @@ public class TempestVRMainMenu : VRGUI
 				levelIndexes[numberOfLevels]=5;
 				numberOfLevels++;
 			}
-			if(b_wayFinding)
+			if(b_objectInteraction)
 			{
 				if(b_playTutorials)
 				{
@@ -428,7 +426,7 @@ public class TempestVRMainMenu : VRGUI
 
 		if(GUI.Button(new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.7f, buttonWidth, buttonHeight), "CONFIG", menuButtonStyle))
 		{
-			titleTexture = controlsTitle;
+			titleTexture = settingsConfigTitle;
 			menuFunction = controls;
 		}
 		if(GUI.Button(new Rect ((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.76f, buttonWidth, buttonHeight), "AUDIO", menuButtonStyle))

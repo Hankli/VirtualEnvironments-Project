@@ -64,18 +64,31 @@ public class ScoreScreen : VRGUI
 		if(gameControlScript)
 		{
 			scoresText="SCORES";
-			if(gameControlScript.IsObjectInteractionScore())
-			{
-				scoresText+="\nObject Interaction: "+TempestUtil.FormatSeconds((int)objectInteractionScore);
-			}
 			if(gameControlScript.IsObjectAvoidanceScore())
 			{
-				scoresText+="\nObject Avoidance: "+TempestUtil.FormatSeconds((int)objectAvoidanceScore);
+				scoresText+="\nObstacle Avoidance: "+TempestUtil.FormatSeconds((int)objectAvoidanceScore);
+			}
+			else
+			{
+				scoresText+="\nObstacle Avoidance: N/A";
 			}
 			if(gameControlScript.IsWayFindingScore())
 			{
 				scoresText+="\nWay Finding: "+TempestUtil.FormatSeconds((int)wayFindingScore);
 			}
+			else
+			{
+				scoresText+="\nWay Finding: N/A";
+			}
+			if(gameControlScript.IsObjectInteractionScore())
+			{
+				scoresText+="\nObject Manipulation: "+TempestUtil.FormatSeconds((int)objectInteractionScore);
+			}
+			else
+			{
+				scoresText+="\nObject Manipulation: N/A";
+			}
+			scoresText+="\n\n\nPress 'ESC' to return to main menu";
 		}
 		//scoresText="SCORES\nObject Interaction: "+TempestUtil.FormatSeconds((int)objectInteractionScore)+"\nObject Avoidance: "+TempestUtil.FormatSeconds((int)objectAvoidanceScore)+"\nWay Finding: "+TempestUtil.FormatSeconds((int)wayFindingScore);
 	}

@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Level Summary>
-  <Username>0</Username>
-  <Level>WayFinding</Level>
-  <Controller>MouseKeyboard</Controller>
-  <Score>54</Score>
-  <Timestamp>Thursday, October 02, 2014</Timestamp>
-</Level Summary>
+<Level_Summary>
+  <Username>BlehBleh</Username>
+  <Controller>Mouse and Keyboard</Controller>
+  <Level>Way Finding</Level>
+  <Score>67</Score>
+  <Speed>5</Speed>
+  <Sensitivity>10</Sensitivity>
+  <Timestamp>10/11/2014 15:09:33</Timestamp>
+</Level_Summary>

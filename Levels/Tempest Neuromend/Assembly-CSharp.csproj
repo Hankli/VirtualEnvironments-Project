@@ -74,8 +74,8 @@
      <Compile Include="Assets\Tempest\GUI_Utility\TimedMessage.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\BasicMovement.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\CheckpointTrigger.cs" />
-     <Compile Include="Assets\Tempest\Tempest Scripts\DroppingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\ExitControl.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\Explosion.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\GameControl.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\DebugUtils.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\Hermite Spline Control\MathUtils.cs" />
@@ -105,6 +105,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\VideoPlayer.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WFHintManager.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />

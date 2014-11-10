@@ -395,6 +395,7 @@ public class GameControl : MonoBehaviour
 		}
 		currentLevelIndex++;
 		//if no more levels go to main menu otherwise load next level in queue
+		//Debug.Log (currentLevelIndex+" "+numberOfLevels);
 		if(currentLevelIndex>=numberOfLevels)
 		{
 			currentLevelIndex=0;
