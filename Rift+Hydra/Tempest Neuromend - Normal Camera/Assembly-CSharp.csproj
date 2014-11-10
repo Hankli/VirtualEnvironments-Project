@@ -119,6 +119,7 @@
      <Compile Include="Assets\Tempest\Tempest Scripts\ThrowingObjective.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanel.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\TouchPanelButton.cs" />
+     <Compile Include="Assets\Tempest\Tempest Scripts\VideoPlayer.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WFHintManager.cs" />
      <Compile Include="Assets\Tempest\Tempest Scripts\WindowTrigger.cs" />
      <Compile Include="Assets\VRGUI\Scripts\VRGUI.cs" />

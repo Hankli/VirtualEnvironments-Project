@@ -16,7 +16,7 @@ public class ThrowingObjective : MonoBehaviour
 	protected GameObject levelControl=null;
 	protected LevelControl levelControlScript=null;
 
-	protected string objectiveText="Objective:\nPick up and throw the objects into thier corresponding windows";
+	protected string objectiveText="Objective:\nPick up and place the objects into thier corresponding windows";
 	protected string objectiveTextUpdated="";
 
 	public virtual void Awake() 

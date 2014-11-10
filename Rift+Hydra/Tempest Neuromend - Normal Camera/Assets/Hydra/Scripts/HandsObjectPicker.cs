@@ -53,6 +53,12 @@ namespace Tempest
 				m_gripConstraint.connectedBody.AddForce (m_hand.rigidbody.velocity, ForceMode.Impulse);
 				m_gripConstraint.connectedBody.AddTorque (m_hand.rigidbody.angularVelocity, ForceMode.Impulse);
 
+				ThrowableObject throwableObj = m_gripConstraint.connectedBody.GetComponent<ThrowableObject>();
+				if(throwableObj != null)
+				{
+					throwableObj.SelfDestruct();
+				}
+
 				//destroy dummy joint object attached to the constraint
 				GameObject.Destroy (m_gripConstraint.gameObject);
 				m_gripConstraint = null;

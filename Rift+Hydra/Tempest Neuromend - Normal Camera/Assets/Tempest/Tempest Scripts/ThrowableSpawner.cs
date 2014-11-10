@@ -18,9 +18,13 @@ public class ThrowableSpawner : MonoBehaviour
 	
 	public float awakenMoveSpeedMultiplier=0.4f;//0.4f default
 	
-	void Start() 
+	void Awake() 
 	{
 		LoadObjects();
+	}
+
+	void Start()
+	{
 	}
 	
 	void Update() 
