@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(AudioSource))]
+
 public class TempestVRMainMenu : VRGUI 
 {
 	//Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
@@ -67,6 +69,17 @@ public class TempestVRMainMenu : VRGUI
 	private Rect backgroundPosition;
 	private Rect iconPosition;
 
+	private Rect videoPosition;
+	public MovieTexture OATutorial = null;
+	public MovieTexture WFTutorial = null;
+	public MovieTexture OITutorial = null;
+
+	private MovieTexture video=null;
+
+	private string playButtonText="PLAY";
+	private float videoHeight=0.0f;
+	private float videoWidth=0.0f;
+
 	void Awake()
 	{
 		GameObject gameControl=null;
@@ -87,7 +100,7 @@ public class TempestVRMainMenu : VRGUI
 	}
 
 
-	// Use this for initialization
+	// Most of the ratios are to compensate having the vrgui 'square' look on a normal camera. If using actual VR HMDs you need to change the ratios.
 	void Start() 
 	{
 		sound = true;
@@ -103,7 +116,10 @@ public class TempestVRMainMenu : VRGUI
 		
 		buttonHeight = Screen.height * 0.05f;
 		buttonWidth = Screen.width * 0.2f;
-		
+
+		videoWidth = Screen.width * 0.9f;
+		videoHeight = Screen.height * 0.6f;
+
 		Camera.main.backgroundColor = backgroundColour;
 		//menuFunction = anyKey;
 		menuFunction = mainMenu;
@@ -185,13 +201,15 @@ public class TempestVRMainMenu : VRGUI
 			buttonHeight = Screen.height * 0.05f;
 			buttonWidth = Screen.width * 0.2f;
 
+			videoWidth = Screen.width * 0.9f;
+			videoHeight = Screen.height * 0.6f;
+
 			//font size scaling may need tweaking if standalone screen ratio is variable...
 			menuButtonStyle.fontSize = (int)(Screen.width/40.0f);
 			menuLabelStyle.fontSize = menuButtonStyle.fontSize;
 			menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 			menuToggleStyle.fontSize = menuButtonStyle.fontSize;
 			menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
-
 		}
 
 		DrawBackground();
@@ -228,7 +246,7 @@ public class TempestVRMainMenu : VRGUI
 		
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.7f, buttonWidth, buttonHeight), "HELP", menuButtonStyle ))
 		{
-			titleTexture = helpTitle;
+			titleTexture = helpHowToPlayTitle;
 			menuFunction = help;
 		}
 		
@@ -254,10 +272,102 @@ public class TempestVRMainMenu : VRGUI
 
 		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
 		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.82f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
+		{
+			playButtonText="PLAY";
+			video = OATutorial;
+			if(video)
+			{
+				audio.clip = video.audioClip;
+			}
+
+			titleTexture = helpHowToPlayTitle;
+			menuFunction = videoTutorials;
+		}		
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			titleTexture = null;
 			menuFunction = mainMenu;
+		}
+		GUI.color = cursorColour;
+	}
+
+
+	void videoTutorials()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+
+		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.5f, videoWidth, videoHeight);
+		GUI.DrawTexture(videoPosition, video);
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "OBSTACLE AVOIDANCE", menuButtonStyle))
+		{
+			video=OATutorial;
+			if(video)
+			{
+				audio.clip = video.audioClip;
+				video.Stop();
+				audio.Stop();
+				playButtonText="PLAY";
+			}
+		}	
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "WAY FINDING", menuButtonStyle))
+		{
+			video=WFTutorial;
+			if(video)
+			{
+				audio.clip = video.audioClip;
+				video.Stop();
+				audio.Stop();
+				playButtonText="PLAY";
+			}
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "OBJECT MANIPULATION", menuButtonStyle))
+		{
+			video=OITutorial;
+			if(video)
+			{
+				audio.clip = video.audioClip;
+				video.Stop();
+				audio.Stop();
+				playButtonText="PLAY";
+			}
+		}		
+
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.8f, buttonWidth, buttonHeight), playButtonText, menuButtonStyle))
+		{
+			if(video)
+			{
+				if(!video.isPlaying)
+				{
+					video.Play();
+					audio.Play();
+					playButtonText="PAUSE";
+				}
+				else
+				{
+					video.Pause();
+					audio.Pause();
+					playButtonText="PLAY";
+				}
+			}
+		}
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+				playButtonText="PLAY";
+			}
+			titleTexture = helpHowToPlayTitle;
+			menuFunction = help;
 		}
 		GUI.color = cursorColour;
 	}
@@ -280,10 +390,7 @@ public class TempestVRMainMenu : VRGUI
 			titleTexture = null;
 			menuFunction = mainMenu;
 		}
-		
-
 		GUI.color = cursorColour;
-
 	}
 	
 	void profile()
