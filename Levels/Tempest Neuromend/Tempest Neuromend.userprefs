@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\VideoPlayer.cs">
     <Files>
-      <File FileName="Assets\Tempest\Tempest Scripts\VideoPlayer.cs" Line="40" Column="19" />
+      <File FileName="Assets\Tempest\Tempest Scripts\LevelControl.cs" Line="99" Column="2" />
+      <File FileName="Assets\Tempest\Tempest Scripts\VideoPlayer.cs" Line="61" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

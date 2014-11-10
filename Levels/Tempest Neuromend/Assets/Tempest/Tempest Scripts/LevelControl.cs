@@ -95,6 +95,8 @@ public class LevelControl : MonoBehaviour
 	
 	private bool b_saved=false;
 
+	public bool b_videoDone=false;
+
 	void Awake()
 	{
 		GameObject gameControl = null;
@@ -139,7 +141,7 @@ public class LevelControl : MonoBehaviour
 		countdownShadow.alignment=TextAnchor.MiddleCenter;
 		countdownShadow.fontStyle=FontStyle.Bold;
 
-
+		b_videoDone=false;
 
 		crosshairsTexture=Resources.Load<Texture2D>("Crosshairs01");
 
@@ -182,14 +184,13 @@ public class LevelControl : MonoBehaviour
 		{
 			//run video...
 			//load next level when done...
-			
-			
-			
 			AdjustGUI();
 			timerText="";
-			timerText=nextLevelName+" Video Tutorial Screen";
-			EndLevel();
-			//b_endingLevel=true;
+			//timerText=nextLevelName+" Video Tutorial Screen";
+			if(b_videoDone)
+			{
+				EndLevel();
+			}
 		}
 		else
 		{
@@ -270,15 +271,12 @@ public class LevelControl : MonoBehaviour
 			else
 			{
 				EndLevel();
-				//b_endingLevel=true;
-
 			} 
 		}
 		
 		if(levelType==LevelType.None)
 		{
 			EndLevel(true);
-			//b_endingLevel=true;
 		}
 	}
 	
@@ -342,7 +340,7 @@ public class LevelControl : MonoBehaviour
 		b_showCrosshairs = val;
 	}
 
-	void EndLevel(bool loadMenu=false)
+	public void EndLevel(bool loadMenu=false)
 	{
 		if(gameControlScript)
 		{
