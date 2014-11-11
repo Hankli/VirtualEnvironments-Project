@@ -56,9 +56,9 @@ public class TempestVRMainMenu : VRGUI
 	Texture2D settingsTitle;
 	Texture2D aboutTitle;
 	Texture2D exerciseTitle;
-	Texture2D controlsTitle;
+//	Texture2D controlsTitle;
 	Texture2D audioTitle;
-	Texture2D helpTitle;
+//	Texture2D helpTitle;
 	Texture2D helpHowToPlayTitle;
 	Texture2D settingsConfigTitle;
 	Texture2D neuromendIcon;
@@ -75,6 +75,10 @@ public class TempestVRMainMenu : VRGUI
 	public MovieTexture OITutorial = null;
 
 	private MovieTexture video=null;
+
+	private bool b_OATutVid = true;
+	private bool b_WFTutVid = false;
+	private bool b_OITutVid = false;
 
 	private string playButtonText="PLAY";
 	private float videoHeight=0.0f;
@@ -129,9 +133,9 @@ public class TempestVRMainMenu : VRGUI
 		settingsTitle = Resources.Load<Texture2D>("Settings01");
 		aboutTitle = Resources.Load<Texture2D>("About01");
 		exerciseTitle = Resources.Load<Texture2D>("Exercise01");
-		controlsTitle = Resources.Load<Texture2D>("Controls01");
+//		controlsTitle = Resources.Load<Texture2D>("Controls01");
 		audioTitle = Resources.Load<Texture2D>("Audio01");
-		helpTitle = Resources.Load<Texture2D>("Help");
+//		helpTitle = Resources.Load<Texture2D>("Help");
 		helpHowToPlayTitle = Resources.Load<Texture2D>("HelpHowToPlay");
 		settingsConfigTitle = Resources.Load<Texture2D>("Config");
 
@@ -299,11 +303,23 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
 
+		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
+
+
 		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.5f, videoWidth, videoHeight);
 		GUI.DrawTexture(videoPosition, video);
 
-		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "OBSTACLE AVOIDANCE", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), "", menuButtonStyle))
 		{
+			b_OATutVid = true;
+			b_WFTutVid = false;
+			b_OITutVid = false;
+
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+			}
 			video=OATutorial;
 			if(video)
 			{
@@ -313,9 +329,19 @@ public class TempestVRMainMenu : VRGUI
 				playButtonText="PLAY";
 			}
 		}	
+		GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), b_OATutVid, "OBSTACLE AVOIDANCE", menuToggleStyle);
 
-		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "WAY FINDING", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), "", menuButtonStyle))
 		{
+			b_OATutVid = false;
+			b_WFTutVid = true;
+			b_OITutVid = false;
+			
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+			}
 			video=WFTutorial;
 			if(video)
 			{
@@ -325,9 +351,19 @@ public class TempestVRMainMenu : VRGUI
 				playButtonText="PLAY";
 			}
 		}		
+		GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), b_WFTutVid, "WAY FINDING", menuToggleStyle);
 
-		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "OBJECT MANIPULATION", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*1.2f) * 0.9f, screenHeight * 0.075f, buttonWidth*1.2f, buttonHeight*2.0f), "", menuButtonStyle))
 		{
+			b_OATutVid = false;
+			b_WFTutVid = false;
+			b_OITutVid = true;
+			
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+			}
 			video=OITutorial;
 			if(video)
 			{
@@ -337,6 +373,7 @@ public class TempestVRMainMenu : VRGUI
 				playButtonText="PLAY";
 			}
 		}		
+		GUI.Toggle(new Rect((screenWidth - buttonWidth*1.2f) * 0.9f, screenHeight * 0.075f, buttonWidth*1.2f, buttonHeight*2.0f), b_OITutVid, "OBJECT MANIPULATION", menuToggleStyle);
 
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.8f, buttonWidth, buttonHeight), playButtonText, menuButtonStyle))

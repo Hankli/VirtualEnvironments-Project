@@ -13,19 +13,12 @@ public class FPSControl : MonoBehaviour
 
 	private bool b_forceJump=false;
 
-	void Awake () 
+	void Awake() 
 	{
 		motor = GetComponent<CharacterMotor>();
 	}
-
-	// Use this for initialization
-	void Start () 
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update () 
+		
+	void Update() 
 	{
 		b_jump=Input.GetButton("Jump");
 

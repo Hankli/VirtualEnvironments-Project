@@ -62,7 +62,7 @@ public class GameControl : MonoBehaviour
 	public bool b_paused=false;
 	public bool b_OVRCam=false;//used to toggle OVRCam... toggling not stable
 
-	private bool b_OVRCamMode=true;//internal OVR camera switching...
+//	private bool b_OVRCamMode=true;//internal OVR camera switching...
 
 	public bool b_menuActive=false;
 
