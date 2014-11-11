@@ -9,20 +9,26 @@ public class VideoPlayer : MonoBehaviour
 	private bool b_VideoFinished=false;
 	private bool b_VideoStarted=false;
 
-	void Start () 
+	void Awake()
 	{
 		if(movieTexture)
 		{
 			renderer.material.mainTexture = movieTexture as MovieTexture;
 			audio.clip = movieTexture.audioClip;
+		}
+	}
 
+	void Start() 
+	{
+		if(movieTexture)
+		{
 			movieTexture.Play();
 			audio.Play();
 			b_VideoStarted=true;
 		}
 	}
 
-	void Update () 
+	void Update() 
 	{
 		/*
 		if(movieTexture)
@@ -52,9 +58,19 @@ public class VideoPlayer : MonoBehaviour
 				else if(!b_VideoFinished)
 				{
 					b_VideoFinished=true;
-					Debug.Log("Video Done "+Time.time);
+
+					GameObject tempLevel=null;
+					if(tempLevel=GameObject.FindWithTag("Level"))
+					{
+						LevelControl tempLevelControl =null;
+						if(tempLevelControl=tempLevel.GetComponent<LevelControl>())
+						{
+							tempLevelControl.b_videoDone=true;
+						}
+					}
 				}
 			}
 		}
+		//should have contingency for no movie loaded...
 	}
 }
