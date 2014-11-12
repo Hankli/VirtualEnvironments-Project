@@ -86,7 +86,18 @@ public class TempestVRMainMenu : MonoBehaviour
 	//kinect setup images
 
 
+	//leap setup images
+	Texture2D leap1;
+	Texture2D leap2;
+	Texture2D leap3;
+	Texture2D leap4;
+	Texture2D leap5;
+	Texture2D leap6;
+	Texture2D leap7;
+	//leap setup images
 
+	//hydra setup images
+	//hydra setup images
 
 
 	private Rect profileTitlePosition;
@@ -103,6 +114,10 @@ public class TempestVRMainMenu : MonoBehaviour
 	private bool b_OATutVid = true;
 	private bool b_WFTutVid = false;
 	private bool b_OITutVid = false;
+
+	private bool b_VideoStarted = false;
+	private bool b_VideoFinished = false;
+	private bool b_VideoPaused = false;
 
 	private string playButtonText="PLAY";
 	private float videoHeight=0.0f;
@@ -187,6 +202,13 @@ public class TempestVRMainMenu : MonoBehaviour
 		kinect2 = Resources.Load<Texture2D>("kinectDevice2");
 		kinect3 = Resources.Load<Texture2D>("kinectUsage1");
 
+		leap1 = Resources.Load<Texture2D>("Leap1");
+		leap2 = Resources.Load<Texture2D>("Leap2");
+		leap3 = Resources.Load<Texture2D>("Leap3");
+		leap4 = Resources.Load<Texture2D>("Leap4");
+		leap5 = Resources.Load<Texture2D>("Leap5");
+		leap6 = Resources.Load<Texture2D>("LeapIntArea");
+		leap7 = Resources.Load<Texture2D>("LeapVisualiser");
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
@@ -220,6 +242,7 @@ public class TempestVRMainMenu : MonoBehaviour
 				gameControlScript.audioVolume=volume;
 				gameControlScript.b_sound=sound;
 				gameControlScript.b_music=music;
+				gameControlScript.b_twoHands=twoHands;
 			}
 		}
 	}
@@ -240,6 +263,7 @@ public class TempestVRMainMenu : MonoBehaviour
 				volume = gameControlScript.audioVolume;
 				sound = gameControlScript.b_sound;
 				music = gameControlScript.b_music;
+				twoHands = gameControlScript.b_twoHands;
 			}	
 
 		}
@@ -358,6 +382,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.color = cursorColour;
 	}
 
+	//Help menu device setup and usage menus...
 	void setupMenu()
 	{
 		GUI.color = buttonColour;
@@ -371,8 +396,8 @@ public class TempestVRMainMenu : MonoBehaviour
 
 
 		//choose appropriate device name for this button for each project
-		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"KINECT", menuButtonStyle))
-		//if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"LEAP", menuButtonStyle))
+		//if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"KINECT", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"LEAP MOTION", menuButtonStyle))
 		//if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"HYDRA", menuButtonStyle))
 		{
 			titleTexture = setupTitle;
@@ -439,6 +464,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.color = cursorColour;	
 	}
 
+	//Device specific setup instructions
 	void deviceMenu()
 	{
 		GUI.color = buttonColour;
@@ -449,7 +475,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
 
 		/*Kinect==========================================
-		 */
+
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*480.0f))*0.875f, (screenHeight-(screenWidth/3000.0f)*480.0f)*0.3f, (screenWidth/3000.0f)*480.0f, (screenWidth/3000.0f)*480.0f), kinect1);	
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*635.0f))*0.9f, (screenHeight-(screenWidth/3000.0f)*300.0f)*0.7f, (screenWidth/3000.0f)*635.0f, (screenWidth/3000.0f)*300.0f), kinect2);	
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
@@ -465,32 +491,47 @@ public class TempestVRMainMenu : MonoBehaviour
 		          "Step 3-\nPlace the Kinect sensor on a flat stable non-vibrating surface away from any edge. Make sure there aren't any cables in the way of the sensor that may block the lens or prevent it from tilting freely. Do not manually tilt the sensor. The lens on the sensor should be kept clean for optimal recognition. There should be a fair amount of room space that is free of objects such as furniture. The room should also be well lit.", 
 		          menuLabelStyleC);
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
-		          "For more information & help please vist http://support.xbox.com/en-AU/xbox-on-other-devices/kinect-for-windows/kinect-for-windows-setup", 
+		          "For more information & help please visit http://support.xbox.com/en-AU/xbox-on-other-devices/kinect-for-windows/kinect-for-windows-setup", 
 		          menuLabelStyleD);
-
+*/
 
 		/*Leap==========================================
+		  */
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*606.0f))*0.69f, (screenHeight-(screenWidth/3000.0f)*393.0f)*0.15f, (screenWidth/3000.0f)*606.0f, (screenWidth/3000.0f)*393.0f), leap1);	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/2150.0f)*493.0f))*0.99f, (screenHeight-(screenWidth/2150.0f)*279.0f)*0.15f, (screenWidth/2150.0f)*493.0f, (screenWidth/2150.0f)*279.0f), leap4);	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3500.0f)*1262.0f))*0.93f, (screenHeight-(screenWidth/3500.0f)*780.0f)*0.65f, (screenWidth/3500.0f)*1262.0f, (screenWidth/3500.0f)*780.0f), leap7);	
+
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Leap Motion Setup", 
 		          menuLabelStyleA);
-
-
- 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
-		          "For more information & help please vist ", 
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.05f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.7f), 
+		          "\n\n\n\nPlug the USB end of Leap Motion cable into a USB socket on your computer."
+		          +"\n\n\n\n\nPlug the other end into the Leap Motion."
+		          +"\n\n\n\n\nAttach the Leap Motion horizontally onto the front of the Oculus Rift. Make sure the shiny side is facing out, and the green light is facing down."
+		          +"\n\n\n\n\nMake sure the shiny screen isn't smudged."
+		          +"\n\n\n\n\nOpen the Leap Motion Visualizer App and the Leap Motion Conrol Panel to check that the device is working properly and to adjust any necessary settings.\n\n\n\n\n", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "If the Leap Motion is not working properly please visit the official Leap Motion website at https://support.leapmotion.com/home", 
 		          menuLabelStyleD);
- 		 */
 
 
 		/*Hydra==========================================
+
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Razer Hydra Setup", 
 		          menuLabelStyleA);
-
-
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.05f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.7f), 
+		          "Place centerpiece on top of a smooth surface table while leaving adequate space to move around"
+		          +"\n\n\n\n\nSlot long cable attached to the two hand controllers into the right port of the centerpiece"
+		          +"\n\n\n\n\nSlot cable not attached to hand controllers into the left port of the centerpiece"
+		          +"\n\n\n\n\nSlot the other end of the same cable into the computer's USB port"
+		          +"\n\n\n\n\nEnsure connected to internet so software drivers can install", 
+		          menuLabelStyleC);
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
-		          "For more information & help please vist ", 
+		          "For more information & help please visit the official Razer website at http://www.razersupport.com/gaming-controllers/razer-hydra/", 
 		          menuLabelStyleD);
- 		 */
+ */
 		
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -500,6 +541,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.color = cursorColour;	
 	}
 
+	//Device specific usage instructions
 	void usageMenu()
 	{
 		GUI.color = buttonColour;
@@ -510,7 +552,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
 
 		/*Kinect==========================================
-		 */
+
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1000.0f)*506.0f))*0.9f, (screenHeight-(screenWidth/1000.0f)*379.0f)*0.5f, (screenWidth/1000.0f)*506.0f, (screenWidth/1000.0f)*379.0f), kinect3);	
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Microsoft Kinect Usage", 
@@ -524,25 +566,45 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.6f, screenWidth*0.4f, screenHeight*0.2f), 
 		          "Step 3-\nThe actual movements that you will be required to make are dependent on the current level. There are instructional videos for each of the three levels, which will demonstrate the relevant movements and how to perform them correctly. You can also refer to the User Manual document to get a general understanding of how to perform the movements.", 
 		          menuLabelStyleC);
+		*/
 
 
+		/*Leap========================================== */
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3250.0f)*1024.0f))*0.53f, (screenHeight-(screenWidth/3250.0f)*680.0f)*0.15f, (screenWidth/3250.0f)*1024.0f, (screenWidth/3250.0f)*680.0f), leap6);	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1900.0f)*586.0f))*0.99f, (screenHeight-(screenWidth/1900.0f)*403.0f)*0.15f, (screenWidth/1900.0f)*586.0f, (screenWidth/1900.0f)*403.0f), leap2);	
+	//	GUI.DrawTexture(new Rect((screenWidth-((screenWidth/5000.0f)*1298.0f))*0.6f, (screenHeight-(screenWidth/5000.0f)*915.0f)*0.8f, (screenWidth/5000.0f)*1298.0f, (screenWidth/5000.0f)*915.0f), leap5);	//placeholder image
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/2000.0f)*561.0f))*0.475f, (screenHeight-(screenWidth/2000.0f)*326.0f)*0.7f, (screenWidth/2000.0f)*561.0f, (screenWidth/2000.0f)*326.0f), leap3);	
 
-		/*Leap==========================================
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Leap Motion Usage", 
 		          menuLabelStyleA);
-
-
-		 */
+		GUI.Label(new Rect((screenWidth-screenWidth*0.35f) * 0.025f, screenHeight * 0.1f, screenWidth*0.35f, screenHeight*0.7f), 
+		          "The Leap Motion interaction space is 8 cubic feet, directly outwards from the face of the device."
+		          +"\n\n\nPlace the Oculus Rift on your head and place hands directly in front of the Leap Motion, holding your hands in the interaction area."
+		          +"\n\n\nThe best tracking is achieved by keeping hands in the middle of the interaction area with as little as possible movements that reach the edge of the area."
+		          +"\n\n\nGentle and slow movements work much better than sudden or fast movements.\n\n\n\n\n\n\n\n\n\n\n\n", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.35f) * 0.99f, screenHeight * 0.1f, screenWidth*0.35f, screenHeight*0.7f), 
+		          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nKeep arms parrallel and do not cross hands or arms over. Keep a gap between hands."
+		          +"\n\n\nIf hands lose tracking, try resetting the tracker by taking hands away and replacing them in the interaction space, or closing fists and reopening."
+		          +"\n\n\nTry to stay comfortable and relaxed, after some practice you will be able to judge the interaction space a lot better.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information on how to use the Leap Motion please visit the official Leap Motion website at https://www.leapmotion.com/product/vr", 
+		          menuLabelStyleD);
+		
 
 
 		/*Hydra==========================================
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Razer Hydra Usage", 
 		          menuLabelStyleA);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.1f, screenWidth*0.4f, screenHeight*0.7f), 
+		          "Before a level starts, leave both hand controllers docked on the centerpiece's indented surface.\n\nIf hand controllers were properly docked, it should prompt the you to press the start button. \n\nIf hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else\n\nFollow the sequence of steps as prompted by a text box that appears in the upper center of the screen\n\nPress the left controller's trigger button first \n\nPress the right controller's trigger button second\n\nPress start button \n\nHave Fun!", 
+		          menuLabelStyleC);
 
+		*/
 
-		 */
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -566,6 +628,9 @@ public class TempestVRMainMenu : MonoBehaviour
 			b_OATutVid = true;
 			b_WFTutVid = false;
 			b_OITutVid = false;
+			b_VideoPaused = false;
+			b_VideoStarted = false;
+			b_VideoFinished = false;
 
 			if(video)
 			{
@@ -588,7 +653,10 @@ public class TempestVRMainMenu : MonoBehaviour
 			b_OATutVid = false;
 			b_WFTutVid = true;
 			b_OITutVid = false;
-			
+			b_VideoPaused = false;
+			b_VideoStarted = false;
+			b_VideoFinished = false;
+
 			if(video)
 			{
 				video.Stop();
@@ -610,7 +678,10 @@ public class TempestVRMainMenu : MonoBehaviour
 			b_OATutVid = false;
 			b_WFTutVid = false;
 			b_OITutVid = true;
-			
+			b_VideoPaused = false;
+			b_VideoStarted = false;
+			b_VideoFinished = false;
+
 			if(video)
 			{
 				video.Stop();
@@ -634,15 +705,37 @@ public class TempestVRMainMenu : MonoBehaviour
 			{
 				if(!video.isPlaying)
 				{
+					b_VideoStarted = true;
+					b_VideoFinished = false;
 					video.Play();
 					audio.Play();
-					playButtonText="PAUSE";
+					playButtonText = "PAUSE";
+					b_VideoPaused = false;
 				}
 				else
 				{
 					video.Pause();
 					audio.Pause();
+					playButtonText = "PLAY";
+					b_VideoPaused = true;
+				}
+			}
+		}
+
+		if (video) 
+		{
+			if(b_VideoStarted)
+			{
+				if (video.isPlaying) 
+				{
+				}
+				else if(!b_VideoFinished&&!b_VideoPaused)
+				{
+					b_VideoFinished=true;
+					video.Stop();
+					audio.Stop();
 					playButtonText="PLAY";
+					b_VideoStarted=false;
 				}
 			}
 		}
@@ -924,24 +1017,21 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.color = buttonColour;
 
 		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.25f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
+		//if the rift is not detected you cannot toggle this to 'on'
 		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
 		{
 			b_Oculus=false;
 			//should display error message instructing to connect OVR HMD
 		}
 
-
-
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
 		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight),sensitivity, min, max);
 		SliderLock(ref sensitivity,min,max);
-
 	
 		GUI.Label(new Rect((screenWidth- screenWidth * 0.4f)* 0.5f, screenHeight * 0.54f, screenWidth * 0.4f, screenHeight * 0.1f), "Player Movement Speed",menuButtonStyle);
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.62f, buttonWidth*1.5f, buttonHeight*2.0f),"Obstacle Avoidance",menuLabelStyle);
 		playerSpeedOA = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.7f, buttonWidth*1.5f, buttonHeight),playerSpeedOA, minOASpeed, maxOASpeed);
 		SliderLock(ref playerSpeedOA,minOASpeed,maxOASpeed);
-
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.72f, buttonWidth*1.5f, buttonHeight*2.0f),"Way Finding",menuLabelStyle);
 		playerSpeedWF = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.8f, buttonWidth*1.5f, buttonHeight),playerSpeedWF, minWFSpeed, maxWFSpeed);
