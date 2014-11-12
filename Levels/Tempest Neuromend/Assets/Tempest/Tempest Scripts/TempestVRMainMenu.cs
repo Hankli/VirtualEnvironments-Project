@@ -62,6 +62,8 @@ public class TempestVRMainMenu : VRGUI
 	Texture2D helpHowToPlayTitle;
 	Texture2D settingsConfigTitle;
 	Texture2D neuromendIcon;
+	Texture2D setupTitle;
+	Texture2D usageTitle;
 
 	Texture2D titleTexture=null;
 
@@ -148,6 +150,8 @@ public class TempestVRMainMenu : VRGUI
 //		helpTitle = Resources.Load<Texture2D>("Help");
 		helpHowToPlayTitle = Resources.Load<Texture2D>("HelpHowToPlay");
 		settingsConfigTitle = Resources.Load<Texture2D>("Config");
+		setupTitle = Resources.Load<Texture2D>("Setup");
+		usageTitle = Resources.Load<Texture2D>("Usage");
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
@@ -284,9 +288,15 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
+		//GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
 		
-		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.82f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"SETUP", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
 		{
 			playButtonText="PLAY";
 			video = OATutorial;
@@ -294,7 +304,7 @@ public class TempestVRMainMenu : VRGUI
 			{
 				audio.clip = video.audioClip;
 			}
-
+			
 			titleTexture = helpHowToPlayTitle;
 			menuFunction = videoTutorials;
 		}		
@@ -305,6 +315,74 @@ public class TempestVRMainMenu : VRGUI
 		}
 		GUI.color = cursorColour;
 	}
+
+	void setupMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"OCULUS RIFT", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = oculusMenu;
+		}		
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"DEVICE", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = deviceMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.76f, buttonWidth*2.0f, buttonHeight),"USAGE INSTRUCTIONS", menuButtonStyle))
+		{
+			titleTexture = usageTitle;
+			menuFunction = usageMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = helpHowToPlayTitle;
+			menuFunction = help;
+		}
+		GUI.color = cursorColour;
+	}
+
+
+	void oculusMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	}
+
+	void deviceMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	}
+
+	void usageMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	}
 
 
 	void videoTutorials()
