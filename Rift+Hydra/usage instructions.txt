@@ -1,8 +1,0 @@
-Before a level starts, leave both hand controllers docked on the centerpiece's indented surface.
-If hand controllers were properly docked, it should prompt the you to press the start button. 
-If hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else
-Follow the sequence of steps as prompted by a text box that appears in the upper center of the screen
-Press the left controller's trigger button first 
-Press the right controller's trigger button second
-Press start button 
-Have Fun!
