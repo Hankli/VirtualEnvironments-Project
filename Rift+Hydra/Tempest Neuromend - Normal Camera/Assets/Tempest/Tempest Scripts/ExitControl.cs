@@ -1,5 +1,13 @@
-﻿using UnityEngine;
+﻿/*	Initially this were to be an pause/exit within the levels, hovering above the
+ * 	player, that the player could access just by looking at.
+ * 	
+ * 	currently not implemented at all
+*/
+
+using UnityEngine;
 using System.Collections;
+
+
 
 public class ExitControl : MonoBehaviour 
 {

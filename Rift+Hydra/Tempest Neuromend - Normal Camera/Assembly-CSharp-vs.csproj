@@ -46,6 +46,20 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRCamera.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRCameraController.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRCrosshair.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRDevice.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRGUI.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRGamepadController.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRGridCube.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRHmd.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRMainMenu.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRPlayerController.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRPresetManager.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRUGUI.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRUtils.cs" />
+     <Compile Include="Assets\Hydra\OVR\Scripts\OVRVisionGuide.cs" />
      <Compile Include="Assets\Hydra\Scripts\Constants.cs" />
      <Compile Include="Assets\Hydra\Scripts\ControllerDataArray.cs" />
      <Compile Include="Assets\Hydra\Scripts\Hand.cs" />
@@ -60,20 +74,6 @@
      <Compile Include="Assets\Hydra\Scripts\MotionSmoothing.cs" />
      <Compile Include="Assets\Hydra\Scripts\Plugin.cs" />
      <Compile Include="Assets\Hydra\Scripts\State.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCameraController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRCrosshair.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRDevice.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGUI.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGamepadController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRGridCube.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRHmd.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRMainMenu.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRPlayerController.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRPresetManager.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRUGUI.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
-     <Compile Include="Assets\OVR\Scripts\OVRVisionGuide.cs" />
      <Compile Include="Assets\Tempest\Database\DeviceDB.cs" />
      <Compile Include="Assets\Tempest\Database\PatientDB.cs" />
      <Compile Include="Assets\Tempest\Database\ProfileMenu.cs" />
@@ -126,14 +126,14 @@
      <None Include="Assets\Plugins\donotdelete.txt" />
      <None Include="Assets\Tempest\Resources\XML\db_devices.xml" />
      <None Include="Assets\VRGUI\Shaders\VRGUITransparentOverlayShader.shader" />
-     <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
+     <None Include="Assets\Hydra\OVR\Shaders\TextShader3D.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Tempest\Tempest Scenes\Ary_Note.txt" />
      <None Include="Assets\Tempest\Resources\XML\db_tasks.xml" />
      <None Include="Assets\Tempest\Resources\XML\db_server.xml" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Sources\Shaders\FX-Water.shader" />
-     <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
+     <None Include="Assets\Hydra\OVR\Shaders\OVRGUIShader.shader" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">

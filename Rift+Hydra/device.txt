@@ -1,0 +1,5 @@
+place centerpiece on top of a smooth surface table while leaving adequate space to move around
+slot long cable attached to the two hand controllers into the right port of the centerpiece
+slot cable not attached to hand controllers into the left port of the centerpiece
+slot the other end of the same cable into the computer's USB port
+ensure connected to internet so software drivers can install

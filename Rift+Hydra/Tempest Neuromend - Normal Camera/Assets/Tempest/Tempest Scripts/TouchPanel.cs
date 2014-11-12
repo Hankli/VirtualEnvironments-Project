@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
+
 public class TouchPanel : MonoBehaviour 
 {
 	private int a=0;//misc counter
@@ -15,8 +17,13 @@ public class TouchPanel : MonoBehaviour
 	private Texture2D[] numberTextures;
 	private Texture2D[] numberTexturesInactive;
 	
+	private GameObject gameControl=null;
+	private GameControl gameControlScript=null;
+
 	private GameObject levelControl=null;
 	private LevelControl levelControlScript=null;
+
+
 	
 	private string objectiveText="Objective:\nTouch the numbers in the correct sequence";
 	private string objectiveTextUpdated="";
@@ -25,12 +32,26 @@ public class TouchPanel : MonoBehaviour
 	private float vanishingZ=0.8f;
 	private bool b_destructionImminent=false;
 	public GameObject nextObjective=null;
-	
+
+
+	//private AudioClip noteA = null;
+	//private AudioClip noteB = null;
+	//private AudioClip noteC = null;
+	//private AudioClip noteD = null;
+	//private AudioClip noteE = null;
+
+	private AudioClip[] notes;
+
+
 	void Awake() 
 	{
 		if(levelControl=GameObject.FindWithTag("Level"))
 		{
 			levelControlScript=levelControl.GetComponent<LevelControl>();
+		}	
+		if(gameControl=GameObject.FindWithTag("Game"))
+		{
+			gameControlScript=gameControl.GetComponent<GameControl>();
 		}	
 	}
 	
@@ -54,8 +75,9 @@ public class TouchPanel : MonoBehaviour
 
 		numButtons=a;	
 		LoadTextures();
+		LoadAudio();
 		ResetSequence();
-		
+
 		if(levelControlScript!=null)
 		{
 			levelControlScript.SetCurrentObjective(objectiveTextUpdated);
@@ -222,6 +244,16 @@ public class TouchPanel : MonoBehaviour
 			numberTexturesInactive[i]=Resources.Load<Texture2D>("TouchPanel/TouchPanelButtonInactive0"+(i+1));
 		}
 	}
+
+	public void LoadAudio()
+	{
+		notes = new AudioClip[5];
+		notes[0] = Resources.Load<AudioClip>("Audio/Notes2/Note2b");
+		notes[1] = Resources.Load<AudioClip>("Audio/Notes2/Note1b");
+		notes[2] = Resources.Load<AudioClip>("Audio/Notes2/Note3b");
+		notes[3] = Resources.Load<AudioClip>("Audio/Notes2/Note4b");
+		notes[4] = Resources.Load<AudioClip>("Audio/Notes2/Note5b");
+	}
 	
 	public Texture2D GetNumberTexture(int sequenceNum)
 	{
@@ -236,5 +268,25 @@ public class TouchPanel : MonoBehaviour
 	public void SetInactivetexture(TouchPanelButton buttonScript)
 	{
 		buttonScript.SetTexture(GetNumberTextureInactive(currentSequenceIndex),false);
+	}
+
+	public void PlayNote()
+	{
+		if(gameControlScript)
+		{
+			if(gameControlScript.b_sound)
+			{
+				if(currentSequenceIndex<=notes.Length)
+				{
+					audio.volume = gameControlScript.audioVolume*0.2f;
+					audio.clip = notes[currentSequenceIndex];
+					if(audio.clip)
+					{
+						audio.Play();
+					}
+				}
+			}
+		}
+
 	}
 }

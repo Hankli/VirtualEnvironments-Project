@@ -23,6 +23,8 @@ public class GameControl : MonoBehaviour
 		LoadSingle//continue previously saved single level
 	};
 	
+	public bool b_twoHands=false;
+
 	private ControllerType controllerType;
 	private PlaythroughType playthroughType;//type of playthrough... not needed
 
@@ -62,7 +64,7 @@ public class GameControl : MonoBehaviour
 	public bool b_paused=false;
 	public bool b_OVRCam=false;//used to toggle OVRCam... toggling not stable
 
-	private bool b_OVRCamMode=true;//internal OVR camera switching...
+//	private bool b_OVRCamMode=true;//internal OVR camera switching...
 
 	public bool b_menuActive=false;
 

@@ -69,6 +69,7 @@ public class TouchPanelButton : MonoBehaviour
 			if(buttonID==panelScript.GetCurrentSequenceNumber())
 			{	
 				b_canTouch=false;
+				panelScript.PlayNote();
 				panelScript.SetInactivetexture(this);
 				panelScript.NextIndex();
 				b_correct=true;

@@ -109,7 +109,6 @@ namespace Tempest
 					//apply force in place of previous value
 					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
 
-
 					Quaternion rot = hand.Controller.Rotation * hand.ModelRotation;
 
 					//get desired orientation

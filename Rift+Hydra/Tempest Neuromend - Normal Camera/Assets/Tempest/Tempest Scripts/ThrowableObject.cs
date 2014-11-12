@@ -16,11 +16,7 @@ public class ThrowableObject : MonoBehaviour
 	{
 		m_explosion = Resources.Load<GameObject> ("Prefabs/Explosion01");
 	}
-	
-	void Start() 
-	{
-	}
-	
+
 	void Update() 
 	{
 		if(b_destroy)

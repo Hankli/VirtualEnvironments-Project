@@ -3,10 +3,11 @@ using System.Collections;
 
 [RequireComponent (typeof(AudioSource))]
 
-public class TempestVRMainMenu : VRGUI 
+public class TempestVRMainMenu : MonoBehaviour
+//public class TempestVRMainMenu : VRGUI 
 {
-	//Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
-	Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
+	Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
+	//Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
 	Color cursorColour = new Color(0.22f, 1.0f, 0.97f);
 	Color buttonColour = new Color(1.0f, 1.0f, 1.0f);
 
@@ -29,6 +30,8 @@ public class TempestVRMainMenu : VRGUI
 	public GUIStyle menuLabelStyle;//label GUIStyle
 	public GUIStyle menuLabelStyleA;//label GUIStyle
 	public GUIStyle menuLabelStyleB;//label GUIStyle
+	public GUIStyle menuLabelStyleC;//label GUIStyle left align
+	public GUIStyle menuLabelStyleD;//label GUIStyle center align
 	public GUIStyle menuToggleStyle;//toggle GUIStyle
 
 
@@ -56,14 +59,35 @@ public class TempestVRMainMenu : VRGUI
 	Texture2D settingsTitle;
 	Texture2D aboutTitle;
 	Texture2D exerciseTitle;
-	Texture2D controlsTitle;
+//	Texture2D controlsTitle;
 	Texture2D audioTitle;
-	Texture2D helpTitle;
+//	Texture2D helpTitle;
 	Texture2D helpHowToPlayTitle;
 	Texture2D settingsConfigTitle;
 	Texture2D neuromendIcon;
+	Texture2D setupTitle;
+	Texture2D usageTitle;
 
-	Texture2D titleTexture=null;
+	Texture2D titleTexture = null;
+
+	//oculus setup images
+	Texture2D orimg1;
+	Texture2D orimg2;
+	Texture2D orimg3;
+	Texture2D orimg4;
+	Texture2D orimg5;
+	Texture2D orimg6;
+	//oculus setup images
+
+	//kinect setup images
+	Texture2D kinect1;
+	Texture2D kinect2;
+	Texture2D kinect3;
+	//kinect setup images
+
+
+
+
 
 	private Rect profileTitlePosition;
 	private Rect backgroundPosition;
@@ -75,6 +99,10 @@ public class TempestVRMainMenu : VRGUI
 	public MovieTexture OITutorial = null;
 
 	private MovieTexture video=null;
+
+	private bool b_OATutVid = true;
+	private bool b_WFTutVid = false;
+	private bool b_OITutVid = false;
 
 	private string playButtonText="PLAY";
 	private float videoHeight=0.0f;
@@ -97,12 +125,22 @@ public class TempestVRMainMenu : VRGUI
 			}
 			//variables=gameControl.GetComponent<LeapControl>();
 		}
+
 	}
 
 
 	// Most of the ratios are to compensate having the vrgui 'square' look on a normal camera. If using actual VR HMDs you need to change the ratios.
 	void Start() 
 	{
+		if(TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=true;
+		}
+		else
+		{
+			b_Oculus=false;
+		}
+		
 		sound = true;
 		music = true;
 		volume = 1.0f;
@@ -117,7 +155,8 @@ public class TempestVRMainMenu : VRGUI
 		buttonHeight = Screen.height * 0.05f;
 		buttonWidth = Screen.width * 0.2f;
 
-		videoWidth = Screen.width * 0.9f;
+		//videoWidth = Screen.width * 0.9f;
+		videoWidth = Screen.width * 0.6f;
 		videoHeight = Screen.height * 0.6f;
 
 		Camera.main.backgroundColor = backgroundColour;
@@ -129,11 +168,25 @@ public class TempestVRMainMenu : VRGUI
 		settingsTitle = Resources.Load<Texture2D>("Settings01");
 		aboutTitle = Resources.Load<Texture2D>("About01");
 		exerciseTitle = Resources.Load<Texture2D>("Exercise01");
-		controlsTitle = Resources.Load<Texture2D>("Controls01");
+//		controlsTitle = Resources.Load<Texture2D>("Controls01");
 		audioTitle = Resources.Load<Texture2D>("Audio01");
-		helpTitle = Resources.Load<Texture2D>("Help");
+//		helpTitle = Resources.Load<Texture2D>("Help");
 		helpHowToPlayTitle = Resources.Load<Texture2D>("HelpHowToPlay");
 		settingsConfigTitle = Resources.Load<Texture2D>("Config");
+		setupTitle = Resources.Load<Texture2D>("Setup");
+		usageTitle = Resources.Load<Texture2D>("Usage");
+
+		orimg1 = Resources.Load<Texture2D>("or1");
+		orimg2 = Resources.Load<Texture2D>("or2");
+		orimg3 = Resources.Load<Texture2D>("or3");
+		orimg4 = Resources.Load<Texture2D>("or4");
+		orimg5 = Resources.Load<Texture2D>("or5");
+		orimg6 = Resources.Load<Texture2D>("or6");
+
+		kinect1 = Resources.Load<Texture2D>("kinectDevice1");
+		kinect2 = Resources.Load<Texture2D>("kinectDevice2");
+		kinect3 = Resources.Load<Texture2D>("kinectUsage1");
+
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
@@ -143,6 +196,8 @@ public class TempestVRMainMenu : VRGUI
 		menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 		menuToggleStyle.fontSize = menuButtonStyle.fontSize;
 		menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
+		menuLabelStyleC.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
+		menuLabelStyleD.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
 
 		profileMenu.Initialize ();
 		ConfigMenuValues();
@@ -190,10 +245,11 @@ public class TempestVRMainMenu : VRGUI
 		}
 	}
 
-
-	public override void OnVRGUI()
+	void OnGUI()
+	//public override void OnVRGUI()
 	{
-		Screen.showCursor=false;
+		//Screen.showCursor=false;
+		Screen.showCursor=true;
 		if(screenHeight != Screen.height||screenWidth != Screen.width)
 		{
 			screenHeight = Screen.height;
@@ -201,7 +257,8 @@ public class TempestVRMainMenu : VRGUI
 			buttonHeight = Screen.height * 0.05f;
 			buttonWidth = Screen.width * 0.2f;
 
-			videoWidth = Screen.width * 0.9f;
+			//videoWidth = Screen.width * 0.9f;
+			videoWidth = Screen.width * 0.6f;
 			videoHeight = Screen.height * 0.6f;
 
 			//font size scaling may need tweaking if standalone screen ratio is variable...
@@ -210,6 +267,8 @@ public class TempestVRMainMenu : VRGUI
 			menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 			menuToggleStyle.fontSize = menuButtonStyle.fontSize;
 			menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
+			menuLabelStyleC.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
+			menuLabelStyleD.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
 		}
 
 		DrawBackground();
@@ -221,7 +280,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		if(name!=null)
 		{
-			profileTitlePosition.Set(0, 0, Screen.width, Screen.height);
+			profileTitlePosition.Set(0, 0, Screen.height, Screen.height);
 			GUI.DrawTexture(profileTitlePosition, name);
 		}
 	}
@@ -230,6 +289,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		//backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
 		//GUI.DrawTexture(backgroundPosition,background);
+		//backgroundPosition.Set(	(Screen.width-Screen.height)*0.5f, 0, Screen.height, Screen.height);
 		backgroundPosition.Set(	0, 0, Screen.width, Screen.height);
 		GUI.DrawTexture(backgroundPosition, background);
 	}
@@ -270,9 +330,15 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
+		//GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
 		
-		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.82f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"SETUP", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
 		{
 			playButtonText="PLAY";
 			video = OATutorial;
@@ -280,7 +346,7 @@ public class TempestVRMainMenu : VRGUI
 			{
 				audio.clip = video.audioClip;
 			}
-
+			
 			titleTexture = helpHowToPlayTitle;
 			menuFunction = videoTutorials;
 		}		
@@ -292,18 +358,220 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = cursorColour;
 	}
 
+	void setupMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"OCULUS RIFT", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = oculusMenu;
+		}		
+
+
+		//choose appropriate device name for this button for each project
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"KINECT", menuButtonStyle))
+		//if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"LEAP", menuButtonStyle))
+		//if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"HYDRA", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = deviceMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.76f, buttonWidth*2.0f, buttonHeight),"USAGE INSTRUCTIONS", menuButtonStyle))
+		{
+			titleTexture = usageTitle;
+			menuFunction = usageMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = helpHowToPlayTitle;
+			menuFunction = help;
+		}
+		GUI.color = cursorColour;
+	}
+
+
+	void oculusMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1500.0f)*287.0f))*0.5f, screenHeight*0.1f, (screenWidth/1500.0f)*287.0f, (screenWidth/1500.0f)*157.0f), orimg1);	
+		GUI.DrawTexture(new Rect((screenWidth-screenWidth*0.9f)*0.5f, screenHeight*0.325f, (screenWidth/1500.0f)*139.0f, (screenWidth/1500.0f)*117.0f), orimg4);
+		GUI.DrawTexture(new Rect((screenWidth-(screenWidth/1500.0f)*219.0f)*0.77f, screenHeight*0.3f, (screenWidth/1500.0f)*219.0f, (screenWidth/1500.0f)*140.0f), orimg2);
+		GUI.DrawTexture(new Rect((screenWidth-(screenWidth/1500.0f)*148.0f)*0.9f, screenHeight*0.3f, (screenWidth/1500.0f)*190.0f, (screenWidth/1500.0f)*148.0f), orimg3);
+		GUI.DrawTexture(new Rect((screenWidth-screenWidth*0.9f)*0.5f, screenHeight*0.55f, (screenWidth/1500.0f)*236.0f, (screenWidth/1500.0f)*173.0f), orimg5);
+		GUI.DrawTexture(new Rect((screenWidth-(screenWidth/1500.0f)*194.0f)*0.9f, screenHeight*0.5f, (screenWidth/1500.0f)*194.0f, (screenWidth/1500.0f)*277.0f), orimg6);
+		
+
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Oculus Rift Setup", 
+		          menuLabelStyleA);		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.25f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Connect one end of the video cable (DVI or HDMI) to your computer and the other end to the control box. Only one video input should be connected to the control box at a time. You can use the DVI Adapter with the HDMI cable.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.3125f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Connect one end of the USB cable to your computer and the other to the control box.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.35f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Plug the power cord into an outlet and connect the other end to the control box.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.5f, screenHeight * 0.55f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Press the power button to power on the control box and the headset. A blue LED on the top of the control box indicates whether the device is on or off."
+		          +"\n\nAdjust the head strap so that it fits snugly around your head."
+		          +"\n\nOpen the Oculus Configuration Utility and press 'Show Demo Scene'. Put the Oculus Rift on to check that the device is working properly.", 
+		          menuLabelStyleD);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information on setting up the Oculus Rift, please visit the official Oculus Rift website at https://support.oculus.com/ and https://developer.oculus.com/ also http://static.oculusvr.com/sdk-downloads/documents/Oculus_Rift_Development_Kit_Instruction_Manual.pdf", 
+		          menuLabelStyleC);
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	
+	}
+
+	void deviceMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		/*Kinect==========================================
+		 */
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*480.0f))*0.875f, (screenHeight-(screenWidth/3000.0f)*480.0f)*0.3f, (screenWidth/3000.0f)*480.0f, (screenWidth/3000.0f)*480.0f), kinect1);	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*635.0f))*0.9f, (screenHeight-(screenWidth/3000.0f)*300.0f)*0.7f, (screenWidth/3000.0f)*635.0f, (screenWidth/3000.0f)*300.0f), kinect2);	
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Microsoft Kinect Setup", 
+		          menuLabelStyleA);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 1-\nMake sure that your computer is running Windows 7. It will also need to have the Kinect for Windows drivers installed, which have been provided. If it doesn't have them installed you can locate them under the Drivers folder. Double-click the exes one at a time to install them. Follow the on-screen installation instructions. ", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.35f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 2-\nThe Kinect device has two cords, one for power and the other a USB connector. The power cord can be detached so make sure that it's attached to the main cord coming out of the Kinect sensor. The attachment socket is coloured coded orange and it will not connect to anything else. Connect the power adapter to a power outlet. Connect the USB connector into a USB port on your computer.\n\nIf it's the first time your computer has been connected to a Kinect sensor expect to see some background driver installation processes. Wait for these to finish before running Neuromend. You should see a notification in the bottom-right corner of your screen once the processes are done.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.6f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 3-\nPlace the Kinect sensor on a flat stable non-vibrating surface away from any edge. Make sure there aren't any cables in the way of the sensor that may block the lens or prevent it from tilting freely. Do not manually tilt the sensor. The lens on the sensor should be kept clean for optimal recognition. There should be a fair amount of room space that is free of objects such as furniture. The room should also be well lit.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information & help please vist http://support.xbox.com/en-AU/xbox-on-other-devices/kinect-for-windows/kinect-for-windows-setup", 
+		          menuLabelStyleD);
+
+
+		/*Leap==========================================
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Leap Motion Setup", 
+		          menuLabelStyleA);
+
+
+ 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information & help please vist ", 
+		          menuLabelStyleD);
+ 		 */
+
+
+		/*Hydra==========================================
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Razer Hydra Setup", 
+		          menuLabelStyleA);
+
+
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information & help please vist ", 
+		          menuLabelStyleD);
+ 		 */
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	
+	}
+
+	void usageMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		/*Kinect==========================================
+		 */
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1000.0f)*506.0f))*0.9f, (screenHeight-(screenWidth/1000.0f)*379.0f)*0.5f, (screenWidth/1000.0f)*506.0f, (screenWidth/1000.0f)*379.0f), kinect3);	
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Microsoft Kinect Usage", 
+		          menuLabelStyleA);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.1f, screenWidth*0.4f, screenHeight*0.2f), 
+		          "Step 1-\nMake sure the Oculus Rift is set up by following the steps on the Oculus Rift page. Make sure the Kinect is set up by following the steps on the Kinect Page.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.35f, screenWidth*0.4f, screenHeight*0.2f), 
+		          "Step 2-\nPosition yourself at least 1-2 meters away from the front face of the Kinect sensor. Ensure that the cables for the Oculus Rift are secured and out of your way. If your are standing directly in front of a wall be sure that its colour is not dark. It also helps to wear light coloured clothing so that the sensor doesn't struggle to recognize your entire body. However, avoid wearing clothes that blend with the wall's colour.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.6f, screenWidth*0.4f, screenHeight*0.2f), 
+		          "Step 3-\nThe actual movements that you will be required to make are dependent on the current level. There are instructional videos for each of the three levels, which will demonstrate the relevant movements and how to perform them correctly. You can also refer to the User Manual document to get a general understanding of how to perform the movements.", 
+		          menuLabelStyleC);
+
+
+
+		/*Leap==========================================
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Leap Motion Usage", 
+		          menuLabelStyleA);
+
+
+		 */
+
+
+		/*Hydra==========================================
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Razer Hydra Usage", 
+		          menuLabelStyleA);
+
+
+		 */
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	
+	}
+
 
 	void videoTutorials()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-
-		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.5f, videoWidth, videoHeight);
+		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.48f, videoWidth, videoHeight);
 		GUI.DrawTexture(videoPosition, video);
 
-		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "OBSTACLE AVOIDANCE", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), "", menuButtonStyle))
 		{
+			b_OATutVid = true;
+			b_WFTutVid = false;
+			b_OITutVid = false;
+
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+			}
 			video=OATutorial;
 			if(video)
 			{
@@ -313,9 +581,19 @@ public class TempestVRMainMenu : VRGUI
 				playButtonText="PLAY";
 			}
 		}	
+		GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), b_OATutVid, "OBSTACLE AVOIDANCE", menuToggleStyle);
 
-		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "WAY FINDING", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), "", menuButtonStyle))
 		{
+			b_OATutVid = false;
+			b_WFTutVid = true;
+			b_OITutVid = false;
+			
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+			}
 			video=WFTutorial;
 			if(video)
 			{
@@ -325,9 +603,19 @@ public class TempestVRMainMenu : VRGUI
 				playButtonText="PLAY";
 			}
 		}		
+		GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), b_WFTutVid, "WAY FINDING", menuToggleStyle);
 
-		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.9f, screenHeight * 0.1f, buttonWidth, buttonHeight*2.0f), "OBJECT MANIPULATION", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*1.2f) * 0.9f, screenHeight * 0.075f, buttonWidth*1.2f, buttonHeight*2.0f), "", menuButtonStyle))
 		{
+			b_OATutVid = false;
+			b_WFTutVid = false;
+			b_OITutVid = true;
+			
+			if(video)
+			{
+				video.Stop();
+				audio.Stop();
+			}
 			video=OITutorial;
 			if(video)
 			{
@@ -337,6 +625,7 @@ public class TempestVRMainMenu : VRGUI
 				playButtonText="PLAY";
 			}
 		}		
+		GUI.Toggle(new Rect((screenWidth - buttonWidth*1.2f) * 0.9f, screenHeight * 0.075f, buttonWidth*1.2f, buttonHeight*2.0f), b_OITutVid, "OBJECT MANIPULATION", menuToggleStyle);
 
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.8f, buttonWidth, buttonHeight), playButtonText, menuButtonStyle))
@@ -572,11 +861,17 @@ public class TempestVRMainMenu : VRGUI
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "NEUROMEND\n\nA Murdoch University School of IT and Engineering project." 
-		          +	"\n\nBrought to you by TEMPEST\n\nAry Bizar, Anopan Kandiah, Hannah Klinac, Alex Mlodawski, Bryan Yu "
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.1f), "NEUROMEND", menuLabelStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "\n\nA Murdoch University School of IT and Engineering project." 
+		          +	"\n\nBrought to you by TEMPEST\n\nAry Bizar\nAnopan Kandiah\nHannah Klinac\nAlex Mlodawski\nBryan Yu"
 		          + "\n\nMusic by: Ayden-James Nolan" + "\nSounds by: Elly Thompson"
-		          + "\n\nProject client and supervisor:\nShri Rai and Dr Fairuz Shiratuddin", menuButtonStyle);
-		
+		          + "\n\nProject client and supervisor:\nShri Rai and Dr Fairuz Shiratuddin", menuLabelStyleD);
+
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.82f, buttonWidth, buttonHeight), "MORE", menuButtonStyle ))
 		{
 			titleTexture = aboutTitle;
@@ -595,12 +890,15 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
 
-		iconPosition.Set( (Screen.width-Screen.width/4.0f)/2.0f, Screen.height*0.1f, Screen.width/4.0f, Screen.height/4.0f);
+		iconPosition.Set( (Screen.width-Screen.height/4.0f)/2.0f, Screen.height*0.1f, Screen.height/4.0f, Screen.height/4.0f);
 		GUI.DrawTexture(iconPosition, neuromendIcon);
 
-		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "\n\n\n\nNEUROMEND\n\n"
-		          +"-is a virtual simulation project focused on researching the possibility of using virtual environments in conjunction with various natural user interfaces including the Oculus Rift virtual reality head mounted display,  Microsoft Kinect, Leap Motion, and Razer Hydra for the rehabilitation of stroke patients." , menuButtonStyle);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f)*0.5f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight * 0.7f), "\n\n\n\nNEUROMEND\n\n"
+		          +"-is a virtual simulation project focused on researching the possibility of using virtual environments in conjunction with various natural user interfaces including the Oculus Rift virtual reality head mounted display,  Microsoft Kinect, Leap Motion Controller, and Razer Hydra for the rehabilitation of stroke patients." , menuLabelStyleD);
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -626,6 +924,13 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 
 		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.25f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
+		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=false;
+			//should display error message instructing to connect OVR HMD
+		}
+
+
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
 		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight),sensitivity, min, max);
@@ -662,10 +967,12 @@ public class TempestVRMainMenu : VRGUI
 		else if(sliderVal<(maxVal-minVal)*0.375f+minVal && sliderVal>=(maxVal-minVal)*0.125f+minVal){sliderVal=(maxVal-minVal)*0.25f+minVal;}
 		else{sliderVal=minVal;}
 	}
-
+	/*
 	// Update is called once per frame
 	void Update() 
 	{
-		Screen.showCursor=false;
+		//Screen.showCursor=false;
 	}
+*/
+
 }
