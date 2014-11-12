@@ -101,12 +101,22 @@ public class TempestVRMainMenu : VRGUI
 			}
 			//variables=gameControl.GetComponent<LeapControl>();
 		}
+
 	}
 
 
 	// Most of the ratios are to compensate having the vrgui 'square' look on a normal camera. If using actual VR HMDs you need to change the ratios.
 	void Start() 
 	{
+		if(TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=true;
+		}
+		else
+		{
+			b_Oculus=false;
+		}
+		
 		sound = true;
 		music = true;
 		volume = 1.0f;
@@ -663,6 +673,13 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 
 		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.25f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
+		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=false;
+			//should display error message instructing to connect OVR HMD
+		}
+
+
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
 		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight),sensitivity, min, max);
@@ -704,5 +721,18 @@ public class TempestVRMainMenu : VRGUI
 	void Update() 
 	{
 		Screen.showCursor=false;
+
+		/*
+		if(TempestUtil.OVRConnectionCheck())
+		{
+			Debug.Log ("OVR HMD is connected");
+		}
+		else
+		{
+			Debug.Log ("OVR HMD is not connected");
+		}
+		*/
 	}
+
+
 }
