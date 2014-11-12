@@ -1,0 +1,37 @@
+SETUP
+
+Make sure the Leap Motion is installed and setup correctly. For more information please visit the official Leap Motion website at https://www.leapmotion.com/setup
+
+
+LEAP MOTION
+
+Plug the USB end of Leap Motion cable into a USB socket on your computer.
+
+Plug the other end into the Leap Motion.
+
+Attach the Leap Motion horizontally onto the front of the Oculus Rift. Make sure the shiny side is facing out, and the green light is facing down.
+
+Make sure the shiny screen isn't smudged.
+
+Open the Leap Motion Visualizer App and the Leap Motion Conrol Panel to check that the device is working properly and to adjust any necessary settings.
+
+If the Leap Motion is not working properly please visit the official Leap Motion website at https://support.leapmotion.com/home
+
+
+TO USE
+
+The Leap Motion interaction space is 8 cubic feet, directly outwards from the face of the device. 
+
+Place the Oculus Rift on your head and place hands directly in front of the Leap Motion, holding your hands in the interaction area.
+
+The best tracking is achieved by keeping hands in the middle of the interaction area with as little as possible movements that reach the edge of the area.
+
+Gentle and slow movements work much better than sudden or fast movements.
+
+Keep arms parrallel and do not cross hands or arms over. Keep a gap between hands.
+
+If hands lose tracking, try resetting the tracker by taking hands away and replacing them in the interaction space, or closing fists and reopening. 
+
+Try to stay comfortable and relaxed, after some practice you will be able to judge the interaction space a lot better.
+
+For more information on how to use the Leap Motion please visit the official Leap Motion website at https://www.leapmotion.com/product/vr
