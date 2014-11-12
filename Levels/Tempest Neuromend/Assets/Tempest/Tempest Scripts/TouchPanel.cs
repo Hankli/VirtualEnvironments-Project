@@ -278,8 +278,8 @@ public class TouchPanel : MonoBehaviour
 			{
 				if(currentSequenceIndex<=notes.Length)
 				{
-					audio.volume = gameControlScript.audioVolume;
-					audio.clip = notes [currentSequenceIndex];
+					audio.volume = gameControlScript.audioVolume*0.2f;
+					audio.clip = notes[currentSequenceIndex];
 					if(audio.clip)
 					{
 						audio.Play();

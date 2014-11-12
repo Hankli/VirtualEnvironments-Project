@@ -3,7 +3,8 @@ using System.Collections;
 
 [RequireComponent (typeof(AudioSource))]
 
-public class TempestVRMainMenu : VRGUI 
+public class TempestVRMainMenu : MonoBehaviour
+//public class TempestVRMainMenu : VRGUI 
 {
 	//Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
 	Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
@@ -62,6 +63,8 @@ public class TempestVRMainMenu : VRGUI
 	Texture2D helpHowToPlayTitle;
 	Texture2D settingsConfigTitle;
 	Texture2D neuromendIcon;
+	Texture2D setupTitle;
+	Texture2D usageTitle;
 
 	Texture2D titleTexture=null;
 
@@ -101,12 +104,22 @@ public class TempestVRMainMenu : VRGUI
 			}
 			//variables=gameControl.GetComponent<LeapControl>();
 		}
+
 	}
 
 
 	// Most of the ratios are to compensate having the vrgui 'square' look on a normal camera. If using actual VR HMDs you need to change the ratios.
 	void Start() 
 	{
+		if(TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=true;
+		}
+		else
+		{
+			b_Oculus=false;
+		}
+		
 		sound = true;
 		music = true;
 		volume = 1.0f;
@@ -121,7 +134,8 @@ public class TempestVRMainMenu : VRGUI
 		buttonHeight = Screen.height * 0.05f;
 		buttonWidth = Screen.width * 0.2f;
 
-		videoWidth = Screen.width * 0.9f;
+		//videoWidth = Screen.width * 0.9f;
+		videoWidth = Screen.width * 0.6f;
 		videoHeight = Screen.height * 0.6f;
 
 		Camera.main.backgroundColor = backgroundColour;
@@ -138,6 +152,8 @@ public class TempestVRMainMenu : VRGUI
 //		helpTitle = Resources.Load<Texture2D>("Help");
 		helpHowToPlayTitle = Resources.Load<Texture2D>("HelpHowToPlay");
 		settingsConfigTitle = Resources.Load<Texture2D>("Config");
+		setupTitle = Resources.Load<Texture2D>("Setup");
+		usageTitle = Resources.Load<Texture2D>("Usage");
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
@@ -194,10 +210,11 @@ public class TempestVRMainMenu : VRGUI
 		}
 	}
 
-
-	public override void OnVRGUI()
+	void OnGUI()
+	//public override void OnVRGUI()
 	{
-		Screen.showCursor=false;
+		//Screen.showCursor=false;
+		Screen.showCursor=true;
 		if(screenHeight != Screen.height||screenWidth != Screen.width)
 		{
 			screenHeight = Screen.height;
@@ -205,7 +222,8 @@ public class TempestVRMainMenu : VRGUI
 			buttonHeight = Screen.height * 0.05f;
 			buttonWidth = Screen.width * 0.2f;
 
-			videoWidth = Screen.width * 0.9f;
+			//videoWidth = Screen.width * 0.9f;
+			videoWidth = Screen.width * 0.6f;
 			videoHeight = Screen.height * 0.6f;
 
 			//font size scaling may need tweaking if standalone screen ratio is variable...
@@ -225,7 +243,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		if(name!=null)
 		{
-			profileTitlePosition.Set(0, 0, Screen.width, Screen.height);
+			profileTitlePosition.Set(0, 0, Screen.height, Screen.height);
 			GUI.DrawTexture(profileTitlePosition, name);
 		}
 	}
@@ -234,6 +252,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		//backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
 		//GUI.DrawTexture(backgroundPosition,background);
+		//backgroundPosition.Set(	(Screen.width-Screen.height)*0.5f, 0, Screen.height, Screen.height);
 		backgroundPosition.Set(	0, 0, Screen.width, Screen.height);
 		GUI.DrawTexture(backgroundPosition, background);
 	}
@@ -274,9 +293,15 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
+		//GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
 		
-		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.82f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"SETUP", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight), "VIDEO TUTORIALS", menuButtonStyle))
 		{
 			playButtonText="PLAY";
 			video = OATutorial;
@@ -284,7 +309,7 @@ public class TempestVRMainMenu : VRGUI
 			{
 				audio.clip = video.audioClip;
 			}
-
+			
 			titleTexture = helpHowToPlayTitle;
 			menuFunction = videoTutorials;
 		}		
@@ -296,6 +321,74 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = cursorColour;
 	}
 
+	void setupMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"OCULUS RIFT", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = oculusMenu;
+		}		
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.7f, buttonWidth*2.0f, buttonHeight),"DEVICE", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = deviceMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.76f, buttonWidth*2.0f, buttonHeight),"USAGE INSTRUCTIONS", menuButtonStyle))
+		{
+			titleTexture = usageTitle;
+			menuFunction = usageMenu;
+		}		
+
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = helpHowToPlayTitle;
+			menuFunction = help;
+		}
+		GUI.color = cursorColour;
+	}
+
+
+	void oculusMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	}
+
+	void deviceMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	}
+
+	void usageMenu()
+	{
+		GUI.color = buttonColour;
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		
+		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
+		{
+			titleTexture = setupTitle;
+			menuFunction = setupMenu;
+		}
+		GUI.color = cursorColour;	}
+
 
 	void videoTutorials()
 	{
@@ -306,7 +399,7 @@ public class TempestVRMainMenu : VRGUI
 		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
 
 
-		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.5f, videoWidth, videoHeight);
+		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.48f, videoWidth, videoHeight);
 		GUI.DrawTexture(videoPosition, video);
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), "", menuButtonStyle))
@@ -633,11 +726,11 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
 
-		iconPosition.Set( (Screen.width-Screen.width/4.0f)/2.0f, Screen.height*0.1f, Screen.width/4.0f, Screen.height/4.0f);
+		iconPosition.Set( (Screen.width-Screen.height/4.0f)/2.0f, Screen.height*0.1f, Screen.height/4.0f, Screen.height/4.0f);
 		GUI.DrawTexture(iconPosition, neuromendIcon);
 
 		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "\n\n\n\nNEUROMEND\n\n"
-		          +"-is a virtual simulation project focused on researching the possibility of using virtual environments in conjunction with various natural user interfaces including the Oculus Rift virtual reality head mounted display,  Microsoft Kinect, Leap Motion, and Razer Hydra for the rehabilitation of stroke patients." , menuButtonStyle);
+		          +"-is a virtual simulation project focused on researching the possibility of using virtual environments in conjunction with various natural user interfaces including the Oculus Rift virtual reality head mounted display,  Microsoft Kinect, Leap Motion Controller, and Razer Hydra for the rehabilitation of stroke patients." , menuButtonStyle);
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
@@ -663,6 +756,13 @@ public class TempestVRMainMenu : VRGUI
 		GUI.color = buttonColour;
 
 		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.25f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
+		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=false;
+			//should display error message instructing to connect OVR HMD
+		}
+
+
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
 		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight),sensitivity, min, max);
@@ -704,5 +804,18 @@ public class TempestVRMainMenu : VRGUI
 	void Update() 
 	{
 		Screen.showCursor=false;
+
+		/*
+		if(TempestUtil.OVRConnectionCheck())
+		{
+			Debug.Log ("OVR HMD is connected");
+		}
+		else
+		{
+			Debug.Log ("OVR HMD is not connected");
+		}
+		*/
 	}
+
+
 }

@@ -34,4 +34,19 @@ public static class TempestUtil
 		formattedTime+=timePassedSec;
 		return formattedTime;
 	}
+
+	public static bool OVRConnectionCheck()
+	{
+		OVR.Hmd HMD = OVR.Hmd.GetHmd ();
+		OVR.ovrTrackingState ss = HMD.GetTrackingState();      
+		bool isConnected = (ss.StatusFlags & (uint)OVR.ovrStatusBits.ovrStatus_HmdConnected) != 0;	
+		if(isConnected)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

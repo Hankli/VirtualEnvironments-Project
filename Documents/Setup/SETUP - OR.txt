@@ -1,0 +1,20 @@
+SETUP
+
+Make sure the Oculus Rift is installed and setup correctly. For more information please visit the official Oculus Rift website at https://support.oculus.com/ and https://developer.oculus.com/
+
+
+OCULUS RIFT
+
+Connect one end of the video cable (DVI or HDMI) to your computer and the other end to the control box. Only one video input should be connected to the control box at a time. You can use the DVI Adapter with the HDMI cable.
+
+Connect one end of the USB cable to your computer and the other to the control box.
+
+Plug the power cord into an outlet and connect the other end to the control box.
+
+Press the power button to power on the control box and the headset. A blue LED on the top of the control box indicates whether the device is on or off.
+
+Adjust the head strap so that it fits snugly around your head.
+
+Open the Oculus Configuration Utility and press "Show Demo Scene". Put the Oculus Rift on to check that the device is working properly.
+
+For more information on setting up the Oculus Rift, please visit the official Oculus Rift website at http://static.oculusvr.com/sdk-downloads/documents/Oculus_Rift_Development_Kit_Instruction_Manual.pdf
