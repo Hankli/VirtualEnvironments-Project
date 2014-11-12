@@ -3,7 +3,8 @@ using System.Collections;
 
 [RequireComponent (typeof(AudioSource))]
 
-public class TempestVRMainMenu : VRGUI 
+public class TempestVRMainMenu : MonoBehaviour
+//public class TempestVRMainMenu : VRGUI 
 {
 	//Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
 	Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
@@ -133,7 +134,8 @@ public class TempestVRMainMenu : VRGUI
 		buttonHeight = Screen.height * 0.05f;
 		buttonWidth = Screen.width * 0.2f;
 
-		videoWidth = Screen.width * 0.9f;
+		//videoWidth = Screen.width * 0.9f;
+		videoWidth = Screen.width * 0.6f;
 		videoHeight = Screen.height * 0.6f;
 
 		Camera.main.backgroundColor = backgroundColour;
@@ -208,10 +210,11 @@ public class TempestVRMainMenu : VRGUI
 		}
 	}
 
-
-	public override void OnVRGUI()
+	void OnGUI()
+	//public override void OnVRGUI()
 	{
-		Screen.showCursor=false;
+		//Screen.showCursor=false;
+		Screen.showCursor=true;
 		if(screenHeight != Screen.height||screenWidth != Screen.width)
 		{
 			screenHeight = Screen.height;
@@ -219,7 +222,8 @@ public class TempestVRMainMenu : VRGUI
 			buttonHeight = Screen.height * 0.05f;
 			buttonWidth = Screen.width * 0.2f;
 
-			videoWidth = Screen.width * 0.9f;
+			//videoWidth = Screen.width * 0.9f;
+			videoWidth = Screen.width * 0.6f;
 			videoHeight = Screen.height * 0.6f;
 
 			//font size scaling may need tweaking if standalone screen ratio is variable...
@@ -239,7 +243,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		if(name!=null)
 		{
-			profileTitlePosition.Set(0, 0, Screen.width, Screen.height);
+			profileTitlePosition.Set(0, 0, Screen.height, Screen.height);
 			GUI.DrawTexture(profileTitlePosition, name);
 		}
 	}
@@ -248,6 +252,7 @@ public class TempestVRMainMenu : VRGUI
 	{
 		//backgroundPosition.Set(	(Screen.width/2.0f)-512, (Screen.height/2.0f)-320, 1024, 640);
 		//GUI.DrawTexture(backgroundPosition,background);
+		//backgroundPosition.Set(	(Screen.width-Screen.height)*0.5f, 0, Screen.height, Screen.height);
 		backgroundPosition.Set(	0, 0, Screen.width, Screen.height);
 		GUI.DrawTexture(backgroundPosition, background);
 	}
@@ -394,7 +399,7 @@ public class TempestVRMainMenu : VRGUI
 		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
 
 
-		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.5f, videoWidth, videoHeight);
+		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.48f, videoWidth, videoHeight);
 		GUI.DrawTexture(videoPosition, video);
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.075f, buttonWidth, buttonHeight*2.0f), "", menuButtonStyle))
@@ -721,11 +726,11 @@ public class TempestVRMainMenu : VRGUI
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
 
-		iconPosition.Set( (Screen.width-Screen.width/4.0f)/2.0f, Screen.height*0.1f, Screen.width/4.0f, Screen.height/4.0f);
+		iconPosition.Set( (Screen.width-Screen.height/4.0f)/2.0f, Screen.height*0.1f, Screen.height/4.0f, Screen.height/4.0f);
 		GUI.DrawTexture(iconPosition, neuromendIcon);
 
 		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "\n\n\n\nNEUROMEND\n\n"
-		          +"-is a virtual simulation project focused on researching the possibility of using virtual environments in conjunction with various natural user interfaces including the Oculus Rift virtual reality head mounted display,  Microsoft Kinect, Leap Motion, and Razer Hydra for the rehabilitation of stroke patients." , menuButtonStyle);
+		          +"-is a virtual simulation project focused on researching the possibility of using virtual environments in conjunction with various natural user interfaces including the Oculus Rift virtual reality head mounted display,  Microsoft Kinect, Leap Motion Controller, and Razer Hydra for the rehabilitation of stroke patients." , menuButtonStyle);
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
