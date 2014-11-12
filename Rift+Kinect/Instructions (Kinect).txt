@@ -1,0 +1,55 @@
+
+Kinect Page-
+
+Kinect for Windows
+
+Step 1-
+Make sure that your computer is running Windows 7. It will also need to have the 
+Kinect for Windows drivers installed, which have been provided. If it doesn't have
+them installed you can locate them under the Drivers folder. Double-click the exes one at
+a time to install them. Follow the on-screen installation instructions. 
+
+Step 2-
+The Kinect device has two cords, one for power and the other a USB connector.
+The power cord can be detached so make sure that it's attached to the main cord
+coming out of the Kinect sensor. The attachment socket is coloured coded orange and
+it will not connect to anything else. Connect the power adapter to a power outlet. 
+Connect the USB connector into a USB port on your computer.
+
+If it's the first time your computer has been connected to a Kinect sensor expect to
+see some background driver installation processes. Wait for these to finish before
+running Neuromend. You should see a notification in the bottom-right corner of your screen
+once the processes are done.
+
+Step 3-
+Place the Kinect sensor on a flat stable non-vibrating surface away from any edge.
+Make sure there aren't any cables in the way of the sensor that may block the lens or 
+prevent it from tilting freely. Do not manually tilt the sensor. The lens on the sensor 
+should be kept clean for optimal recognition. There should be a fair amount of room space that 
+is free of objects such as furniture. The room should also be well lit.
+
+Additional Info & Help-
+http://support.xbox.com/en-AU/xbox-on-other-devices/kinect-for-windows/kinect-for-windows-setup
+
+
+
+Controls Page-
+
+Kinect for Windows
+
+Step 1-
+Make sure the Oculus Rift is set up by following the steps on the Oculus Rift page.
+Make sure the Kinect is set up by following the steps on the Kinect Page.
+
+Step 2-
+Position yourself at least 1-2 meters away from the front face of the Kinect sensor.
+Ensure that the cables for the Oculus Rift are secured and out of your way. If your are
+standing directly in front of a wall be sure that its colour is not dark. It also
+helps to wear light coloured clothing so that the sensor doesn't struggle to recognize
+your entire body. However, avoid wearing cloths that blend with the wall's colour.
+
+Step 3-
+The actual movements that your will be required to make are dependent on the current level.
+There are instructional videos for each of the three levels, which will demonstrate the 
+relevant movements and how to perform them correctly. You can also refer to the User Manual
+document to get a general understanding of how to perform the movements.
