@@ -34,6 +34,8 @@ namespace Tempest
 			/// </summary>
 			private static bool m_controllerManagerEnabled = true;
 
+			public Font m_guiFont;
+
 			public static bool ConfigurationEnabled { get { return m_controllerManagerEnabled; } }
 
 			private static HandInput[] m_controllers = new HandInput[MAX_CONTROLLERS];
@@ -43,8 +45,6 @@ namespace Tempest
 			private static ControllerManagerState m_controllerManagerState = ControllerManagerState.NONE;
 
 			public static ControllerManagerState ConfigurationState { get { return m_controllerManagerState; } }
-
-			public GUIStyle m_messageStyle = new GUIStyle();
 
 			/// <summary>
 			/// Access to Controller objects.
@@ -230,16 +230,19 @@ namespace Tempest
 			
 				if ( m_controllerManagerEnabled && ( m_controllerManagerState != ControllerManagerState.NONE ) )
 				{
-					uint boxWidth = 620;
-					uint boxHeight = 550;
-
 					string boxText = ( m_controllerManagerState == ControllerManagerState.BIND_CONTROLLER_ONE ) ?
 						"Point left controller at base and pull trigger" :
 						"Point right controller at base and pull trigger";
 
-					GUI.Box( new Rect( (Screen.width / 2) - ( boxWidth / 2), 
-					                   (Screen.height / 2) - ( boxHeight / 2),
-					                  boxWidth, boxHeight), boxText, m_messageStyle);
+					GUIStyle style = new GUIStyle(GUI.skin.box);
+					style.fontSize = (int)(Screen.width * 0.03f);
+					style.normal.textColor = Color.black;
+					style.normal.background = Menu.ColouredTexture.MakeTex((int)(Screen.width * 0.8f), (int)(Screen.height * 0.08f), Color.white);
+					style.wordWrap = true;
+					style.font = m_guiFont;
+					style.alignment = TextAnchor.MiddleCenter;
+
+					GUI.Label(new Rect(Screen.width * 0.1f, Screen.height * 0.15f, Screen.width * 0.8f, Screen.height * 0.08f), boxText, style);
 					
 				}
 			}

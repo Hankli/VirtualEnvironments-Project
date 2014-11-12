@@ -12,7 +12,7 @@ namespace Tempest
 			private bool m_bInitialized;
 			private float m_linearSensitivity = 0.0f; // Sixense units are in mm
 			private float m_angularSensitivity = 5.0f;
-			public GUIStyle m_messageStyle = new GUIStyle();
+			public Font m_guiFont;
 
 			public float LinearSensitivity
 			{
@@ -160,30 +160,19 @@ namespace Tempest
 			{
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
-					uint boxWidth = 500;
-					uint boxHeight = 550;
-
 					string boxText = "Press start";
-									
-					GUI.Box( new Rect( (Screen.width / 2) - ( boxWidth / 2), 
-					                    (Screen.height / 2) - ( boxHeight / 2),
-					                    boxWidth, boxHeight), boxText, m_messageStyle);
+								
+					GUIStyle style = new GUIStyle(GUI.skin.box);
+					style.fontSize = (int)(Screen.width * 0.03f);
+					style.normal.textColor = Color.black;
+					style.normal.background = Menu.ColouredTexture.MakeTex((int)(Screen.width * 0.8f), (int)(Screen.height * 0.08f), Color.white);
+					style.font = m_guiFont;
+					style.wordWrap = true;
+					style.alignment = TextAnchor.MiddleCenter;
+
+					GUI.Label(new Rect(Screen.width * 0.1f, Screen.height * 0.15f, Screen.width * 0.8f, Screen.height * 0.08f), boxText, style);
 				}
 			}
-
-			private Texture2D MakeTex( int width, int height, Color col )
-			{
-				Color[] pix = new Color[width * height];
-				for( int i = 0; i < pix.Length; ++i )
-				{
-					pix[ i ] = col;
-				}
-				Texture2D result = new Texture2D( width, height );
-				result.SetPixels( pix );
-				result.Apply();
-				return result;
-			}
-
 			
 			
 			/** returns true if a controller is enabled and not docked */
