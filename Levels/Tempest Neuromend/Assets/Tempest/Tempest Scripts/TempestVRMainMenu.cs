@@ -6,8 +6,8 @@ using System.Collections;
 public class TempestVRMainMenu : MonoBehaviour
 //public class TempestVRMainMenu : VRGUI 
 {
-	//Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
-	Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
+	Color backgroundColour = new Color(1.0f, 1.0f, 1.0f);
+	//Color backgroundColour = new Color(0.0f, 0.0f, 0.0f);
 	Color cursorColour = new Color(0.22f, 1.0f, 0.97f);
 	Color buttonColour = new Color(1.0f, 1.0f, 1.0f);
 
@@ -30,6 +30,8 @@ public class TempestVRMainMenu : MonoBehaviour
 	public GUIStyle menuLabelStyle;//label GUIStyle
 	public GUIStyle menuLabelStyleA;//label GUIStyle
 	public GUIStyle menuLabelStyleB;//label GUIStyle
+	public GUIStyle menuLabelStyleC;//label GUIStyle left align
+	public GUIStyle menuLabelStyleD;//label GUIStyle center align
 	public GUIStyle menuToggleStyle;//toggle GUIStyle
 
 
@@ -66,7 +68,19 @@ public class TempestVRMainMenu : MonoBehaviour
 	Texture2D setupTitle;
 	Texture2D usageTitle;
 
-	Texture2D titleTexture=null;
+	Texture2D titleTexture = null;
+
+
+	Texture2D orimg1;
+	Texture2D orimg2;
+	Texture2D orimg3;
+	Texture2D orimg4;
+	Texture2D orimg5;
+	Texture2D orimg6;
+
+
+
+
 
 	private Rect profileTitlePosition;
 	private Rect backgroundPosition;
@@ -155,6 +169,15 @@ public class TempestVRMainMenu : MonoBehaviour
 		setupTitle = Resources.Load<Texture2D>("Setup");
 		usageTitle = Resources.Load<Texture2D>("Usage");
 
+		orimg1 = Resources.Load<Texture2D>("or1");
+		orimg2 = Resources.Load<Texture2D>("or2");
+		orimg3 = Resources.Load<Texture2D>("or3");
+		orimg4 = Resources.Load<Texture2D>("or4");
+		orimg5 = Resources.Load<Texture2D>("or5");
+		orimg6 = Resources.Load<Texture2D>("or6");
+
+
+
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
 		profileMenu = new Tempest.Menu.ProfileMenu ();
@@ -163,6 +186,8 @@ public class TempestVRMainMenu : MonoBehaviour
 		menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 		menuToggleStyle.fontSize = menuButtonStyle.fontSize;
 		menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
+		menuLabelStyleC.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
+		menuLabelStyleD.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
 
 		profileMenu.Initialize ();
 		ConfigMenuValues();
@@ -232,6 +257,8 @@ public class TempestVRMainMenu : MonoBehaviour
 			menuLabelStyleA.fontSize = menuButtonStyle.fontSize;
 			menuToggleStyle.fontSize = menuButtonStyle.fontSize;
 			menuLabelStyleB.fontSize = menuButtonStyle.fontSize;
+			menuLabelStyleC.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
+			menuLabelStyleD.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
 		}
 
 		DrawBackground();
@@ -357,47 +384,120 @@ public class TempestVRMainMenu : MonoBehaviour
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1500.0f)*287.0f))*0.5f, screenHeight*0.1f, (screenWidth/1500.0f)*287.0f, (screenWidth/1500.0f)*157.0f), orimg1);	
+		GUI.DrawTexture(new Rect((screenWidth-screenWidth*0.9f)*0.5f, screenHeight*0.325f, (screenWidth/1500.0f)*139.0f, (screenWidth/1500.0f)*117.0f), orimg4);
+		GUI.DrawTexture(new Rect((screenWidth-(screenWidth/1500.0f)*219.0f)*0.77f, screenHeight*0.3f, (screenWidth/1500.0f)*219.0f, (screenWidth/1500.0f)*140.0f), orimg2);
+		GUI.DrawTexture(new Rect((screenWidth-(screenWidth/1500.0f)*148.0f)*0.9f, screenHeight*0.3f, (screenWidth/1500.0f)*190.0f, (screenWidth/1500.0f)*148.0f), orimg3);
+		GUI.DrawTexture(new Rect((screenWidth-screenWidth*0.9f)*0.5f, screenHeight*0.55f, (screenWidth/1500.0f)*236.0f, (screenWidth/1500.0f)*173.0f), orimg5);
+		GUI.DrawTexture(new Rect((screenWidth-(screenWidth/1500.0f)*194.0f)*0.9f, screenHeight*0.5f, (screenWidth/1500.0f)*194.0f, (screenWidth/1500.0f)*277.0f), orimg6);
 		
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
+		          "Make sure the Oculus Rift is installed and setup correctly. For more information please visit the official Oculus Rift website at https://support.oculus.com/ and https://developer.oculus.com/", 
+		          menuLabelStyleD);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.25f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Connect one end of the video cable (DVI or HDMI) to your computer and the other end to the control box. Only one video input should be connected to the control box at a time. You can use the DVI Adapter with the HDMI cable.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.3125f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Connect one end of the USB cable to your computer and the other to the control box.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.35f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Plug the power cord into an outlet and connect the other end to the control box.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.5f, screenHeight * 0.55f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Press the power button to power on the control box and the headset. A blue LED on the top of the control box indicates whether the device is on or off."
+		          +"\n\nAdjust the head strap so that it fits snugly around your head."
+		          +"\n\nOpen the Oculus Configuration Utility and press 'Show Demo Scene'. Put the Oculus Rift on to check that the device is working properly.", 
+		          menuLabelStyleD);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information on setting up the Oculus Rift, please visit the official Oculus Rift website at http://static.oculusvr.com/sdk-downloads/documents/Oculus_Rift_Development_Kit_Instruction_Manual.pdf", 
+		          menuLabelStyleC);
+
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			titleTexture = setupTitle;
 			menuFunction = setupMenu;
 		}
-		GUI.color = cursorColour;	}
+		GUI.color = cursorColour;	
+	}
 
 	void deviceMenu()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		/*Kinect==========================================
+		 */
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 1-\nMake sure that your computer is running Windows 7. It will also need to have the Kinect for Windows drivers installed, which have been provided. If it doesn't have them installed you can locate them under the Drivers folder. Double-click the exes one at a time to install them. Follow the on-screen installation instructions. ", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.35f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 2-\nThe Kinect device has two cords, one for power and the other a USB connector. The power cord can be detached so make sure that it's attached to the main cord coming out of the Kinect sensor. The attachment socket is coloured coded orange and it will not connect to anything else. Connect the power adapter to a power outlet. Connect the USB connector into a USB port on your computer.\n\nIf it's the first time your computer has been connected to a Kinect sensor expect to see some background driver installation processes. Wait for these to finish before running Neuromend. You should see a notification in the bottom-right corner of your screen once the processes are done.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.6f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 3-\nPlace the Kinect sensor on a flat stable non-vibrating surface away from any edge. Make sure there aren't any cables in the way of the sensor that may block the lens or prevent it from tilting freely. Do not manually tilt the sensor. The lens on the sensor should be kept clean for optimal recognition. There should be a fair amount of room space that is free of objects such as furniture. The room should also be well lit.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
+		          "For more information & help please vist http://support.xbox.com/en-AU/xbox-on-other-devices/kinect-for-windows/kinect-for-windows-setup", 
+		          menuLabelStyleD);
+
+		/*Leap==========================================
+		 */
+		
+		/*Hydra==========================================
+		 */
 		
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			titleTexture = setupTitle;
 			menuFunction = setupMenu;
 		}
-		GUI.color = cursorColour;	}
+		GUI.color = cursorColour;	
+	}
 
 	void usageMenu()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		
+
+		GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "", menuButtonStyle);
+
+		/*Kinect==========================================
+		 */
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 1-\nMake sure the Oculus Rift is set up by following the steps on the Oculus Rift page. Make sure the Kinect is set up by following the steps on the Kinect Page.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.35f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 2-\nPosition yourself at least 1-2 meters away from the front face of the Kinect sensor. Ensure that the cables for the Oculus Rift are secured and out of your way. If your are standing directly in front of a wall be sure that its colour is not dark. It also helps to wear light coloured clothing so that the sensor doesn't struggle to recognize your entire body. However, avoid wearing cloths that blend with the wall's colour.", 
+		          menuLabelStyleC);
+		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.6f, screenWidth*0.5f, screenHeight*0.2f), 
+		          "Step 3-\nThe actual movements that your will be required to make are dependent on the current level. There are instructional videos for each of the three levels, which will demonstrate the relevant movements and how to perform them correctly. You can also refer to the User Manual document to get a general understanding of how to perform the movements.", 
+		          menuLabelStyleC);
+
+
+		/*Leap==========================================
+		 */
+
+		/*Hydra==========================================
+		 */
+
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
 		{
 			titleTexture = setupTitle;
 			menuFunction = setupMenu;
 		}
-		GUI.color = cursorColour;	}
+		GUI.color = cursorColour;	
+	}
 
 
 	void videoTutorials()
 	{
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-
-
-		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight), b_playTutorials, "Play Tutorials", menuToggleStyle);
-
 
 		videoPosition.Set((screenWidth - videoWidth) * 0.5f, (screenHeight - videoHeight) * 0.48f, videoWidth, videoHeight);
 		GUI.DrawTexture(videoPosition, video);
@@ -799,23 +899,12 @@ public class TempestVRMainMenu : MonoBehaviour
 		else if(sliderVal<(maxVal-minVal)*0.375f+minVal && sliderVal>=(maxVal-minVal)*0.125f+minVal){sliderVal=(maxVal-minVal)*0.25f+minVal;}
 		else{sliderVal=minVal;}
 	}
-
+	/*
 	// Update is called once per frame
 	void Update() 
 	{
-		Screen.showCursor=false;
-
-		/*
-		if(TempestUtil.OVRConnectionCheck())
-		{
-			Debug.Log ("OVR HMD is connected");
-		}
-		else
-		{
-			Debug.Log ("OVR HMD is not connected");
-		}
-		*/
+		//Screen.showCursor=false;
 	}
-
+*/
 
 }
