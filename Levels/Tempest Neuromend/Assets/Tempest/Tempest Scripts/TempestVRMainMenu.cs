@@ -70,13 +70,20 @@ public class TempestVRMainMenu : MonoBehaviour
 
 	Texture2D titleTexture = null;
 
-
+	//oculus setup images
 	Texture2D orimg1;
 	Texture2D orimg2;
 	Texture2D orimg3;
 	Texture2D orimg4;
 	Texture2D orimg5;
 	Texture2D orimg6;
+	//oculus setup images
+
+	//kinect setup images
+	Texture2D kinect1;
+	Texture2D kinect2;
+	Texture2D kinect3;
+	//kinect setup images
 
 
 
@@ -176,6 +183,9 @@ public class TempestVRMainMenu : MonoBehaviour
 		orimg5 = Resources.Load<Texture2D>("or5");
 		orimg6 = Resources.Load<Texture2D>("or6");
 
+		kinect1 = Resources.Load<Texture2D>("kinectDevice1");
+		kinect2 = Resources.Load<Texture2D>("kinectDevice2");
+		kinect3 = Resources.Load<Texture2D>("kinectUsage1");
 
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
@@ -468,13 +478,14 @@ public class TempestVRMainMenu : MonoBehaviour
 
 		/*Kinect==========================================
 		 */
-		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.2f), 
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1000.0f)*506.0f))*0.9f, (screenHeight-(screenWidth/1000.0f)*379.0f)*0.5f, (screenWidth/1000.0f)*506.0f, (screenWidth/1000.0f)*379.0f), kinect3);	
+		GUI.Label(new Rect((screenWidth-screenWidth*0.45f) * 0.1f, screenHeight * 0.1f, screenWidth*0.45f, screenHeight*0.2f), 
 		          "Step 1-\nMake sure the Oculus Rift is set up by following the steps on the Oculus Rift page. Make sure the Kinect is set up by following the steps on the Kinect Page.", 
 		          menuLabelStyleC);
-		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.35f, screenWidth*0.5f, screenHeight*0.2f), 
-		          "Step 2-\nPosition yourself at least 1-2 meters away from the front face of the Kinect sensor. Ensure that the cables for the Oculus Rift are secured and out of your way. If your are standing directly in front of a wall be sure that its colour is not dark. It also helps to wear light coloured clothing so that the sensor doesn't struggle to recognize your entire body. However, avoid wearing cloths that blend with the wall's colour.", 
+		GUI.Label(new Rect((screenWidth-screenWidth*0.45f) * 0.1f, screenHeight * 0.35f, screenWidth*0.45f, screenHeight*0.2f), 
+		          "Step 2-\nPosition yourself at least 1-2 meters away from the front face of the Kinect sensor. Ensure that the cables for the Oculus Rift are secured and out of your way. If your are standing directly in front of a wall be sure that its colour is not dark. It also helps to wear light coloured clothing so that the sensor doesn't struggle to recognize your entire body. However, avoid wearing clothes that blend with the wall's colour.", 
 		          menuLabelStyleC);
-		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.3f, screenHeight * 0.6f, screenWidth*0.5f, screenHeight*0.2f), 
+		GUI.Label(new Rect((screenWidth-screenWidth*0.45f) * 0.1f, screenHeight * 0.6f, screenWidth*0.45f, screenHeight*0.2f), 
 		          "Step 3-\nThe actual movements that your will be required to make are dependent on the current level. There are instructional videos for each of the three levels, which will demonstrate the relevant movements and how to perform them correctly. You can also refer to the User Manual document to get a general understanding of how to perform the movements.", 
 		          menuLabelStyleC);
 
