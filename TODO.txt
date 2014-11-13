@@ -1,7 +1,7 @@
 x Loading screen
 x Pause screen
-- Song
-- Audio
+x Song
+x Audio
 x Change the exe icon
 x Transferring scores to database
 
