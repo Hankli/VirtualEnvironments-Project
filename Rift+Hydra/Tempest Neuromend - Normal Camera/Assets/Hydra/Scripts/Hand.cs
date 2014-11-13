@@ -28,33 +28,11 @@ namespace Tempest
 			private Quaternion m_modelRotation; 
 
 			private float m_triggerSensitivity = 1.0f;
+			private Vector3 m_contactNormal;
 
-			private Vector3 m_collisionNormal;
-			private GameObject m_collisionObject;
-
-			private void OnCollisionEnter(Collision col)
+			public Vector3 ContactNormal
 			{
-				CapsuleCollider cc = GetComponent<CapsuleCollider> ();
-
-				m_collisionObject = col.gameObject;
-
-				m_collisionNormal = transform.InverseTransformPoint(col.contacts [0].point);
-			}
-
-			private void OnCollisionStay(Collision col)
-			{
-				m_collisionNormal = transform.InverseTransformPoint(col.contacts [0].point);
-			}
-
-			private void OnCollisionExit(Collision col)
-			{
-				m_collisionObject = null;
-				m_collisionNormal = Vector3.zero;
-			}
-
-			public Vector3 CollisionNormal
-			{
-				get { return m_collisionNormal; }
+				get { return m_contactNormal; }
 			}
 
 			public Quaternion ModelRotation
@@ -131,7 +109,7 @@ namespace Tempest
 				m_rotation = Quaternion.identity;
 				m_position = Vector3.zero;
 
-				m_collisionNormal = Vector3.zero;
+				m_contactNormal = Vector3.zero;
 
 				//use interpolation and continous detection mode
 				rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
@@ -166,6 +144,23 @@ namespace Tempest
 			private void UpdateHandAnimation()
 			{
 				m_animationFSM.Update (this);
+			}
+
+			private void OnCollisionEnter(Collision col)
+			{
+				CapsuleCollider cc = GetComponent<CapsuleCollider> ();
+				m_contactNormal = col.contacts[0].point - transform.TransformPoint(cc.center);
+			}
+			
+			private void OnCollisionStay(Collision col)
+			{
+				CapsuleCollider cc = GetComponent<CapsuleCollider> ();
+				m_contactNormal = col.contacts[0].point - transform.TransformPoint(cc.center);
+			}
+			
+			private void OnCollisionExit(Collision col)
+			{
+				m_contactNormal = Vector3.zero;
 			}
 		}
 	}

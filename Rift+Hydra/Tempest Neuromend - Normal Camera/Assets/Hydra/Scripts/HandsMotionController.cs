@@ -104,20 +104,17 @@ namespace Tempest
 					//directional vector
 					Vector3 v = (desiredPos - trans.position);
 
-					//force
+					//force needed to move hand
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
 
-					Vector3 velocity = f * v.normalized;
+					//find out how much velocity to apply or subtract to get to desired velocity
+					Vector3 velocity = f * v.normalized - rb.velocity;
 
-				
-					if(hand.CollisionNormal.x > 0.0f && velocity.x > 0.0f) velocity.x = 0.0f;
-					if(hand.CollisionNormal.x < 0.0f && velocity.x < 0.0f) velocity.x = 0.0f;
-					if(hand.CollisionNormal.y > 0.0f && velocity.y > 0.0f) velocity.y = 0.0f;
-					if(hand.CollisionNormal.y < 0.0f && velocity.y < 0.0f) velocity.y = 0.0f;
-					if(hand.CollisionNormal.z > 0.0f && velocity.z > 0.0f) velocity.z = 0.0f;
-					if(hand.CollisionNormal.z < 0.0f && velocity.z < 0.0f) velocity.z = 0.0f;
+					//allow sliding along collision normals
+					Vector3 slide = hand.ContactNormal * Vector3.Dot(velocity, hand.ContactNormal);
 
-					velocity -= rb.velocity; 
+					//subtract movement along collision normal
+					velocity -= slide; 
 
 					//apply force in place of previous value
 					rb.AddForce(velocity, ForceMode.VelocityChange);
@@ -174,7 +171,7 @@ namespace Tempest
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
 					string boxText = "Press start";
-								
+		
 					GUIStyle style = new GUIStyle(GUI.skin.box);
 					style.fontSize = (int)(Screen.width * 0.03f);
 					style.normal.textColor = Color.black;
