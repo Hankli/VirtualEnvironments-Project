@@ -1,14 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Hydra\Scripts\HandsMotionController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs">
     <Files>
-      <File FileName="Assets\Tempest\Tempest Scripts\ExitControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Hydra\Scripts\HandsObjectPicker.cs" Line="100" Column="18" />
-      <File FileName="Assets\Hydra\Scripts\Hand.cs" Line="49" Column="13" />
+      <File FileName="Assets\Hydra\Scripts\HandsObjectPicker.cs" Line="1" Column="1" />
+      <File FileName="Assets\Hydra\Scripts\Hand.cs" Line="46" Column="56" />
       <File FileName="Assets\Tempest\Tempest Scripts\GameControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Tempest\Tempest Scripts\Player Scripts\FPSControl.cs" Line="123" Column="46" />
-      <File FileName="Assets\Hydra\Scripts\HandsMotionController.cs" Line="112" Column="31" />
-      <File FileName="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" Line="1013" Column="36" />
+      <File FileName="Assets\Hydra\Scripts\HandsMotionController.cs" Line="120" Column="31" />
+      <File FileName="Assets\Tempest\Tempest Scripts\TempestVRMainMenu.cs" Line="525" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

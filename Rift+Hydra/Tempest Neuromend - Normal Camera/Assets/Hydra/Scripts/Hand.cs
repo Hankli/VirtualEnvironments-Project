@@ -38,12 +38,12 @@ namespace Tempest
 
 				m_collisionObject = col.gameObject;
 
-				m_collisionNormal = transform.InverseTransformDirection(col.contacts [0].normal);
+				m_collisionNormal = transform.InverseTransformPoint(col.contacts [0].point);
 			}
 
 			private void OnCollisionStay(Collision col)
 			{
-				m_collisionNormal = transform.InverseTransformDirection(col.contacts [0].normal);
+				m_collisionNormal = transform.InverseTransformPoint(col.contacts [0].point);
 			}
 
 			private void OnCollisionExit(Collision col)

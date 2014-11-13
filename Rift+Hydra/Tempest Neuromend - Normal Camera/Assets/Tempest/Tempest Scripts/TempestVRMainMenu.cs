@@ -46,7 +46,7 @@ public class TempestVRMainMenu : MonoBehaviour
 	float playerSpeedOA;
 	float playerSpeedWF;
 
-	bool b_Oculus=false;
+	bool b_Oculus=true;
 
 	private bool b_playTutorials=true;
 	private bool b_objectInteraction=false;
@@ -87,18 +87,20 @@ public class TempestVRMainMenu : MonoBehaviour
 
 
 	//leap setup images
-	Texture2D leap1;
-	Texture2D leap2;
-	Texture2D leap3;
-	Texture2D leap4;
-	Texture2D leap5;
-	Texture2D leap6;
-	Texture2D leap7;
+	//Texture2D leap1;
+	//Texture2D leap2;
+	//Texture2D leap3;
+	//Texture2D leap4;
+	//Texture2D leap5;
+	//Texture2D leap6;
+	//Texture2D leap7;
 	//leap setup images
 
 	//hydra setup images
 	//hydra setup images
-
+	Texture2D razer1;
+	Texture2D razer2;
+	Texture2D razer3;
 
 	private Rect profileTitlePosition;
 	private Rect backgroundPosition;
@@ -133,9 +135,9 @@ public class TempestVRMainMenu : MonoBehaviour
 			{
 				gameControlScript.MenuActive();
 
-				//gameControlScript.SetControllerType(GameControl.ControllerType.MouseKeyboard);
+				gameControlScript.SetControllerType(GameControl.ControllerType.MouseKeyboard);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusLeap);
-				gameControlScript.SetControllerType(GameControl.ControllerType.OculusHydra);
+				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusHydra);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusKinect);
 			}
 			//variables=gameControl.GetComponent<LeapControl>();
@@ -198,17 +200,21 @@ public class TempestVRMainMenu : MonoBehaviour
 		orimg5 = Resources.Load<Texture2D>("or5");
 		orimg6 = Resources.Load<Texture2D>("or6");
 
-		kinect1 = Resources.Load<Texture2D>("kinectDevice1");
-		kinect2 = Resources.Load<Texture2D>("kinectDevice2");
-		kinect3 = Resources.Load<Texture2D>("kinectUsage1");
+		//kinect1 = Resources.Load<Texture2D>("kinectDevice1");
+		//kinect2 = Resources.Load<Texture2D>("kinectDevice2");
+		//kinect3 = Resources.Load<Texture2D>("kinectUsage1");
 
-		leap1 = Resources.Load<Texture2D>("Leap1");
-		leap2 = Resources.Load<Texture2D>("Leap2");
-		leap3 = Resources.Load<Texture2D>("Leap3");
-		leap4 = Resources.Load<Texture2D>("Leap4");
-		leap5 = Resources.Load<Texture2D>("Leap5");
-		leap6 = Resources.Load<Texture2D>("LeapIntArea");
-		leap7 = Resources.Load<Texture2D>("LeapVisualiser");
+		//leap1 = Resources.Load<Texture2D>("Leap1");
+		////leap2 = Resources.Load<Texture2D>("Leap2");
+		//leap3 = Resources.Load<Texture2D>("Leap3");
+		//leap4 = Resources.Load<Texture2D>("Leap4");
+		//leap5 = Resources.Load<Texture2D>("Leap5");
+		//leap6 = Resources.Load<Texture2D>("LeapIntArea");
+		//leap7 = Resources.Load<Texture2D>("LeapVisualiser");
+
+		razer1 = Resources.Load<Texture2D> ("Razer Docked");
+		razer2 = Resources.Load<Texture2D> ("Razer Back");
+		razer3 = Resources.Load<Texture2D> ("Razer Cables");
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
@@ -496,7 +502,6 @@ public class TempestVRMainMenu : MonoBehaviour
 */
 
 		/*Leap==========================================
-
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*606.0f))*0.69f, (screenHeight-(screenWidth/3000.0f)*393.0f)*0.15f, (screenWidth/3000.0f)*606.0f, (screenWidth/3000.0f)*393.0f), leap1);	
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/2150.0f)*493.0f))*0.99f, (screenHeight-(screenWidth/2150.0f)*279.0f)*0.15f, (screenWidth/2150.0f)*493.0f, (screenWidth/2150.0f)*279.0f), leap4);	
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3500.0f)*1262.0f))*0.93f, (screenHeight-(screenWidth/3500.0f)*780.0f)*0.65f, (screenWidth/3500.0f)*1262.0f, (screenWidth/3500.0f)*780.0f), leap7);	
@@ -514,16 +519,21 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
 		          "If the Leap Motion is not working properly please visit the official Leap Motion website at https://support.leapmotion.com/home", 
 		          menuLabelStyleD);
+		
+		*/
 
- */	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*606.0f))*0.69f, (screenHeight-(screenWidth/3000.0f)*393.0f)*0.15f, (screenWidth/3000.0f)*606.0f, (screenWidth/3000.0f)*393.0f), razer1);	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/2150.0f)*493.0f))*0.99f, (screenHeight-(screenWidth/2150.0f)*279.0f)*0.15f, (screenWidth/2150.0f)*493.0f, (screenWidth/2150.0f)*279.0f), razer2);	
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3500.0f)*1262.0f))*0.93f, (screenHeight-(screenWidth/3500.0f)*780.0f)*0.65f, (screenWidth/3500.0f)*1262.0f, (screenWidth/3500.0f)*780.0f), razer3);	
+
 
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Razer Hydra Setup", 
 		          menuLabelStyleA);
 		GUI.Label(new Rect((screenWidth-screenWidth*0.5f) * 0.05f, screenHeight * 0.1f, screenWidth*0.5f, screenHeight*0.7f), 
 		          "Place centerpiece on top of a smooth surface table while leaving adequate space to move around"
-		          +"\n\n\n\n\nSlot long cable attached to the two hand controllers into the right port of the centerpiece"
-		          +"\n\n\n\n\nSlot cable not attached to hand controllers into the left port of the centerpiece"
+		          +"\n\n\n\n\nSlot long cable that is attached to the two hand controllers into the right port of the centerpiece"
+		          +"\n\n\n\n\nSlot cable that is not attached to hand controllers into the left port of the centerpiece"
 		          +"\n\n\n\n\nSlot the other end of the same cable into the computer's USB port"
 		          +"\n\n\n\n\nEnsure connected to internet so software drivers can install", 
 		          menuLabelStyleC);
@@ -591,7 +601,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.74f, screenWidth*0.9f, screenHeight*0.2f), 
 		          "For more information on how to use the Leap Motion please visit the official Leap Motion website at https://www.leapmotion.com/product/vr", 
 		          menuLabelStyleD);
-		*/
+		**/
 
 		
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
@@ -600,7 +610,6 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.1f, screenWidth*0.4f, screenHeight*0.7f), 
 		          "Before a level starts, leave both hand controllers docked on the centerpiece's indented surface.\n\nIf hand controllers were properly docked, it should prompt the you to press the start button. \n\nIf hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else\n\nFollow the sequence of steps as prompted by a text box that appears in the upper center of the screen\n\nPress the left controller's trigger button first \n\nPress the right controller's trigger button second\n\nPress start button \n\nHave Fun!", 
 		          menuLabelStyleC);
-
 
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.9f, buttonWidth, buttonHeight), "BACK", menuButtonStyle))
@@ -814,12 +823,17 @@ public class TempestVRMainMenu : MonoBehaviour
 		b_wayFinding = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.47f, buttonWidth*1.5f, buttonHeight), b_wayFinding, "Way Finding", menuToggleStyle);
 		b_objectInteraction = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.54f, buttonWidth*1.5f, buttonHeight), b_objectInteraction, "Object Manipulation", menuToggleStyle);
 
+
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.3f, buttonWidth, buttonHeight), "Object Interaction", menuLabelStyleA);
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.37f, buttonWidth, buttonHeight), "Object Avoidance", menuLabelStyleA);
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.44f, buttonWidth, buttonHeight), "Way Finding", menuLabelStyleA);
 
 		if(GUI.Button(new Rect((screenWidth - buttonWidth) * 0.5f, screenHeight * 0.76f, buttonWidth, buttonHeight), "START", menuButtonStyle))
 		{
+			//variables.SetTwoHands(twoHands);
+			//variables.SetSensitivity(sensitivity);
+
+
 			//set first level
 			if(b_objectAvoidance){firstLevelIndex = 3;}
 			else if(b_wayFinding){firstLevelIndex = 5;}
@@ -838,7 +852,6 @@ public class TempestVRMainMenu : MonoBehaviour
 					levelIndexes[numberOfLevels]=2;
 					numberOfLevels++;
 				}
-
 				levelIndexes[numberOfLevels]=3;
 				numberOfLevels++;
 
@@ -1011,11 +1024,11 @@ public class TempestVRMainMenu : MonoBehaviour
 
 		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.25f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
 		//if the rift is not detected you cannot toggle this to 'on'
-		if (b_Oculus && !TempestUtil.OVRConnectionCheck ()) 
+		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
 		{
-			b_Oculus = false;
-						//should display error message instructing to connect OVR HMD
-		} 
+			b_Oculus=false;
+			//should display error message instructing to connect OVR HMD
+		}
 
 		GUI.Label(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.3f, buttonWidth*1.5f, buttonHeight*2.0f),"Device Sensitivity",menuLabelStyle);
 		sensitivity = GUI.HorizontalSlider(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.38f, buttonWidth*1.5f, buttonHeight),sensitivity, min, max);

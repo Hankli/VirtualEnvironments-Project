@@ -108,7 +108,15 @@ namespace Tempest
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
 
 					Vector3 velocity = f * v.normalized;
-					Vector3 restrict =  f * hand.CollisionNormal;
+
+				
+					if(hand.CollisionNormal.x > 0.0f && velocity.x > 0.0f) velocity.x = 0.0f;
+					if(hand.CollisionNormal.x < 0.0f && velocity.x < 0.0f) velocity.x = 0.0f;
+					if(hand.CollisionNormal.y > 0.0f && velocity.y > 0.0f) velocity.y = 0.0f;
+					if(hand.CollisionNormal.y < 0.0f && velocity.y < 0.0f) velocity.y = 0.0f;
+					if(hand.CollisionNormal.z > 0.0f && velocity.z > 0.0f) velocity.z = 0.0f;
+					if(hand.CollisionNormal.z < 0.0f && velocity.z < 0.0f) velocity.z = 0.0f;
+
 					velocity -= rb.velocity; 
 
 					//apply force in place of previous value
