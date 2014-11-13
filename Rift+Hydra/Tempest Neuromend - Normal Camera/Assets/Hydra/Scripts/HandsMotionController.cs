@@ -10,9 +10,10 @@ namespace Tempest
 			private Hand[] m_hands;
 			private Vector3	m_referencePoint;
 			private bool m_bInitialized;
-			private float m_linearSensitivity = 0.0f; // Sixense units are in mm
+			private float m_linearSensitivity = 1.0f; // Sixense units are in mm
 			private float m_angularSensitivity = 5.0f;
 			public Font m_guiFont;
+
 
 			public float LinearSensitivity
 			{
@@ -105,9 +106,13 @@ namespace Tempest
 
 					//force
 					float f = (v.magnitude / Time.deltaTime) * Time.timeScale;
-			
+
+					Vector3 velocity = f * v.normalized;
+					Vector3 restrict =  f * hand.CollisionNormal;
+					velocity -= rb.velocity; 
+
 					//apply force in place of previous value
-					rb.AddForce(f * v.normalized - rb.velocity, ForceMode.VelocityChange);
+					rb.AddForce(velocity, ForceMode.VelocityChange);
 
 					Quaternion rot = hand.Controller.Rotation * hand.ModelRotation;
 

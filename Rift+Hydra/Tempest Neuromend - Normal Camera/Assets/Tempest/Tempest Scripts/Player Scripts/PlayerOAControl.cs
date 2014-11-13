@@ -32,15 +32,15 @@ public class PlayerOAControl : MonoBehaviour
 		motor.movement.velocity.x = 0;
 		motor.movement.velocity.z = 0; 
 		
-		translationAll = transform.TransformDirection(Vector3.forward);//direction from world to local
-	
+		translationAll = transform.TransformDirection(Vector3.forward);//direction from world to loca
+
 		if(b_notOver && !b_knockBack)
 		{
 			if(control)
 			{
 				translationAll.x = m_strafe;
 				translationAll.z *= m_walk;
-			
+
 				control.SimpleMove(translationAll);
 			}
 		}
