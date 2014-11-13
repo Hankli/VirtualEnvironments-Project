@@ -242,7 +242,7 @@ public class TempestVRMainMenu : MonoBehaviour
 				gameControlScript.audioVolume=volume;
 				gameControlScript.b_sound=sound;
 				gameControlScript.b_music=music;
-				gameControlScript.b_twoHands=twoHands;
+				gameControlScript.b_twohands=twoHands;
 			}
 		}
 	}
@@ -263,7 +263,7 @@ public class TempestVRMainMenu : MonoBehaviour
 				volume = gameControlScript.audioVolume;
 				sound = gameControlScript.b_sound;
 				music = gameControlScript.b_music;
-				twoHands = gameControlScript.b_twoHands;
+				twoHands = gameControlScript.b_twohands;
 			}	
 
 		}
@@ -354,8 +354,6 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		//GUI.Label(new Rect(0, screenHeight * 0.1f, screenWidth, screenHeight * 0.7f), "...", menuButtonStyle);
-		
 		if(GUI.Button(new Rect((screenWidth - buttonWidth*2.0f) * 0.5f, screenHeight * 0.64f, buttonWidth*2.0f, buttonHeight),"SETUP", menuButtonStyle))
 		{
 			titleTexture = setupTitle;
@@ -572,7 +570,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		/*Leap========================================== */
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3250.0f)*1024.0f))*0.53f, (screenHeight-(screenWidth/3250.0f)*680.0f)*0.15f, (screenWidth/3250.0f)*1024.0f, (screenWidth/3250.0f)*680.0f), leap6);	
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/1900.0f)*586.0f))*0.99f, (screenHeight-(screenWidth/1900.0f)*403.0f)*0.15f, (screenWidth/1900.0f)*586.0f, (screenWidth/1900.0f)*403.0f), leap2);	
-	//	GUI.DrawTexture(new Rect((screenWidth-((screenWidth/5000.0f)*1298.0f))*0.6f, (screenHeight-(screenWidth/5000.0f)*915.0f)*0.8f, (screenWidth/5000.0f)*1298.0f, (screenWidth/5000.0f)*915.0f), leap5);	//placeholder image
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/5500.0f)*1298.0f))*0.05f, (screenHeight-(screenWidth/5500.0f)*915.0f)*0.7f, (screenWidth/5500.0f)*1298.0f, (screenWidth/5500.0f)*915.0f), leap5);	//placeholder image
 		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/2000.0f)*561.0f))*0.475f, (screenHeight-(screenWidth/2000.0f)*326.0f)*0.7f, (screenWidth/2000.0f)*561.0f, (screenWidth/2000.0f)*326.0f), leap3);	
 
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
@@ -600,7 +598,14 @@ public class TempestVRMainMenu : MonoBehaviour
 		          "Razer Hydra Usage", 
 		          menuLabelStyleA);
 		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.1f, screenWidth*0.4f, screenHeight*0.7f), 
-		          "Before a level starts, leave both hand controllers docked on the centerpiece's indented surface.\n\nIf hand controllers were properly docked, it should prompt the you to press the start button. \n\nIf hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else\n\nFollow the sequence of steps as prompted by a text box that appears in the upper center of the screen\n\nPress the left controller's trigger button first \n\nPress the right controller's trigger button second\n\nPress start button \n\nHave Fun!", 
+		          "Before a level starts, leave both hand controllers docked on the centerpiece's indented surface."
+		          +"\n\nIf hand controllers were properly docked, it should prompt the you to press the start button. "
+		          +"\n\nIf hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else"
+		          +"\n\nFollow the sequence of steps as prompted by a text box that appears in the upper center of the screen"
+		          +"\n\nPress the left controller's trigger button first "
+		          +"\n\nPress the right controller's trigger button second"
+		          +"\n\nPress start button "
+		          +"\n\nHave Fun!", 
 		          menuLabelStyleC);
 
 		*/

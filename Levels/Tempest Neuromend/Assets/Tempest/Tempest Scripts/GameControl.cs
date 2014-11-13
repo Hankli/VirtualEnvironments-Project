@@ -23,7 +23,7 @@ public class GameControl : MonoBehaviour
 		LoadSingle//continue previously saved single level
 	};
 	
-	public bool b_twoHands=false;
+	public bool b_twohands=false;
 
 	private ControllerType controllerType;
 	private PlaythroughType playthroughType;//type of playthrough... not needed
