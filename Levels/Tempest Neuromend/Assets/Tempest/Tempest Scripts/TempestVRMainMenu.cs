@@ -133,6 +133,8 @@ public class TempestVRMainMenu : MonoBehaviour
 			{
 				gameControlScript.MenuActive();
 
+
+				//should be using option here or detecting which device/s are connected...
 				gameControlScript.SetControllerType(GameControl.ControllerType.MouseKeyboard);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusLeap);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusHydra);
@@ -506,6 +508,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		          "\n\n\n\nPlug the USB end of Leap Motion cable into a USB socket on your computer."
 		          +"\n\n\n\n\nPlug the other end into the Leap Motion."
 		          +"\n\n\n\n\nAttach the Leap Motion horizontally onto the front of the Oculus Rift. Make sure the shiny side is facing out, and the green light is facing down."
+		          +"\n\nIf you are not using an Oculus Rift, attach the leap motion to a headband made of velcro or another form of headwear."
 		          +"\n\n\n\n\nMake sure the shiny screen isn't smudged."
 		          +"\n\n\n\n\nOpen the Leap Motion Visualizer App and the Leap Motion Conrol Panel to check that the device is working properly and to adjust any necessary settings.\n\n\n\n\n", 
 		          menuLabelStyleC);
@@ -811,9 +814,17 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.color = buttonColour;
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
-		//need to display current devices
+		//need to display current devices?
 		//
 
+		//oculus rift toggle...
+		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.2f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
+		//if the rift is not detected you cannot toggle this to 'on'
+		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=false;
+			//should display error message instructing to connect OVR HMD
+		}
 
 		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.09f, screenHeight * 0.2f, buttonWidth, buttonHeight), b_playTutorials, "");
 		//GUI.Label(new Rect((screenWidth - buttonWidth) * 0.1f, screenHeight * 0.2f, buttonWidth, buttonHeight), "Play Tutorials", menuLabelStyleA);
