@@ -78,16 +78,16 @@ public class TempestVRGUI : VRGUI
 		screenHeight=Screen.height;
 						
 		timer.normal.textColor=Color.white;
-		timer.fontSize=20;
+		timer.fontSize=50;
 		timer.alignment=TextAnchor.MiddleCenter;
 		timer.fontStyle=FontStyle.Bold;
 		
 		timerShadow.normal.textColor=Color.black;
-		timerShadow.fontSize=20;
+		timerShadow.fontSize=50;
 		timerShadow.alignment=TextAnchor.MiddleCenter;
 		timerShadow.fontStyle=FontStyle.Bold;
 		
-		timerHeight=screenHeight-(screenHeight*0.95f);
+		timerHeight=screenHeight-(screenHeight*0.9f);
 		timerPosition.Set(screenWidth/2.0f,timerHeight,0,0);
 		timerShadowPosition.Set(screenWidth/2.0f+2,timerHeight+2,0,0);
 			

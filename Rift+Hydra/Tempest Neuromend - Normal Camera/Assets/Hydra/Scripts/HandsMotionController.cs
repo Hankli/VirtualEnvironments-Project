@@ -170,6 +170,8 @@ namespace Tempest
 				if ( !m_bInitialized && (HandInputController.ConfigurationState == ControllerManagerState.NONE))
 				{
 					string boxText = "Press start";
+
+			
 		
 					GUIStyle style = new GUIStyle(GUI.skin.box);
 					style.fontSize = (int)(Screen.width * 0.03f);
@@ -180,6 +182,9 @@ namespace Tempest
 					style.alignment = TextAnchor.MiddleCenter;
 
 					GUI.Label(new Rect(Screen.width * 0.1f, Screen.height * 0.15f, Screen.width * 0.8f, Screen.height * 0.08f), boxText, style);
+				}
+				else
+				{
 				}
 			}
 			

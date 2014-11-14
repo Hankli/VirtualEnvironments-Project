@@ -68,6 +68,8 @@ public class TempestVRMainMenu : MonoBehaviour
 	Texture2D setupTitle;
 	Texture2D usageTitle;
 
+	Texture2D simpleCursor; 
+
 	Texture2D titleTexture = null;
 
 	//oculus setup images
@@ -101,6 +103,7 @@ public class TempestVRMainMenu : MonoBehaviour
 	Texture2D razer1;
 	Texture2D razer2;
 	Texture2D razer3;
+	Texture2D razer4;
 
 	private Rect profileTitlePosition;
 	private Rect backgroundPosition;
@@ -193,6 +196,8 @@ public class TempestVRMainMenu : MonoBehaviour
 		setupTitle = Resources.Load<Texture2D>("Setup");
 		usageTitle = Resources.Load<Texture2D>("Usage");
 
+		simpleCursor = Resources.Load<Texture2D>("SimpleCursor");
+
 		orimg1 = Resources.Load<Texture2D>("or1");
 		orimg2 = Resources.Load<Texture2D>("or2");
 		orimg3 = Resources.Load<Texture2D>("or3");
@@ -215,6 +220,7 @@ public class TempestVRMainMenu : MonoBehaviour
 		razer1 = Resources.Load<Texture2D> ("Razer Docked");
 		razer2 = Resources.Load<Texture2D> ("Razer Back");
 		razer3 = Resources.Load<Texture2D> ("Razer Cables");
+		razer4 = Resources.Load<Texture2D> ("Razer Docked 2");
 
 		neuromendIcon = Resources.Load<Texture2D>("Neuromend_Icon01");
 
@@ -278,8 +284,8 @@ public class TempestVRMainMenu : MonoBehaviour
 	void OnGUI()
 	//public override void OnVRGUI()
 	{
-		//Screen.showCursor=false;
-		Screen.showCursor=true;
+		Screen.showCursor=false;
+		//Screen.showCursor=true;
 		if(screenHeight != Screen.height||screenWidth != Screen.width)
 		{
 			screenHeight = Screen.height;
@@ -304,6 +310,12 @@ public class TempestVRMainMenu : MonoBehaviour
 		DrawBackground();
 		DrawTitle (titleTexture);
 		menuFunction();
+		DrawMouse ();
+	}
+
+	void DrawMouse()
+	{
+		GUI.DrawTexture(new Rect(Input.mousePosition.x,Screen.height+(-1.0f* Input.mousePosition.y), (screenWidth/1500.0f)*32.0f, (screenWidth/1500.0f)*32.0f), simpleCursor);
 	}
 
 	void DrawTitle(Texture2D name)
@@ -603,12 +615,13 @@ public class TempestVRMainMenu : MonoBehaviour
 		          menuLabelStyleD);
 		**/
 
-		
+		GUI.DrawTexture(new Rect((screenWidth-((screenWidth/3000.0f)*606.0f))*0.69f, (screenHeight-(screenWidth/3000.0f)*393.0f)*0.45f, (screenWidth/3000.0f)*606.0f, (screenWidth/3000.0f)*393.0f), razer4);
+
 		GUI.Label(new Rect((screenWidth-screenWidth*0.9f) * 0.5f, screenHeight * 0.005f, screenWidth*0.9f, screenHeight*0.1f), 
 		          "Razer Hydra Usage", 
 		          menuLabelStyleA);
 		GUI.Label(new Rect((screenWidth-screenWidth*0.4f) * 0.05f, screenHeight * 0.1f, screenWidth*0.4f, screenHeight*0.7f), 
-		          "Before a level starts, leave both hand controllers docked on the centerpiece's indented surface.\n\nIf hand controllers were properly docked, it should prompt the you to press the start button. \n\nIf hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else\n\nFollow the sequence of steps as prompted by a text box that appears in the upper center of the screen\n\nPress the left controller's trigger button first \n\nPress the right controller's trigger button second\n\nPress start button \n\nHave Fun!", 
+		          "Before a level starts, leave both hand controllers docked on the centerpiece's indented surface.\n\nIf hand controllers were properly docked, it should prompt the you to press the start button. \n\nIf hand controllers were not docked, ensure they are situated comfortably in your hands before doing anything else\n\nFollow the sequence of steps as prompted by a text box that appears in the upper center of the screen\n\nPress the left controller's trigger button first \n\nPress the right controller's trigger button second\n\nPress start button", 
 		          menuLabelStyleC);
 
 
@@ -813,7 +826,15 @@ public class TempestVRMainMenu : MonoBehaviour
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 
 		//need to display current devices
-		//
+		
+		//oculus rift toggle...
+		b_Oculus = GUI.Toggle(new Rect((screenWidth - buttonWidth*1.5f) * 0.5f, screenHeight * 0.2f, buttonWidth*1.5f, buttonHeight), b_Oculus, "Oculus Rift", menuToggleStyle);
+		//if the rift is not detected you cannot toggle this to 'on'
+		if(b_Oculus&&!TempestUtil.OVRConnectionCheck())
+		{
+			b_Oculus=false;
+			//should display error message instructing to connect OVR HMD
+		}
 
 
 		//b_playTutorials = GUI.Toggle(new Rect((screenWidth - buttonWidth) * 0.09f, screenHeight * 0.2f, buttonWidth, buttonHeight), b_playTutorials, "");
