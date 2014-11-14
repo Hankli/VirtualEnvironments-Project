@@ -327,7 +327,7 @@ public class LevelControl : MonoBehaviour
 				GUI.Label(countdownShadowPosition, countdownText, countdownShadow);
 				GUI.Label(countdownPosition, countdownText, countdown);
 				
-				if(b_showCrosshairs&&crosshairsTexture!=null)
+				if(b_showCrosshairs&&crosshairsTexture!=null&&gameControlScript.GetControllerType()==GameControl.ControllerType.MouseKeyboard)
 				{
 					GUI.DrawTexture(crosshairsPosition, crosshairsTexture);
 				}
