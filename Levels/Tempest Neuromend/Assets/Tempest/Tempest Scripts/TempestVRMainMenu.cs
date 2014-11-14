@@ -278,8 +278,8 @@ public class TempestVRMainMenu : MonoBehaviour
 	void OnGUI()
 	//public override void OnVRGUI()
 	{
-		//Screen.showCursor=false;
-		Screen.showCursor=true;
+		Screen.showCursor=false;
+		//Screen.showCursor=true;
 		if(screenHeight != Screen.height||screenWidth != Screen.width)
 		{
 			screenHeight = Screen.height;
