@@ -93,7 +93,6 @@ namespace Tempest
 					{
 						hand.Position = hand.Controller.Position;
 					}
-
 		
 					//localPosition
 					Vector3 relPosToPar = (hand.Position - m_referencePoint) * 0.001f;
@@ -115,7 +114,7 @@ namespace Tempest
 
 					//subtract movement along collision normal
 					velocity -= slide; 
-
+	
 					//apply force in place of previous value
 					rb.AddForce(velocity, ForceMode.VelocityChange);
 

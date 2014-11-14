@@ -148,14 +148,12 @@ namespace Tempest
 
 			private void OnCollisionEnter(Collision col)
 			{
-				CapsuleCollider cc = GetComponent<CapsuleCollider> ();
-				m_contactNormal = col.contacts[0].point - transform.TransformPoint(cc.center);
+				m_contactNormal = -col.contacts [0].normal * 0.98f; 
 			}
 			
 			private void OnCollisionStay(Collision col)
 			{
-				CapsuleCollider cc = GetComponent<CapsuleCollider> ();
-				m_contactNormal = col.contacts[0].point - transform.TransformPoint(cc.center);
+				m_contactNormal = -col.contacts [0].normal * 0.98f; 
 			}
 			
 			private void OnCollisionExit(Collision col)

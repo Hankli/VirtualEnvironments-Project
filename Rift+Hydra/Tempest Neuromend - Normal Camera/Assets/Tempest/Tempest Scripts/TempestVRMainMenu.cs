@@ -135,9 +135,9 @@ public class TempestVRMainMenu : MonoBehaviour
 			{
 				gameControlScript.MenuActive();
 
-				gameControlScript.SetControllerType(GameControl.ControllerType.MouseKeyboard);
+				//gameControlScript.SetControllerType(GameControl.ControllerType.MouseKeyboard);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusLeap);
-				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusHydra);
+				gameControlScript.SetControllerType(GameControl.ControllerType.OculusHydra);
 				//gameControlScript.SetControllerType(GameControl.ControllerType.OculusKinect);
 			}
 			//variables=gameControl.GetComponent<LeapControl>();
