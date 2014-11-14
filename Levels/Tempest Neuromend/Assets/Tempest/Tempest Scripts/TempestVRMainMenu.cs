@@ -85,6 +85,8 @@ public class TempestVRMainMenu : MonoBehaviour
 	Texture2D kinect3;
 	//kinect setup images
 
+	Texture2D simpleCursor;
+
 
 	//leap setup images
 	Texture2D leap1;
@@ -193,6 +195,8 @@ public class TempestVRMainMenu : MonoBehaviour
 		setupTitle = Resources.Load<Texture2D>("Setup");
 		usageTitle = Resources.Load<Texture2D>("Usage");
 
+		simpleCursor = Resources.Load<Texture2D>("SimpleCursor");
+
 		orimg1 = Resources.Load<Texture2D>("or1");
 		orimg2 = Resources.Load<Texture2D>("or2");
 		orimg3 = Resources.Load<Texture2D>("or3");
@@ -274,8 +278,8 @@ public class TempestVRMainMenu : MonoBehaviour
 	void OnGUI()
 	//public override void OnVRGUI()
 	{
-		//Screen.showCursor=false;
-		Screen.showCursor=true;
+		Screen.showCursor=false;
+		//Screen.showCursor=true;
 		if(screenHeight != Screen.height||screenWidth != Screen.width)
 		{
 			screenHeight = Screen.height;
@@ -297,9 +301,16 @@ public class TempestVRMainMenu : MonoBehaviour
 			menuLabelStyleD.fontSize = (int)(menuButtonStyle.fontSize * 0.5f);
 		}
 
+
 		DrawBackground();
 		DrawTitle (titleTexture);
 		menuFunction();
+		DrawMouse ();
+	}
+
+	void DrawMouse()
+	{
+		GUI.DrawTexture(new Rect(Input.mousePosition.x,Screen.height+(-1.0f* Input.mousePosition.y), (screenWidth/1500.0f)*32.0f, (screenWidth/1500.0f)*32.0f), simpleCursor);	
 	}
 
 	void DrawTitle(Texture2D name)
