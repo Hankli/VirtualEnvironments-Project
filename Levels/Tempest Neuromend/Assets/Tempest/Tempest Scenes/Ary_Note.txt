@@ -11,5 +11,4 @@ modified OVRCamera.cs for oculus orientation adjustment... this is due to possib
 player actions still require to be paused when game is paused.
 
 
-Left the main menu using VRGUI as future versions may want to implement the VR HMD with the main menu... should make the job a little easier.
-Most of the ratios are to compensate having the vrgui 'square' look on a normal camera. If using actual VR HMDs you need to change the ratios.
+Modified the Unity CharacterMotor.js script

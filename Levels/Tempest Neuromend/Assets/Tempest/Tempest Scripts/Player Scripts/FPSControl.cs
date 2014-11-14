@@ -1,4 +1,4 @@
-﻿/*
+/*
 Ary...
 slight mod of standard Unity javascript FPSInputController to allow for forced jump not using input button etc...
 
@@ -24,6 +24,7 @@ public class FPSControl : MonoBehaviour
 
 		if(b_forceJump)
 		{
+			//if(motor){motor.SetVelocity(new Vector3(0,0,2.0f));}
 			b_jump=true;
 			b_forceJump=false;
 		}
@@ -55,13 +56,18 @@ public class FPSControl : MonoBehaviour
 			motor.inputJump = b_jump;
 		}
 
+
+		if(Input.GetMouseButtonDown(0))
+		{
+			ForceJump();
+		}
 	}
 
 	public void ForceJump()
 	{
 		b_forceJump = true;
+		if(motor){motor.SetVelocityCustom(new Vector3(0,0,2.5f));}
 	}
-
 
 }
 

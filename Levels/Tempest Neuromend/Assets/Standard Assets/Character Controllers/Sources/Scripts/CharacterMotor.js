@@ -2,6 +2,8 @@
 #pragma implicit
 #pragma downcast
 
+//Modified by Tempest Ary SetVelocityCustom()
+
 // Does this script currently respond to input?
 var canControl : boolean = true;
 
@@ -580,6 +582,12 @@ function SetVelocity (velocity : Vector3) {
 	movement.velocity = velocity;
 	movement.frameVelocity = Vector3.zero;
 	SendMessage("OnExternalVelocity");
+}
+
+//Tempest Ary custom motor function lolz
+function SetVelocityCustom (velocity : Vector3) {
+	movement.velocity = velocity;
+	movement.frameVelocity = Vector3.zero;
 }
 
 // Require a character controller to be attached to the same game object
